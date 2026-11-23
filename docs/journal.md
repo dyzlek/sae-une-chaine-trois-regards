@@ -13,6 +13,13 @@ Plus récent en haut. Un daily par matin : **hier / aujourd'hui / blocages**.
 
 ---
 
+### 2026-11-23 · S48 · Bible DA v0.1 et dossier v0.6
+**Fait :**
+- Premier jet de la bible DA, avec les 8 éléments. Il reprend les choix de Nicolas : palette à couleurs-clés, phyllotaxie, prévision et observation, brume.
+- Dossier v0.6 : les 4 incohérences relevées par Nicolas sont corrigées.
+
+**À faire (Nicolas) :** reprendre la bible ; dessiner le moodboard, le symbole et les 3 esquisses ; demander un retour à C. Surribas.
+
 ### 2026-11-23 · S48 · Charte v0.3 (avis de Nicolas sur l'œuvre)
 **Fait :**
 - Charte :

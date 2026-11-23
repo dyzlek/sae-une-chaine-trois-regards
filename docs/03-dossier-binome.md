@@ -4,7 +4,7 @@
 | --- | --- |
 | Binôme | **n°3** · Dylan Belledent, Nicolas Rapuzzi--Pisarczyk |
 | Nœud | `noeud-c` (spec commune, décision 7) |
-| Version du dossier | 0.5 (répartition décidée, quota) · 23/11/2026 |
+| Version du dossier | 0.6 (aligné sur la charte v0.3) · 23/11/2026 |
 | Rendu | Vendredi 27/11/2026, 17h. Cette version `.md` reste dans Git ; l'export PDF (avec le schéma d'architecture) viendra plus tard. |
 | S'appuie sur | [spec-commune.md](spec-commune.md) **v1.0** (validée par les six), [04-charte-editoriale.md](04-charte-editoriale.md), [05-bible-da.md](05-bible-da.md) |
 
@@ -66,7 +66,7 @@ flowchart LR
 ## 3. Le parcours d'un message
 
 1. **Écriture.** Le visiteur saisit son texte. L'application envoie `POST /api/messages` avec `{content}` au serveur de l'application, qui le transmet à l'API interne du nœud (`POST /internal/messages`).
-2. **Contrôle d'entrée.** Le nœud applique d'abord notre filtre avant signature (charte §4.1 : données personnelles, liste de mots, débit, sans appel à l'IA), met `content` en NFC et refuse ce qui sort de la spec §2.1 (longueur, caractères interdits, espaces en bordure). Il répond tout de suite au visiteur en cas de refus.
+2. **Contrôle d'entrée.** Le nœud applique d'abord notre filtre avant signature (charte §4.1 : données personnelles, liste de mots, débit, sans appel à l'IA), retire les espaces au début et à la fin (sans message, charte §4.1), met `content` en NFC et refuse ce qui sort de la spec §2.1 (longueur, caractères interdits). Il répond tout de suite au visiteur en cas de refus.
 3. **Signature.** Le nœud fixe `timestamp` (strictement croissant, spec §2.1), calcule l'`id` (texte à barres, spec §2.1) et signe avec sa clé privée (lue dans `.env`).
 4. **File et relais.** Le message entre dans la file (état `en_attente`) et est envoyé tout de suite aux deux autres nœuds par `POST /messages` (spec §6.4). Le visiteur reçoit l'`id` et voit « en attente ».
 5. **Production du bloc.** À notre créneau, le nœud produit seulement si **toutes** les conditions de spec §4.2 sont réunies. Ce qui est propre à notre nœud : une minuterie vérifie le créneau chaque seconde, le créneau signé est écrit dans `node_state` avant la signature, et la vérification des pairs ne dépend jamais du worker IA. Sinon un autre nœud produit, et on reçoit le bloc par `POST /blocks`.
@@ -172,7 +172,7 @@ Définitions complètes, bornes et prompt : [charte éditoriale](04-charte-edito
 | `densite` | Taille et opacité de la forme | Plus la densité est forte, plus la forme est grande et opaque |
 | `theme` | Type de forme | `eau` : ondes concentriques ; `terre` : polygones ; `feu` : particules montantes ; `air` : traits fins |
 | `energie`, `chaleur`, `densite` | Contraste | Une courbe de contraste étire les valeurs (l'IA donne souvent 0,2 ou 0,8), pour que les formes ne se ressemblent pas toutes |
-| Position dans la chaîne | Emplacement | Spirale : l'angle suit l'index du bloc puis la position du message dans le bloc |
+| Position dans la chaîne | Emplacement | **Phyllotaxie** selon le **rang** du message dans la chaîne (rang = ordre index de bloc puis position dans le bloc) : angle = rang × 137,5°, rayon ∝ √rang. La disposition reste régulière quel que soit le nombre de messages par bloc (1 à 50). Règle à reporter d'abord dans la bible DA |
 | `node` (nœud d'origine) | Contour ou texture discrète | Un motif par nœud : l'œuvre montre « une chaîne, trois regards » sans appeler l'IA |
 | Moyenne des derniers messages | Fond du ciel | Teinte et agitation du fond suivent la moyenne des 20 derniers messages : le côté **collectif** se voit |
 | `values_source` | Prévision ou observation | Valeurs locales : contour en pointillés ; valeurs de l'IA : forme pleine |
@@ -311,6 +311,7 @@ git clone <url du dépôt>
 cd <dossier>
 npm install
 copy .env.example .env
+copy config\mots-interdits.example.txt config\mots-interdits.txt
 npm run keygen      # génère la graine du nœud et affiche la clé publique (à publier aux six avant le lundi 07/12, point ouvert O3)
 npm start           # lance le nœud, le worker et le serveur de l'application
 npm test            # rejoue les cas de la spec
@@ -340,5 +341,7 @@ Puis ouvrir `http://127.0.0.1:3000`.
 | `APP_HOST` | Adresse d'écoute de l'application (`127.0.0.1`, ou l'IP Tailscale pendant une démo) | `127.0.0.1` |
 
 **Ports :** 8080 (spec, sur l'IP Tailscale), 8081 et 3000 (locaux, 127.0.0.1).
+
+**Liste de mots interdits (charte §4.1).** `config/mots-interdits.example.txt` est versionné (quelques mots de démonstration, un par ligne). La vraie liste, `config/mots-interdits.txt`, est **ignorée par Git** (`.gitignore`) et se partage entre nous hors du dépôt. Sans ce fichier, le nœud démarre avec la liste d'exemple et écrit un avertissement dans ses journaux.
 
 **Si quelque chose ne marche pas :** `tailscale status` doit lister les autres nœuds ; `GET http://noeud-a:8080/api/v1/status` doit répondre ; l'heure de l'ordinateur doit être synchronisée automatiquement.
