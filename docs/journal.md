@@ -13,8 +13,28 @@ Plus récent en haut. Un daily par matin : **hier / aujourd'hui / blocages**.
 
 ---
 
+### 2026-11-23 · S48 · Relecture du commit de Nicolas (Dylan)
+**Aujourd'hui :**
+- **Vérifié par le calcul** les chiffres de la bible v0.3 : couleurs de référence en OKLab, milieu rose d'OKLCH, courbe en S, déplacement de la spirale (57 % → 0,16 %), voisin le plus proche à 2,8 %. Tout est exact.
+- **Incohérences corrigées :**
+  - le cas 18 est remis au palier 1 (lundi) ;
+  - le cas 22 passe au mercredi, car il a besoin du sondage (N7) ;
+  - l'exemple du dossier §6 suit D-016 (valeurs locales par le serveur) ;
+  - la bible donne un seul chiffre pour le déplacement (0,16 %) ;
+  - la charge du mercredi est corrigée (7 h) ;
+  - D-003 et D-007 à D-009 sont marquées validées ;
+  - charte v0.5.
+- **Backlog v1.2 :**
+  - si la jonction réussit, A2b (vraie IA) commence le vendredi 11/12 ;
+  - si Nicolas prend du retard, O4 passe au 11/01 ;
+  - C3 : Dylan relit la v0.3, puis Nicolas retire les ✎ avant l'export PDF.
+
+**Blocages :** aucun.
+
+**À faire :** Dylan, relire la bible v0.3 (C3) ; le reste est inchangé (C4 à C11).
+
 ### 2026-11-23 · S48 · Relecture de la DA, du planning et des vecteurs (Nicolas, avec Claude Code)
-**Hier :** relu la charte, le dossier et la bible v0.2 de Dylan ; donné mes avis sur le thème, les couleurs et les valeurs locales.
+**Plus tôt dans la journée :** relu la charte, le dossier et la bible v0.2 de Dylan ; donné mes avis sur le thème, les couleurs et les valeurs locales.
 **Aujourd'hui :**
 - **Vérifié par le calcul** (scripts hors dépôt, Node.js 24) : les cas 20 à 26 de Dylan sont exacts (cinq chaînes valides, hash, créneaux, producteurs, signatures, cas 22, 23 et 26) ; les contrastes de la bible aussi.
 - **Bible DA v0.3 :**

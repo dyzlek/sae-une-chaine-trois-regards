@@ -6,13 +6,13 @@
 | Responsable | Nicolas (relecture : Dylan) |
 | Version | 0.3 · 23/11/2026 · **v0.3 (relecture de la DA par Nicolas, avec Claude Code) :** la spirale ne tourne plus à chaque message (l'angle suit le rang absolu, le rayon l'âge), couleurs interpolées en OKLab (et non OKLCH) avec vecteurs de couleur, courbe en S définie, espacement mesuré (nouvelle échelle de la spirale), bordure des champs, glyphe de symbole simplifié, contraintes de rendu. **v0.2 :** contour à un seul usage, typographie Recursive, couleurs d'état propres à l'interface, grille de l'écran, nom de l'œuvre |
 | Rendu | PDF, vendredi 27/11/2026, 17h · pas de nombre de pages imposé |
-| S'appuie sur | [charte éditoriale](04-charte-editoriale.md) v0.4 (valeurs), [dossier de binôme](03-dossier-binome.md) v0.8 §6 (technique) |
+| S'appuie sur | [charte éditoriale](04-charte-editoriale.md) v0.5 (valeurs), [dossier de binôme](03-dossier-binome.md) v0.8 §6 (technique) |
 
 
 > La référence de notre direction artistique. Chaque choix est justifié.
 > **Test :** quelqu'un qui ne connaît pas le projet doit pouvoir, avec cette bible, dessiner un écran qui s'accorde avec notre œuvre.
 
-**Légende.** **[À DESSINER]** : visuel à produire (Figma, papier scanné ou capture du prototype) avant l'export PDF. **✎** : changement des versions 0.2 et 0.3, à valider par Nicolas puis à retirer avant l'export PDF.
+**Légende.** **[À DESSINER]** : visuel à produire (Figma, papier scanné ou capture du prototype) avant l'export PDF. **✎** : changement des versions 0.2 et 0.3. Ceux de la v0.2 sont validés par Nicolas (il a construit la v0.3 dessus) ; ceux de la v0.3 sont à relire par Dylan. Nicolas retire tous les ✎ avant l'export PDF (backlog C3).
 
 ---
 
@@ -162,7 +162,7 @@ Position dans le repère normalisé (centre de l'œil en `(0,5 ; 0,5)`, `y` vers
 - **Angle :** `θ = n × 137,5078°` (angle d'or) : il dépend du rang **absolu**, donc **il ne change jamais**.
 - **Position :** `x = 0,5 + r × cos θ`, `y = 0,5 + r × sin θ`.
 
-**Arrivée d'un message :** il prend `k = 0`, au centre (l'œil), à un angle propre qui ne bougera plus. Tous les autres passent de `k` à `k + 1` : chaque forme **glisse vers l'extérieur** le long de son rayon, de 0,1 % de la largeur en moyenne (au plus 2,8 % pour le message qui vient d'arriver), en 1,2 s d'animation douce. Si plusieurs messages arrivent dans la même seconde (un bloc de 50), les animations sont regroupées en une seule.
+**Arrivée d'un message :** il prend `k = 0`, au centre (l'œil), à un angle propre qui ne bougera plus. Tous les autres passent de `k` à `k + 1` : chaque forme **glisse vers l'extérieur** le long de son rayon, de 0,16 % de la largeur en moyenne (au plus 2,8 % pour le message qui vient d'arriver), en 1,2 s d'animation douce. Si plusieurs messages arrivent dans la même seconde (un bloc de 50), les animations sont regroupées en une seule.
 
 **Profondeur et vieillissement :** jusqu'à `k = 100`, pleine taille et pleine opacité. De `k = 100` à `k = 300`, taille et opacité baissent de façon linéaire jusqu'à 30 %. À partir de `k = 300` (rayon 0,484, au bord du cadre), le message n'est plus dessiné seul : il est **fondu dans le fond** (il compte toujours dans la teinte moyenne du ciel).
 

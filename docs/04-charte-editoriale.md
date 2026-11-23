@@ -3,7 +3,7 @@
 | Champ | Valeur |
 | --- | --- |
 | Binôme | n°3 · Dylan Belledent, Nicolas Rapuzzi--Pisarczyk · `noeud-c` |
-| Version | 0.4 (lexique et calcul exact des valeurs locales, colère froide moins agitée, refus d'un lot par l'IA) · 23/11/2026 |
+| Version | 0.5 (valeurs locales calculées par le serveur de l'application, sans écriture en base, D-016) · 23/11/2026 · v0.4 : lexique et calcul exact des valeurs locales, colère froide moins agitée, refus d'un lot par l'IA |
 | Rendu | PDF, vendredi 27/11/2026, 17h |
 | S'appuie sur | [spec-commune.md](spec-commune.md) v1.0 (§2.1, §8.1, §9), [03-dossier-binome.md](03-dossier-binome.md) v0.8, [05-bible-da.md](05-bible-da.md) v0.3 |
 

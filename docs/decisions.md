@@ -67,13 +67,13 @@ Un choix = un bloc court : contexte, décision, pourquoi, ce qui est écarté. P
 - **Pourquoi :** l'œuvre doit se reconstruire à l'identique sans IA, et le quota fait que beaucoup de messages n'auront que ces valeurs.
 - **Écarté :** une bibliothèque d'analyse de sentiment (lourde, souvent en anglais) ; un grand lexique (long à tester).
 
-### D-009 · DA : une seule famille typographique, Recursive (à valider par Nicolas)
+### D-009 · DA : une seule famille typographique, Recursive (validée par Nicolas, bible v0.3)
 - **Date :** 2026-11-23
 - **Décision :** Recursive en trois réglages (Casual pour la poésie, Linear pour le texte, Mono pour les données), bible §4.
 - **Pourquoi :** Fraunces, Inter et Plex Mono sont très répandues et faisaient « modèle ». Une famille, trois réglages : « une chaîne, trois regards ». Un seul fichier variable.
 - **Écarté :** garder les trois familles ; une écriture manuscrite.
 
-### D-008 · DA : le plus récent au centre de la spirale (à valider par Nicolas)
+### D-008 · DA : le plus récent au centre de la spirale (validée par Nicolas, puis corrigée)
 > **Corrigée en partie** le 23/11/2026 par D-013 (l'angle suit le rang absolu, plus l'âge : « tourne d'un cran » devient « glisse d'un cran ») et D-015 (profondeur 300 au lieu de 400).
 
 - **Date :** 2026-11-23
@@ -81,7 +81,7 @@ Un choix = un bloc court : contexte, décision, pourquoi, ce qui est écarté. P
 - **Pourquoi :** la v0.1 mettait les anciens au centre, ce qui contredisait l'esquisse et l'intention, et la spirale n'avait pas de taille maximale.
 - **Écarté :** un rayon recalculé selon le nombre de messages (toutes les positions changent d'échelle) ; une grille.
 
-### D-007 · DA : un canal visuel par information (à valider par Nicolas)
+### D-007 · DA : un canal visuel par information (validée par Nicolas, bible v0.3)
 - **Date :** 2026-11-23
 - **Décision :** le contour ne dit plus que la prévision (pointillés) ; le nœud d'origine passe aux satellites (0, 1 ou 2 points). Les couleurs de l'œuvre ne sont jamais utilisées dans l'interface, qui a ses gris et une seule couleur d'alerte.
 - **Pourquoi :** en v0.1, le contour portait deux informations (un message d'un autre nœud avec des valeurs locales n'avait pas de dessin défini), et l'ocre voulait dire à la fois « tiède » et « attention ».
@@ -105,7 +105,7 @@ Un choix = un bloc court : contexte, décision, pourquoi, ce qui est écarté. P
 - **Pourquoi :** un seul langage et un seul outillage ; SHA-256 et Ed25519 sont dans `node:crypto` ; le code de calcul des `id` est partagé entre le nœud et l'application. SSE suffit pour un flux à sens unique ; Canvas 2D sans dépendance.
 - **Écarté :** PHP et Python (aucun gain pour nous) ; WebSocket (flux à double sens inutile) ; p5.js et WebGL ; React et Vue (un seul écran).
 
-### D-003 · Œuvre : météo collective, *Front commun* (nom à valider par Nicolas)
+### D-003 · Œuvre : météo collective, *Front commun* (nom validé par Nicolas, bible v0.3)
 - **Date :** 2026-11-23
 - **Décision :** chaque message est un temps qui passe ; l'œuvre est une dépression vue par satellite (bible §1).
 - **Pourquoi :** la consigne « Quel temps fait-il en vous ? » et l'œuvre parlent la même langue ; « front » dit à la fois la météo et le collectif.

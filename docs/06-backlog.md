@@ -3,15 +3,15 @@
 | Champ | Valeur |
 | --- | --- |
 | Binôme | n°3 · Dylan Belledent, Nicolas Rapuzzi--Pisarczyk · `noeud-c` |
-| Version | 1.1 · 23/11/2026 (relecture : planning de la semaine du 07/12 corrigé, estimations du nœud relevées, spirale et couleurs alignées sur la bible v0.3) |
+| Version | 1.2 · 23/11/2026 (cas 18 remis au palier 1, cas 22 déplacé au mercredi avec le sondage, charge du mercredi corrigée, A2b avancée si la jonction réussit, retrait des ✎ attribué). v1.1 : planning de la semaine du 07/12 corrigé, estimations du nœud relevées, spirale et couleurs alignées sur la bible v0.3 |
 | Rendu | PDF ou lien, vendredi 27/11/2026, 17h |
-| S'appuie sur | [dossier](03-dossier-binome.md) v0.8 (§10 : répartition), [spec](spec-commune.md) v1.0 (§10 : paliers), [bible DA](05-bible-da.md) v0.3, [charte](04-charte-editoriale.md) v0.4 |
+| S'appuie sur | [dossier](03-dossier-binome.md) v0.8 (§10 : répartition), [spec](spec-commune.md) v1.0 (§10 : paliers), [bible DA](05-bible-da.md) v0.3, [charte](04-charte-editoriale.md) v0.5 |
 
 > **Test :** en lisant ce plan, on sait ce qui doit fonctionner chaque soir, et qui s'en occupe.
 
 **Estimations** en heures de travail (une journée de SAÉ ≈ 7 h par personne). **Priorité :** **I** = indispensable (sans elle, la démo ou la jonction échoue) · **+** = en plus si le temps le permet. **Statut :** ☐ à faire · ◐ en cours · ☑ fait.
 
-**Capacité.** S50 : 5 jours × 7 h = 35 h chacun. S2 : 4 jours de travail + l'oral, soit environ 28 h chacun. Le backlog indispensable de S50 remplit **33 h pour Dylan (2 h de marge) et 35 h pour Nicolas (pas de marge)** : le rattrapage (N7) est passé de 3 h à 5 h, et l'appel réel à l'IA (A2b) est passé à la S2, avec une IA simulée en S50 (A2a). Le mercredi est chargé (9 h de tâches de Dylan : les 2 dernières heures de N7 se font le jeudi matin). La règle « si le jeudi échoue » (section 3) couvre le reste. Tout le « en plus » attend la S2.
+**Capacité.** S50 : 5 jours × 7 h = 35 h chacun. S2 : 4 jours de travail + l'oral, soit environ 28 h chacun. Le backlog indispensable de S50 remplit **33 h pour Dylan (2 h de marge) et 35 h pour Nicolas (pas de marge)** : le rattrapage (N7) est passé de 3 h à 5 h, et l'appel réel à l'IA (A2b) est passé à la S2, avec une IA simulée en S50 (A2a). N7 est coupé en deux : 3 h le mercredi (7 h de tâches ce jour-là pour Dylan) et les 2 dernières heures le jeudi matin, avant la jonction. La règle « si le jeudi échoue » (section 3) couvre le reste. Tout le « en plus » attend la S2.
 
 ---
 
@@ -23,13 +23,13 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | C1 | Spec commune v1.0, déposée sur Moodle | les six | — | I | jeu. 26/11, 12h30 | ◐ (validée, à déposer) |
 | C2 | Nos vecteurs de test 20 à 26 (spec v1.0) | Dylan | 3 h | I | 23/11 | ☑ ([tests/vectors/](../tests/vectors/README.md)) |
-| C3 | Relire la bible DA v0.3 et valider les changements ✎ | Nicolas | 2 h | I | mar. 24/11 | ☐ |
+| C3 | Relire la bible DA v0.3 (changements de Nicolas) et confirmer à deux ; puis **retirer tous les ✎** de la bible avant l'export PDF | Dylan relit, Nicolas retire les ✎ | 1 h | I | mer. 25/11 | ☐ |
 | C4 | Moodboard (8 à 12 images sourcées, libres de droits ou avec leur licence) | Nicolas | 2 h | I | mer. 25/11 | ☐ |
 | C5 | Symbole, glyphe simplifié et déclinaisons | Nicolas | 2 h | I | mer. 25/11 | ☐ |
 | C6 | Trois esquisses 16:9 (vide, quelques, beaucoup), dessinées avec les règles de la bible §6 (positions calculées au tableur, sans code) | Nicolas | 4 h | I | jeu. 26/11 | ☐ |
 | C7 | Test de la charte auprès de 3 personnes (charte §3) | à deux | 1 h | I | jeu. 26/11 | ☐ |
 | C8 | Vérifier le réglage de confidentialité d'OpenRouter et l'écrire (charte §4.3) | Dylan | ½ h | I | mer. 25/11 | ☐ |
-| C9 | Relire dossier v0.8 et charte v0.4 | Nicolas | 1 h | I | mer. 25/11 | ☐ |
+| C9 | Relire dossier v0.8 et charte v0.5 | Nicolas | 1 h | I | mer. 25/11 | ☐ |
 | C10 | Export PDF des 4 rendus (schéma Mermaid en image, polices intégrées) | Dylan | 2 h | I | jeu. 26/11 (test), ven. 27/11 (dépôt) | ☐ |
 | C11 | Créer le dépôt commun des six et y déposer nos vecteurs (point ouvert O1) | Dylan + un membre par binôme | 1 h | I | ven. 27/11 | ☐ |
 | C12 | Proposer la spec v1.1 (précisions, [propositions](spec-commune/propositions-v1.1.md)) | Dylan | ½ h | + | ven. 27/11 | ☐ |
@@ -135,13 +135,17 @@ Reprise du dossier §10 :
 
 | Jour | Ce qui fonctionne le soir | Dylan | Nicolas |
 | --- | --- | --- | --- |
-| **Lun. 07/12** | **Palier 1, première moitié :** `npm test` rejoue, **par appel de fonction** (sans HTTP ni disque), les cas de calcul et de validité (3 à 8, 10 à 14, 19, 23) et ils passent. La page s'affiche sur `127.0.0.1:3000` | N2, N3 | N1, T1, P1 |
-| **Mar. 08/12** | **Palier 1, seconde moitié :** les cas 1, 2, 9, 17 et 22 passent **par HTTP** (routes et stockage). Le nœud démarre, garde sa chaîne sur disque et répond aux 5 routes. Un message écrit dans la page est filtré, signé et visible en file (`GET /messages/pending`) | N4, N5 | N8, P2 |
-| **Mer. 09/12** | **Palier 2 :** notre nœud échange messages et blocs avec `noeud-a` puis avec `noeud-b` sur Tailscale ; il produit à son créneau et rattrape un pair plus haut (rattrapage simple ; `SYNCING` et fourches terminés jeudi matin). La spirale glisse avec des données simulées | N6, N7 (3 h sur 5), T2 | O1, O2 (2 h), T2 |
+| **Lun. 07/12** | **Palier 1, première moitié :** `npm test` rejoue, **par appel de fonction** (sans HTTP ni disque), les cas de calcul et de validité (3 à 8, 10 à 14, 18, 19, 23) et ils passent. La page s'affiche sur `127.0.0.1:3000` | N2, N3 | N1, T1, P1 |
+| **Mar. 08/12** | **Palier 1, seconde moitié :** les cas 1, 2, 9 et 17 passent **par HTTP** (routes et stockage). Le nœud démarre, garde sa chaîne sur disque et répond aux 5 routes. Un message écrit dans la page est filtré, signé et visible en file (`GET /messages/pending`) | N4, N5 | N8, P2 |
+| **Mer. 09/12** | **Palier 2 :** notre nœud échange messages et blocs avec `noeud-a` puis avec `noeud-b` sur Tailscale ; il produit à son créneau et rattrape un pair plus haut (rattrapage simple ; `SYNCING` et fourches terminés jeudi matin). Le cas 22 passe avec le sondage (pair simulé qui répond à `GET /messages/pending`). La spirale glisse avec des données simulées | N6, N7 (3 h sur 5), T2 | O1, O2 (2 h), T2 |
 | **Jeu. 10/12** | **Jalon : les trois nœuds rejoignent la chaîne.** Même `hash` de tête sur les trois après une minute, coupure de 2 minutes rattrapée, redémarrage des trois réussi. Valeurs locales calculées | N7 (fin, 2 h, le matin), T3 | T3, A1 |
 | **Ven. 11/12** | Un message va de la page jusqu'à l'œuvre : prévision en pointillés, puis observation avec des valeurs de l'**IA simulée** écrites dans `ai_results`. Message masqué en brume. Les vraies valeurs de l'IA arrivent le lundi 11/01 | A2a, N9, T4 | O2 (1 h), O3, O4, T4 |
 
 **Si le jeudi échoue :** le vendredi matin est réservé à la jonction (T3) ; A2a, N9 et O3 glissent à la S2, les valeurs locales suffisent pour montrer l'œuvre. La jonction passe avant tout le reste.
+
+**Si le jeudi réussit :** Dylan a 2 h libres le vendredi (sa marge) : il commence **A2b** (appel réel à OpenRouter) le vendredi après-midi, pour ne pas découvrir les vraies réponses de l'IA à quatre jours de l'oral. A2b reste prévue le lundi 11/01 si ce n'est pas le cas.
+
+**Si Nicolas prend du retard** (il n'a pas de marge en S50) : O4 (satellites, brume) passe au lundi 11/01 ; la prévision en pointillés reste prioritaire, car elle se voit pendant la démonstration.
 
 ### S2 · finalisation et oral (11 au 15/01)
 
