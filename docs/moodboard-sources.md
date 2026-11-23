@@ -5,6 +5,7 @@
 | Pour | [Bible DA](05-bible-da.md) §2 (tâche C4 du backlog) |
 | Date | 23/11/2026 |
 | Méthode | Recherche dans l'API de Wikimedia Commons. La licence et l'auteur sont lus dans les métadonnées de chaque fichier. **À faire avant le PDF :** recopier la mention exacte indiquée dans « Licence » sur chaque page. |
+| Planche | **Figma :** [planche v4](https://www.figma.com/design/3kuh5BiZHfMOCHNWPh9dXD/?node-id=11-2) (fichier [Front commun · Moodboard](https://www.figma.com/design/3kuh5BiZHfMOCHNWPh9dXD)) · export PNG 1920 × 1200 de la **v4 (collage)** : [moodboard-planche.png](moodboard-planche.png). Fond d'isobares centré sur l'œil ; 12 images tournées et chevauchées, avec un crédit court sur chacune (auteur, année, et licence si elle est CC BY ou CC BY-SA) ; quatre notes courtes ; trois mots-clés ; les trois polices Recursive ; les 11 couleurs de la bible en zigzag, avec leur code hex. Les trois images satellite en fausses couleurs (Gilbert, Melissa, In-fa) sont **désaturées**, comme le demande la bible. Les v1 à v3 restent dans le fichier Figma |
 | Fichiers | Les 15 images sont dans [moodboard/](moodboard/), sous le nom du fichier Commons (les deux premières sont renommées `01-…` et `02-…`) |
 
 **Règle.** Une image n'entre dans le PDF que si l'on a son titre, son auteur, sa date, son adresse et sa licence. Les miniatures Google, les articles de blog et les posts Facebook ou Instagram ne sont pas des sources : on remonte toujours à l'image d'origine.
@@ -74,15 +75,19 @@ Les œuvres d'art génératif récentes (champs de flux, particules) sont proté
 
 L'article d'Artmajeur (« Les quatre éléments dans l'art ») a donné l'idée ; on ne reprend pas ses images.
 
-## Planche proposée (10 images)
+## Planche v4 (collage, 12 images)
 
-1. Typhon Gilbert, infrarouge (image de tête)
-2. Ouragan Melissa, de nuit
-3. Cyclone extratropical
-4. The Daily Weather Map 1945
-5. Turner, *Snow Storm*
-6. Hiroshige, *Averse soudaine*
-7. Fibonacci numbers (tournesol)
-8. Star trails (ESO)
-9. Van Gogh, *La Nuit étoilée*
-10. Arcimboldo, *Le Feu*
+1. Typhon Gilbert, infrarouge (image de tête, au centre des isobares)
+2. Super typhon In-fa, grand œil
+3. Ouragan Melissa, de nuit
+4. Cyclone extratropical
+5. The Daily Weather Map 1945
+6. Carte de l'hémisphère Nord 1899
+7. Turner, *Snow Storm*
+8. Hiroshige, *Averse soudaine*
+9. Fibonacci numbers (tournesol)
+10. Star trails (ESO)
+11. Van Gogh, *La Nuit étoilée*
+12. Arcimboldo, *Le Feu*
+
+Restent hors planche : Turner, *Rain, Steam and Speed* ; NOIRLab, *Trails* ; Arcimboldo, *L'Eau* (redondants avec une image déjà présente).

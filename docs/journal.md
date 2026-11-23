@@ -13,6 +13,16 @@ Plus récent en haut. Un daily par matin : **hier / aujourd'hui / blocages**.
 
 ---
 
+### 2026-11-23 · S48 · Moodboard dans Figma (Dylan, avec Claude Code)
+**Aujourd'hui :**
+- Moodboard composé dans Figma : un collage de 12 images sur un fond d'isobares, avec un crédit (auteur, année, licence) sur chaque image, quelques notes courtes, trois mots-clés, les trois polices Recursive et les 11 couleurs de la bible avec leur code hex.
+- Plusieurs versions : v1 en grille (trop propre), v2 en collage, v3 avec des sous-titres sous les images ; la **v4** (la v2 corrigée, plus rien de coupé) est retenue.
+- Lien : [planche v4](https://www.figma.com/design/3kuh5BiZHfMOCHNWPh9dXD/?node-id=11-2) ; export PNG dans `docs/moodboard-planche.png` ; sources dans `docs/moodboard-sources.md`.
+
+**Blocages :** limite d'appels du serveur MCP de Figma (offre Starter) atteinte une fois ; ça a remarché un peu plus tard.
+
+**À faire :** Nicolas, valider la planche (C4) ; recopier les mentions de licence exactes avant le PDF.
+
 ### 2026-11-23 · S48 · Relecture du commit de Nicolas (Dylan)
 **Aujourd'hui :**
 - **Vérifié par le calcul** les chiffres de la bible v0.3 : couleurs de référence en OKLab, milieu rose d'OKLCH, courbe en S, déplacement de la spirale (57 % → 0,16 %), voisin le plus proche à 2,8 %. Tout est exact.

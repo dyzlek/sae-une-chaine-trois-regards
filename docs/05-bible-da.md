@@ -35,7 +35,7 @@
 
 ## 2. Moodboard
 
-**[À DESSINER]** une planche d'images (8 à 12), avec la source de chacune (titre, auteur, date, adresse, licence).
+**Planche ✎ :** [moodboard-planche.png](moodboard-planche.png) (collage de 12 images sur un fond d'isobares, palette en hex, polices), faite dans Figma : [planche v4](https://www.figma.com/design/3kuh5BiZHfMOCHNWPh9dXD/?node-id=11-2). Chaque image porte sa source et sa licence ; liste complète dans [moodboard-sources.md](moodboard-sources.md).
 
 | Référence | Ce que nous en retenons | Ce que nous laissons |
 | --- | --- | --- |

@@ -24,7 +24,7 @@
 | C1 | Spec commune v1.0, déposée sur Moodle | les six | — | I | jeu. 26/11, 12h30 | ◐ (validée, à déposer) |
 | C2 | Nos vecteurs de test 20 à 26 (spec v1.0) | Dylan | 3 h | I | 23/11 | ☑ ([tests/vectors/](../tests/vectors/README.md)) |
 | C3 | Relire la bible DA v0.3 (changements de Nicolas) et confirmer à deux ; puis **retirer tous les ✎** de la bible avant l'export PDF | Dylan relit, Nicolas retire les ✎ | 1 h | I | mer. 25/11 | ☐ |
-| C4 | Moodboard (8 à 12 images sourcées, libres de droits ou avec leur licence) | Nicolas | 2 h | I | mer. 25/11 | ◐ (15 images et leurs licences dans [moodboard-sources.md](moodboard-sources.md) ; reste à composer la planche dans le PDF) |
+| C4 | Moodboard (8 à 12 images sourcées, libres de droits ou avec leur licence) | Nicolas | 2 h | I | mer. 25/11 | ☑ (planche Figma en collage et [export PNG](moodboard-planche.png), 12 images créditées ; sources dans [moodboard-sources.md](moodboard-sources.md)) |
 | C5 | Symbole, glyphe simplifié et déclinaisons | Nicolas | 2 h | I | mer. 25/11 | ☐ |
 | C6 | Trois esquisses 16:9 (vide, quelques, beaucoup), dessinées avec les règles de la bible §6 (positions calculées au tableur, sans code) | Nicolas | 4 h | I | jeu. 26/11 | ☐ |
 | C7 | Test de la charte auprès de 3 personnes (charte §3) | à deux | 1 h | I | jeu. 26/11 | ☐ |
