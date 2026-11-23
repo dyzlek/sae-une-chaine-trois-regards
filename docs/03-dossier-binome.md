@@ -59,7 +59,7 @@ flowchart LR
 ## 3. Le parcours d'un message
 
 1. **Écriture.** Le visiteur saisit son texte. L'application envoie `POST /api/messages` avec `{content}` au serveur de l'application, qui le transmet à l'API interne du nœud (`POST /internal/messages`).
-2. **Contrôle d'entrée.** Le nœud applique d'abord notre modération (charte éditoriale), met `content` en NFC et refuse ce qui sort de la spec §2.1 (longueur, caractères interdits, espaces en bordure). Il répond tout de suite au visiteur en cas de refus.
+2. **Contrôle d'entrée.** Le nœud applique d'abord notre filtre avant signature (charte §4.1 : données personnelles, liste de mots, débit, sans appel à l'IA), met `content` en NFC et refuse ce qui sort de la spec §2.1 (longueur, caractères interdits, espaces en bordure). Il répond tout de suite au visiteur en cas de refus.
 3. **Signature.** Le nœud fixe `timestamp` (strictement croissant, spec §2.1), calcule l'`id` (texte à barres, spec §2.1) et signe avec sa clé privée (lue dans `.env`).
 4. **File et relais.** Le message entre dans la file (état `en_attente`) et est envoyé tout de suite aux deux autres nœuds par `POST /messages` (spec §6.4). Le visiteur reçoit l'`id` et voit « en attente ».
 5. **Production du bloc.** À notre créneau, le nœud produit seulement si **toutes** les conditions de spec §4.2 sont réunies. Ce qui est propre à notre nœud : une minuterie vérifie le créneau chaque seconde, le créneau signé est écrit dans `node_state` avant la signature, et la vérification des pairs ne dépend jamais du worker IA. Sinon un autre nœud produit, et on reçoit le bloc par `POST /blocks`.
@@ -124,7 +124,7 @@ SQLite, un fichier par nœud, en mode WAL (plusieurs processus). La chaîne est 
 | Refus du modèle | `status = refused` |
 | Après les essais ratés | **Valeurs locales de repli** (ci-dessous), `values_source = local` |
 
-**Valeurs locales de repli** **[PROPOSITION]** : calculées sans IA, de façon déterministe, à partir du texte : `energie` selon la part de `!` et de majuscules, `densite` selon la longueur sur 280, `chaleur` = 0,5, `theme` = `air`. L'œuvre reste vivante même si l'IA est coupée, et on voit dans la base quelles valeurs viennent de l'IA.
+**Valeurs locales de repli** **[PROPOSITION]** : calculées sans IA, de façon déterministe, à partir du texte : `energie` selon la part de `!` et de majuscules, `densite` selon la longueur sur 280, `chaleur` = 0,5, `theme` = `air`, `masquer` = `false` (sauf si le message contient un mot de la liste de la charte). L'œuvre reste vivante même si l'IA est coupée, et on voit dans la base quelles valeurs viennent de l'IA.
 
 La chaîne n'est **jamais** touchée par une panne d'IA (spec §9).
 
@@ -140,8 +140,9 @@ La chaîne n'est **jamais** touchée par une panne d'IA (spec §9).
 | `chaleur` | nombre de 0 à 1 | froid (0) → chaleureux (1) |
 | `densite` | nombre de 0 à 1 | léger (0) → chargé (1) |
 | `theme` | `eau`, `terre`, `feu` ou `air` | l'élément qui évoque le mieux le message |
+| `masquer` | booléen | le message relève des limites de la charte (§4) : dessiné comme une trace grise neutre, texte jamais affiché |
 
-Format de réponse attendu : `{"energie":0.2,"chaleur":0.3,"densite":0.6,"theme":"eau"}`.
+Définitions complètes, bornes et prompt : [charte éditoriale](04-charte-editoriale.md), sections 2 et 3. Format de réponse attendu : `{"energie":0.20,"chaleur":0.30,"densite":0.40,"theme":"eau","masquer":false}`.
 
 **Règles génératives** (valeur → paramètre visuel) :
 
@@ -154,7 +155,7 @@ Format de réponse attendu : `{"energie":0.2,"chaleur":0.3,"densite":0.6,"theme"
 | Position dans la chaîne | Emplacement | Spirale : l'angle suit l'index du bloc puis la position du message dans le bloc |
 | `id` du message | Petites variations | Sert de graine aléatoire : le même message donne toujours le même dessin |
 
-**Exemple.** Le message `Il pleut sur Béziers ce matin.` donne, par exemple, `{"energie":0.2,"chaleur":0.3,"densite":0.6,"theme":"eau"}`. L'œuvre ajoute des **ondes concentriques lentes**, de teinte `210 − 190 × 0,3 = 153°` (bleu-vert), assez grandes et opaques, placées sur la spirale à l'emplacement du bloc 1.
+**Exemple.** Le message `Il pleut sur Béziers ce matin.` donne `{"energie":0.20,"chaleur":0.30,"densite":0.40,"theme":"eau","masquer":false}` (premier exemple de la charte). L'œuvre ajoute des **ondes concentriques lentes**, de teinte `210 − 190 × 0,3 = 153°` (bleu-vert), de taille moyenne, placées sur la spirale à l'emplacement du bloc 1.
 
 **Technique et fonctionnement :**
 1. **Rendu :** Canvas 2D en JavaScript natif (aucune dépendance) **[PROPOSITION]**.

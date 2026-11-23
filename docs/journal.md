@@ -13,6 +13,17 @@ Plus récent en haut. Un daily par matin : **hier / aujourd'hui / blocages**.
 
 ---
 
+### 2026-11-23 · S48 · Charte éditoriale v0.1
+**Fait :** la charte est écrite. Elle contient :
+- la consigne « Quel temps fait-il en vous ? » ;
+- 4 valeurs, plus `masquer` ;
+- le prompt `p1`, avec 3 exemples ;
+- le filtre avant signature, sans IA ;
+- le masquage par une trace grise dans l'œuvre.
+
+Le §6 du dossier est aligné sur la charte.
+**À faire :** valider la charte à deux ; tester le prompt (10 envois par exemple) avant le 07/12 ; écrire la liste de mots interdits ; bible DA.
+
 ### 2026-11-23 · S48 · Dossier de binôme v0.4
 **Fait :** corrections après relecture :
 - confirmation d'un message par le temps ;
