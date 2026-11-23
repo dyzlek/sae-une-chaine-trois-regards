@@ -44,7 +44,10 @@
 | Ciels de William Turner | Le **flou** et la lumière diffuse : la brume des messages masqués, le fond qui change de teinte | La matière de la peinture (impossible en Canvas sans effet lourd) |
 | Phyllotaxie (cœur de tournesol, pomme de pin) | La règle de l'**angle d'or** : une disposition régulière quel que soit le nombre de messages ; et le fait que les nouveaux éléments naissent au centre et glissent vers l'extérieur | L'image végétale : chez nous, la spirale est celle d'un cyclone |
 | Photos de ciel nocturne et de longue pose | Le **fond bleu nuit**, les points lumineux qui pâlissent avec la distance | Le noir pur (trop dur, contraste fatigant) |
-| Art génératif à base de particules et de champs de flux | Les **particules** du feu, les **traits** de l'air | La surcharge : chez nous, une forme par message, lisible |
+| Art génératif à base de particules et de champs de flux ; *La Nuit étoilée* de Van Gogh ✎ (un ciel qui tourbillonne en traits) | Les **particules** du feu, les **traits** de l'air qui suivent un flux | La surcharge : chez nous, une forme par message, lisible |
+| Les quatre éléments dans l'art (Arcimboldo, *Le Feu* et *L'Eau*, 1566) ✎ | Un élément fait de **beaucoup de petites choses**, comme notre ciel fait de beaucoup de messages ; le lien avec les quatre `theme` de la charte | Le portrait (chez nous, rien de figuratif) |
+
+**Images retenues ✎ :** liste de 10 images, avec auteur, date, adresse et licence, dans [moodboard-sources.md](moodboard-sources.md).
 
 **Images libres de droits ✎.** Les cartes et images de la NOAA (GOES) sont dans le domaine public des États-Unis ; Turner et Hiroshige (pluies, traits fins) sont dans le domaine public sur Wikimedia Commons ; pour Météosat (EUMETSAT), lire les conditions de réutilisation avant de l'utiliser dans le PDF. Aucune image n'est téléchargée sans noter sa source et sa licence.
 
