@@ -113,7 +113,7 @@ SQLite, un fichier par nœud, en mode WAL (plusieurs processus). La chaîne est 
 - **Réponse attendue :** un objet JSON avec les valeurs de la section 6, chacune dans sa plage. On vérifie le format avant d'enregistrer.
 - **Clé d'API :** une par personne d'après le sujet. Le nœud utilise la clé de la personne qui le fait tourner ; l'autre membre utilise la sienne dans son `.env` pour développer.
 - **Débit :** chaque nœud traite tous les messages de la chaîne, donc la charge d'un test à trois est triple. Le worker applique un **plafond d'appels par minute** (`IA_MAX_PER_MINUTE`, 10 par défaut **[PROPOSITION]**) et traite 2 messages en parallèle au plus.
-- **Quota journalier (le vrai plafond).** À notre connaissance, un compte OpenRouter sans crédit est limité à environ **50 requêtes par jour** sur les modèles gratuits (à confirmer sur la page des limites avant le 07/12). Une heure d'usage réel à trois peut l'épuiser en quelques minutes. Le worker compte ses appels du jour (`IA_MAX_PER_DAY`) ; une fois le plafond atteint, il passe aux **valeurs locales de repli** jusqu'au lendemain, et l'œuvre le montre (voir §6). Pistes à décider : utiliser à tour de rôle les deux clés du binôme, demander à l'équipe enseignante si un crédit est autorisé.
+- **Quota journalier (le vrai plafond).** Nos comptes sont en offre **Free** d'OpenRouter : **50 requêtes par jour**, environ 25 modèles gratuits (page des tarifs d'OpenRouter, consultée le 23/11/2026). Ce plafond compte bien plus que le plafond par minute. Une heure d'usage réel à trois peut l'épuiser en quelques minutes. Le worker compte ses appels du jour (`IA_MAX_PER_DAY`) ; une fois le plafond atteint, il passe aux **valeurs locales de repli** jusqu'au lendemain, et l'œuvre le montre (voir §6). Pistes à décider : utiliser à tour de rôle les deux clés du binôme, demander à l'équipe enseignante si un crédit est autorisé.
 
 | Situation | Ce que fait le worker |
 | --- | --- |
@@ -201,7 +201,7 @@ Critère de fin : tous les cas de la spec passent, trois chaînes ont le même h
 | Risque | Gravité | Ce que nous prévoyons |
 | --- | --- | --- |
 | Un nœud n'est pas compatible avec la spec | Haute | Rejouer les cas hors réseau le 07/12, les cas en direct les 09 et 10/12 ; si deux lectures divergent, corriger la spec avant le code |
-| Quota OpenRouter du jour épuisé (environ 50 requêtes sans crédit, chaque nœud traite tous les messages) | Haute | Compteur journalier, valeurs locales de repli, chiffre vérifié avant le 07/12 ; question posée à l'équipe sur les deux clés ou un crédit |
+| Quota OpenRouter du jour épuisé (offre Free : 50 requêtes par jour, et chaque nœud traite tous les messages) | Haute | Compteur journalier, valeurs locales de repli ; question posée à l'équipe sur l'usage des deux clés du binôme ou d'un crédit |
 | Verrou SQLite : le nœud n'arrive pas à écrire pendant son créneau | Moyenne | `busy_timeout`, transactions courtes, jamais de transaction ouverte pendant un appel réseau |
 | Un portable se met en veille ou redémarre (mise à jour Windows) | Moyenne | Branché sur secteur, veille désactivée, mises à jour suspendues la semaine du 07/12 ; vérifié au début du jour J |
 | `better-sqlite3` ne s'installe pas (pas de binaire précompilé pour notre version de Node sous Windows) | Moyenne | `npm install` testé sur les deux machines dès S49 ; sinon outils de compilation ou `node:sqlite` |
@@ -304,7 +304,7 @@ Puis ouvrir `http://127.0.0.1:3000`.
 | `OPENROUTER_API_KEY` | Clé OpenRouter (secrète) | `sk-or-...` |
 | `OPENROUTER_MODEL` | Modèle demandé | `openrouter/free` |
 | `IA_MAX_PER_MINUTE` | Plafond d'appels par minute | `10` |
-| `IA_MAX_PER_DAY` | Plafond d'appels par jour, puis valeurs locales | `50` (à confirmer) |
+| `IA_MAX_PER_DAY` | Plafond d'appels par jour, puis valeurs locales | `50` (offre Free) |
 
 **Ports :** 8080 (spec, sur l'IP Tailscale), 8081 et 3000 (locaux, 127.0.0.1).
 
