@@ -12,6 +12,7 @@
 > **Test :** un autre binôme doit pouvoir reprendre le projet avec ce seul document.
 
 **Légende.** **[PROPOSITION]** : choix écrit pour rendre le dossier concret, à valider à deux (et avec la bible DA pour tout ce qui est visuel).
+
 ---
 
 ## 1. Le projet en bref
@@ -60,6 +61,8 @@ flowchart LR
 
 **Le navigateur ne lit jamais la base.** Il parle au serveur de l'application, qui lit SQLite et lui renvoie les états et les événements.
 
+**Le masquage se fait côté serveur.** Pour un message masqué (charte §4.2), le serveur de l'application **retire `content`** de toutes ses réponses (chaîne, états, événements) : le texte n'arrive jamais au navigateur, même dans l'onglet réseau. Le serveur applique aussi au moment de l'affichage les mêmes règles que le filtre avant signature (e-mail, téléphone, lien, liste de mots) à **tous** les messages, y compris ceux des autres nœuds : c'est gratuit et ne dépend pas de l'IA.
+
 ## 3. Le parcours d'un message
 
 1. **Écriture.** Le visiteur saisit son texte. L'application envoie `POST /api/messages` avec `{content}` au serveur de l'application, qui le transmet à l'API interne du nœud (`POST /internal/messages`).
@@ -68,8 +71,8 @@ flowchart LR
 4. **File et relais.** Le message entre dans la file (état `en_attente`) et est envoyé tout de suite aux deux autres nœuds par `POST /messages` (spec §6.4). Le visiteur reçoit l'`id` et voit « en attente ».
 5. **Production du bloc.** À notre créneau, le nœud produit seulement si **toutes** les conditions de spec §4.2 sont réunies. Ce qui est propre à notre nœud : une minuterie vérifie le créneau chaque seconde, le créneau signé est écrit dans `node_state` avant la signature, et la vérification des pairs ne dépend jamais du worker IA. Sinon un autre nœud produit, et on reçoit le bloc par `POST /blocks`.
 6. **Entrée dans la chaîne.** Dès qu'un message est dans un bloc de notre chaîne, son état passe à `dans_un_bloc` et un événement `message_state` prévient l'application. Il passe à `confirme` **[PROPOSITION]** dès que l'une des deux conditions est remplie : 3 blocs de plus ont été ajoutés (spec §5.3), **ou** la chaîne n'a pas changé depuis 60 s et les pairs joignables annoncent la même tête. La seconde condition est nécessaire, car la spec ne crée pas de bloc vide : sans elle, le dernier message d'une démonstration ne serait jamais confirmé.
-7. **Traitement IA.** Le worker repère les messages `dans_un_bloc` qui n'ont pas de résultat, les prend par ordre d'index de bloc et les envoie **par lots de 10 au plus dans une seule requête** **[PROPOSITION]** (quota, §5). Il appelle OpenRouter avec notre prompt, valide la réponse et enregistre valeurs, modèle réel et statut (§5).
-8. **Œuvre.** Le serveur envoie l'événement `values_ready`. La **position** d'un message dans l'œuvre vient de la chaîne (index du bloc puis position dans le bloc, jamais `timestamp`, spec §5.3) ; son **apparition** vient de l'arrivée de ses valeurs. Un message dont les valeurs arrivent en retard apparaît donc à sa place, mais plus tard.
+7. **Traitement IA.** Le worker repère les messages `dans_un_bloc` qui n'ont pas de résultat, les prend par ordre d'index de bloc et les envoie **par lots dans une seule requête**, selon la règle de déclenchement du §5. Il appelle OpenRouter avec notre prompt, valide la réponse et enregistre valeurs, modèle réel et statut (§5).
+8. **Œuvre.** Le serveur envoie l'événement `values_ready`. La **position** d'un message dans l'œuvre vient de la chaîne (index du bloc puis position dans le bloc, jamais `timestamp`, spec §5.3) ; un message apparaît **dès son entrée dans un bloc**, en **prévision** (valeurs locales, contour en pointillés), puis passe en **observation** (forme pleine) quand les valeurs de l'IA arrivent. L'œuvre n'attend donc jamais l'IA, et le quota rare devient visible.
 9. **Fourche.** Si un bloc de notre chaîne disparaît ou change de place (spec §5.2), le nœud remet ses messages en file (état `remis_en_attente`) et émet un événement **`chain_reorganized`** avec l'index à partir duquel la chaîne a changé. L'application **reconstruit l'œuvre à partir de cet index** depuis la base. Les valeurs de l'IA restent valables : elles sont rattachées à l'`id` du message (spec §9).
 
 **États d'un message :** `en_attente` → `dans_un_bloc` → `confirme`, avec `remis_en_attente` en cas de fourche (le message repart alors dans un bloc et retrouve `dans_un_bloc`).
@@ -111,7 +114,7 @@ SQLite, un fichier par nœud, en mode WAL (plusieurs processus). La chaîne est 
 
 ## 5. L'IA
 
-- **Quand :** une fois le message dans un bloc de notre chaîne, par le worker. Un message ne passe qu'une fois par l'IA (clé : `id`). Chaque nœud traite **tous** les messages de la chaîne, pas seulement les siens.
+- **Quand :** une fois le message dans un bloc de notre chaîne, par le worker. Un message ne passe qu'une fois **avec succès** par l'IA (clé : `id`). Un message qui n'a eu que des valeurs locales peut être retraité plus tard (voir « Retraitement » ci-dessous). Chaque nœud traite **tous** les messages de la chaîne, pas seulement les siens.
 - **Modèle :** `openrouter/free` (accepté à condition d'enregistrer `model_used`, le modèle qui a réellement répondu). **[PROPOSITION]** si les réponses sont trop instables, fixer un modèle gratuit précis.
 - **Prompt :** décrit dans la [charte éditoriale](04-charte-editoriale.md) (valeurs, bornes, format JSON), versionné (`prompt_version`).
 - **Réponse attendue :** un objet JSON avec un résultat par message du lot, chacun avec les valeurs de la section 6 dans leur plage (format exact : charte §3). On vérifie le format avant d'enregistrer.
@@ -120,6 +123,8 @@ SQLite, un fichier par nœud, en mode WAL (plusieurs processus). La chaîne est 
 **Le quota, contrainte principale.** Nos comptes sont en offre **Free** d'OpenRouter : **50 requêtes par jour** (page des tarifs d'OpenRouter, consultée le 23/11/2026). Chaque nœud traite tous les messages de la chaîne, et chaque essai raté compte. D'où ces règles **[PROPOSITION]** :
 
 - **Lots :** jusqu'à 10 messages par requête (`IA_BATCH_SIZE`). C'est le levier principal : 50 requêtes peuvent traiter jusqu'à 500 messages. L'ordre (index de bloc) et la clé (`id`) ne changent pas.
+- **Quand un lot part :** dès que 10 messages attendent, **ou** 45 s après l'arrivée du plus ancien en attente (`IA_BATCH_WAIT`), et **jamais plus d'une requête toutes les 30 s** (`IA_MIN_INTERVAL`). Sans cette règle, le worker enverrait un lot d'un seul message à chaque bloc et épuiserait le quota en moins d'une heure.
+- **Retraitement :** un message qui n'a eu que des valeurs locales (quota, panne) est remis dans la file de l'IA quand le quota redevient disponible, **du plus récent au plus ancien**, et seulement s'il reste des requêtes après les messages nouveaux. L'œuvre de l'oral a ainsi davantage de vraies valeurs. Le résultat IA remplace alors les valeurs locales, et l'œuvre redessine la forme.
 - **Peu d'essais :** une requête ratée est retentée **une seule fois**. Un lot coûte donc 2 requêtes au plus.
 - **Compteur journalier en base** (`node_state`), qui compte **chaque tentative** et survit à un redémarrage. Au plafond (`IA_MAX_PER_DAY`), le worker passe aux valeurs locales. L'heure de remise à zéro du quota est à vérifier avant le 07/12 (minuit UTC ?).
 - **IA simulée par défaut en développement** (`IA_MODE=simulee`) : elle renvoie des valeurs plausibles sans appel. Les appels réels sont réservés à des moments choisis (test du prompt, essais à trois).
@@ -138,7 +143,7 @@ SQLite, un fichier par nœud, en mode WAL (plusieurs processus). La chaîne est 
 
 **Les valeurs locales portent une partie de la démo.** Avec ce quota, beaucoup de messages auront des valeurs locales : leur rendu doit donc être soigné (bible DA), et la démonstration doit aussi montrer des valeurs réelles de l'IA, grâce au budget réservé.
 
-**Valeurs locales de repli** **[PROPOSITION]** : calculées sans IA, de façon déterministe, à partir du texte : `energie` selon la part de `!` et de majuscules, `densite` selon la longueur sur 280, `chaleur` = 0,5, `theme` = `air`, `masquer` = `false` (sauf si le message contient un mot de la liste de la charte). L'œuvre reste vivante même si l'IA est coupée, et on voit dans la base quelles valeurs viennent de l'IA.
+**Valeurs locales de repli** : calculées sans IA, de façon déterministe, avec un lexique de 30 à 50 mots et emojis et une légère variation tirée de l'`id` (règles exactes : charte §2). Elles sont calculées **pour chaque message dès son entrée dans un bloc** (forme « prévision »), puis remplacées par les valeurs de l'IA quand elles arrivent. L'œuvre reste vivante même si l'IA est coupée, et on voit dans la base quelles valeurs viennent de l'IA.
 
 La chaîne n'est **jamais** touchée par une panne d'IA (spec §9).
 
@@ -154,22 +159,26 @@ La chaîne n'est **jamais** touchée par une panne d'IA (spec §9).
 | `chaleur` | nombre de 0 à 1 | froid (0) → chaleureux (1) |
 | `densite` | nombre de 0 à 1 | léger (0) → chargé (1) |
 | `theme` | `eau`, `terre`, `feu` ou `air` | l'élément qui évoque le mieux le message |
-| `masquer` | booléen | le message relève des limites de la charte (§4) : dessiné comme une trace grise neutre, texte jamais affiché |
+| `masquer` | booléen | le message relève des limites de la charte (§4) : dessiné comme une tache de brume grise, texte jamais affiché |
 
-Définitions complètes, bornes et prompt : [charte éditoriale](04-charte-editoriale.md), sections 2 et 3. Format de réponse attendu : `{"energie":0.20,"chaleur":0.30,"densite":0.40,"theme":"eau","masquer":false}`.
+Définitions complètes, bornes et prompt : [charte éditoriale](04-charte-editoriale.md), sections 2 et 3. Format d'un résultat : `{"energie":0.20,"chaleur":0.30,"densite":0.25,"theme":"eau","masquer":false}` (dans une réponse par lot, charte §3).
 
 **Règles génératives** (valeur → paramètre visuel) :
 
 | Valeur | Paramètre visuel | Règle |
 | --- | --- | --- |
 | `energie` | Vitesse et amplitude du mouvement | De l'ondulation lente à la vibration rapide |
-| `chaleur` | Teinte | `teinte = 210 − 190 × chaleur` (bleu à 0, orange à 1 ; passe par le vert et le jaune vers 0,5 : palette à valider avec la bible DA) |
+| `chaleur` | Teinte | `teinte = 210 − 190 × chaleur` (bleu à 0, orange à 1 ; passe par le vert et le jaune vers 0,5 : première décision de la bible DA : remplacer cette teinte linéaire par plusieurs couleurs-clés, par exemple bleu, gris-lavande, ocre, orange, pour que les messages neutres ne soient pas verts) |
 | `densite` | Taille et opacité de la forme | Plus la densité est forte, plus la forme est grande et opaque |
 | `theme` | Type de forme | `eau` : ondes concentriques ; `terre` : polygones ; `feu` : particules montantes ; `air` : traits fins |
+| `energie`, `chaleur`, `densite` | Contraste | Une courbe de contraste étire les valeurs (l'IA donne souvent 0,2 ou 0,8), pour que les formes ne se ressemblent pas toutes |
 | Position dans la chaîne | Emplacement | Spirale : l'angle suit l'index du bloc puis la position du message dans le bloc |
+| `node` (nœud d'origine) | Contour ou texture discrète | Un motif par nœud : l'œuvre montre « une chaîne, trois regards » sans appeler l'IA |
+| Moyenne des derniers messages | Fond du ciel | Teinte et agitation du fond suivent la moyenne des 20 derniers messages : le côté **collectif** se voit |
+| `values_source` | Prévision ou observation | Valeurs locales : contour en pointillés ; valeurs de l'IA : forme pleine |
 | `id` du message | Petites variations | Sert de graine aléatoire : le même message donne toujours le même dessin |
 
-**Exemple.** Le message `Il pleut sur Béziers ce matin.` donne `{"energie":0.20,"chaleur":0.30,"densite":0.40,"theme":"eau","masquer":false}` (premier exemple de la charte). L'œuvre ajoute des **ondes concentriques lentes**, de teinte `210 − 190 × 0,3 = 153°` (bleu-vert), de taille moyenne, placées sur la spirale à l'emplacement du bloc 1.
+**Exemple.** Le message `Il pleut sur Béziers ce matin.` donne `{"energie":0.20,"chaleur":0.30,"densite":0.25,"theme":"eau","masquer":false}` (premier exemple de la charte). L'œuvre ajoute des **ondes concentriques lentes**, d'une couleur froide (couleur exacte : palette de la bible DA), petites et légères, placées sur la spirale à l'emplacement du bloc 1.
 
 **Technique et fonctionnement :**
 1. **Rendu :** Canvas 2D en JavaScript natif (aucune dépendance) **[PROPOSITION]**.
@@ -178,7 +187,9 @@ Définitions complètes, bornes et prompt : [charte éditoriale](04-charte-edito
 4. **Reconstruction :** depuis la base (chaîne + `ai_results`), de l'index touché par un événement `chain_reorganized`, ou depuis le début au chargement de la page.
 5. **États à prévoir :** œuvre vide, quelques messages, beaucoup de messages (esquisses de la bible DA, section 7).
 6. **Beaucoup de messages** **[PROPOSITION]** : au-delà de 150 formes visibles, les plus anciennes **vieillissent** (opacité et taille qui baissent selon leur rang dans la chaîne) puis se fondent dans un fond qui garde la teinte moyenne. L'œuvre ne sature pas et garde la mémoire de tous les messages.
-7. **Valeurs locales :** une forme dont `values_source = local` est dessinée en trait plus fin, pour que la panne d'IA se voie sans casser l'œuvre.
+7. **Prévision et observation :** une forme dont `values_source = local` est une **prévision** (contour en pointillés, comme sur une carte météo) ; elle devient une **observation** (forme pleine) quand l'IA répond. Le quota rare devient une histoire visible au lieu d'un défaut.
+8. **Bulletin météo** **[PROPOSITION]** : une phrase calculée sans IA à partir des moyennes (« Aujourd'hui, ciel plutôt chaud et agité »), affichée sous l'œuvre. Elle ne consomme pas de quota et sert à l'oral.
+9. **Message masqué :** tache de brume grise floue, avec l'info-bulle « Message masqué (charte §4) ».
 
 ## 7. Les choix techniques
 
@@ -201,7 +212,7 @@ Les langages sont libres selon le sujet. PHP et Python ont aussi SHA-256 et Ed25
 
 | Niveau | Comment | Quand |
 | --- | --- | --- |
-| **Nœud seul** | Tests automatiques qui rejouent les **26 cas** de la spec (§10.2) : `id`, `hash`, signatures, cas valides et invalides, règle de choix entre chaînes, tri des messages. Les entrées des 22 cas à produire sont partagées dans `tests/vectors/` du dépôt commun. **Notre part : les cas 20 à 26** (redémarrages, nœud isolé, file récupérée, `SAME_PRODUCER`, envoi raté, fourche de même hauteur), à déposer **avant le lundi 07/12 au soir** | Nos entrées : dès que l'équipe enseignante confirme que préparer des vecteurs en S49 (semaine sans SAÉ, code prévu en S50) est accepté, sinon lundi 07/12. **Palier 1 (07/12, sans réseau)** : les cas hors réseau (1 à 14, 17 à 19, 22). **Paliers 2 et 3** : les cas en direct sur le réseau (15, 16, 20, 21, 23 à 26) |
+| **Nœud seul** | Tests automatiques qui rejouent les **26 cas** de la spec (§10.2) : `id`, `hash`, signatures, cas valides et invalides, règle de choix entre chaînes, tri des messages. Les entrées des 22 cas à produire sont partagées dans `tests/vectors/` du dépôt commun. **Notre part : les cas 20 à 26** (redémarrages, nœud isolé, file récupérée, `SAME_PRODUCER`, envoi raté, fourche de même hauteur), à déposer **avant le lundi 07/12 au soir**. Ce sont des scénarios en direct, pas des entrées : un fichier de scénario par cas dans `tests/vectors/` (état de départ, étapes à jouer, ce que `GET /status` de chaque nœud doit montrer à la fin, délai maximal) | Nos entrées : dès que l'équipe enseignante confirme que préparer des vecteurs en S49 (semaine sans SAÉ, code prévu en S50) est accepté, sinon lundi 07/12. **Palier 1 (07/12, sans réseau)** : les cas hors réseau (1 à 14, 17 à 19, 22). **Paliers 2 et 3** : les cas en direct sur le réseau (15, 16, 20, 21, 23 à 26) |
 | **Nœud avec les deux autres** | Essais deux à deux puis à trois : messages, blocs, fourche, coupure d'un nœud, redémarrage des trois (§10.3, paliers 2 et 3) | Mercredi 09/12 puis jeudi 10/12 |
 | **Application de bout en bout** | Un message écrit dans l'application passe par `en_attente`, `dans_un_bloc`, `confirme`, reçoit des valeurs de l'IA et modifie l'œuvre | Fin de S50 |
 | **Fourche et œuvre** | Provoquer une fourche en test : l'événement `chain_reorganized` reconstruit l'œuvre sans message perdu ni doublon | S50 |
@@ -314,7 +325,7 @@ Puis ouvrir `http://127.0.0.1:3000`.
 | `NODE_ID` | Identifiant du nœud (spec) | `noeud-c` |
 | `NODE_SEED_HEX` | Graine privée Ed25519 (secrète) | 64 caractères hexadécimaux |
 | `PEERS` | Pairs et leur port ; adresses IP Tailscale si les noms ne sont pas résolus (spec décision 13) | `noeud-a:8080,noeud-b:8080` ou `100.x.y.z:8080,...` |
-| `HOST_NODE` | Adresse d'écoute de l'API de la spec : l'IP Tailscale de la machine | `100.x.y.z` |
+| `HOST_NODE` | Adresse d'écoute de l'API de la spec : l'IP Tailscale de la machine. Si elle n'est pas encore disponible au démarrage (Tailscale pas lancé), le nœud réessaie toutes les 5 s sans planter ; `127.0.0.1` pour les tests hors réseau | `100.x.y.z` |
 | `PORT_NODE` | Port de l'API de la spec (tailnet) | `8080` |
 | `PORT_INTERNAL` | API interne, 127.0.0.1 | `8081` |
 | `PORT_APP` | Serveur de l'application, 127.0.0.1 | `3000` |
@@ -323,6 +334,8 @@ Puis ouvrir `http://127.0.0.1:3000`.
 | `OPENROUTER_MODEL` | Modèle demandé | `openrouter/free` |
 | `IA_MODE` | `reelle` ou `simulee` (par défaut en développement) | `simulee` |
 | `IA_BATCH_SIZE` | Messages par requête | `10` |
+| `IA_BATCH_WAIT` | Attente maximale avant d'envoyer un lot incomplet (s) | `45` |
+| `IA_MIN_INTERVAL` | Délai minimal entre deux requêtes (s) | `30` |
 | `IA_MAX_PER_DAY` | Tentatives par jour, puis valeurs locales (20 avant l'oral, voir §5) | `50` (offre Free) |
 | `APP_HOST` | Adresse d'écoute de l'application (`127.0.0.1`, ou l'IP Tailscale pendant une démo) | `127.0.0.1` |
 

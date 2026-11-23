@@ -13,6 +13,40 @@ Plus récent en haut. Un daily par matin : **hier / aujourd'hui / blocages**.
 
 ---
 
+### 2026-11-23 · S48 · Charte v0.3 (avis de Nicolas sur l'œuvre)
+**Fait :**
+- Charte :
+  - météo et éléments réunis (« le ciel est fait des quatre éléments ») ;
+  - le ton des messages des autres nœuds est lu, valeurs neutres seulement pour un message vide de sens ;
+  - colère froide = feu bleu ;
+  - 6 exemples, dont 3 difficiles ;
+  - lexique pour les valeurs locales ;
+  - brume pour les messages masqués ;
+  - mots interdits comparés en mots entiers ;
+  - phrase d'exemple qui change ;
+  - test auprès de 3 personnes.
+- Dossier §6 : prévision puis observation, fond collectif, origine du nœud, courbe de contraste, bulletin météo.
+
+**À faire :** bible DA (palette à couleurs-clés), liste de mots et lexique, test de la charte.
+
+### 2026-11-23 · S48 · Corrections après l'avis de Nicolas
+**Fait :**
+- Dossier :
+  - règle de déclenchement des lots (10 messages, ou 45 s, avec au moins 30 s entre deux requêtes) ;
+  - retraitement des messages en valeurs locales ;
+  - masquage côté serveur, avec les mêmes règles pour tous les messages ;
+  - cas 20 à 26 sous forme de fichiers de scénario ;
+  - réessais si l'IP Tailscale n'est pas encore là ;
+  - palette renvoyée à la bible DA ;
+  - mise en forme de la légende.
+- Charte v0.2 : « service d'IA extérieur », extraction du JSON de la réponse, espaces retirés sans message, §4.3 sur la confidentialité.
+
+**À faire :**
+- vérifier le réglage de confidentialité d'OpenRouter ;
+- bible DA (Nicolas) ;
+- transformer les `[PROPOSITION]` en décisions ;
+- backlog.
+
 ### 2026-11-23 · S48 · Répartition décidée, quota OpenRouter
 **Décisions (à deux) :**
 - Dylan : nœud, IA et prompt, dossier.
