@@ -1,0 +1,43 @@
+{
+  "numero": 18,
+  "nom": "Deux blocs du même producteur dans le même créneau",
+  "section": "3.2.5",
+  "etat_initial": {
+    "chaine": "genese+bloc1",
+    "file_d_attente": [],
+    "heure_du_noeud": 1796889617000
+  },
+  "etapes": [
+    {
+      "requete": {
+        "methode": "POST",
+        "chemin": "/api/v1/blocks",
+        "corps": {
+          "version": 1,
+          "index": 2,
+          "timestamp": 1796889615000,
+          "previous_hash": "446346ec2bfa6723db66023037d6bcf34efe3558c7ac7664da3698314796e6f7",
+          "producer": "noeud-a",
+          "messages": [
+            {
+              "version": 1,
+              "id": "9396f240a45a03598144da1212816c73c193fe89bde489e92b240d1eeccb1e14",
+              "node": "noeud-b",
+              "author": "maxens",
+              "timestamp": 1796889611000,
+              "content": "Un second bloc dans le même créneau.",
+              "signature": "EEK/ZbfwwkZ+FudbAjdN0wtIvLHmogfWqy7jaiVYctvHguqgGAa4buj4AbEKkmTK3OTZmkzRu/x1+hgHfLmaDA=="
+            }
+          ],
+          "messages_hash": "b4d99dbd5267d7ce4620b5d1737a3ce8de802d179c1aa90a721f41ace4370c7b",
+          "hash": "d1bc29ec2e42d4068f4ffa68a41c3afdea6592788a08158ef06b19657d63b5bd",
+          "signature": "WrkVTuQxSn8yNw7IvzMiu/Wo+1vBk1ugc1diLjSmzu9nb8deo3vJyJkQL8cKRXPSKmO2NjejYTAX+k98xwauCQ=="
+        }
+      },
+      "attendu": {
+        "statut": 422,
+        "error": "BAD_TIMESTAMP"
+      }
+    }
+  ]
+}

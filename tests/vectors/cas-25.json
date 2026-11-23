@@ -1,0 +1,20 @@
+{
+  "version_spec": "1.0",
+  "numero": 25,
+  "nom": "Envoi initial raté vers un pair joignable ensuite",
+  "section": "6.4.3",
+  "type": "scenario",
+  "etat_initial": {
+    "chaine": "genese",
+    "file_d_attente": [],
+    "pairs": "le pair P est éteint"
+  },
+  "etapes": [
+    "Créer un message depuis l’application du nœud testé (l’envoi à P échoue en 3 s).",
+    "Rallumer P.",
+    "Attendre un sondage (10 s) de P."
+  ],
+  "attendu": {
+    "chez_P": "le message est dans la file (GET /messages/pending) ou dans la chaîne de P, avec le même id"
+  }
+}

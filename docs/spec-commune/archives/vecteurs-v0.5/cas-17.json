@@ -1,0 +1,399 @@
+{
+  "numero": 17,
+  "nom": "41 messages en une minute depuis un même pair",
+  "section": "8.2",
+  "etat_initial": {
+    "chaine": "genese",
+    "file_d_attente": [],
+    "heure_du_noeud": 1796889604000
+  },
+  "etapes": [
+    {
+      "requete": {
+        "methode": "POST",
+        "chemin": "/api/v1/messages",
+        "corps": [
+          {
+            "version": 1,
+            "id": "19572f046ee0d6b0d755514775c849545f8835a9ebdeece67a9c83e9bcc3e881",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889554000,
+            "content": "Envoi en masse numéro 1",
+            "signature": "SAzSvTkwGQUF8PdenL+EBZBL2sG84iogXDV79G9JS03B9YxYQud3Ilzb1T3vSWqbcT55xKxXqtnwiE9tJoIICA=="
+          },
+          {
+            "version": 1,
+            "id": "453c75d0afed615e10b9bbe3863fef29f9ed57f25fbbc89f0af24cdf04e74ffc",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889555000,
+            "content": "Envoi en masse numéro 2",
+            "signature": "3TPpfgY3euk7bQslnwlzHI4VS2n6Io8xHA4xfA2o8lkgRnDOL934PjvDeLYKoMGg9o2Zrls5IJZHBV3UtH9+Cw=="
+          },
+          {
+            "version": 1,
+            "id": "f826c971112427d3b442c44ea91eb25ad139df34ce7677ce397db7901ebdccda",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889556000,
+            "content": "Envoi en masse numéro 3",
+            "signature": "byBnDgIQTICDWcc/+yMyz0Ge1469OoXzRf+ooij326PXt9qo6TFD83amKjBuMBkMfurlk5JzL8Aj+5YrPfM4CA=="
+          },
+          {
+            "version": 1,
+            "id": "ac784dd8d0b46f1264d6c064acfd1899ee4428059f76c9baa0bba0378d43cb38",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889557000,
+            "content": "Envoi en masse numéro 4",
+            "signature": "UV/fWgJKiSHTu80PLArx1JsbfUrVLQAsvZ/9bmt8hpWo+rQt1K47RI728D6PP60p7wx3ig/kmLJ9XKYS3KUxDQ=="
+          },
+          {
+            "version": 1,
+            "id": "93735dcfa3debc5f5ccaf69cd4b043e73012954b926dcdf5a86e35aa12a3db91",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889558000,
+            "content": "Envoi en masse numéro 5",
+            "signature": "fTiNscNUTiGB/Q+zhec6wKEn15hWhPJ3Cn0sWmPiQDRH82D5VN4vdZQLoinVT45o9lRo6PwIXfMWrZs58/vfDg=="
+          },
+          {
+            "version": 1,
+            "id": "893a1e2617ef0b7b7aa636e49f3272c30a2371287dc1ffebb71e8d72d6cd84fe",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889559000,
+            "content": "Envoi en masse numéro 6",
+            "signature": "Tp5cpMXALuszzR5d/lerFwdgDvY7PEtEJ3L8SV2hrPsPpi111SLqv7UDCv4gXXio2hsOUd4UKPRlzWq6+vrBCA=="
+          },
+          {
+            "version": 1,
+            "id": "eb51dab32f4814b13aeb7969457182a89d998acb6ba5f0f7b7b3ff20618dde5e",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889560000,
+            "content": "Envoi en masse numéro 7",
+            "signature": "JWqdGnMXR3IzJIAkwxrkJSH9cJs+68GEGuGcXaS5+kXFQNSE39hAeYwApP7WkUjPZSpimMfyQaR0cAwYiDCVBQ=="
+          },
+          {
+            "version": 1,
+            "id": "dda1e0e1511e9c2de3483de91530f5f5e046b4c8f16f17ee168bcb61d9e979ef",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889561000,
+            "content": "Envoi en masse numéro 8",
+            "signature": "4ApMTys7fZqB6MyFNuH8sfhuVILZbnGhB0LZPnag4gr/4TYysSU3QSsDnHN1Iaun7VuZueAFyqXmhdTFmZXVCw=="
+          },
+          {
+            "version": 1,
+            "id": "d5a288ead24ec6fd3a290452698b4422e479e28e7e663e9dad32b663963b9f73",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889562000,
+            "content": "Envoi en masse numéro 9",
+            "signature": "Qu8TdpbeOpRtmafYfbHjq0ELaolcMc/Qhl2XnFQOGst0FLzaE13Ab14wVx+UMPHOi9s6ZHP2jtqHw2//sqYeCQ=="
+          },
+          {
+            "version": 1,
+            "id": "7e3084cdb7cfb0710d73e7318fcf8e2c66b264df1d6b22dc681ca00f6dd53e42",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889563000,
+            "content": "Envoi en masse numéro 10",
+            "signature": "XthkxN9ofo7G92VQIe4BEVlZAKaazrycqrEdKUJl98s5KirQaVVbxutnJJvwpO5/2LnvRQzpbL+z6z5D9odYBQ=="
+          },
+          {
+            "version": 1,
+            "id": "a6922267c0cd777b7adde9516b1583ad74c28a4103a5f8f45a7b2a3deb4df234",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889564000,
+            "content": "Envoi en masse numéro 11",
+            "signature": "fpJEhOTN7/D2Ou5o/VcKSjzHFWtX19wSTMl/q6BZXkw5TG1F/1rjozy5rLgax6PUJnn+k789Q81eQHFJ6lDnDg=="
+          },
+          {
+            "version": 1,
+            "id": "318a98d972e901542c59e4cc1155aa67c40be83f307ff25970d34c769f746d23",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889565000,
+            "content": "Envoi en masse numéro 12",
+            "signature": "wT/XBV5MlKbrc6GP/x7PJLbIA4v49MAAEaV1gmL3mvBE2lMq3aia/2SP91a6I8LvHiYshHzIxklwTtcoWe1bAA=="
+          },
+          {
+            "version": 1,
+            "id": "1bb90c6e1476ae18b75c465bdf68234fec6f4af1cd1836a491b2dd1e00993756",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889566000,
+            "content": "Envoi en masse numéro 13",
+            "signature": "DAnMh/6QqWQ6AyU2rT50YBO1IJ8e9bgN78MD83LNV8nocEpr9HncDCXeZk3wgzRugcDONufc1CIB/Lk6FHarCA=="
+          },
+          {
+            "version": 1,
+            "id": "3f5b60c90c579d8802e7e985f17d7691923f5c885eb7518e310144da568e4391",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889567000,
+            "content": "Envoi en masse numéro 14",
+            "signature": "7lsooOffeH6X3qd/akTmovh/NBeaOSRnpeigug6oID5zNKZcOt56gGjd4j4Jc+xWp0KtfMWaTwyNjoB+RBd/BQ=="
+          },
+          {
+            "version": 1,
+            "id": "cce55a69bce1c5436ee39f03266c599f3a18bf2f01ca7f4e7dc9182cc3c650d4",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889568000,
+            "content": "Envoi en masse numéro 15",
+            "signature": "yR4KFNNYkROCjmFqWuj7ea8IkfxeMHXTT+mTaO8DOj9nCnLaQxb0UeYoweUK15Hk3X3TtX9VQGFRd08j4dffAA=="
+          },
+          {
+            "version": 1,
+            "id": "8bde5247f49ffc55a0e0fc800bf0df8f15357656c9f394de88d530c52d5d1ba3",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889569000,
+            "content": "Envoi en masse numéro 16",
+            "signature": "eEIquxKhwGqLjiffPRVk9wP+4bSDj/oCcCSlFirIkuchChUfDhVc3MPRrRx+YWAzylA/MI2aS4y1gDvpAZbABw=="
+          },
+          {
+            "version": 1,
+            "id": "6daf14b1fcffb8c11a029b2fd2d2bfdf8569718d933e4da73c2daf5cf122d295",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889570000,
+            "content": "Envoi en masse numéro 17",
+            "signature": "emPU6jwU2rbLGwqnrU4elZat37kZO5xjkLr9zzeTtaomA+udJNjSOlLTYpFRneFV/eFQ39MZabze6thbUor2BA=="
+          },
+          {
+            "version": 1,
+            "id": "25d681dcbf6518213ac3a0e257bdd79c762345a30e72fac7f4833b903fdf2067",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889571000,
+            "content": "Envoi en masse numéro 18",
+            "signature": "J4oSRkRHt42MH8cwWWlZPgZVajfNRtOGbPzN97kXeORCm+V5fAu5q8ogkf1FhwNcXjafiFTXrH66Bx2xZlnkAQ=="
+          },
+          {
+            "version": 1,
+            "id": "d2bde84282edc5b41d4b513ca9d4f7ae83314b12f2df16250cddf2719395bd4a",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889572000,
+            "content": "Envoi en masse numéro 19",
+            "signature": "BEe0hA4iSH0syLP6tc7w0xdjzPC0iKXhYR/4jt5ZX1jHaG134RfaldosYL0nQUDxUoddeircz+m9vxQf9zC5Dw=="
+          },
+          {
+            "version": 1,
+            "id": "0085ca75df2087eed91c2fa9fe8eeaf77d5c30411825d70b0c59d91bcaf914f0",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889573000,
+            "content": "Envoi en masse numéro 20",
+            "signature": "GWAhHc/nTVkipOO/FlR2rO4ZWNG4IycvupFjABtW7ZaoJL8QYqGxZn77c4xZMJZA8D2ObQC4q3odI+Cye7qiBA=="
+          },
+          {
+            "version": 1,
+            "id": "b55c112f283458fff03f9adcf13ca4d1f1265c25cb2235d6952d9719124b6b15",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889574000,
+            "content": "Envoi en masse numéro 21",
+            "signature": "f5IWSITgTDs2925pltxXvBFbVOnMslJhzc5GuOtZJsVVemJTnHt/pMzJQsH9x5uxFN9/0cJeK+Nk4d0kGFj5AA=="
+          },
+          {
+            "version": 1,
+            "id": "4f5639632dca133d108107695789b14da2eb26309903405fbdf07d21090214c1",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889575000,
+            "content": "Envoi en masse numéro 22",
+            "signature": "yZfLiUcsoAben5H5L98U0FdqYFOoWkeSuFT2KUDU6fxgLwujc9g5MUCQLTe+mJfdebpNyKfiTtEjS+CSWuMnDQ=="
+          },
+          {
+            "version": 1,
+            "id": "cf184df441de6e2a20f4336ceda1d52f9b6331bb8a80e34e66659c6700eabb51",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889576000,
+            "content": "Envoi en masse numéro 23",
+            "signature": "LYTzbbLASe6aJ65asIoFReUAL2k6rU1VOPDit3tX//opPDUsqdQwXRxhWxHaENDdD+NG4epReTJsqR0PSbhuAg=="
+          },
+          {
+            "version": 1,
+            "id": "d547863ef2b000222c6b5761eb90f0fe80c1c5740691257d382ada95694fd842",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889577000,
+            "content": "Envoi en masse numéro 24",
+            "signature": "nnjugWyUWCF+6DzZ3mQI1MQu5b4DJlYnHvcRNhMuMsKC59Rr7+1l1zUQGenL2w/6krNvxRQIt6RXl9+7EHgiCA=="
+          },
+          {
+            "version": 1,
+            "id": "5353410a70a5e74affccd33d036432b97859dbee59a582474fd6280777a90529",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889578000,
+            "content": "Envoi en masse numéro 25",
+            "signature": "00DZqpO9Kv1ZfYduu2QyyQOb4iZulvknCHKrFwEbWSoDP057FofD8zZLvFoFT1bfAQLlH+R9ZOcspTF8biGhAw=="
+          },
+          {
+            "version": 1,
+            "id": "2e5cbbe4d0b84376fab64ba0368d6c70d8b2a7283c3f68c8efc31bea60217242",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889579000,
+            "content": "Envoi en masse numéro 26",
+            "signature": "G0B2GiwWOF2ynpSFqjErsEEW9Uj5fCVspWwT3GJn33GL9DawTAUEZM/ORDuQLvtZimWvTf+zOeuVkBcXBZRhCA=="
+          },
+          {
+            "version": 1,
+            "id": "0f394a5ef5a26592fec3029409bef3b21836e3b75fb21f08c540f3ed630487b7",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889580000,
+            "content": "Envoi en masse numéro 27",
+            "signature": "5mh8HXz4wY+w3SpStHCFrvqSrecDiPOgJvwS2FGh9coNCLqdvUFN9fbwIV5ZGKcw83Ong6mcs5EQ6ImHqwMBCg=="
+          },
+          {
+            "version": 1,
+            "id": "721eca5a786fcde76c28d5ba167ed47be78dcc585df1ad0637e294d867f1215d",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889581000,
+            "content": "Envoi en masse numéro 28",
+            "signature": "feoUdK23UY184NiJEpzqbZ/ic+ughzAF+nbgRlxJkSSIrnWNjHD0Rrbfcnvy0FIhU8A/RwtjrMIS4Ir90pp3Bg=="
+          },
+          {
+            "version": 1,
+            "id": "736de0befaefc4351bcb74d55f32864786d0c4f269f91e0ae0d21c9cefef4823",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889582000,
+            "content": "Envoi en masse numéro 29",
+            "signature": "D+m6MQpEwLisyjmA1G9r37eXNDtLwUTHMSVzUccQvXwY14hFWWw8vwecitzi+ck0xGU60XjLFybHeNNBur3pBA=="
+          },
+          {
+            "version": 1,
+            "id": "8e869e9fe905806d4d759aca113b780ede36df757f2f4fba477f0ddf4c4ed83f",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889583000,
+            "content": "Envoi en masse numéro 30",
+            "signature": "Qu9pDJm4k1t9P6B/htR43sb3lGVCGpQgm33GghPES+VszgtOvANANZLMPntm+GgZ46R7xOgCRm9XGOgL4wt9DQ=="
+          },
+          {
+            "version": 1,
+            "id": "790e039de2a7ab2478d9e1c59f9b4d519b5548d36f056a44f4b3615dfd243f7a",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889584000,
+            "content": "Envoi en masse numéro 31",
+            "signature": "Dg30f3NJZx6dBNL7hoc216Zb1+HFEeS7vI6fVBZ0kawMrbohJrEmoY9/lqen18X8fZSBWj10qBIf8MRHc8XjAw=="
+          },
+          {
+            "version": 1,
+            "id": "fffa0c23e6fa6b88cdef1bd0a72177c895b1497c804776bbf0832a73b1687d24",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889585000,
+            "content": "Envoi en masse numéro 32",
+            "signature": "/UMHJ9Mi0Af9SCnoSxckVpQXh9NWhQFPNgZjSxWAcL7kIrzfrSqBmDupcQnQC5JJu5HJyOObs1dVfFrwfdghDQ=="
+          },
+          {
+            "version": 1,
+            "id": "ffc0960978dd89c4664cc4113c59088a17989516289d6f6e7a4e27a62254df98",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889586000,
+            "content": "Envoi en masse numéro 33",
+            "signature": "YRYPCTD+mdT5OdZ2P1RrFGEQFKwj9DJNdO3fYKw/nQjg88xriAMZD042xlPV+CHIjTBugY7wdn5jVFvM+13dCg=="
+          },
+          {
+            "version": 1,
+            "id": "8e921ca3acc8462e3e479ac085606be6584bac1aa7e856f49d578daa4a5ef392",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889587000,
+            "content": "Envoi en masse numéro 34",
+            "signature": "6CE3i/s91QqlYqPHXtBKw4UeOBJgCHtkY88zax47mAw9z/fmeVJVG018oGHFxvYNl+3YNHGlCdLbvWQYpV5dAA=="
+          },
+          {
+            "version": 1,
+            "id": "8f88233cacdc88f98426a511ee0df6f2b1f7c45d45347fe99b5eeb68e9553da4",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889588000,
+            "content": "Envoi en masse numéro 35",
+            "signature": "CAf5ugDQr3jnFHGh3v0tq5vCRQKS86mB4+uTJz5HbSWm5r1uVhjuRtySq1WplqWpDLfqTdqCelbWLuBpQlD3CA=="
+          },
+          {
+            "version": 1,
+            "id": "d9727db82ae025a8edbb7ae51a04e7b51b37bed48e32d78dd1686a026499b25a",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889589000,
+            "content": "Envoi en masse numéro 36",
+            "signature": "Fa2zujYqxvmBUYxnJxNwzu+qmV8/gu2gelY+uVs4qz0d2ozu3dsafbrebSrjrpsWmID10mzCSOc1MhJsOI6qDw=="
+          },
+          {
+            "version": 1,
+            "id": "9836d562918442370cc76177b4c479f17112d43b023d5ca222795f76a1f75540",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889590000,
+            "content": "Envoi en masse numéro 37",
+            "signature": "pADwX6eyKLN5EhUh+22KYkVSPywW86hvyRvClGswiLrAvVxtITWVj/l2c9iaKe4C0tQXRTGwTYSP0ZP9f0P8CQ=="
+          },
+          {
+            "version": 1,
+            "id": "850d04449cec76bcfc7b1ced9cdf33908a192fdeb13f22dfd7c41a4244ccdd9a",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889591000,
+            "content": "Envoi en masse numéro 38",
+            "signature": "7WJj9oz6euCB30vRL+qFrOuIHpcfDPJa6JjsjwDGGQqadASr3ptmY3CmJcG8wpSfhdydZDd9Ji3JbtE++dFOBQ=="
+          },
+          {
+            "version": 1,
+            "id": "e503194536dc1283da9e36206071955a4423f96ea531dad5850a97947e534f79",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889592000,
+            "content": "Envoi en masse numéro 39",
+            "signature": "9fsc4ycFq09hwgfbVILSIIcESAJdZ54g/s7TiMQ1lpG3jR9uVkh6Js9cl46N2p195gRF0A/CPvrNEFImPanYDA=="
+          },
+          {
+            "version": 1,
+            "id": "13185700ea2f2c88db26154cffedc48760ca10405ce6774ca2365b7c2b09170a",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889593000,
+            "content": "Envoi en masse numéro 40",
+            "signature": "a4t9PFboWzjvouKlgVZ4vOsng/a7GkBrTExsQuKzoVgoysSSBoNQkBA0fZhNO1nohPCITMOrwFTP5c7bzQRAAg=="
+          },
+          {
+            "version": 1,
+            "id": "ad89250eeb2676cec8773de4a5e551b7ef2e2909f45fd2db48e57537bc7f7a30",
+            "node": "noeud-a",
+            "author": "bot",
+            "timestamp": 1796889594000,
+            "content": "Envoi en masse numéro 41",
+            "signature": "+yfVeNQghldHCFoQH0zYi5ySujKmumUwkEk4oNye17AyTaqJ1tQI2pT2DxlNFnnWqL6l64jX1ugovMnaRpTGDA=="
+          }
+        ]
+      },
+      "attendu": {
+        "note": "envoyer les 41 messages un par un, dans l'ordre, en moins d'une minute",
+        "premiers_40": 201,
+        "quarante_et_unieme": {
+          "statut": 429,
+          "error": "RATE_LIMIT",
+          "en_tete": "Retry-After"
+        }
+      }
+    }
+  ],
+  "type": "requetes_multiples"
+}

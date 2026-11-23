@@ -1,0 +1,38 @@
+{
+  "numero": 19,
+  "nom": "Message en Unicode (1 emoji = 1 point de code)",
+  "section": "2.1",
+  "etat_initial": {
+    "chaine": "genese",
+    "file_d_attente": [],
+    "heure_du_noeud": 1796889604000
+  },
+  "etapes": [
+    {
+      "requete": {
+        "methode": "POST",
+        "chemin": "/api/v1/messages",
+        "corps": {
+          "version": 1,
+          "id": "c6a752558589ad871384fbee9a99e1c72a21ed8ce2d6bed544be3ca1d514270a",
+          "node": "noeud-a",
+          "author": "dylan",
+          "timestamp": 1796889603000,
+          "content": "Café à Béziers 🎨",
+          "signature": "3nDU5HY/JHxuY+X6MwSqhCuHCewj3MYS7S9+RC59Ag7ZKEWrwTp6v4t+RB5sX/aifiFW64MKsep7hN/gXOMADg=="
+        }
+      },
+      "attendu": {
+        "statut": 201,
+        "corps": {
+          "status": "accepted"
+        }
+      }
+    }
+  ],
+  "verification_id": {
+    "texte_canonique": "v1|message|noeud-a|dylan|1796889603000|4c655b8a9b10362062bb9c4c3956b401ce03ebedbe07b93b9ec6e1a3da2b36cb",
+    "id": "c6a752558589ad871384fbee9a99e1c72a21ed8ce2d6bed544be3ca1d514270a",
+    "points_de_code": 16
+  }
+}

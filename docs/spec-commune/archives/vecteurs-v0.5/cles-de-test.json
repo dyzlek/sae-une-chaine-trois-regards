@@ -1,0 +1,17 @@
+{
+  "avertissement": "CLÉS DE TEST UNIQUEMENT (celles de la spec, section 10.1). Ne jamais les utiliser en vrai.",
+  "noeuds": {
+    "noeud-a": {
+      "graine_privee_hex": "52d11afd6b164b4590697e3a3cddcd4000accbbacd512003c59a57354931561e",
+      "cle_publique_base64": "5bTCJXZw1DH2Dt/gc6q7I3azTjFG1HvkqFYZtrkYa4c="
+    },
+    "noeud-b": {
+      "graine_privee_hex": "caf99501213a2a0cdaf85d6cf79da4a9aa24bd2dc289b16b446f75142a6a8765",
+      "cle_publique_base64": "YEC7uOIARLnYMok+dtOkwb7wwfECNHtipPzsIFqQM0g="
+    },
+    "noeud-c": {
+      "graine_privee_hex": "fcd9b53d45c04fd37dbd177397e930a716684de0794e892a8909dc2b6f04f8a4",
+      "cle_publique_base64": "BE9363BJ5YM3PQ6iQI9srAtza72zGwqu09g9gb2614U="
+    }
+  }
+}

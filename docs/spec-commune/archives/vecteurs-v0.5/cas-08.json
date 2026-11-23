@@ -1,0 +1,31 @@
+{
+  "numero": 8,
+  "nom": "timestamp avec 2 minutes de retard",
+  "section": "3.1.6",
+  "etat_initial": {
+    "chaine": "genese",
+    "file_d_attente": [],
+    "heure_du_noeud": 1796889604000
+  },
+  "etapes": [
+    {
+      "requete": {
+        "methode": "POST",
+        "chemin": "/api/v1/messages",
+        "corps": {
+          "version": 1,
+          "id": "173a45a1d04a1d2e8d4d0048715d0041a2fce902ca9a0a4cc2ab02b439c04e12",
+          "node": "noeud-a",
+          "author": "rahim",
+          "timestamp": 1796889484000,
+          "content": "Il pleut sur Béziers ce matin.",
+          "signature": "FTH7aB1a7L033eeKTnp3jsPtbV8Fp1aEls/5MlITZKwrtsOlwke9qvNaCWN6ylr1ss14E6ocsCKMhUZ1HWzZCA=="
+        }
+      },
+      "attendu": {
+        "statut": 422,
+        "error": "BAD_TIMESTAMP"
+      }
+    }
+  ]
+}

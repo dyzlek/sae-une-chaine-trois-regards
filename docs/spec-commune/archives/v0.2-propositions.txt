@@ -1,0 +1,370 @@
+SPEC COMMUNE - UNE CHAÎNE, TROIS REGARDS
+========================================
+Version : 0.2 (brouillon, à valider à six)
+Date : 23/11/2026
+Les six : Dylan Belledent, Nicolas Rapuzzi--Pisarczyk (binôme 3) · Maxens Sevilla, Rahim Tamhaev (binôme 2) · Mouhamed Al Amine Bah, Hugo Delpuech (binôme 1)
+Échéance de rendu : jeudi 26/11/2026, 12h30.
+
+Cette version 0.2 reprend la proposition du binôme 2 (tours de rôle, 1 à 20 messages par bloc, signature par le nœud) et corrige les trous relevés à la relecture (JSON canonique, synchronisation en cas de fourche, erreurs, exemples réels).
+Les valeurs des exemples (hash, signatures) sont VRAIES : elles ont été calculées avec Node.js et recoupées avec Python. Les fichiers complets sont dans docs/spec-commune/exemples/.
+
+
+GLOSSAIRE (chaque terme est défini une fois et utilisé partout de la même façon)
+--------------------------------------------------------------------------------
+- Nœud : le programme d'un binôme. Il y en a trois : A (binôme 1), B (binôme 2), C (binôme 3).
+- Message : un texte envoyé par une personne via l'application d'un binôme, horodaté et signé par le nœud qui l'a reçu.
+- Messages en attente : la liste, propre à chaque nœud, des messages valides qu'il connaît et qui ne sont dans aucun bloc de sa chaîne.
+- Bloc : une entrée de la chaîne qui contient de 1 à 20 messages (sauf le bloc de genèse).
+- Producteur : le nœud qui a créé et signé un bloc.
+- Chaîne : la liste ordonnée des blocs, du bloc de genèse (index 0) au dernier bloc.
+- Hauteur : l'index du dernier bloc de la chaîne d'un nœud.
+- Pair : un autre nœud.
+- Point de code : un caractère Unicode (un emoji vaut 1 point de code).
+- JSON canonique : voir section « Conventions techniques ».
+
+
+CONVENTIONS TECHNIQUES (communes à tout le document)
+----------------------------------------------------
+- Hash : SHA-256 appliqué aux octets UTF-8 d'un texte. Résultat écrit en hexadécimal MINUSCULE, 64 caractères.
+- Signature : Ed25519 « pur » (RFC 8032). Clé publique : 32 octets, écrits en 64 caractères hexadécimaux minuscules. Signature : 64 octets, écrits en 128 caractères hexadécimaux minuscules.
+- Ce qui est signé : la chaîne hexadécimale du hash (les 64 caractères ASCII), pas les octets bruts.
+- Toute valeur hexadécimale est écrite en minuscules, partout.
+- Entiers uniquement : aucun nombre à virgule, aucun null, aucun booléen dans les objets hachés.
+- Horodatage : entier, millisecondes depuis le 01/01/1970 UTC.
+
+JSON canonique (utilisé avant chaque hash) :
+1. Les clés de chaque objet sont triées par ordre alphabétique, y compris dans les objets imbriqués (le tri est récursif). Les tableaux gardent leur ordre.
+2. Aucun espace ni retour à la ligne en dehors des chaînes de caractères.
+3. Encodage UTF-8. Les caractères non ASCII sont écrits tels quels (é, pas \u00e9). Jamais d'échappement \uXXXX sauf obligation.
+4. Échappements obligatoires seulement : \" pour le guillemet, \\ pour l'antislash, \b \t \n \f \r pour les contrôles correspondants, et \u00XX (minuscules) pour les autres caractères de contrôle U+0000 à U+001F.
+5. Les nombres sont écrits comme des entiers en base 10 (sans signe +, sans zéros inutiles, sans exposant).
+Attention : en Python il faut json.dumps(obj, sort_keys=True, separators=(',', ':'), ensure_ascii=False). Par défaut, Python écrit "Caf\u00e9" alors que JavaScript écrit "Café" : les hash seraient différents.
+
+Texte des messages (champ contenu) :
+- compté en points de code Unicode, de 1 à 280 ;
+- en forme de normalisation NFC ;
+- sans espace ni retour à la ligne au début ou à la fin (les caractères U+0020, U+0009, U+000A, U+000D) : le contenu stocké est déjà « trimé » ;
+- sans caractère de contrôle (U+0000 à U+001F), sauf le retour à la ligne U+000A à l'intérieur du texte.
+
+
+1. LE PÉRIMÈTRE
+===============
+
+Commun aux trois nœuds :
+- les conventions techniques ci-dessus ;
+- le format des messages et des blocs ;
+- les règles de validité ;
+- les clés publiques des trois nœuds et la façon de signer ;
+- les tours de rôle pour produire les blocs ;
+- la règle de consensus ;
+- les échanges entre nœuds (routes, formats, erreurs) ;
+- le bloc de genèse.
+
+Propre à chaque binôme :
+- le langage et la base de données ;
+- l'application web et l'œuvre ;
+- la direction artistique ;
+- l'appel à l'IA : le prompt, le modèle, les valeurs extraites ;
+- les règles de modération à l'entrée de son nœud.
+
+Pourquoi : la chaîne ne stocke que des messages bruts ; tout ce qui interprète les messages (IA, œuvre) reste libre, sans quoi trois binômes devraient se mettre d'accord sur la même œuvre.
+Écarté : mettre les valeurs de l'IA dans la chaîne (une IA ne répond pas deux fois pareil, et un nœud ne peut pas vérifier la réponse d'un autre).
+
+
+2. LES MESSAGES ET LES BLOCS
+============================
+
+MESSAGE
+Champs : contenu, id, noeud, signature, timestamp. Aucun autre champ. Pas de pseudo : on n'ajoute pas d'identité d'auteur, car un bloc ne s'efface pas.
+- contenu : voir « Texte des messages ».
+- noeud : "A", "B" ou "C", le nœud qui a reçu le message et qui le signe.
+- timestamp : moment de réception par ce nœud (entier, ms).
+- id : SHA-256 du JSON canonique de {contenu, noeud, timestamp}.
+- signature : signature Ed25519 de l'id par la clé du nœud indiqué dans noeud.
+
+BLOC
+Champs : hash, index, messages, previous_hash, producteur, signature, timestamp. Aucun autre champ.
+- index : entier, 0 pour la genèse, puis +1 à chaque bloc.
+- messages : tableau de 1 à 20 messages complets (avec id et signature), triés par timestamp croissant puis par id croissant (ordre alphabétique des id).
+- previous_hash : le hash du bloc précédent.
+- producteur : "A", "B" ou "C".
+- timestamp : moment de création du bloc (entier, ms).
+- hash : SHA-256 du JSON canonique de {index, messages, previous_hash, producteur, timestamp}. Le hash et la signature ne sont pas inclus dans ce calcul.
+- signature : signature Ed25519 du hash par la clé du producteur.
+
+BLOC DE GENÈSE (index 0)
+{"hash":"3e26ac44b9132dcf33779b4e1d1faa85b45e19150d573a827e5367e4fb384b44","index":0,"messages":[],"previous_hash":"0000000000000000000000000000000000000000000000000000000000000000","producteur":"-","signature":"","timestamp":1796601600000}
+- Le timestamp 1796601600000 correspond au 07/12/2026 à 00:00:00 UTC.
+- Son hash suit la règle normale. Il est écrit en dur dans les trois nœuds.
+- Il n'est exempté que de : la signature, le nombre de messages (0), le producteur ("-") et le délai.
+
+EXEMPLE CONCRET : un message
+JSON canonique du message avant hash (id) :
+{"contenu":"Café à Béziers 🎨","noeud":"B","timestamp":1796601605000}
+Message complet :
+{"contenu":"Café à Béziers 🎨","id":"4ebecca60ff73c5d122c8513770dea4902cdb26b3e55f16695f226c5f6939263","noeud":"B","signature":"1ad4002c176bcb1b1f41aa7e3575d1314d069e22ff49882a9548ab195dd5dc2369cb62d49709787a457a8fa1fba85aa34f032592ffb05b29cf59f1a06280e80f","timestamp":1796601605000}
+
+EXEMPLE CONCRET : un bloc (index 1, produit par A, deux messages)
+{"hash":"98045155e212142051a54630bc4a690abca868e99d2e37acd3ee165fe29e558f","index":1,"messages":[{"contenu":"Bonjour","id":"0003d1e47d91316c9f72492d27b03dfeb269f04d27ebbcfde17cbc301341f0d3","noeud":"A","signature":"057ac280243ab1f57258bb4a74426ac8becdcf672e49e46de112206534cff5350b57f6f1b4dd9173f3c7389d6a49f1a64163ceb709b8f46551eed15e9e462603","timestamp":1796601602000},{"contenu":"Café à Béziers 🎨","id":"4ebecca60ff73c5d122c8513770dea4902cdb26b3e55f16695f226c5f6939263","noeud":"B","signature":"1ad4002c176bcb1b1f41aa7e3575d1314d069e22ff49882a9548ab195dd5dc2369cb62d49709787a457a8fa1fba85aa34f032592ffb05b29cf59f1a06280e80f","timestamp":1796601605000}],"previous_hash":"3e26ac44b9132dcf33779b4e1d1faa85b45e19150d573a827e5367e4fb384b44","producteur":"A","signature":"42476d3177681133ede23ccaf2b9f5738d306a5715646580519a7db57e9747fadd0df6a9fdfea09338d64857d637c12a4083a66921d3a1c3b5ddfda7a1e42108","timestamp":1796601610000}
+
+Clés publiques de TEST (les vraies clés des binômes seront publiées ici avant le 07/12/2026) :
+- A : 0388fb9f75a3e78cb457fffccf4ec582637b93011be0b49b8bf4e3ec7141b9e7
+- B : 82c443ca4c72b9da3a690f6456a1fc6a596e2038a7137a35ed517487dbed3b6b
+- C : 815c35b358a6acec4291e6a2f86c61420eb2dc2e1b46a6d6d3c19d41f5ba1e91
+Les clés privées de test sont dans exemples/cles-de-test.json et ne servent QU'aux tests. Les vraies clés privées ne vont jamais dans Git.
+
+Pourquoi : 280 caractères restent courts et faciles à traiter par une IA ; 1 à 20 messages par bloc évitent un bloc par message avec des tours de 10 secondes ; SHA-256 et Ed25519 existent dans tous les langages ; sans pseudo, rien de personnel n'est gravé dans une chaîne qui ne s'efface pas.
+Écarté : un message par bloc (trop de blocs avec des tours) ; une signature par chaque auteur (il faudrait distribuer des clés à tous les utilisateurs) ; MD5 et SHA-1 (obsolètes) ; dates ISO 8601 (formats ambigus).
+
+
+3. LA VALIDITÉ
+==============
+
+MESSAGE VALIDE
+1. Exactement les cinq champs, avec les bons types (champs_invalides).
+2. noeud est "A", "B" ou "C" (noeud_inconnu).
+3. contenu respecte les règles du texte (contenu_invalide).
+4. id égale le hash recalculé (id_incorrect).
+5. signature valide pour la clé publique du nœud indiqué (signature_invalide).
+À la réception d'un NOUVEAU message seulement : timestamp pas plus de 60 secondes dans le futur (horodatage_futur), et id inconnu (doublon).
+
+BLOC VALIDE, par rapport au bloc précédent
+1. Exactement les sept champs, avec les bons types (champs_invalides).
+2. index = index précédent + 1 (index_incorrect).
+3. previous_hash = hash du bloc précédent (chainage_incorrect).
+4. hash = hash recalculé (hash_incorrect).
+5. De 1 à 20 messages, chacun valide, triés comme indiqué (messages_invalides).
+6. producteur est "A", "B" ou "C" et respecte les tours de rôle (producteur_invalide, voir section 4).
+7. timestamp ≥ timestamp précédent + 10 000 ms (delai_insuffisant).
+8. signature valide pour la clé publique du producteur (signature_invalide).
+À la réception d'un NOUVEAU bloc seulement : timestamp pas plus de 60 secondes dans le futur (horodatage_futur).
+
+CHAÎNE VALIDE
+- Le bloc 0 est exactement la genèse commune.
+- Les index vont de 0 à n sans trou et chaque bloc est valide par rapport à son précédent.
+- Tous les id de messages sont uniques dans toute la chaîne (un message n'apparaît qu'une fois).
+Les règles « dans le futur » ne s'appliquent jamais à la revalidation d'une chaîne téléchargée. Elles évitent seulement qu'un nœud accepte du contenu d'une horloge déréglée. Les trois PC doivent avoir leur horloge synchronisée (l'heure automatique de Windows suffit).
+
+CE QUI N'EST PAS UNE RÈGLE DE VALIDITÉ : la modération (section 8) et les limites de débit. Un bloc ne peut jamais être refusé pour ces raisons.
+
+QUAND UN NŒUD REÇOIT QUELQUE CHOSE D'INVALIDE : il le rejette, ne le retransmet pas, répond par une erreur avec le code de la règle violée (entre parenthèses ci-dessus) et l'écrit dans ses logs.
+
+Pourquoi : chaque règle est vérifiable seule par n'importe quel nœud, sans faire confiance à l'envoyeur ; les codes précis rendent les tests comparables entre binômes.
+
+
+4. L'ÉCRITURE
+=============
+
+QUI ÉCRIT UN MESSAGE
+- Toute personne, depuis l'application de n'importe quel binôme. L'application envoie le texte à SON propre nœud (route POST /messages).
+- Le nœud fixe lui-même noeud, timestamp, id et signature, l'ajoute à ses messages en attente et le transmet aux deux autres nœuds (route POST /relais/messages).
+- Un nœud sait de qui vient un message en lisant le champ noeud et en vérifiant la signature avec la clé publique de ce nœud.
+
+QUI AJOUTE UN BLOC : LES TOURS DE RÔLE
+- Un nœud produit un bloc seulement à son tour. L'ordre est A, puis B, puis C, puis A, etc.
+- Le producteur attendu pour le bloc n est le nœud qui suit le producteur du bloc n-1. Pour le bloc 1 (après la genèse), c'est A.
+- Il produit quand : (1) il a au moins un message en attente, et (2) son horloge indique au moins 10 secondes après le timestamp du bloc précédent. Il prend jusqu'à 20 messages en attente, les plus anciens d'abord (timestamp, puis id). Il n'y a jamais de bloc vide.
+- Un nœud éteint est sauté : si le producteur attendu n'a rien produit 30 secondes après le timestamp du bloc précédent, et qu'il y a des messages en attente, le nœud suivant dans l'ordre peut produire à sa place.
+- Règle de validité qui s'en déduit : un bloc est accepté si son producteur est le producteur attendu ou, uniquement quand le délai depuis le bloc précédent est d'au moins 30 000 ms, le nœud qui suit le producteur attendu. Entre 10 et 30 secondes, seul le producteur attendu est accepté.
+- Un nœud ne produit jamais deux blocs de suite. Donc un nœud seul ne peut pas continuer la chaîne dans son coin : il faut au moins 2 nœuds allumés pour qu'elle avance. Si un seul nœud est allumé, les messages restent en attente.
+- Après avoir créé un bloc, le producteur l'ajoute à sa chaîne, retire ses messages de la liste en attente et l'envoie aux deux autres (POST /blocks).
+
+Pourquoi : pas de minage, donc aucun nœud n'est avantagé par une machine plus puissante ; l'ordre fixe évite presque toutes les fourches ; la règle « pas deux de suite » donne une sécurité vérifiable par tous.
+Écarté : preuve de travail (inutilement lourde) ; un nœud maître unique (s'il tombe, tout s'arrête) ; des tours basés sur l'horloge seule (il faudrait des horloges parfaitement synchronisées).
+
+
+5. L'ACCORD ENTRE LES NŒUDS
+===========================
+
+RÈGLE UNIQUE : la chaîne valide la plus longue gagne. À longueur égale, on garde celle dont le DERNIER bloc a le plus petit hash (ordre alphabétique des 64 caractères).
+
+Quand une fourche peut apparaître : un nœud saute le tour d'un voisin qui est en réalité seulement lent. Les deux blocs sont valides et ont le même index.
+Exemple (fichier fourche.json) : A saute le tour de C et produit le bloc 3 ; C se réveille et produit aussi un bloc 3. Les deux sont valides. Le bloc de C a le hash 01d18305…, celui de A a le hash 5d8449dc…. Le plus petit est celui de C : A doit abandonner son bloc 3 et adopter celui de C.
+
+QUAND UN NŒUD ADOPTE UNE AUTRE CHAÎNE
+- Il la valide en entier (section 3), puis remplace la sienne.
+- Les messages de ses blocs abandonnés qui ne sont pas dans la nouvelle chaîne retournent dans ses messages en attente. Les messages en attente qui sont dans la nouvelle chaîne en sortent.
+- Il n'y a pas de finalité : un bloc récent peut être remplacé. Les applications ne doivent pas considérer un message comme définitif tant que des blocs ne se sont pas ajoutés après lui, et l'œuvre doit trier par index de bloc (et position dans le bloc), jamais par timestamp.
+
+Pourquoi : la règle est la même pour tous, sans élection ; le départage par le hash garantit la convergence même si plus aucun bloc n'est produit.
+Écarté : « le premier reçu gagne » (les nœuds ne reviennent jamais à la même chaîne) ; une élection de chef de type Raft (trop complexe pour la S50).
+
+
+6. LES ÉCHANGES
+===============
+
+RÉSEAU : HTTP et JSON (UTF-8) entre les nœuds, sur le réseau Tailscale, port 8080.
+DÉCOUVERTE : liste fixe des deux pairs dans la configuration de chaque nœud (nom Tailscale sae-prenom ou adresse 100.x.y.z). Pas de découverte automatique.
+Les corps de requête sont limités : 4 Ko pour un message, 100 Ko pour un bloc (413 trop_gros au-delà).
+
+Format de toute erreur : {"erreur":"<code>","detail":"<raison>"}
+Le détail est la raison précise de la section 3 quand elle existe.
+
+ROUTES
+
+a) GET /status
+   Réponse 200 : {"noeud":"A","spec":"0.2","hauteur":1,"hash":"<hash du dernier bloc>","en_attente":0}
+   Erreur : 503 indisponible (le nœud démarre ou se synchronise).
+
+b) GET /blocks?from=<index>&limit=<n>
+   from (défaut 0), limit (défaut 100, maximum 100 : une valeur plus grande est ramenée à 100).
+   Réponse 200 : tableau de blocs à partir de l'index demandé, dans l'ordre. Vide si from est plus grand que la hauteur.
+   Erreurs : 400 parametre_invalide (from ou limit non entier ou négatif) ; 503 indisponible.
+
+c) POST /messages   (application -> SON nœud)
+   Envoie : {"contenu":"Bonjour"}
+   Réponse 201 : {"id":"<id>","statut":"en_attente"}
+   Erreurs : 400 message_invalide (detail contenu_invalide, ou message_refuse si la modération du nœud refuse) ; 413 trop_gros ; 429 trop_de_requetes ; 503 indisponible.
+
+d) POST /relais/messages   (nœud -> nœud)
+   Envoie : un message complet et signé.
+   Réponse 200 : {"statut":"ajoute"} ou {"statut":"deja_connu"}
+   Erreurs : 400 message_invalide (avec la raison) ; 413 trop_gros ; 429 trop_de_requetes ; 503 indisponible.
+
+e) POST /blocks   (nœud -> nœud, uniquement envoyé par le producteur)
+   Envoie : un bloc complet.
+   Réponse 200 : {"statut":"ajoute"} ou {"statut":"deja_connu"} (le même bloc est déjà à cet index).
+   Erreurs :
+   - 400 bloc_invalide (avec la raison) ;
+   - 409 fourche : un autre bloc existe déjà à cet index, ou previous_hash ne correspond pas à notre dernier bloc ; la réponse contient {"hauteur":n,"hash":"<hash>"} et le receveur lance une synchronisation (section 7) ;
+   - 422 parent_inconnu : l'index est plus grand que notre hauteur + 1, il nous manque des blocs ; le receveur lance une synchronisation ;
+   - 413 trop_gros ; 429 trop_de_requetes ; 503 indisponible.
+
+f) GET /messages/<id>   (application, pour suivre un message)
+   Réponse 200 : {"id":"<id>","statut":"en_attente"} ou {"id":"<id>","statut":"dans_un_bloc","index":1,"hash":"<hash du bloc>"}
+   Erreurs : 400 parametre_invalide (id mal formé) ; 404 inconnu ; 503 indisponible.
+
+TABLEAU DES CODES
+- 400 : message_invalide, bloc_invalide, parametre_invalide
+- 404 : inconnu
+- 409 : fourche
+- 413 : trop_gros
+- 422 : parent_inconnu
+- 429 : trop_de_requetes
+- 503 : indisponible
+
+QUI ENVOIE QUOI (pour éviter les boucles)
+- Un message est transmis aux deux autres nœuds UNE seule fois, par le nœud qui l'a reçu de l'application (route d). Un nœud ne retransmet jamais un message reçu d'un pair.
+- Un bloc n'est envoyé (route e) que par son producteur. Un nœud ne retransmet pas un bloc reçu. Les autres rattrapent un bloc manqué grâce à la synchronisation régulière (section 7).
+
+EXEMPLE COMPLET (avec les vraies valeurs de exemples/)
+1. L'application de A envoie POST /messages à A avec {"contenu":"Bonjour"}. A répond 201 {"id":"0003d1e4…f0d3","statut":"en_attente"}.
+2. A envoie ce message signé à B et à C (POST /relais/messages) : 200 {"statut":"ajoute"} des deux.
+3. L'application de B envoie "Café à Béziers 🎨" à B : 201 avec l'id 4ebecca6…9263. B le transmet à A et à C.
+4. 10 secondes après la genèse, A (producteur attendu) crée le bloc 1 avec les deux messages et envoie POST /blocks à B et à C : 200 {"statut":"ajoute"}.
+5. GET /messages/4ebecca6…9263 sur B répond 200 {"id":"4ebecca6…9263","statut":"dans_un_bloc","index":1,"hash":"98045155…558f"}.
+6. GET /status sur C répond 200 avec hauteur 1 et hash 98045155…558f : les trois nœuds ont la même chaîne.
+
+
+7. LA VIE DU RÉSEAU
+===================
+
+PREMIÈRE ARRIVÉE D'UN NŒUD
+1. Il démarre avec la chaîne qui contient seulement la genèse.
+2. Il appelle GET /status sur ses pairs et choisit la meilleure chaîne annoncée (hauteur la plus grande, puis hash le plus petit).
+3. Il télécharge la chaîne depuis l'index 0 avec GET /blocks?from=0&limit=100, page après page.
+4. Il valide toute la chaîne téléchargée (section 3). Si elle est valide, il la prend ; sinon il la rejette et essaie un autre pair.
+
+RATTRAPAGE APRÈS UNE COUPURE, ET SYNCHRONISATION EN CAS DE FOURCHE
+- Au démarrage puis toutes les 30 secondes, un nœud appelle GET /status sur chaque pair.
+- Si un pair a une hauteur plus grande, ou la même hauteur avec un hash différent, ou si on reçoit un 409 ou un 422 : le nœud télécharge la chaîne de ce pair depuis l'index 0 (comme à la première arrivée), la valide, et la remplace si elle est meilleure d'après la règle de la section 5. (Les chaînes sont courtes, on ne cherche pas l'ancêtre commun.)
+- La synchronisation et les requêtes de rattrapage ne comptent pas dans la limite de débit des pairs (section 8).
+
+NŒUD ÉTEINT
+- Les deux autres continuent si les tours le permettent : ils sautent son tour après 30 secondes (section 4).
+- Les envois vers lui échouent : on l'écrit dans les logs et on continue, sans file d'attente.
+- À son redémarrage, il se resynchronise tout seul. Ses messages en attente non transmis sont perdus s'il n'a pas pu les envoyer ; l'application doit consulter GET /messages/<id> et renvoyer si besoin.
+
+Pourquoi : l'envoi immédiat des blocs est rapide, et la synchronisation régulière est fiable ; aucun nœud ne dépend d'un autre.
+Écarté : une file d'attente persistante des envois ratés (complexité inutile, la synchronisation rattrape tout).
+
+
+8. LES ABUS ET LES ERREURS
+==========================
+
+- Message indésirable : la chaîne ne filtre que la FORME (section 3). Chaque nœud peut refuser un message à l'entrée (route c, erreur message_refuse) selon ses propres règles de modération. Comme ce n'est pas une règle de validité, un message accepté par B et relayé reste valide pour A même si A l'aurait refusé. Une fois dans la chaîne, un message ne s'efface plus : on peut seulement le masquer à l'affichage.
+- Envoi en masse : chaque nœud limite la route c à 30 messages par minute (429 trop_de_requetes). Cette limite est par nœud : au total, 90 messages par minute au maximum entre les trois.
+- Limite de débit entre pairs : 600 requêtes par minute par pair, ce qui laisse passer un gros rattrapage de 100 blocs par appel.
+- Tailles maximales : 4 Ko pour un message, 100 Ko pour un bloc.
+- Doublons : un id déjà connu donne {"statut":"deja_connu"} (relais) et jamais une deuxième entrée dans la chaîne.
+- Nœud qui envoie des données fausses : tout ce qui est reçu est vérifié. Si un pair envoie 5 éléments invalides en 10 minutes, on ignore ses envois (routes d et e) pendant 10 minutes. Le pair est identifié par son adresse Tailscale (100.x.y.z). On continue à l'interroger pour la synchronisation.
+- On ne fait jamais confiance à la hauteur annoncée par un pair : on valide les blocs.
+- Les limites et la modération ne font jamais partie de la validité d'un bloc.
+
+Pourquoi : protéger sans jamais censurer ce qui est déjà dans la chaîne, car elle ne s'efface pas.
+Écarté : une liste noire définitive de nœuds (risque de s'exclure par erreur) ; une modération par la chaîne (un bloc ne peut plus être retiré).
+
+
+9. L'IA ET LA CHAÎNE
+====================
+
+- Les valeurs tirées par l'IA NE sont PAS dans la chaîne. Chaque binôme garde les siennes dans sa propre base. Ainsi, à partir des mêmes messages, chaque œuvre est différente.
+- Quand : en tâche de fond, dès qu'un message apparaît dans un bloc de la chaîne du nœud. L'IA ne bloque jamais la chaîne.
+- Ce que chaque binôme enregistre pour chaque message traité : l'id du message (clé de rattachement), la date, le modèle réellement utilisé (celui renvoyé par OpenRouter, même avec openrouter/free), la version du prompt, la réponse brute, les valeurs extraites, le statut.
+- Les résultats sont indexés par id de message, jamais par hash de bloc : si un bloc est abandonné après une fourche, le message revient dans un nouveau bloc et garde son résultat.
+- Si l'IA ne répond pas : 3 essais avec délai croissant, puis statut « échec ». Le binôme choisit d'afficher le message avec des valeurs neutres ou de l'ignorer. La chaîne n'est jamais touchée.
+- Contraintes : modèles gratuits uniquement ; la clé d'API n'est jamais dans Git.
+- Pour l'ordre d'affichage de l'œuvre : index du bloc, puis position du message dans le bloc.
+
+Pourquoi : la chaîne reste déterministe et vérifiable ; une IA qui plante n'arrête rien.
+Écarté : écrire les valeurs dans les blocs (aucun nœud ne peut vérifier la réponse d'une IA).
+
+
+10. LA JONCTION DU 10/12
+========================
+
+DOSSIER COMMUN : docs/spec-commune/exemples/
+- cles-de-test.json : les 3 paires de clés de test.
+- genese.json : le bloc de genèse.
+- messages.json : 5 messages signés (dont un avec é, à, î et un emoji).
+- chaine-valide.json : la genèse et 3 blocs (le bloc 3 est produit par A qui saute le tour de C).
+- fourche.json : deux blocs valides à l'index 3 et le gagnant attendu (celui dont le hash est le plus petit).
+- blocs-invalides.json : 11 blocs invalides, chacun avec le code d'erreur attendu et l'index du bloc après lequel il doit être validé : hash faux, previous_hash faux, index sauté, message de 281 caractères, signature de message fausse, signature de bloc fausse, deux blocs de suite par le même nœud, mauvais producteur avant 30 s, moins de 10 s après le bloc précédent, bloc sans message, messages mal triés.
+- canonique.json : un exemple de JSON canonique avec son hash.
+
+TEST AUTOMATIQUE À ÉCRIRE PAR CHAQUE BINÔME (dans son langage)
+1. Recalculer les id et les hash des fichiers et obtenir exactement les mêmes valeurs.
+2. Vérifier toutes les signatures avec les clés publiques de test.
+3. Valider chaine-valide.json.
+4. Pour chaque cas de blocs-invalides.json, obtenir exactement le code d'erreur attendu.
+5. Appliquer la règle de consensus à fourche.json et retrouver le bon gagnant.
+
+CALENDRIER
+- Lundi 07/12 : les cinq tests ci-dessus passent sur chaque nœud (avec les clés de test).
+- Lundi 07/12 : chaque binôme publie la clé publique de son nœud dans cette spec (remplace les clés de test).
+- Mercredi 09/12 : essais deux à deux (A-B, B-C, A-C), avec coupure et rattrapage.
+- Jeudi 10/12 : les trois nœuds rejoignent la chaîne ensemble.
+
+Pourquoi : si les trois nœuds donnent les mêmes hash et les mêmes erreurs sur les mêmes exemples, ils sont compatibles.
+
+
+11. LA VIE DE LA SPEC
+=====================
+
+- Version : X.Y. La version 1.0 est celle rendue le 26/11. Corriger une ambiguïté ou ajouter un exemple : Y+1. Changer une règle qui casse la compatibilité : X+1. Le champ spec de GET /status annonce la version suivie par le nœud.
+- Où : un document partagé (Google Doc, lien : à renseigner) est la référence de travail. À chaque version, on la nomme dans l'historique du document et on dépose un export (.md ou PDF) dans docs/spec-commune/ du dépôt GitHub. Le lien déposé sur Moodle donne l'accès en lecture à l'équipe enseignante.
+- En tête du document : version, date, six noms.
+- Qui propose : n'importe lequel des six, dans le canal de discussion commun (Discord : à confirmer).
+- Qui décide : un représentant par binôme ; un changement est accepté à 2 sur 3, sauf s'il casse la compatibilité : il faut alors les 3.
+- Comment les six sont prévenus : message dans le canal commun, entrée dans l'historique des versions en fin de document, nouvelle version nommée.
+- Gel : à partir du lundi 07/12, seules les corrections d'ambiguïté sont possibles, sauf accord des trois binômes.
+
+Historique des versions :
+- 0.1 (23/11) : brouillon du binôme 3.
+- 0.2 (23/11) : intégration de la proposition du binôme 2 (tours de rôle, 1 à 20 messages par bloc, signature par le nœud, A/B/C = binômes 1/2/3) et de la relecture (JSON canonique, synchronisation, erreurs, vrais exemples).
+
+
+POINTS À VALIDER À SIX (mardi 24/11)
+====================================
+- Qui est A, B, C : proposition A = binôme 1, B = binôme 2, C = binôme 3. Tranche : les six, mardi 24/11.
+- Tours de rôle avec délais de 10 s et 30 s. Tranche : les six, mardi 24/11.
+- 1 à 20 messages par bloc et signature par le nœud. Tranche : les six, mardi 24/11.
+- IA hors de la chaîne. Tranche : les six, mardi 24/11.
+- Dépôt GitHub : rester privé (le sujet demande seulement d'y donner accès à l'équipe enseignante). Tranche : les six, mardi 24/11.
+- Canal de discussion commun (Discord ?). Tranche : les six, mardi 24/11.
+
+POINTS ENCORE OUVERTS
+=====================
+- Les vraies clés publiques des trois nœuds. Tranche : chaque binôme pour son nœud, avant le lundi 07/12.
+- Le lien du Google Doc partagé. Tranche : le binôme qui le crée, mardi 24/11.
+- Les règles de modération à l'entrée de chaque nœud : propres à chaque binôme, hors spec.

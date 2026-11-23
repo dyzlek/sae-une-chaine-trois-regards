@@ -1,0 +1,25 @@
+{
+  "numero": 15,
+  "nom": "Deux chaînes de même hauteur, hash de tête différents",
+  "section": "5.1",
+  "etat_initial": {
+    "chaine": "chaine-x",
+    "file_d_attente": [],
+    "heure_du_noeud": 1796889604000
+  },
+  "etapes": [],
+  "type": "scenario",
+  "chaines": [
+    "chaine-x",
+    "chaine-y"
+  ],
+  "attendu": {
+    "gagnante": "chaine-x",
+    "regle": "à hauteur égale, le plus petit hash du dernier bloc gagne",
+    "hash_de_tete": {
+      "chaine-x": "446346ec2bfa6723db66023037d6bcf34efe3558c7ac7664da3698314796e6f7",
+      "chaine-y": "7d1ac9c35d5a6cd3d3337cfee3e167e2e19d53cee4ca2f90c00d07345c0696f5"
+    }
+  },
+  "description": "Un nœud qui a la chaîne X reçoit la chaîne Y (et inversement) : les trois nœuds doivent garder la même, celle au plus petit hash de tête."
+}

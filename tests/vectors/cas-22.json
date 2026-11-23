@@ -1,0 +1,55 @@
+{
+  "version_spec": "1.0",
+  "numero": 22,
+  "nom": "Message en attente depuis plus de 60 s, récupéré par GET /messages/pending",
+  "section": "3.1.7, 6.4.3",
+  "type": "recuperation_de_file",
+  "etat_initial": {
+    "chaine": "genese",
+    "file_d_attente": [],
+    "heure_du_noeud": 1796889615000
+  },
+  "pair_simule": {
+    "node": "noeud-b",
+    "reponse_GET_messages_pending": {
+      "messages": [
+        {
+          "version": 1,
+          "id": "4fb51c06093921e2a92c69bb9279a525c28cba1d4fa5d7750be0d991535ee035",
+          "node": "noeud-b",
+          "timestamp": 1796889495000,
+          "content": "Vent d'autan depuis ce matin.",
+          "signature": "YlgVXUzTgfLLQgQeDRnISvcLZhh9GlKy5RNbYaLwXauJtArkQ40EbVPoF6qXKUwUMJtmyEzm89fEcZqVnQPNAg=="
+        }
+      ]
+    }
+  },
+  "etapes": [
+    "Le nœud testé fait son sondage : GET /messages/pending chez le pair simulé.",
+    "Puis GET /status du nœud testé."
+  ],
+  "attendu": {
+    "queue_size": 1,
+    "message_en_file": "4fb51c06093921e2a92c69bb9279a525c28cba1d4fa5d7750be0d991535ee035",
+    "erreur": "aucune (pas de BAD_TIMESTAMP : la fenêtre de 60 s ne s’applique pas)"
+  },
+  "contre_exemple": {
+    "note": "Sur un nœud neuf (même heure), le même message envoyé directement par POST /messages est refusé.",
+    "requete": {
+      "methode": "POST",
+      "chemin": "/api/v1/messages",
+      "corps": {
+        "version": 1,
+        "id": "4fb51c06093921e2a92c69bb9279a525c28cba1d4fa5d7750be0d991535ee035",
+        "node": "noeud-b",
+        "timestamp": 1796889495000,
+        "content": "Vent d'autan depuis ce matin.",
+        "signature": "YlgVXUzTgfLLQgQeDRnISvcLZhh9GlKy5RNbYaLwXauJtArkQ40EbVPoF6qXKUwUMJtmyEzm89fEcZqVnQPNAg=="
+      }
+    },
+    "attendu": {
+      "statut": 422,
+      "error": "BAD_TIMESTAMP"
+    }
+  }
+}

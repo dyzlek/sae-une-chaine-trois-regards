@@ -1,0 +1,33 @@
+{
+  "version_spec": "1.0",
+  "numero": 21,
+  "nom": "Nœud sans chaîne sur disque, aucun pair ne répond",
+  "section": "7, 4.2",
+  "type": "scenario",
+  "etat_initial": {
+    "chaine": "genese",
+    "file_d_attente": [
+      {
+        "version": 1,
+        "id": "b3bca9b7e87d09c8e6754051d2ec82ce06a3107ebf2f401e6e8945283e71192e",
+        "node": "noeud-a",
+        "timestamp": 1796889603000,
+        "content": "Il pleut sur Béziers ce matin.",
+        "signature": "MDaU5p5ra2cUCfZuZeLzwTu/pAZQEmYH/AGL1c9fv0jQM9GdFIShIfxFq6Kx8ZtVU4+zLMM2++mKECqsdrRhDg=="
+      }
+    ],
+    "pairs": "éteints ou injoignables"
+  },
+  "etapes": [
+    "Démarrer le nœud seul.",
+    "Compter les appels GET /status vers chaque pair.",
+    "Attendre 2 minutes, dont au moins un créneau du nœud."
+  ],
+  "attendu": {
+    "essais": "10 essais à 3 s d’intervalle, puis sortie de SYNCING (environ 60 s au plus)",
+    "syncing_apres": false,
+    "hauteur": 0,
+    "blocs_produits": 0,
+    "queue_size": 1
+  }
+}

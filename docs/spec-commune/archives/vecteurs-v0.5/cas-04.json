@@ -1,0 +1,31 @@
+{
+  "numero": 4,
+  "nom": "author avec une majuscule",
+  "section": "3.1.2",
+  "etat_initial": {
+    "chaine": "genese",
+    "file_d_attente": [],
+    "heure_du_noeud": 1796889604000
+  },
+  "etapes": [
+    {
+      "requete": {
+        "methode": "POST",
+        "chemin": "/api/v1/messages",
+        "corps": {
+          "version": 1,
+          "id": "b02c602bd147e85aa36637441779f7e08e84fb3091819c9ab4bebce04663697f",
+          "node": "noeud-a",
+          "author": "Rahim",
+          "timestamp": 1796889603000,
+          "content": "Il pleut sur Béziers ce matin.",
+          "signature": "fGuIDFPKxjhcOKoeuJ/+BPjdLdZZdNkovsoesbBtK2wCQlSbNbObK3JAEh5x0MVKS+tVbbUN+cC9JkmtLd+PCA=="
+        }
+      },
+      "attendu": {
+        "statut": 422,
+        "error": "MESSAGE_LIMITS"
+      }
+    }
+  ]
+}

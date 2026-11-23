@@ -1,0 +1,17 @@
+{
+  "numero": 21,
+  "nom": "Nœud sans chaîne sur disque dont aucun pair ne répond",
+  "section": "4.2 et 7",
+  "etat_initial": {
+    "chaine": "genese",
+    "file_d_attente": [],
+    "heure_du_noeud": 1796889604000
+  },
+  "etapes": [],
+  "type": "scenario",
+  "description": "Un nœud démarre sans chaîne enregistrée, les deux pairs sont injoignables. Il a des messages en file.",
+  "attendu": {
+    "production": "aucun bloc avant 10 essais espacés de 3 s (environ 30 s)",
+    "ensuite": "il quitte SYNCING avec le bloc zéro et reprend le sondage toutes les 10 s"
+  }
+}

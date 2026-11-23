@@ -1,0 +1,43 @@
+{
+  "numero": 11,
+  "nom": "Bloc 1 produit par noeud-b dans un créneau de noeud-a",
+  "section": "3.2.4",
+  "etat_initial": {
+    "chaine": "genese",
+    "file_d_attente": [],
+    "heure_du_noeud": 1796889612000
+  },
+  "etapes": [
+    {
+      "requete": {
+        "methode": "POST",
+        "chemin": "/api/v1/blocks",
+        "corps": {
+          "version": 1,
+          "index": 1,
+          "timestamp": 1796889610000,
+          "previous_hash": "9af1db54d0c85ea360676841bb029ce5371987373ad199f80ba7d3f5ba652b08",
+          "producer": "noeud-b",
+          "messages": [
+            {
+              "version": 1,
+              "id": "28399f1234e5822cb85a92c962fe7062e1027596f8f00ead82d3349a5ebc51ef",
+              "node": "noeud-a",
+              "author": "rahim",
+              "timestamp": 1796889603000,
+              "content": "Il pleut sur Béziers ce matin.",
+              "signature": "H2OBzRdOOfPlkEkceOsJh67x4GlRsBsTadvezrBdZVLsT/ptsv+JxFWTgWiBP66gqJfvlyhgZOGP96u4NeTeBg=="
+            }
+          ],
+          "messages_hash": "d5c3e52f176eaa83551320a39cd3ef796063545adb092b54f6a5d339e389446d",
+          "hash": "bae6b173cae3047c739742bbcf4d23d8d0c57ee562a1d4ecf099d1214cb484f4",
+          "signature": "r9ITH0Nkd/UqGyZec0eni7mgh4g+59wR0OzpsIlL+JG+o0oXKqeFZEItNCdCQr3OT2zOcO+HgV42puZTpjDADg=="
+        }
+      },
+      "attendu": {
+        "statut": 422,
+        "error": "WRONG_PRODUCER"
+      }
+    }
+  ]
+}

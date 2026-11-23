@@ -1,0 +1,39 @@
+{
+  "numero": 22,
+  "nom": "Message en attente depuis plus de 60 s, récupéré par GET /messages/pending",
+  "section": "3.1.6 et 7",
+  "etat_initial": {
+    "chaine": "genese",
+    "file_d_attente": [],
+    "heure_du_noeud": 1796889604000
+  },
+  "etapes": [
+    {
+      "requete": {
+        "methode": "GET",
+        "chemin": "/api/v1/messages/pending",
+        "note": "le pair répond avec ce message dans sa file ; le nœud le range dans sa file sans repasser par la fenêtre de 60 s",
+        "reponse_du_pair": {
+          "messages": [
+            {
+              "version": 1,
+              "id": "89403ca2bd9f5dd229d7fcf5f148a62cd797d0b023f93979b563777aa8f67139",
+              "node": "noeud-b",
+              "author": "maxens",
+              "timestamp": 1796889514000,
+              "content": "Message resté en attente plus de 60 secondes.",
+              "signature": "R1ORgfSEDLK3l0pzNY1lqD2d0KXN7o86syKg9kjHm7HBMscN4Y5AAdsZCsBKdBN7n406ryGuTkQBRj0KTXBfAw=="
+            }
+          ]
+        }
+      },
+      "attendu": {
+        "file_d_attente_apres": [
+          "89403ca2bd9f5dd229d7fcf5f148a62cd797d0b023f93979b563777aa8f67139"
+        ],
+        "erreur": "aucune (pas de BAD_TIMESTAMP)"
+      }
+    }
+  ],
+  "type": "recuperation_de_file"
+}

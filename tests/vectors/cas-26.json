@@ -1,0 +1,22 @@
+{
+  "version_spec": "1.0",
+  "numero": 26,
+  "nom": "Fourche de même hauteur, mon hash de tête est le plus petit",
+  "section": "5.1",
+  "type": "scenario",
+  "etat_initial": {
+    "chaine_du_noeud_teste": "fourche-petite",
+    "chaine_du_pair": "fourche-grande",
+    "heure_du_noeud": 1796889635000
+  },
+  "etapes": [
+    "Le nœud testé fait son sondage : GET /status chez le pair (hauteur 1, tip_hash = 7c8f7209446cda42875929688c6e65510decac8e0119d7cdc7ddf2b5ed5bc6be)."
+  ],
+  "attendu": {
+    "syncing": false,
+    "tip_hash": "1db16cf1563e0e28a89049b2c13a3a8ba10c8abb8f44de102b1e98b3edf53d4c",
+    "hauteur": 1,
+    "entree_en_SYNCING": "jamais"
+  },
+  "explication": "Hauteurs égales (1). 1db16cf1… < 7c8f7209… en comparaison de texte : la chaîne du pair n’est pas strictement meilleure."
+}

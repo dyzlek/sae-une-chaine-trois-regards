@@ -1,0 +1,31 @@
+{
+  "numero": 6,
+  "nom": "Signé avec la clé de noeud-b mais node = noeud-a",
+  "section": "3.1.5",
+  "etat_initial": {
+    "chaine": "genese",
+    "file_d_attente": [],
+    "heure_du_noeud": 1796889604000
+  },
+  "etapes": [
+    {
+      "requete": {
+        "methode": "POST",
+        "chemin": "/api/v1/messages",
+        "corps": {
+          "version": 1,
+          "id": "28399f1234e5822cb85a92c962fe7062e1027596f8f00ead82d3349a5ebc51ef",
+          "node": "noeud-a",
+          "author": "rahim",
+          "timestamp": 1796889603000,
+          "content": "Il pleut sur Béziers ce matin.",
+          "signature": "2ykd3oimj5GrTd38XEi9Iiol+lB0jphJ6to6pqa0ztZNULjBW9Ey+/tPmglaPkQk0grkzwiF3na7CrOv9GPHBQ=="
+        }
+      },
+      "attendu": {
+        "statut": 422,
+        "error": "BAD_SIGNATURE"
+      }
+    }
+  ]
+}

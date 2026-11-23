@@ -1,0 +1,20 @@
+{
+  "numero": 16,
+  "nom": "Nœud à la hauteur 0, pair à la hauteur 12",
+  "section": "7",
+  "etat_initial": {
+    "chaine": "genese",
+    "file_d_attente": [],
+    "heure_du_noeud": 1796889604000
+  },
+  "etapes": [],
+  "type": "scenario",
+  "chaines": [
+    "chaine-12"
+  ],
+  "attendu": {
+    "hauteur_finale": 12,
+    "hash_de_tete": "1188675cbe992850b6266063e29fb837f19329806bbf3ee6f517e59550697285"
+  },
+  "description": "Le pair sert la chaîne « chaine-12 ». Le nœud la télécharge avec GET /blocks?from=1&limit=100, valide chaque bloc, et arrive à la hauteur 12 avec le même hash de tête."
+}

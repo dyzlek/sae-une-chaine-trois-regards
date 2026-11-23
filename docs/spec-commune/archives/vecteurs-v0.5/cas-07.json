@@ -1,0 +1,31 @@
+{
+  "numero": 7,
+  "nom": "node inconnu (noeud-z)",
+  "section": "3.1.3",
+  "etat_initial": {
+    "chaine": "genese",
+    "file_d_attente": [],
+    "heure_du_noeud": 1796889604000
+  },
+  "etapes": [
+    {
+      "requete": {
+        "methode": "POST",
+        "chemin": "/api/v1/messages",
+        "corps": {
+          "version": 1,
+          "id": "8ca1af65cc4e20f285f89b430f4094e73454464c2061788310e4e93cbcf6f505",
+          "node": "noeud-z",
+          "author": "rahim",
+          "timestamp": 1796889603000,
+          "content": "Il pleut sur Béziers ce matin.",
+          "signature": "SLCXBHRrQM8CX+8gQPdpupyfOxqiPHnRqWIpmzPntRcoMQEd1tGoBf9Em6ax67vJzzgnIbn/8IgQ3iiCbvxuBQ=="
+        }
+      },
+      "attendu": {
+        "statut": 422,
+        "error": "UNKNOWN_NODE"
+      }
+    }
+  ]
+}

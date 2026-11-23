@@ -1,0 +1,33 @@
+{
+  "numero": 1,
+  "nom": "Le message de l'exemple 2.1",
+  "section": "3.1",
+  "etat_initial": {
+    "chaine": "genese",
+    "file_d_attente": [],
+    "heure_du_noeud": 1796889604000
+  },
+  "etapes": [
+    {
+      "requete": {
+        "methode": "POST",
+        "chemin": "/api/v1/messages",
+        "corps": {
+          "version": 1,
+          "id": "28399f1234e5822cb85a92c962fe7062e1027596f8f00ead82d3349a5ebc51ef",
+          "node": "noeud-a",
+          "author": "rahim",
+          "timestamp": 1796889603000,
+          "content": "Il pleut sur Béziers ce matin.",
+          "signature": "H2OBzRdOOfPlkEkceOsJh67x4GlRsBsTadvezrBdZVLsT/ptsv+JxFWTgWiBP66gqJfvlyhgZOGP96u4NeTeBg=="
+        }
+      },
+      "attendu": {
+        "statut": 201,
+        "corps": {
+          "status": "accepted"
+        }
+      }
+    }
+  ]
+}

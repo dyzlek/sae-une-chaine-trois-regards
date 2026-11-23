@@ -1,0 +1,45 @@
+{
+  "numero": 9,
+  "nom": "Bloc 1 de l'exemple 2.2 sur la chaîne de départ",
+  "section": "3.2",
+  "etat_initial": {
+    "chaine": "genese",
+    "file_d_attente": [],
+    "heure_du_noeud": 1796889612000
+  },
+  "etapes": [
+    {
+      "requete": {
+        "methode": "POST",
+        "chemin": "/api/v1/blocks",
+        "corps": {
+          "version": 1,
+          "index": 1,
+          "timestamp": 1796889610000,
+          "previous_hash": "9af1db54d0c85ea360676841bb029ce5371987373ad199f80ba7d3f5ba652b08",
+          "producer": "noeud-a",
+          "messages": [
+            {
+              "version": 1,
+              "id": "28399f1234e5822cb85a92c962fe7062e1027596f8f00ead82d3349a5ebc51ef",
+              "node": "noeud-a",
+              "author": "rahim",
+              "timestamp": 1796889603000,
+              "content": "Il pleut sur Béziers ce matin.",
+              "signature": "H2OBzRdOOfPlkEkceOsJh67x4GlRsBsTadvezrBdZVLsT/ptsv+JxFWTgWiBP66gqJfvlyhgZOGP96u4NeTeBg=="
+            }
+          ],
+          "messages_hash": "d5c3e52f176eaa83551320a39cd3ef796063545adb092b54f6a5d339e389446d",
+          "hash": "446346ec2bfa6723db66023037d6bcf34efe3558c7ac7664da3698314796e6f7",
+          "signature": "bFvWTSqJrwvg9XtiwcDpPWYT0sXKo+tNYSV6EuEy46U/WL1LZkhuVjgLLX/G1B33gBUGmFCdZFxhd0/8A8AxAg=="
+        }
+      },
+      "attendu": {
+        "statut": 201,
+        "corps": {
+          "status": "accepted"
+        }
+      }
+    }
+  ]
+}

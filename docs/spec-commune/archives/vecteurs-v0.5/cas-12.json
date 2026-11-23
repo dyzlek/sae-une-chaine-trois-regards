@@ -1,0 +1,43 @@
+{
+  "numero": 12,
+  "nom": "Bloc 1 avec messages_hash faux (hash et signature recalculés)",
+  "section": "3.2.7",
+  "etat_initial": {
+    "chaine": "genese",
+    "file_d_attente": [],
+    "heure_du_noeud": 1796889612000
+  },
+  "etapes": [
+    {
+      "requete": {
+        "methode": "POST",
+        "chemin": "/api/v1/blocks",
+        "corps": {
+          "version": 1,
+          "index": 1,
+          "timestamp": 1796889610000,
+          "previous_hash": "9af1db54d0c85ea360676841bb029ce5371987373ad199f80ba7d3f5ba652b08",
+          "producer": "noeud-a",
+          "messages": [
+            {
+              "version": 1,
+              "id": "28399f1234e5822cb85a92c962fe7062e1027596f8f00ead82d3349a5ebc51ef",
+              "node": "noeud-a",
+              "author": "rahim",
+              "timestamp": 1796889603000,
+              "content": "Il pleut sur Béziers ce matin.",
+              "signature": "H2OBzRdOOfPlkEkceOsJh67x4GlRsBsTadvezrBdZVLsT/ptsv+JxFWTgWiBP66gqJfvlyhgZOGP96u4NeTeBg=="
+            }
+          ],
+          "messages_hash": "21ebf8e646dbe76bf6365c4f0050f6235b3a59296a400fe0c1c5223c86b0908e",
+          "hash": "86ee5277c7decc13db18ceda0816cbaf4657040f1baf3b8e2084e77a53f4ec54",
+          "signature": "pyjI7hqP8OatrcHlc2DlTtH+JtVXaoIFFQ6ekO2dLfuYymT6VM6cTMAdA4LOpu4H0nkyucrB65zEPsfMaujyCQ=="
+        }
+      },
+      "attendu": {
+        "statut": 422,
+        "error": "BAD_MESSAGES"
+      }
+    }
+  ]
+}

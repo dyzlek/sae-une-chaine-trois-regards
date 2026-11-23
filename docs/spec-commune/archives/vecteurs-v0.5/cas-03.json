@@ -1,0 +1,31 @@
+{
+  "numero": 3,
+  "nom": "content de 281 points de code",
+  "section": "3.1.2",
+  "etat_initial": {
+    "chaine": "genese",
+    "file_d_attente": [],
+    "heure_du_noeud": 1796889604000
+  },
+  "etapes": [
+    {
+      "requete": {
+        "methode": "POST",
+        "chemin": "/api/v1/messages",
+        "corps": {
+          "version": 1,
+          "id": "9eb8e4cb6e64f79199a63eb1fba17d294ff9c15a97594c9b7fe2bef6a4a1634f",
+          "node": "noeud-a",
+          "author": "rahim",
+          "timestamp": 1796889603000,
+          "content": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "signature": "9AvkQBP95wkjzMJL3XhAP0TGk1mZOQ5z5xFmMZiBc3uLia85vPbSkSycQ12F3rbbsvQInJL0rCv+EgaZEwl3AQ=="
+        }
+      },
+      "attendu": {
+        "statut": 422,
+        "error": "MESSAGE_LIMITS"
+      }
+    }
+  ]
+}

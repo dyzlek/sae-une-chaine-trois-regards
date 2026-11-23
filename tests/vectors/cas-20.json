@@ -1,0 +1,26 @@
+{
+  "version_spec": "1.0",
+  "numero": 20,
+  "nom": "Les trois nœuds redémarrent en même temps",
+  "section": "7",
+  "type": "scenario",
+  "etat_initial": {
+    "chaine": "chaine-12",
+    "file_d_attente": []
+  },
+  "etapes": [
+    "Essai (a) : les trois nœuds ont « chaine-12 » sur disque. Les démarrer à moins de 2 s d’intervalle.",
+    "Pendant SYNCING, appeler GET /status, GET /blocks?from=1&limit=20 et GET /messages/pending sur chaque nœud.",
+    "Essai (b) : les trois nœuds n’ont que le bloc zéro sur disque. Les démarrer à moins de 2 s d’intervalle."
+  ],
+  "attendu": {
+    "GET_pendant_SYNCING": "200 (jamais 503), \"syncing\": true dans /status",
+    "sortie_de_SYNCING": "en moins de 40 s pour chaque nœud (un pair répond et aucun n’est strictement meilleur : sortie immédiate, spec 7.2)",
+    "hash_de_tete_a": "037a69c5165b2274e6dc2f97fcf22a4b3570c15209b29cd3b470269fcbabbdaf",
+    "hauteur_a": 12,
+    "hash_de_tete_b": "9af1db54d0c85ea360676841bb029ce5371987373ad199f80ba7d3f5ba652b08",
+    "hauteur_b": 0,
+    "apres_une_minute": "même tip_hash sur les trois nœuds"
+  },
+  "note": "Les 40 s supposent que les trois nœuds écoutent déjà sur le port 8080. Un nœud qui ne trouve aucun pair peut rester jusqu’à environ 60 s en SYNCING (spec 7.2)."
+}

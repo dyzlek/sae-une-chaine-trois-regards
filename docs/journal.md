@@ -13,6 +13,36 @@ Plus récent en haut. Un daily par matin : **hier / aujourd'hui / blocages**.
 
 ---
 
+### 2026-11-23 · S48 · Relecture complète et corrections (Dylan)
+**Aujourd'hui :**
+- **Vecteurs :** nos cas 20 à 26 sont écrits pour la spec v1.0 (`tests/vectors/`), avec une chaîne de hauteur 12 et de vraies signatures. Ils sont vérifiés en Node.js et en Python. Les vecteurs v0.5 et les exemples v0.2 sont archivés (`docs/spec-commune/archives/`).
+- **Bible DA v0.2 :**
+  - le contour ne sert plus qu'à la prévision ; l'origine est donnée par des satellites ;
+  - spirale avec le plus récent au centre (image de dépression satellite), bornée à 400 messages ;
+  - typographie Recursive ;
+  - couleurs de l'interface séparées de celles de l'œuvre ;
+  - grille de l'écran ;
+  - nom *Front commun*.
+- **Dossier v0.7 :**
+  - toutes les `[PROPOSITION]` sont transformées en décisions ;
+  - le §6 renvoie à la bible au lieu de la recopier ;
+  - un refus de l'IA sur un lot ne masque plus tout le lot.
+- **Charte v0.4 :** calcul exact des valeurs locales et lexique `l1` (50 entrées) ; colère froide à `energie` 0,55.
+- **Autres documents :**
+  - backlog v1.0 complet : tâches estimées, priorités, plan du soir pour S50 et S2, S49, oral ;
+  - environnement : la machine du nœud s'appelle `noeud-c` ;
+  - décisions D-003 à D-012 ;
+  - propositions de précisions pour la spec v1.1.
+
+**Blocages :** aucun.
+
+**À faire :**
+- Nicolas : valider les changements ✎ de la bible (C3), puis moodboard, symbole et esquisses.
+- Dylan : réglage de confidentialité d'OpenRouter (C8), export PDF (C10).
+- Les six : dépôt commun (O1).
+
+**Décisions :** D-003 à D-012 (decisions.md).
+
 ### 2026-11-23 · S48 · Bible DA v0.1 et dossier v0.6
 **Fait :**
 - Premier jet de la bible DA, avec les 8 éléments. Il reprend les choix de Nicolas : palette à couleurs-clés, phyllotaxie, prévision et observation, brume.

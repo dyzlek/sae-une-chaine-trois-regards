@@ -70,6 +70,7 @@ Nœud 25 % · Application 20 % · Direction artistique 20 % · Conception (S48) 
 │   ├── 07-evaluation.md    critères et auto-suivi
 │   ├── journal.md          journal de bord + dailies
 │   └── decisions.md        choix techniques justifiés (ADR courts)
+├── tests/vectors/         nos cas de test 20 à 26 (spec v1.0, vraies signatures de test)
 └── (code à venir en S50 : node/, app/, ...)
 ```
 
@@ -83,8 +84,8 @@ Nœud 25 % · Application 20 % · Direction artistique 20 % · Conception (S48) 
 
 | Binôme | Membres | Rôle de nœud |
 |---|---|---|
-| Binôme 3 (nous) | Dylan Belledent, Nicolas Rapuzzi--Pisarczyk | Nœud n°_ |
-| Binôme 2 | Maxens Sevilla, Rahim Tamhaev | Nœud n°_ |
-| Binôme 1 | _en attente (0/2 sur Moodle)_ | Nœud n°_ |
+| Binôme 3 (nous) | Dylan Belledent, Nicolas Rapuzzi--Pisarczyk | `noeud-c` |
+| Binôme 2 | Maxens Sevilla, Rahim Tamhaev | `noeud-b` |
+| Binôme 1 | Mouhamed Al Amine Bah, Hugo Delpuech | `noeud-a` |
 
-Accès GitHub donné à l'équipe enseignante : _à faire_
+Accès GitHub : Nicolas et l'équipe enseignante sont invités sur ce dépôt.

@@ -1,0 +1,45 @@
+{
+  "version_spec": "1.0",
+  "numero": 23,
+  "nom": "Même producteur que le bloc précédent, trois créneaux plus tard",
+  "section": "3.2.10",
+  "type": "requete",
+  "etat_initial": {
+    "chaine": "genese+bloc1",
+    "file_d_attente": [],
+    "heure_du_noeud": 1796889672000
+  },
+  "etapes": [
+    {
+      "requete": {
+        "methode": "POST",
+        "chemin": "/api/v1/blocks",
+        "corps": {
+          "version": 1,
+          "index": 2,
+          "timestamp": 1796889670000,
+          "previous_hash": "7c8f7209446cda42875929688c6e65510decac8e0119d7cdc7ddf2b5ed5bc6be",
+          "producer": "noeud-a",
+          "messages": [
+            {
+              "version": 1,
+              "id": "89af5200cfcd5ff2beb4319176933db3c19904bc0f43d9caebb0df5d3fedc7e8",
+              "node": "noeud-a",
+              "timestamp": 1796889650000,
+              "content": "Brouillard sur l'Orb, on ne voit plus le pont.",
+              "signature": "s01kqeTSIw8Vonpw4q3qQ9U7SEarvQwOJRC6syA1AS4srfUyMcsbxw7FIt7v95+ntLt7b/tjHN6V5LBs4NXeCA=="
+            }
+          ],
+          "messages_hash": "7f0648d5750d9ecf0402e6dec4f1eb6c283669780451c9c0f16543662c8a5f66",
+          "hash": "e9a24e8a5ef8c1a095159ac24f2557ada3415ee9c87fab8c0f66b2d30ca1a9af",
+          "signature": "2QSXUk5FDLWJbIe7wmSnbiss/GiQI/Jvio0wa5R4nnokQUtLHo2IzSHdPVkWBKgbAqgR2NtLRPZb0MOC99P8Bg=="
+        }
+      },
+      "attendu": {
+        "statut": 422,
+        "error": "SAME_PRODUCER"
+      }
+    }
+  ],
+  "explication": "Créneau 89844483, 89844483 mod 3 = 0 : noeud-a est bien le producteur du créneau (règle 4 OK), mais il a aussi produit le bloc 1 (règle 10). Les règles 1 à 9 passent : hash, signature, messages et horloge sont justes."
+}

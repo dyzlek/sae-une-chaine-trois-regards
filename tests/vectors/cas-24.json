@@ -1,0 +1,30 @@
+{
+  "version_spec": "1.0",
+  "numero": 24,
+  "nom": "Nœud coupé des deux pairs, messages en file, son créneau arrive",
+  "section": "4.2.4",
+  "type": "scenario",
+  "etat_initial": {
+    "chaine": "genese",
+    "file_d_attente": [
+      {
+        "version": 1,
+        "id": "b3bca9b7e87d09c8e6754051d2ec82ce06a3107ebf2f401e6e8945283e71192e",
+        "node": "noeud-a",
+        "timestamp": 1796889603000,
+        "content": "Il pleut sur Béziers ce matin.",
+        "signature": "MDaU5p5ra2cUCfZuZeLzwTu/pAZQEmYH/AGL1c9fv0jQM9GdFIShIfxFq6Kx8ZtVU4+zLMM2++mKECqsdrRhDg=="
+      }
+    ],
+    "pairs": "en marche mais injoignables depuis le nœud testé (pare-feu ou Tailscale coupé)"
+  },
+  "etapes": [
+    "Attendre deux créneaux du nœud testé.",
+    "Rétablir la liaison vers un seul pair.",
+    "Attendre le créneau suivant du nœud testé."
+  ],
+  "attendu": {
+    "pendant_la_coupure": "aucun bloc produit, hauteur inchangée, message toujours en file",
+    "apres_le_retour": "le nœud reprend : il produit à son créneau (ou reçoit le bloc d’un autre qui contient le message)"
+  }
+}

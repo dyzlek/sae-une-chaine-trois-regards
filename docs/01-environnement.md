@@ -6,11 +6,15 @@
 
 ## 1. Tailscale (réseau)
 - [ ] Installer : https://tailscale.com/download
-- [ ] Rejoindre le tailnet de la SAÉ (clé sur Moodle, à venir) :
-  ```
-  tailscale up --auth-key=<CLÉ> --hostname=sae-<prenom>
-  ```
-- [ ] Déjà un compte Tailscale perso ? `tailscale login --auth-key=<CLÉ> --hostname=sae-<prenom>` puis `tailscale switch`
+- [ ] Rejoindre le tailnet de la SAÉ (clé sur Moodle, à venir). Le nom de machine dépend du rôle :
+  - **la machine qui fait tourner notre nœud** doit s'appeler exactement **`noeud-c`** (spec §6.1, décision 13) :
+    ```
+    tailscale up --auth-key=<CLÉ> --hostname=noeud-c
+    ```
+  - l'autre machine (développement seulement) : `--hostname=sae-<prenom>`. Deux machines ne doivent jamais s'appeler `noeud-c` en même temps.
+- [ ] Déjà un compte Tailscale perso ? `tailscale login --auth-key=<CLÉ> --hostname=<nom ci-dessus>` puis `tailscale switch`
+- [ ] La clé reste dans l'historique du terminal : l'effacer ensuite (ou se connecter sans `--auth-key`, par le lien affiché)
+- [ ] Changer de nom plus tard : `tailscale set --hostname noeud-c`
 - [ ] Vérifier : `tailscale status` liste les autres machines SAÉ
 
 Règles : clé réservée à la SAÉ, ne pas la partager ni la committer, révoquée en fin de SAÉ.
@@ -25,5 +29,5 @@ Règles : modèles **gratuits** uniquement ; `openrouter/free` accepté si on **
 ## Suivi par personne
 | Personne | Tailscale OK | OpenRouter OK | Hostname |
 |---|---|---|---|
-| _prénom 1_ | ☐ | ☐ | sae-… |
-| _prénom 2_ | ☐ | ☐ | sae-… |
+| Dylan (fait tourner le nœud, dossier §10) | ☐ | ☐ | `noeud-c` |
+| Nicolas | ☐ | ☐ | `sae-nicolas` |

@@ -1,0 +1,18 @@
+{
+  "numero": 20,
+  "nom": "Les trois nœuds redémarrent en même temps",
+  "section": "7",
+  "etat_initial": {
+    "chaine": "chaine-12",
+    "file_d_attente": [],
+    "heure_du_noeud": 1796889604000
+  },
+  "etapes": [],
+  "type": "scenario",
+  "description": "Deux essais : (a) chaque nœud a déjà « chaine-12 » sur disque ; (b) chaque nœud n'a que le bloc zéro. On démarre les trois nœuds au même instant.",
+  "attendu": {
+    "sortie_de_SYNCING": "en moins de 40 secondes",
+    "hash_de_tete": "identique sur les trois nœuds après une minute",
+    "GET_pendant_SYNCING": "répondent 200 (jamais 503)"
+  }
+}
