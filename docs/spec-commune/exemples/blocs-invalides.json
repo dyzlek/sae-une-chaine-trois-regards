@@ -1,0 +1,250 @@
+[
+  {
+    "nom": "hash faux",
+    "erreur_attendue": "hash_incorrect",
+    "a_valider_apres_le_bloc_d_index": 0,
+    "bloc": {
+      "index": 1,
+      "messages": [
+        {
+          "contenu": "Bonjour",
+          "id": "0003d1e47d91316c9f72492d27b03dfeb269f04d27ebbcfde17cbc301341f0d3",
+          "noeud": "A",
+          "signature": "057ac280243ab1f57258bb4a74426ac8becdcf672e49e46de112206534cff5350b57f6f1b4dd9173f3c7389d6a49f1a64163ceb709b8f46551eed15e9e462603",
+          "timestamp": 1796601602000
+        },
+        {
+          "contenu": "Café à Béziers 🎨",
+          "id": "4ebecca60ff73c5d122c8513770dea4902cdb26b3e55f16695f226c5f6939263",
+          "noeud": "B",
+          "signature": "1ad4002c176bcb1b1f41aa7e3575d1314d069e22ff49882a9548ab195dd5dc2369cb62d49709787a457a8fa1fba85aa34f032592ffb05b29cf59f1a06280e80f",
+          "timestamp": 1796601605000
+        }
+      ],
+      "previous_hash": "3e26ac44b9132dcf33779b4e1d1faa85b45e19150d573a827e5367e4fb384b44",
+      "producteur": "A",
+      "timestamp": 1796601610000,
+      "hash": "0000000000000000000000000000000000000000000000000000000000000001",
+      "signature": "42476d3177681133ede23ccaf2b9f5738d306a5715646580519a7db57e9747fadd0df6a9fdfea09338d64857d637c12a4083a66921d3a1c3b5ddfda7a1e42108"
+    }
+  },
+  {
+    "nom": "previous_hash faux",
+    "erreur_attendue": "chainage_incorrect",
+    "a_valider_apres_le_bloc_d_index": 1,
+    "bloc": {
+      "index": 2,
+      "messages": [
+        {
+          "contenu": "Une chaîne, trois regards",
+          "id": "1e5e85c88e43f6281a63d469ae93121de19851d8e6c9c89dd1c55dfeced49b0b",
+          "noeud": "C",
+          "signature": "e0c2359e8569aae9cb6646069a457bee03bbcb6291f3d1d4a6c336ee1fa8063018b19ea9bc3cbe5bd4d4748272a30d7f2a2cffe83d4bb42ce7c1f6a067ad1801",
+          "timestamp": 1796601614000
+        }
+      ],
+      "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "producteur": "B",
+      "timestamp": 1796601620000,
+      "hash": "7e4921aa0d25f3e17fe07adbae2b115eb134e891d66b56a3eb9c0e443bc37f0e",
+      "signature": "b17025cfbda2266562f7f101cf9444f2c5986553ca8081c9121a9fd4480f650e7b35b66ec060db9c0064a82ed8c6c3edd484f7a901a998acd5838285e1142b06"
+    }
+  },
+  {
+    "nom": "index saute",
+    "erreur_attendue": "index_incorrect",
+    "a_valider_apres_le_bloc_d_index": 1,
+    "bloc": {
+      "index": 5,
+      "messages": [
+        {
+          "contenu": "Une chaîne, trois regards",
+          "id": "1e5e85c88e43f6281a63d469ae93121de19851d8e6c9c89dd1c55dfeced49b0b",
+          "noeud": "C",
+          "signature": "e0c2359e8569aae9cb6646069a457bee03bbcb6291f3d1d4a6c336ee1fa8063018b19ea9bc3cbe5bd4d4748272a30d7f2a2cffe83d4bb42ce7c1f6a067ad1801",
+          "timestamp": 1796601614000
+        }
+      ],
+      "previous_hash": "98045155e212142051a54630bc4a690abca868e99d2e37acd3ee165fe29e558f",
+      "producteur": "B",
+      "timestamp": 1796601620000,
+      "hash": "abbdb5f76e16c68e8942f1b3b99003a1bcfe7e714d8846650dc77a6b71586c86",
+      "signature": "8aa838fd8cc70af55b5eac3342c8a5a45b2feb2974203fc2a6c9f97ee7a30a4de9ffedcca823f282b849cd355e3c6ae2d660976905969a9f68d7bbe6487cf609"
+    }
+  },
+  {
+    "nom": "contenu de 281 caractères",
+    "erreur_attendue": "messages_invalides",
+    "a_valider_apres_le_bloc_d_index": 1,
+    "bloc": {
+      "index": 2,
+      "messages": [
+        {
+          "contenu": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "id": "3ef6e860d3647bdd81ada4fad2ca30cb0af59ac150f54932985ecc8e11689d14",
+          "noeud": "C",
+          "signature": "e25a668aff159885bdaa6ab8a312b6bd4739947d23b3150eaf6961f8732f1a912afd54762e67324b28d4816d62f3f4a4a79c5a81cabcd6d899ac1ca1ce47970f",
+          "timestamp": 1796601615000
+        }
+      ],
+      "previous_hash": "98045155e212142051a54630bc4a690abca868e99d2e37acd3ee165fe29e558f",
+      "producteur": "B",
+      "timestamp": 1796601620000,
+      "hash": "3fd8a2fca5a1f55ef94c8617d6849087d7b878b0b4de4c28ee9b1102190f2c37",
+      "signature": "0021a4eac943742e0431e60bbcec224924c3e8f01dd6947efaaa11c308e27294820fecda2494876d9a806c166f2e6caf8a778ba1647ae730bf53cf2e682c4a0c"
+    }
+  },
+  {
+    "nom": "signature de message fausse",
+    "erreur_attendue": "messages_invalides",
+    "a_valider_apres_le_bloc_d_index": 1,
+    "bloc": {
+      "index": 2,
+      "messages": [
+        {
+          "contenu": "Une chaîne, trois regards",
+          "id": "1e5e85c88e43f6281a63d469ae93121de19851d8e6c9c89dd1c55dfeced49b0b",
+          "noeud": "C",
+          "signature": "a0c2359e8569aae9cb6646069a457bee03bbcb6291f3d1d4a6c336ee1fa8063018b19ea9bc3cbe5bd4d4748272a30d7f2a2cffe83d4bb42ce7c1f6a067ad1801",
+          "timestamp": 1796601614000
+        }
+      ],
+      "previous_hash": "98045155e212142051a54630bc4a690abca868e99d2e37acd3ee165fe29e558f",
+      "producteur": "B",
+      "timestamp": 1796601620000,
+      "hash": "7e8f45e7e95b5e242a59f5f62cff1f9d6b83c4a965b7e104598ef04c3b1d4568",
+      "signature": "04c209b956ba0a7a4f7314fb292c0185fdf2b9021484a9c23b42c65268485bea04ac7ca02b31f0cca029eba031bd560bc61c71277c3f9c26fc3bc36f9ef6b608"
+    }
+  },
+  {
+    "nom": "signature de bloc fausse",
+    "erreur_attendue": "signature_invalide",
+    "a_valider_apres_le_bloc_d_index": 1,
+    "bloc": {
+      "index": 2,
+      "messages": [
+        {
+          "contenu": "Une chaîne, trois regards",
+          "id": "1e5e85c88e43f6281a63d469ae93121de19851d8e6c9c89dd1c55dfeced49b0b",
+          "noeud": "C",
+          "signature": "e0c2359e8569aae9cb6646069a457bee03bbcb6291f3d1d4a6c336ee1fa8063018b19ea9bc3cbe5bd4d4748272a30d7f2a2cffe83d4bb42ce7c1f6a067ad1801",
+          "timestamp": 1796601614000
+        }
+      ],
+      "previous_hash": "98045155e212142051a54630bc4a690abca868e99d2e37acd3ee165fe29e558f",
+      "producteur": "B",
+      "timestamp": 1796601620000,
+      "hash": "292d99a3f5e8d79b46d17abf30a4312d7088cd0c5cb48204f62f047e67255142",
+      "signature": "aaa838fd8cc70af55b5eac3342c8a5a45b2feb2974203fc2a6c9f97ee7a30a4de9ffedcca823f282b849cd355e3c6ae2d660976905969a9f68d7bbe6487cf609"
+    }
+  },
+  {
+    "nom": "deux blocs de suite par le même nœud",
+    "erreur_attendue": "producteur_invalide",
+    "a_valider_apres_le_bloc_d_index": 1,
+    "bloc": {
+      "index": 2,
+      "messages": [
+        {
+          "contenu": "Une chaîne, trois regards",
+          "id": "1e5e85c88e43f6281a63d469ae93121de19851d8e6c9c89dd1c55dfeced49b0b",
+          "noeud": "C",
+          "signature": "e0c2359e8569aae9cb6646069a457bee03bbcb6291f3d1d4a6c336ee1fa8063018b19ea9bc3cbe5bd4d4748272a30d7f2a2cffe83d4bb42ce7c1f6a067ad1801",
+          "timestamp": 1796601614000
+        }
+      ],
+      "previous_hash": "98045155e212142051a54630bc4a690abca868e99d2e37acd3ee165fe29e558f",
+      "producteur": "A",
+      "timestamp": 1796601620000,
+      "hash": "15ff83e6086d9499d0f65587b1c6ba4325e9a1b9eca606f5071cbbe691aca56b",
+      "signature": "cf333bbc8a751970fdec20d8c99aff131b5ae8b51447b08d40799186d5aff95075befb3348d92dc19ccdfe5a7de62f59730fc0376c5e456d7b42d5542a9ee30e"
+    }
+  },
+  {
+    "nom": "mauvais producteur avant 30 s",
+    "erreur_attendue": "producteur_invalide",
+    "a_valider_apres_le_bloc_d_index": 1,
+    "bloc": {
+      "index": 2,
+      "messages": [
+        {
+          "contenu": "Une chaîne, trois regards",
+          "id": "1e5e85c88e43f6281a63d469ae93121de19851d8e6c9c89dd1c55dfeced49b0b",
+          "noeud": "C",
+          "signature": "e0c2359e8569aae9cb6646069a457bee03bbcb6291f3d1d4a6c336ee1fa8063018b19ea9bc3cbe5bd4d4748272a30d7f2a2cffe83d4bb42ce7c1f6a067ad1801",
+          "timestamp": 1796601614000
+        }
+      ],
+      "previous_hash": "98045155e212142051a54630bc4a690abca868e99d2e37acd3ee165fe29e558f",
+      "producteur": "C",
+      "timestamp": 1796601620000,
+      "hash": "9a0e03aed83556bb49db0c32ff66801c2cf2d59de2a77933a9d7cd63af62381a",
+      "signature": "3e35c0dc744d74ffabb319c79392fbb36717dbc15030b7351a0573aaaade090a50a367fcbdf55229fc965679d7efd501ac6866ee498e6aabb2cec3e739170a06"
+    }
+  },
+  {
+    "nom": "moins de 10 s après le bloc précédent",
+    "erreur_attendue": "delai_insuffisant",
+    "a_valider_apres_le_bloc_d_index": 1,
+    "bloc": {
+      "index": 2,
+      "messages": [
+        {
+          "contenu": "Une chaîne, trois regards",
+          "id": "1e5e85c88e43f6281a63d469ae93121de19851d8e6c9c89dd1c55dfeced49b0b",
+          "noeud": "C",
+          "signature": "e0c2359e8569aae9cb6646069a457bee03bbcb6291f3d1d4a6c336ee1fa8063018b19ea9bc3cbe5bd4d4748272a30d7f2a2cffe83d4bb42ce7c1f6a067ad1801",
+          "timestamp": 1796601614000
+        }
+      ],
+      "previous_hash": "98045155e212142051a54630bc4a690abca868e99d2e37acd3ee165fe29e558f",
+      "producteur": "B",
+      "timestamp": 1796601615000,
+      "hash": "69f298d22159374ab7edd8456326b899383bf527f97e9586d149a4b0e291315c",
+      "signature": "57834e5ea8503dff014430e6745cd40da0e8ebed7e1b1c140cbcb18590899e775b2345999c029406655a983b01474061ef97c70abf8c11c25a1cca745f6f500e"
+    }
+  },
+  {
+    "nom": "bloc sans message",
+    "erreur_attendue": "messages_invalides",
+    "a_valider_apres_le_bloc_d_index": 1,
+    "bloc": {
+      "index": 2,
+      "messages": [],
+      "previous_hash": "98045155e212142051a54630bc4a690abca868e99d2e37acd3ee165fe29e558f",
+      "producteur": "B",
+      "timestamp": 1796601620000,
+      "hash": "15d38d5f0c5eaf0adb19de58e0dbc4cbdc5f58b8b345c8bb03cac649923d3c0d",
+      "signature": "9a7bf4472fef54e87b830945b9ffe9c9a7270f8ef707535dc21ffc846026d33aa574d778b651f57341685dc41290a9f4b736c2e7eab17eb18c0a9af259fee509"
+    }
+  },
+  {
+    "nom": "messages mal triés",
+    "erreur_attendue": "messages_invalides",
+    "a_valider_apres_le_bloc_d_index": 0,
+    "bloc": {
+      "index": 1,
+      "messages": [
+        {
+          "contenu": "Café à Béziers 🎨",
+          "id": "4ebecca60ff73c5d122c8513770dea4902cdb26b3e55f16695f226c5f6939263",
+          "noeud": "B",
+          "signature": "1ad4002c176bcb1b1f41aa7e3575d1314d069e22ff49882a9548ab195dd5dc2369cb62d49709787a457a8fa1fba85aa34f032592ffb05b29cf59f1a06280e80f",
+          "timestamp": 1796601605000
+        },
+        {
+          "contenu": "Bonjour",
+          "id": "0003d1e47d91316c9f72492d27b03dfeb269f04d27ebbcfde17cbc301341f0d3",
+          "noeud": "A",
+          "signature": "057ac280243ab1f57258bb4a74426ac8becdcf672e49e46de112206534cff5350b57f6f1b4dd9173f3c7389d6a49f1a64163ceb709b8f46551eed15e9e462603",
+          "timestamp": 1796601602000
+        }
+      ],
+      "previous_hash": "3e26ac44b9132dcf33779b4e1d1faa85b45e19150d573a827e5367e4fb384b44",
+      "producteur": "A",
+      "timestamp": 1796601610000,
+      "hash": "79e4d332c7ba02d981da061fe73d48f1a425f390c68f39490aa6c0fb2dc426a5",
+      "signature": "39527daca29ef936b23f595c4731c550b9f1d91a6a906c314422604b2728638f1031b282c89c77897c8946249ac18a19263adf0c564fbe12e05e84b2143a0c07"
+    }
+  }
+]

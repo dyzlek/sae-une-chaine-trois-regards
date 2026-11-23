@@ -1,0 +1,9 @@
+{
+  "regles": "cles triees recursivement, sans espaces, UTF-8 brut",
+  "cas": [
+    {
+      "json_canonique": "{\"contenu\":\"Café à Béziers 🎨\",\"noeud\":\"B\",\"timestamp\":1796601605000}",
+      "sha256": "4ebecca60ff73c5d122c8513770dea4902cdb26b3e55f16695f226c5f6939263"
+    }
+  ]
+}

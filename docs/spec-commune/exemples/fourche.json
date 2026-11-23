@@ -1,0 +1,38 @@
+{
+  "description": "Deux blocs valides à l'index 3 (A a sauté le tour de C, puis C a produit aussi). Le gagnant est celui dont le hash est le plus petit.",
+  "bloc_a": {
+    "index": 3,
+    "messages": [
+      {
+        "contenu": "Quelqu'un est là ?",
+        "id": "40664cc1776273b5d288e21e726cac0bf0cc4342dea9b23e3a6db20cfd486b18",
+        "noeud": "B",
+        "signature": "e9d6429c8c82fde12f5f065bd71a0e941471edc84c29361286687d40d5565522fe2ccb0d10cc8a147da8cec68c691533520ab45ea54815ae76ae3e65973a1c03",
+        "timestamp": 1796601633000
+      }
+    ],
+    "previous_hash": "292d99a3f5e8d79b46d17abf30a4312d7088cd0c5cb48204f62f047e67255142",
+    "producteur": "A",
+    "timestamp": 1796601655000,
+    "hash": "5d8449dc385f382d32b40d93fa1567a30c74077beb5c70d32b562d752d356765",
+    "signature": "498a24b5a4dd76a7da966de88cff8ffcb270b54fc02fc60ab1023277afa6e5c081872010a7b6a6a3c6312d475aeb7d91ce3703c3ce27d52e952462ce5ea31b07"
+  },
+  "bloc_c": {
+    "index": 3,
+    "messages": [
+      {
+        "contenu": "Je suis de retour",
+        "id": "e65f5807eb969583a62b102782498f8da689461d3437f7275a3630f894018a2f",
+        "noeud": "C",
+        "signature": "2cdb6f99d2074ce96f3abfbb2232f0dde356fc5e0295395b5e1879fefe4e94d46fc930ab77ff3957a00ad92ffa54dbd73623d116ab7a9eb3dde51105517d9005",
+        "timestamp": 1796601640000
+      }
+    ],
+    "previous_hash": "292d99a3f5e8d79b46d17abf30a4312d7088cd0c5cb48204f62f047e67255142",
+    "producteur": "C",
+    "timestamp": 1796601641000,
+    "hash": "01d183058f09aa6c7a577ac3e85cabaaa43eecbde3d30168fbf0a54a776355d6",
+    "signature": "0c9204f3267170d0b7ac5287d277e474d1e88f446d16578b911be552e27bd8104d15eb6d38e0969f16e083562918ec8cdf46f1104847c2947d0981f92fc40105"
+  },
+  "gagnant": "bloc_c"
+}

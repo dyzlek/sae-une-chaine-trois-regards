@@ -1,0 +1,17 @@
+{
+  "avertissement": "CLÉS DE TEST UNIQUEMENT. Ne jamais utiliser en vrai.",
+  "noeuds": {
+    "A": {
+      "cle_publique": "0388fb9f75a3e78cb457fffccf4ec582637b93011be0b49b8bf4e3ec7141b9e7",
+      "graine_privee_test": "6b3107f3086f4e5cde59fd7f297ea70984dd913871ac08232da271af264c05ac"
+    },
+    "B": {
+      "cle_publique": "82c443ca4c72b9da3a690f6456a1fc6a596e2038a7137a35ed517487dbed3b6b",
+      "graine_privee_test": "d2e06809b8e68a700ff8325b3660b2e6a3311b82d50e2d3a0a02e6d1ea9abfe4"
+    },
+    "C": {
+      "cle_publique": "815c35b358a6acec4291e6a2f86c61420eb2dc2e1b46a6d6d3c19d41f5ba1e91",
+      "graine_privee_test": "a0426668555f1f4230f1299f3b0330fec01329982e86f11b8c0e910eac205745"
+    }
+  }
+}
