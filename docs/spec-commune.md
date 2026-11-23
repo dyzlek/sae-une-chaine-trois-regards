@@ -352,13 +352,21 @@ Le nom de la machine dans Tailscale doit être exactement l'identifiant du nœud
 
 ### 6.3 La liste complète des échanges
 
-| Appel | Envoyé | Succès | Erreurs possibles |
-| --- | --- | --- | --- |
-| `GET /status` | rien | `200` `{ "version":1, "node":"noeud-b", "height":12, "tip_hash":"...", "genesis_hash":"9af1db54d0c85ea360676841bb029ce5371987373ad199f80ba7d3f5ba652b08", "queue_size":3, "time":1796889610000, "syncing":false }` | aucune : répond toujours |
-| `GET /blocks?from=N&limit=L` | `from` ≥ 0, `limit` 1 à 20 (défaut 20) | `200` `{ "blocks":[ ... ] }` à partir de N, dans l'ordre ; liste vide si N > hauteur | `400 BAD_QUERY` (répond toujours, même en `SYNCING`) |
-| `POST /blocks` | un bloc complet | `201` `{ "status":"accepted" }` ou `200` `{ "status":"known" }` | `400 BLOCK_FORMAT`, `409 BAD_LINK` (lien cassé, fourche ou retard ; déclenche la vérification de 3.4), `413 TOO_LARGE` (plus de 512 Ko), `422` + autre code de 3.2, `429 RATE_LIMIT`, `503 SYNCING` |
-| `POST /messages` | un message complet | `201` `{ "status":"accepted" }` ou `200` `{ "status":"known" }` | `400 MESSAGE_FORMAT`, `413 TOO_LARGE` (plus de 8 Ko), `422` + autre code de 3.1 (un message déjà connu n'est pas une erreur : `200 known`), `429 RATE_LIMIT`, `503 SYNCING` |
-| `GET /messages/pending` | rien | `200` `{ "messages":[ ... ] }` (file d'attente, 50 au plus, triés comme en 2.2) | aucune : répond toujours |
+| Appel | Envoyé | Succès |
+| --- | --- | --- |
+| `GET /status` | rien | `200` `{ "version":1, "node":"noeud-b", "height":12, "tip_hash":"...", "genesis_hash":"9af1db54d0c85ea360676841bb029ce5371987373ad199f80ba7d3f5ba652b08", "queue_size":3, "time":1796889610000, "syncing":false }` |
+| `GET /blocks?from=N&limit=L` | `from` ≥ 0, `limit` 1 à 20 (défaut 20) | `200` `{ "blocks":[ ... ] }` à partir de N, dans l'ordre ; liste vide si N > hauteur |
+| `POST /blocks` | un bloc complet | `201` `{ "status":"accepted" }` ou `200` `{ "status":"known" }` |
+| `POST /messages` | un message complet | `201` `{ "status":"accepted" }` ou `200` `{ "status":"known" }` |
+| `GET /messages/pending` | rien | `200` `{ "messages":[ ... ] }` (file d'attente, 50 au plus, triés comme en 2.2) |
+
+**Erreurs possibles**
+
+- `GET /status` : aucune : répond toujours.
+- `GET /blocks?from=N&limit=L` : `400 BAD_QUERY` (répond toujours, même en `SYNCING`).
+- `POST /blocks` : `400 BLOCK_FORMAT`, `409 BAD_LINK` (lien cassé, fourche ou retard ; déclenche la vérification de 3.4), `413 TOO_LARGE` (plus de 512 Ko), `422` + autre code de 3.2, `429 RATE_LIMIT`, `503 SYNCING`.
+- `POST /messages` : `400 MESSAGE_FORMAT`, `413 TOO_LARGE` (plus de 8 Ko), `422` + autre code de 3.1 (un message déjà connu n'est pas une erreur : `200 known`), `429 RATE_LIMIT`, `503 SYNCING`.
+- `GET /messages/pending` : aucune : répond toujours.
 
 Seuls `POST /blocks` et `POST /messages` répondent `503 SYNCING` pendant un rattrapage. Les trois `GET` répondent toujours.
 
@@ -526,7 +534,7 @@ Les limites **ne font jamais partie de la validité** d'un bloc et ne s'applique
 
 Une clé privée volée, ou un nœud qui signe volontairement du contenu choquant : seuls les six et l'équipe enseignante tranchent. Les clés privées restent dans un `.env` absent de Git (avec un `.env.example` vide).
 
-**Exemple.** Si la clé de `noeud-b` est publiée par erreur, le binôme 2 prévient les six, arrête son nœud et une nouvelle clé est distribuée. Comme elle peut invalider les anciens blocs, les six décident ensemble du redémarrage de la chaîne.
+**Exemple.** Si la clé de `noeud-b` est publiée par erreur, le binôme 2 prévient les six, arrête son nœud et une nouvelle clé est distribuée. Avec une seule clé par nœud, ce changement invalide tous les blocs et messages que `noeud-b` a signés, donc la chaîne à partir du premier bloc qui en contient un. Les six décident ensemble du redémarrage de la chaîne.
 
 **Pourquoi.** Une signature valide ne dit rien des intentions. **Écarté :** la rotation automatique des clés, trop complexe pour trois nœuds.
 
@@ -637,9 +645,9 @@ Les entrées des cas 3 à 14 et 17 à 26 sont à produire à partir des exemples
 
 ## 11. La vie de la spec
 
-- **Version :** `MAJEUR.MINEUR`. Les 0.x sont des brouillons. La version **1.0** est celle déposée sur Moodle le jeudi 26/11 à 12h30. Le champ `version` des messages et blocs (valeur 1) ne change que si le format casse la compatibilité.
+- **Version :** `MAJEUR.MINEUR`. Les 0.x sont des brouillons. La version **1.0** porte la date de sa validation par les six. Elle est déposée sur Moodle au plus tard le jeudi 26/11 à 12h30. Le champ `version` des messages et blocs (valeur 1) ne change que si le format casse la compatibilité.
 - **Où :** un dépôt GitHub privé commun aux six, équipe enseignante invitée, avec `docs/spec.md`, `docs/CHANGELOG.md` et `tests/vectors/` (point ouvert O1). Le fichier déposé sur Moodle est la copie de la version 1.0.
-- **Qui propose :** n'importe lequel des six (pull request si dépôt, commentaire proposé si document), avec ce qui change et pourquoi.
+- **Qui propose :** n'importe lequel des six par pull request, avec ce qui change et pourquoi.
 - **Qui décide :** un membre de **chacun des trois binômes** approuve. Sans les trois accords, rien n'est fusionné.
 - **Comment les six sont prévenus :** notification, message dans le groupe de discussion des six (Discord), mention au daily suivant.
 - **Gel :** à partir du lundi 07/12, un changement qui casse la compatibilité exige l'accord écrit des six ; seules les précisions passent avec la règle ordinaire.
