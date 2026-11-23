@@ -1,0 +1,29 @@
+# Secrets : jamais dans Git
+.env
+.env.*
+*.key
+*auth-key*
+secrets/
+
+# Outils locaux de l'assistant
+.claude/
+
+# Dépendances et builds
+node_modules/
+dist/
+build/
+__pycache__/
+*.pyc
+.venv/
+
+# Base de données locale (chaque nœud a la sienne)
+*.db
+*.sqlite
+*.sqlite3
+data/
+
+# OS / éditeurs
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
