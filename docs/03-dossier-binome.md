@@ -1,6 +1,6 @@
 # Dossier de binôme
 
-- **Binôme :** _noms_
+- **Binôme :** n°3 · Dylan Belledent, Nicolas Rapuzzi--Pisarczyk
 - **Rendu :** PDF, vendredi 27/11/2026, 17h (avec au moins un schéma d'architecture)
 - **Test :** avec ce seul dossier, un autre binôme peut reprendre notre projet.
 

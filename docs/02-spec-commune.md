@@ -2,7 +2,7 @@
 
 - **Version :** 0.1 (brouillon)
 - **Date :** 2026-11-__
-- **Auteurs :** _six noms_
+- **Auteurs :** Dylan Belledent, Nicolas Rapuzzi--Pisarczyk (binôme 3) · Maxens Sevilla, Rahim Tamhaev (binôme 2) · binôme 1 : _à compléter_
 - **Échéance :** jeudi 26/11/2026, 12h30 · un seul dépôt pour les six
 
 > Le contrat entre les trois nœuds : tout ce qu'ils ont en commun, rien de ce qui est propre à un binôme.

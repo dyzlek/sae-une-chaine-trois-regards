@@ -1,6 +1,6 @@
 # Bible DA (direction artistique)
 
-- **Binôme :** _noms_
+- **Binôme :** n°3 · Dylan Belledent, Nicolas Rapuzzi--Pisarczyk
 - **Rendu :** PDF, vendredi 27/11/2026, 17h · pas de nombre de pages imposé
 - Chaque choix est justifié.
 

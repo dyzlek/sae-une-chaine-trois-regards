@@ -83,8 +83,8 @@ Nœud 25 % · Application 20 % · Direction artistique 20 % · Conception (S48) 
 
 | Binôme | Membres | Rôle de nœud |
 |---|---|---|
-| Notre binôme | _à compléter_ | Nœud n°_ |
-| Binôme 2 | _à compléter_ | Nœud n°_ |
-| Binôme 3 | _à compléter_ | Nœud n°_ |
+| Binôme 3 (nous) | Dylan Belledent, Nicolas Rapuzzi--Pisarczyk | Nœud n°_ |
+| Binôme 2 | Maxens Sevilla, Rahim Tamhaev | Nœud n°_ |
+| Binôme 1 | _en attente (0/2 sur Moodle)_ | Nœud n°_ |
 
 Accès GitHub donné à l'équipe enseignante : _à faire_

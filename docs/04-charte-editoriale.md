@@ -1,6 +1,6 @@
 # Charte éditoriale
 
-- **Binôme :** _noms_
+- **Binôme :** n°3 · Dylan Belledent, Nicolas Rapuzzi--Pisarczyk
 - **Rendu :** PDF, vendredi 27/11/2026, 17h
 
 > Ce que nous invitons les gens à écrire, et ce que l'IA en tire.

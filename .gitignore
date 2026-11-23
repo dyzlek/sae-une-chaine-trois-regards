@@ -5,8 +5,11 @@
 *auth-key*
 secrets/
 
-# Outils locaux de l'assistant
-.claude/
+# Outils locaux de l'assistant (on partage seulement les hooks et settings.json)
+.claude/*
+!.claude/settings.json
+!.claude/hooks/
+.claude/settings.local.json
 
 # Dépendances et builds
 node_modules/
