@@ -203,7 +203,35 @@ Si l'IA refuse elle-même de répondre (`status = refused`) **pour un message se
 
 ### 4.3 Ce que devient le texte envoyé à l'IA
 
-Le texte des messages part chez OpenRouter, puis chez le fournisseur du modèle gratuit. Certains modèles gratuits peuvent **journaliser les entrées ou s'en servir pour l'entraînement**. Avant le 07/12, nous vérifions le réglage de confidentialité de nos comptes OpenRouter et nous écrivons ici le réglage retenu. C'est une raison de plus pour la consigne : aucune donnée personnelle dans un message.
+Le texte des messages part chez OpenRouter, puis chez le fournisseur du modèle gratuit. Certains modèles gratuits peuvent **journaliser les entrées ou s'en servir pour l'entraînement**. C'est une raison de plus pour la consigne : aucune donnée personnelle dans un message.
+
+**Ce que dit OpenRouter** (documentation consultée le 23/11/2026 : [provider-logging](https://openrouter.ai/docs/guides/privacy/provider-logging), [data-collection](https://openrouter.ai/docs/guides/privacy/data-collection), [zdr](https://openrouter.ai/docs/guides/features/zdr)) :
+- **OpenRouter lui-même ne garde pas** le texte des requêtes ni des réponses, sauf si on active la journalisation privée ou l'utilisation des données par OpenRouter (deux options **désactivées par défaut**). Il garde seulement des métadonnées : nombre de jetons, temps de réponse.
+- **Les fournisseurs des modèles**, eux, ont leur propre politique. Dans les réglages de confidentialité du compte, on peut **refuser les fournisseurs qui entraînent leurs modèles sur nos données**, avec un réglage à part pour les modèles gratuits.
+- **Par requête**, on peut ajouter `"provider": { "data_collection": "deny" }` : la requête ne va alors qu'à des fournisseurs qui ne collectent pas les données.
+
+**Réglage retenu (vérifié le 23/11/2026) :**
+1. Nous laissons désactivées la journalisation privée et l'utilisation des données par OpenRouter.
+2. Nous refusons les fournisseurs qui entraînent sur nos données, **y compris pour les modèles gratuits**.
+3. Le worker envoie `"data_collection": "deny"` dans chaque requête.
+
+**Si les modèles gratuits ne répondent plus avec ce réglage** (la documentation ne dit pas s'ils en ont besoin) : nous gardons le refus de l'entraînement et nous choisissons un modèle gratuit précis dont le fournisseur ne collecte pas les données, au lieu de `openrouter/free`. Si aucun modèle gratuit ne convient, nous autorisons la collecte pour les modèles gratuits seulement, nous l'écrivons ici, et nous le disons à l'oral.
+
+**Réglages du compte de Dylan, relevés le 23/11/2026** (page *Settings → Data Policies* d'OpenRouter) :
+
+| Réglage (intitulé exact) | Valeur relevée | Ce qu'il fait |
+| --- | --- | --- |
+| *Zero Data Retention* : All other models, Anthropic, OpenAI, Google, SpaceXSI | désactivé (les 5) | S'il est activé, seules les offres qui ne gardent rien sont utilisées |
+| *Allow paid endpoints that train on request data* | désactivé | Sans effet pour nous (modèles gratuits seulement) |
+| **Allow free endpoints that train on request data** | activé au premier relevé, **désactivé** depuis | S'il était activé, il autoriserait les fournisseurs de modèles gratuits qui peuvent garder les messages ou s'en servir pour l'entraînement |
+| *Allow free endpoints that publish prompts* | désactivé | Refuse les fournisseurs qui publient les messages dans des jeux de données publics |
+| *Allow 1% data discount in workspaces* | désactivé | Refuse qu'OpenRouter utilise nos données contre une remise |
+
+**Essai du 23/11/2026 (compte de Dylan), avec les cinq réglages *Data Training* et *ZDR* désactivés :** requête à `openrouter/free` avec `"provider": { "data_collection": "deny" }` et le message « Réponds seulement : OK ». **Réponse reçue** (« OK »), donnée par le modèle **`recursive/flint-v1.0:free`**. Les modèles gratuits restent donc disponibles quand on refuse l'entraînement et la collecte : **tous les réglages de partage restent désactivés**, et le plan de repli ci-dessus n'est pas nécessaire.
+
+**À surveiller :** le choix de modèle par `openrouter/free` dépend des fournisseurs disponibles. Si, un jour de démonstration, plus aucun fournisseur gratuit n'accepte ces conditions, le worker passe aux valeurs locales (dossier §5), sans changer les réglages.
+
+Le relevé de l'autre compte (Nicolas) est à ajouter s'il sert aussi au worker.
 
 ### 4.4 Ce que nous ne faisons pas
 

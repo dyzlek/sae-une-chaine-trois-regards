@@ -25,12 +25,12 @@
 | C2 | Nos vecteurs de test 20 à 26 (spec v1.0) | Dylan | 3 h | I | 23/11 | ☑ ([tests/vectors/](../tests/vectors/README.md)) |
 | C3 | Relire la bible DA v0.3 (changements de Nicolas) et confirmer à deux ; puis **retirer tous les ✎** de la bible avant l'export PDF | Dylan relit, Nicolas retire les ✎ | 1 h | I | mer. 25/11 | ☐ |
 | C4 | Moodboard (8 à 12 images sourcées, libres de droits ou avec leur licence) | Nicolas | 2 h | I | mer. 25/11 | ☑ (planche Figma en collage et [export PNG](moodboard-planche.png), 12 images créditées ; sources dans [moodboard-sources.md](moodboard-sources.md)) |
-| C5 | Symbole, glyphe simplifié et déclinaisons | Nicolas | 2 h | I | mer. 25/11 | ☐ |
-| C6 | Trois esquisses 16:9 (vide, quelques, beaucoup), dessinées avec les règles de la bible §6 (positions calculées au tableur, sans code) | Nicolas | 4 h | I | jeu. 26/11 | ☐ |
-| C7 | Test de la charte auprès de 3 personnes (charte §3) | à deux | 1 h | I | jeu. 26/11 | ☐ |
-| C8 | Vérifier le réglage de confidentialité d'OpenRouter et l'écrire (charte §4.3) | Dylan | ½ h | I | mer. 25/11 | ☐ |
+| C5 | Symbole, glyphe simplifié et déclinaisons | Nicolas | 2 h | I | mer. 25/11 | ◐ v6 « le ciel écrit » proposée par Dylan ([planche](symbole-planche.png), [Figma](https://www.figma.com/design/o9vW6Uadmu6n6YKKC3tu2I/?node-id=14-2)), à valider par Nicolas |
+| C6 | Trois esquisses 16:9 (vide, quelques, beaucoup), dessinées avec les règles de la bible §6 (positions calculées au tableur, sans code) | Nicolas | 4 h | I | jeu. 26/11 |☑ faites par Dylan ([esquisses](esquisses/), [Figma](https://www.figma.com/design/o9vW6Uadmu6n6YKKC3tu2I/?node-id=16-4), positions dans `positions-10.csv` et `positions-300.csv`) |
+| C7 | Test de la charte auprès de 3 personnes (charte §3) | à deux | 1 h | I | jeu. 26/11 | ◐ fiche prête ([test-charte.md](test-charte.md)), test à faire passer |
+| C8 | Vérifier le réglage de confidentialité d'OpenRouter et l'écrire (charte §4.3) | Dylan | ½ h | I | mer. 25/11 | ☑ réglages relevés et désactivés, essai réussi avec `data_collection: "deny"` (charte §4.3, D-019) |
 | C9 | Relire dossier v0.8 et charte v0.5 | Nicolas | 1 h | I | mer. 25/11 | ☐ |
-| C10 | Export PDF des 4 rendus (schéma Mermaid en image, polices intégrées) | Dylan | 2 h | I | jeu. 26/11 (test), ven. 27/11 (dépôt) | ☐ |
+| C10 | Export PDF des 4 rendus (schéma Mermaid en image, polices intégrées) | Dylan | 2 h | I | jeu. 26/11 (test), ven. 27/11 (dépôt) | ☐ (pas d'export pour l'instant ; à faire après le retrait des ✎) |
 | C11 | Créer le dépôt commun des six et y déposer nos vecteurs (point ouvert O1) | Dylan + un membre par binôme | 1 h | I | ven. 27/11 | ☐ |
 | C12 | Proposer la spec v1.1 (précisions, [propositions](spec-commune/propositions-v1.1.md)) | Dylan | ½ h | + | ven. 27/11 | ☐ |
 

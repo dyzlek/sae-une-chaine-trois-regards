@@ -14,6 +14,18 @@ Un choix = un bloc court : contexte, décision, pourquoi, ce qui est écarté. P
 
 ---
 
+### D-019 · OpenRouter : aucun partage de données, refus de collecte à chaque requête
+- **Date :** 2026-11-23
+- **Décision :** sur le compte OpenRouter, tous les réglages de partage sont désactivés (*Allow free endpoints that train on request data*, *publish prompts*, *paid endpoints that train*, *1% data discount*). Le worker ajoute `"provider": { "data_collection": "deny" }` à chaque requête (charte §4.3).
+- **Pourquoi :** les messages sont écrits par des visiteurs et restent dans la chaîne pour toujours ; ils n'ont pas à servir à entraîner un modèle. L'essai du 23/11 montre que les modèles gratuits répondent quand même (`openrouter/free` → `recursive/flint-v1.0:free`).
+- **Écarté :** autoriser l'entraînement par les fournisseurs gratuits (le réglage d'origine du compte : plus de modèles, mais pas nécessaire) ; activer la conservation nulle (*Zero Data Retention*), qui risquerait de bloquer la plupart des modèles gratuits.
+
+### D-018 · Symbole : un nuage-bulle et trois points (proposée, à valider par Nicolas)
+- **Date :** 2026-11-23
+- **Décision :** le symbole est un nuage en forme de bulle de discussion, avec les trois points « quelqu'un écrit… » en bleu, jaune et orange (bible §5, v6). Les points servent aussi d'animation quand l'IA lit un message.
+- **Pourquoi :** il se comprend sans explication (météo, messages, trois), il reste lisible à 16 px avec une seule version, et il sert aussi dans l'interface.
+- **Écarté :** la spirale de points (v1 et v2) ; le point triple (v3) ; les courbes de niveau (v4 et v5) ; un nuage seul (trop banal).
+
 ### D-017 · Planning de la semaine du 07/12 : palier 1 en deux temps, estimations du nœud relevées
 - **Date :** 2026-11-23
 - **Contexte :** le palier 1 du lundi annonçait des cas HTTP (1, 2, 9, 17, 22) alors que les routes et le stockage étaient prévus le mardi ; le palier 2 du mercredi demandait l'écoute sur l'IP Tailscale, prévue le jeudi ; le rattrapage (`SYNCING`, fourches, remise en file) était estimé à 3 h.

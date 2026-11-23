@@ -30,3 +30,6 @@ data/
 Thumbs.db
 .vscode/
 .idea/
+
+# Exports PDF de test (le rendu final se dépose sur Moodle)
+rendus/

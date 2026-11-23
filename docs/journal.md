@@ -13,6 +13,20 @@ Plus récent en haut. Un daily par matin : **hier / aujourd'hui / blocages**.
 
 ---
 
+### 2026-11-23 · S48 · Symbole, esquisses, confidentialité, export PDF (Dylan, avec Claude Code)
+**Aujourd'hui :**
+- **Symbole (C5) :** six pistes dans Figma ; la v6 (un nuage-bulle avec les trois points « quelqu'un écrit… ») est proposée dans la bible §5. Le choix final revient à Nicolas.
+- **Esquisses (C6) :** les trois états (vide, 10 messages, 300 messages) dessinés dans la page « Esquisses » de Figma, avec les règles de la bible §6 ; les positions sont dans `docs/esquisses/positions-10.csv` et `positions-300.csv`. Le résultat ne nous plaît pas encore : à reprendre ensemble.
+- **Confidentialité d'OpenRouter (C8) :** tous les réglages de partage désactivés sur le compte de Dylan ; essai réussi avec `data_collection: "deny"` (modèle `recursive/flint-v1.0:free`) ; quota confirmé à 50 requêtes par jour (charte §4.3, dossier §5, D-019).
+- **Test de la charte (C7) :** fiche prête ([test-charte.md](test-charte.md)).
+- **Export PDF (C10) :** reporté, aucun PDF pour l'instant.
+
+**Blocages :** aucun.
+
+**À faire :**
+- Dylan : faire passer le test de la charte avec Nicolas ; créer le dépôt commun avec les autres binômes (C11) et y proposer la v1.1 (C12).
+- Nicolas : choisir le symbole ; relire le dossier et la charte (C9) ; retirer les ✎ de la bible (C3).
+
 ### 2026-11-23 · S48 · Moodboard dans Figma (Dylan, avec Claude Code)
 **Aujourd'hui :**
 - Moodboard composé dans Figma : un collage de 12 images sur un fond d'isobares, avec un crédit (auteur, année, licence) sur chaque image, quelques notes courtes, trois mots-clés, les trois polices Recursive et les 11 couleurs de la bible avec leur code hex.

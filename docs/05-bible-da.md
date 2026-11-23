@@ -116,20 +116,26 @@ Fond sombre, couleurs **clés** plutôt qu'une teinte continue (le passage liné
 
 ## 5. Symbole
 
-**[À DESSINER]** le symbole et ses déclinaisons.
+**Planche v6 ✎ (proposée par Dylan, à valider par Nicolas) :** [symbole-planche.png](symbole-planche.png), faite dans Figma : [symbole v6](https://www.figma.com/design/o9vW6Uadmu6n6YKKC3tu2I/?node-id=14-2). Les v1 à v5 restent à côté dans le fichier pour comparaison.
 
-**Le signe :** une **petite dépression** : des points disposés selon l'angle d'or autour d'un œil vide, dont les points passent du bleu à l'orange en suivant les couleurs-clés (les plus chauds au centre). Il résume l'œuvre : des messages de toutes les températures, enroulés en spirale.
+**Le signe : le ciel est en train d'écrire.** Un nuage en forme de **bulle de discussion**, avec dedans les **trois points** qu'on voit quand quelqu'un écrit un message (« … »). Le symbole dit le projet en une image : une météo écrite par des gens.
+- Les trois points ont les couleurs de l'échelle de chaleur : **froid** (bleu #3F7FD6), **tiède** (jaune #E3AA4E), **chaud** (orange #F26A25).
+- Trois points, c'est aussi **trois nœuds, trois regards**.
+- Dans l'application, les points servent d'**animation d'attente** : quand l'IA lit un message, ils s'allument l'un après l'autre. Le symbole est donc aussi un élément de l'interface.
 
 | Déclinaison | Description | Usage |
 | --- | --- | --- |
-| Principale | 34 points en couleur sur fond Nuit | En-tête de l'application, couverture des PDF |
-| Monochrome | Points couleur Lune | Petites tailles, documents imprimés |
-| Glyphe simplifié ✎ | Un œil (point) et **deux bras de spirale** en trait de 2 px, dégradé bleu → orange : le symbole météo du cyclone | Icône (favicon) 16 à 32 px, pastilles, légende |
-| Avec nom | Symbole + « Front commun » en Recursive Casual 700 | Titre de la page |
+| Principale | Nuage Lune, trois points en couleur, sur fond Nuit | En-tête de l'application, couverture des PDF |
+| Sur fond clair | Nuage Nuit, trois points en couleur | Documents imprimés en couleur |
+| Monochromes | Nuage Lune et points Nuit, ou nuage Nuit et points Lune | Impression en noir et blanc, tampons |
+| Animée | Un point plein, les deux autres à 25 %, en boucle | État « l'IA lit le message » |
+| Avec nom | Symbole + « Front commun » en Recursive Casual 700, et « une chaîne, trois regards » dessous | Titre de la page |
 
-**Règles :** marge autour du symbole égale au diamètre d'un point ; jamais de déformation ni de contour ; taille minimale 16 px ; **au-dessous de 48 px, on utilise le glyphe simplifié** (à 32 px, huit points ne forment plus qu'une tache).
+**Construction :** grille de 200 ; trois cercles (rayons 38, 50 et 32) et un rectangle arrondi pour le nuage, une queue de bulle en bas à gauche, trois points de diamètre 22 espacés de 32.
 
-**Pourquoi.** Le symbole est fait de la même règle que l'œuvre : il se reconnaît dès qu'on la voit. Le glyphe simplifié reprend le symbole du cyclone des cartes météo, le même langage que la légende. **Écarté :** un nuage ou un soleil (trop banal, ne dit rien de la chaîne) ; des points seuls en favicon (illisibles à 16 px).
+**Règles :** marge autour du symbole égale au diamètre d'un point ; jamais de déformation ni de contour ; l'ordre des points ne change pas (froid, tiède, chaud) ; taille minimale 16 px. Une seule version pour toutes les tailles : la silhouette reste lisible à 16 px.
+
+**Pourquoi.** Un symbole simple, qui se comprend sans explication, et qui reste le même du favicon à l'affiche. Un nuage seul serait banal ; un nuage qui parle, avec les trois points du message en cours d'écriture, dit à la fois « météo », « messages » et « trois ». **Écarté :** la spirale de points (v1 et v2 : rien à raconter, illisible en petit) ; le point triple (v3 : trop technique) ; les courbes de niveau (v4 et v5 : jolies en grand, mais compliquées et sans lien évident avec les messages).
 
 ## 6. Règles génératives
 
@@ -190,15 +196,23 @@ Le rendu doit rester fluide sur un portable pendant la démonstration :
 
 ## 7. Esquisses
 
-**[À DESSINER]** trois esquisses, au même cadrage (écran 16:9, application complète, grille de la section 8.1).
+Trois esquisses, au même cadrage (écran 16:9, application complète, grille de la section 8.1). **Faites ✎** dans la page « Esquisses » du [fichier Figma](https://www.figma.com/design/o9vW6Uadmu6n6YKKC3tu2I/?node-id=16-4) : [1 · vide](esquisses/1-vide.png), [2 · quelques messages](esquisses/2-quelques.png), [3 · beaucoup de messages](esquisses/3-beaucoup.png).
 
 | État | Ce qu'on voit |
 | --- | --- |
-| **Vide** | Fond Nuit uni, symbole au centre de l'œuvre en monochrome très pâle (l'œil encore vide), consigne lisible dans le panneau, bulletin « Ciel encore vide : écrivez le premier temps ». |
+| **Vide** | Fond Nuit uni, symbole au centre de l'œuvre en monochrome très pâle (le nuage attend, ses trois points éteints) ✎, consigne lisible dans le panneau, bulletin « Ciel encore vide : écrivez le premier temps ». |
 | **Quelques messages** (5 à 10) | Une petite spirale serrée au centre ; le message le plus récent dans l'œil ; une prévision en pointillés en train de devenir pleine ; au moins une forme avec un ou deux satellites (autre nœud) ; fond à peine teinté. |
 | **Beaucoup de messages** (300) | Spirale large et dense, qui touche presque le bord ; les plus anciennes, au bord, pâlies ; le fond a pris la teinte moyenne ; une ou deux taches de brume ; bulletin « Ciel plutôt chaud et agité ». |
 
 **Comment les produire ✎.** La semaine S48 est sans code : les esquisses sont **dessinées** (Figma ou papier scanné), en appliquant les règles de la section 6 à la lettre. Les positions se calculent avec la formule de 6.1 (un tableur suffit : 10 messages pour l'état « quelques », 300 pour l'état « beaucoup »). Le prototype Canvas (backlog O1, S50) reproduira ensuite ces trois états avec des données simulées : ses captures remplaceront les esquisses dans la version finale et servent de test de l'œuvre (backlog T6).
+
+**Données utilisées ✎.** Les positions, couleurs, tailles et opacités sont dans [positions-10.csv](esquisses/positions-10.csv) et [positions-300.csv](esquisses/positions-300.csv) : une ligne par message, avec `n`, `k`, `r`, l'angle, `x`, `y`, les trois nombres avant et après la courbe en S, la couleur, le rayon, l'opacité, le nœud, `values_source` et `masque`. Les valeurs des messages sont tirées au hasard (avec une graine fixe), plus chaudes et plus agitées pour l'état « beaucoup ». Contrôle : `chaleur` 0,30 donne bien `#779ecb`, comme l'exemple de 6.1.
+
+**Ce que montrent les esquisses ✎.**
+- **Quelques (10) :** une petite spirale au centre ; le dernier message (`terre`, au centre) est une prévision en train de devenir pleine (contour pointillé, remplissage à 60 %) ; des satellites sur les messages de `noeud-a` et `noeud-b` ; fond teinté lavande (`chaleur` moyenne 0,45).
+- **Beaucoup (300) :** la spirale touche presque le bord ; les messages au-delà de `k = 100` pâlissent et rapetissent ; trois prévisions récentes en pointillés près de l'œil ; deux taches de brume (`k` = 37 et 142) ; fond teinté ocre au bord (`chaleur` moyenne 0,74, `energie` 0,73 : « ciel plutôt chaud et agité »).
+- **Point de 3.1 vérifié :** les formes bleues sont bien les plus discrètes sur fond Nuit, surtout au bord. À trancher avec Nicolas : éclaircir le bleu (`#4C8DE8`) ou garder ce contraste, qui met les messages chauds en avant.
+- **Limites :** une esquisse est une image fixe, donc le mouvement (`energie`), la rotation des satellites et la « respiration » de la brume ne se voient pas. Les halos sont dessinés en dégradé radial d'une couleur parmi les 11 vecteurs, comme le prévoit 6.2.
 
 **Pourquoi trois états.** Ils vérifient que l'œuvre reste belle au départ (pas d'écran vide gênant) et à la fin (pas de saturation).
 
