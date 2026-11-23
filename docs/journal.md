@@ -13,6 +13,25 @@ Plus récent en haut. Un daily par matin : **hier / aujourd'hui / blocages**.
 
 ---
 
+### 2026-11-23 · S48 · Relecture de la DA, du planning et des vecteurs (Nicolas, avec Claude Code)
+**Hier :** relu la charte, le dossier et la bible v0.2 de Dylan ; donné mes avis sur le thème, les couleurs et les valeurs locales.
+**Aujourd'hui :**
+- **Vérifié par le calcul** (scripts hors dépôt, Node.js 24) : les cas 20 à 26 de Dylan sont exacts (cinq chaînes valides, hash, créneaux, producteurs, signatures, cas 22, 23 et 26) ; les contrastes de la bible aussi.
+- **Bible DA v0.3 :**
+  - la spirale ne tourne plus : l'angle suit le rang absolu et le rayon l'âge (déplacement moyen par message de 57 % à 0,16 % de la largeur, D-013) ;
+  - couleurs interpolées en OKLab (le rose parasite d'OKLCH ressemblait à l'alerte, D-014), 11 vecteurs de couleur et courbe en S définie ;
+  - échelle de la spirale mesurée (`c = 0,028`, profondeur 300, D-015), contraintes de rendu, bordure des champs, anneau de focus, glyphe de symbole simplifié, polices hébergées chez nous, sources libres de droits pour le moodboard.
+- **Dossier v0.8 et backlog v1.1 :** valeurs locales calculées par le serveur de l'application (D-016) ; palier 1 en deux temps, rattrapage relevé à 5 h, appel réel à l'IA en S2 (D-017) ; répartition N1, N8 et T1 reportée dans le dossier §10 ; deux risques ajoutés (estimations, saccades du Canvas).
+
+**Blocages :** aucun.
+
+**À faire :**
+- Nicolas : valider les changements ✎ de la bible (C3) ; moodboard, symbole, glyphe et esquisses dessinées (C4 à C6).
+- Dylan : relire les décisions D-013 à D-017 ; confidentialité d'OpenRouter (C8) ; export PDF (C10).
+- Les six : dépôt commun (O1) ; qui dépose la spec sur Moodle jeudi avant 12h30.
+
+**Décisions :** D-013 à D-017 (decisions.md).
+
 ### 2026-11-23 · S48 · Relecture complète et corrections (Dylan)
 **Aujourd'hui :**
 - **Vecteurs :** nos cas 20 à 26 sont écrits pour la spec v1.0 (`tests/vectors/`), avec une chaîne de hauteur 12 et de vraies signatures. Ils sont vérifiés en Node.js et en Python. Les vecteurs v0.5 et les exemples v0.2 sont archivés (`docs/spec-commune/archives/`).

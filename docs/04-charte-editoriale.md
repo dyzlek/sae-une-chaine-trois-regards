@@ -5,7 +5,7 @@
 | Binôme | n°3 · Dylan Belledent, Nicolas Rapuzzi--Pisarczyk · `noeud-c` |
 | Version | 0.4 (lexique et calcul exact des valeurs locales, colère froide moins agitée, refus d'un lot par l'IA) · 23/11/2026 |
 | Rendu | PDF, vendredi 27/11/2026, 17h |
-| S'appuie sur | [spec-commune.md](spec-commune.md) v1.0 (§2.1, §8.1, §9), [03-dossier-binome.md](03-dossier-binome.md) v0.7, [05-bible-da.md](05-bible-da.md) v0.2 |
+| S'appuie sur | [spec-commune.md](spec-commune.md) v1.0 (§2.1, §8.1, §9), [03-dossier-binome.md](03-dossier-binome.md) v0.8, [05-bible-da.md](05-bible-da.md) v0.3 |
 
 > Ce que nous demandons aux personnes qui écrivent, et ce que nous demandons à l'IA.
 > **Test :** quelqu'un qui lit cette charte sait ce qu'il peut écrire, et ce que l'IA en tirera.
@@ -63,7 +63,7 @@ Elle en tire **quatre valeurs**, plus un indicateur de masquage :
 
 **Règles de validation** (faites par notre worker, pas par l'IA). D'abord, retirer les balises de code éventuelles (` ```json `) et extraire le premier objet JSON de la réponse, car les modèles gratuits l'entourent souvent de texte. Ensuite : un résultat par message du lot, avec son numéro `n` ; dans chaque résultat, les cinq clés sont présentes, et seulement elles ; les nombres sont entre 0 et 1 (arrondis à 2 décimales) ; `theme` est l'une des quatre valeurs ; `masquer` est un booléen. Si toute la réponse est illisible ou si le lot est incomplet : `status = invalid_format` et un seul nouvel essai (dossier §5). Si un seul message du lot a une valeur fausse, il reçoit des valeurs locales, sans nouvel appel.
 
-**Si l'IA ne répond pas** (panne, délai, quota de 50 requêtes par jour atteint) : des **valeurs locales** sont calculées sans IA, de façon déterministe (dossier §5). Avec le quota de 50 requêtes par jour, elles porteront une bonne partie de la démo : elles doivent donc varier d'un message à l'autre.
+**Si l'IA ne répond pas** (panne, délai, quota de 50 requêtes par jour atteint) : des **valeurs locales** sont calculées sans IA, de façon déterministe, par le serveur de l'application (dossier §5). Avec le quota de 50 requêtes par jour, elles porteront une bonne partie de la démo : elles doivent donc varier d'un message à l'autre.
 
 **Le calcul exact** (chaque binôme ou développeur doit trouver les mêmes valeurs) :
 
@@ -102,7 +102,7 @@ Elle en tire **quatre valeurs**, plus un indicateur de masquage :
 
 **Pourquoi un lexique court et un calcul exact.** Les valeurs locales doivent être les mêmes chaque fois que l'œuvre se reconstruit, sans IA ni bibliothèque. Un lexique de 50 entrées couvre les mots que la consigne fait venir (météo, humeur, fatigue) ; le reste tombe sur des valeurs moyennes, que la variation tirée de l'`id` sépare. **Écarté :** une bibliothèque d'analyse de sentiment (dépendance lourde, souvent en anglais seulement), un lexique de centaines de mots (long à écrire et à tester pour un gain faible).
 
-Elles sont marquées `values_source = local`. L'œuvre les dessine comme une **prévision** (contour en pointillés, comme sur une carte météo), qui devient une **observation** (forme pleine) quand les valeurs de l'IA arrivent (dossier §6).
+Elles sont envoyées à l'œuvre avec `values_source = local` (calculées à la volée par le serveur de l'application, sans écriture en base : dossier §5). L'œuvre les dessine comme une **prévision** (contour en pointillés, comme sur une carte météo), qui devient une **observation** (forme pleine) quand les valeurs de l'IA arrivent (dossier §6).
 
 ---
 

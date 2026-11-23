@@ -14,6 +14,39 @@ Un choix = un bloc court : contexte, décision, pourquoi, ce qui est écarté. P
 
 ---
 
+### D-017 · Planning de la semaine du 07/12 : palier 1 en deux temps, estimations du nœud relevées
+- **Date :** 2026-11-23
+- **Contexte :** le palier 1 du lundi annonçait des cas HTTP (1, 2, 9, 17, 22) alors que les routes et le stockage étaient prévus le mardi ; le palier 2 du mercredi demandait l'écoute sur l'IP Tailscale, prévue le jeudi ; le rattrapage (`SYNCING`, fourches, remise en file) était estimé à 3 h.
+- **Décision :** lundi, les cas de calcul et de validité par appel de fonction ; mardi, les cas par HTTP. L'écoute sur `HOST_NODE` passe dans N5, N9 ne garde que les nouvelles tentatives. N7 passe à 5 h (2 h le jeudi matin). Le worker est coupé en A2a (IA simulée, S50) et A2b (appel réel, lun. 11/01). Dylan : 33 h en S50 (2 h de marge).
+- **Pourquoi :** un plan sans marge dont les dépendances se contredisent échoue dès le mardi.
+- **Écarté :** garder les estimations d'origine (aucune marge) ; laisser A2 en entier en S50 (36 h pour Dylan avec le nouveau N7, soit 1 h de plus que la semaine).
+
+### D-016 · Valeurs locales calculées par le serveur de l'application, pas par le worker
+- **Date :** 2026-11-23
+- **Décision :** fonction pure du texte et de l'`id` (charte §2), calculée à la volée, sans écriture en base ; seules les valeurs de l'IA sont stockées dans `ai_results`. `values_source` est un champ calculé (dossier §4).
+- **Pourquoi :** si le worker plante, plus aucune forme n'aurait de « prévision », ce qui contredit « l'œuvre n'attend jamais l'IA ». Le calcul est déterministe : il n'a pas besoin d'être stocké.
+- **Écarté :** valeurs locales écrites par le worker (point de défaillance en plus, lignes inutiles en base).
+
+### D-015 · Échelle de la spirale mesurée : `c = 0,028`, profondeur 300, rayons de 0,6 % à 1,5 %
+- **Date :** 2026-11-23
+- **Contexte :** avec `c = 0,023` et des rayons jusqu'à 2 %, le voisin le plus proche est à 2,3 % pour un diamètre de forme de 4 % : les formes se chevauchaient, contrairement à ce que disait la bible (« espacement d'environ 4 % » est l'espacement moyen).
+- **Décision :** `c = 0,028` (voisin le plus proche à 2,8 %, médiane 4,7 %), vieillissement de `k = 100` à `k = 300`, fondu au-delà, rayons de 0,6 % à 1,5 % du petit côté, mélange additif pour les contacts (bible §6.1 et §6.2).
+- **Écarté :** garder 400 messages visibles (formes trop serrées ou trop petites) ; empêcher tout contact (formes minuscules).
+
+### D-014 · Couleurs interpolées en OKLab, pas en OKLCH
+- **Date :** 2026-11-23
+- **Contexte :** en OKLCH, l'interpolation entre le gris-lavande (teinte 299°) et l'ocre (77°) passe par le rose (`#e69fab` au milieu), presque la couleur de l'alerte (`#F28B9B`).
+- **Décision :** interpolation linéaire en OKLab, 11 vecteurs de couleur dans la bible §3.1 (le milieu lavande-ocre devient `#ceaf97`), courbe en S `v²(3 − 2v)`.
+- **Pourquoi :** pas de rose parasite, et pas de sens de rotation de teinte à définir : le même résultat dans tous les langages.
+- **Écarté :** OKLCH ; la teinte HSL linéaire (le vert du milieu).
+
+### D-013 · Spirale : l'angle suit le rang absolu, le rayon suit l'âge
+- **Date :** 2026-11-23
+- **Contexte :** en v0.2 (D-008), l'angle suivait l'âge (`k × 137,5°`) : à chaque nouveau message, tous les messages se décalaient de 137,5°, soit en moyenne 57 % de la largeur de l'écran (86 % au plus, calcul sur 400 messages) : un tourbillon permanent, contraire à « calme, lent ».
+- **Décision :** angle `n × 137,5°` avec `n` le rang absolu depuis le premier message, rayon `0,028 × √k` avec `k = N − 1 − n` l'âge. Un message ne change jamais d'angle ; il glisse vers le bord (0,16 % de la largeur en moyenne par message).
+- **Pourquoi :** c'est la croissance d'un tournesol (les nouveaux éléments naissent au centre et s'écartent) et la seule règle où « les anciens s'éloignent » est vrai sans agitation.
+- **Écarté :** l'angle selon l'âge (tourbillon) ; le rayon selon le rang absolu (les anciens au centre, v0.1).
+
 ### D-012 · Les anciens vecteurs et exemples sont archivés, pas supprimés
 - **Date :** 2026-11-23
 - **Contexte :** `tests/vectors/` (v0.5, avec `author`) et `docs/spec-commune/exemples/` (v0.2, autre bloc zéro) ne correspondent plus à la spec v1.0, mais pouvaient être pris pour la référence.
@@ -41,6 +74,8 @@ Un choix = un bloc court : contexte, décision, pourquoi, ce qui est écarté. P
 - **Écarté :** garder les trois familles ; une écriture manuscrite.
 
 ### D-008 · DA : le plus récent au centre de la spirale (à valider par Nicolas)
+> **Corrigée en partie** le 23/11/2026 par D-013 (l'angle suit le rang absolu, plus l'âge : « tourne d'un cran » devient « glisse d'un cran ») et D-015 (profondeur 300 au lieu de 400).
+
 - **Date :** 2026-11-23
 - **Décision :** le rang est compté depuis le message le plus récent (`k = 0` au centre). À chaque message, la spirale tourne d'un cran ; au-delà de `k = 400`, fondu dans le fond (bible §6.1). L'image devient celle d'une dépression vue par satellite.
 - **Pourquoi :** la v0.1 mettait les anciens au centre, ce qui contredisait l'esquisse et l'intention, et la spirale n'avait pas de taille maximale.

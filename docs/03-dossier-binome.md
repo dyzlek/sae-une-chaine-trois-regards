@@ -4,7 +4,7 @@
 | --- | --- |
 | Binôme | **n°3** · Dylan Belledent, Nicolas Rapuzzi--Pisarczyk |
 | Nœud | `noeud-c` (spec commune, décision 7) |
-| Version du dossier | 0.7 (aligné sur la charte v0.4 et la bible DA v0.2 ; propositions transformées en décisions) · 23/11/2026 |
+| Version du dossier | 0.8 (aligné sur la bible DA v0.3 : spirale à angle fixe, couleurs en OKLab ; valeurs locales calculées par le serveur de l'application ; planning de la semaine du 07/12 corrigé) · 23/11/2026 |
 | Rendu | Vendredi 27/11/2026, 17h. Cette version `.md` reste dans Git ; l'export PDF (avec le schéma d'architecture) viendra plus tard. |
 | S'appuie sur | [spec-commune.md](spec-commune.md) **v1.0** (validée par les six), [04-charte-editoriale.md](04-charte-editoriale.md), [05-bible-da.md](05-bible-da.md) |
 
@@ -70,7 +70,7 @@ flowchart LR
 5. **Production du bloc.** À notre créneau, le nœud produit seulement si **toutes** les conditions de spec §4.2 sont réunies. Ce qui est propre à notre nœud : une minuterie vérifie le créneau chaque seconde, le créneau signé est écrit dans `node_state` avant la signature, et la vérification des pairs ne dépend jamais du worker IA. Sinon un autre nœud produit, et on reçoit le bloc par `POST /blocks`.
 6. **Entrée dans la chaîne.** Dès qu'un message est dans un bloc de notre chaîne, son état passe à `dans_un_bloc` et un événement `message_state` prévient l'application. Il passe à `confirme` dès que l'une des deux conditions est remplie : 3 blocs de plus ont été ajoutés (spec §5.3), **ou** la chaîne n'a pas changé depuis 60 s et les pairs joignables annoncent la même tête. La seconde condition est nécessaire, car la spec ne crée pas de bloc vide : sans elle, le dernier message d'une démonstration ne serait jamais confirmé.
 7. **Traitement IA.** Le worker repère les messages `dans_un_bloc` qui n'ont pas de résultat, les prend par ordre d'index de bloc et les envoie **par lots dans une seule requête**, selon la règle de déclenchement du §5. Il appelle OpenRouter avec notre prompt, valide la réponse et enregistre valeurs, modèle réel et statut (§5).
-8. **Œuvre.** Le serveur envoie l'événement `values_ready`. La **position** d'un message dans l'œuvre vient de la chaîne (index du bloc puis position dans le bloc, jamais `timestamp`, spec §5.3) ; un message apparaît **dès son entrée dans un bloc**, en **prévision** (valeurs locales, contour en pointillés), puis passe en **observation** (forme pleine) quand les valeurs de l'IA arrivent. L'œuvre n'attend donc jamais l'IA, et le quota rare devient visible.
+8. **Œuvre.** Le serveur envoie l'événement `values_ready`. La **position** d'un message dans l'œuvre vient de la chaîne (rang absolu pour l'angle, âge pour le rayon, jamais `timestamp`, spec §5.3 ; bible DA §6.1) ; un message apparaît **dès son entrée dans un bloc**, en **prévision** (valeurs locales, contour en pointillés), puis passe en **observation** (forme pleine) quand les valeurs de l'IA arrivent. L'œuvre n'attend donc jamais l'IA, et le quota rare devient visible.
 9. **Fourche.** Si un bloc de notre chaîne disparaît ou change de place (spec §5.2), le nœud remet ses messages en file (état `remis_en_attente`) et émet un événement **`chain_reorganized`** avec l'index à partir duquel la chaîne a changé. L'application **reconstruit l'œuvre à partir de cet index** depuis la base. Les valeurs de l'IA restent valables : elles sont rattachées à l'`id` du message (spec §9).
 
 **États d'un message :** `en_attente` → `dans_un_bloc` → `confirme`, avec `remis_en_attente` en cas de fourche (le message repart alors dans un bloc et retrouve `dans_un_bloc`).
@@ -83,7 +83,7 @@ SQLite, un fichier par nœud, en mode WAL (plusieurs processus). La chaîne est 
 | --- | --- | --- |
 | `blocks` | Un bloc complet par ligne (index, hash, previous_hash, producer, timestamp, messages_hash, signature) | Garder la chaîne sur disque (spec §7) |
 | `messages` | `id`, `node`, `timestamp`, `content`, `signature`, `block_index` (vide si en file), `position`, `state` | Retrouver un message vite, suivre son état, tenir la file d'attente |
-| `ai_results` | `message_id`, `block_index`, `model_requested`, `model_used`, `values` (JSON), `values_source` (`ia` ou `local`), `status`, `processed_at`, `prompt_version`, `raw_response` | Trace obligatoire de l'IA (spec §9) et justification à l'oral |
+| `ai_results` | `message_id`, `block_index`, `model_requested`, `model_used`, `values` (JSON, vide si la tentative a échoué), `status`, `processed_at`, `prompt_version`, `raw_response` | Trace obligatoire de l'IA (spec §9) et justification à l'oral. Une ligne par tentative ; **seules les valeurs de l'IA sont stockées** |
 | `node_state` | État du nœud, voir ci-dessous | Exigé par la spec |
 | `events` | Événements pour l'application (`message_state`, `values_ready`, `chain_reorganized`), avec un identifiant croissant | Le serveur de l'application les lit et les pousse en SSE (voir ci-dessous) |
 | `peers_log` | Erreurs reçues des pairs (code, pair, date) | Débogage de la jonction |
@@ -102,7 +102,7 @@ SQLite, un fichier par nœud, en mode WAL (plusieurs processus). La chaîne est 
 
 **Accès concurrents.** Les trois processus ouvrent la base avec `busy_timeout = 5000` ms et gardent des transactions courtes (une écriture = une transaction). Le nœud ne garde jamais une transaction ouverte pendant un appel réseau, pour ne jamais échouer à écrire pendant son créneau.
 
-**`values_source`, un ajout à la spec.** La spec §9 impose `status` (`ok`, `timeout`, `invalid_format`, `refused`). `values_source` (`ia` ou `local`) est un champ en plus, propre à notre binôme, qui ne contredit rien : il dit d'où viennent les valeurs utilisées par l'œuvre.
+**`values_source`, un champ calculé, pas stocké.** La spec §9 impose `status` (`ok`, `timeout`, `invalid_format`, `refused`). `values_source` (`ia` ou `local`) est propre à notre binôme et ne contredit rien : le serveur de l'application l'ajoute à ce qu'il envoie à l'œuvre. Il vaut `ia` s'il existe une ligne `ai_results` en `status = ok` pour le message, `local` sinon.
 
 **Sauvegarde des `ai_results`.** Un export JSON complet de `ai_results` est écrit dans `data/exports/` toutes les 50 lignes et à l'arrêt du worker. Ces fichiers restent hors de Git (ils sont dans `data/`) ; chaque membre en garde une copie sur sa machine.
 
@@ -142,7 +142,7 @@ SQLite, un fichier par nœud, en mode WAL (plusieurs processus). La chaîne est 
 
 **Les valeurs locales portent une partie de la démo.** Avec ce quota, beaucoup de messages auront des valeurs locales : leur rendu doit donc être soigné (bible DA), et la démonstration doit aussi montrer des valeurs réelles de l'IA, grâce au budget réservé.
 
-**Valeurs locales de repli** : calculées sans IA, de façon déterministe, avec un lexique de 30 à 50 mots et emojis et une légère variation tirée de l'`id` (règles exactes : charte §2). Elles sont calculées **pour chaque message dès son entrée dans un bloc** (forme « prévision »), puis remplacées par les valeurs de l'IA quand elles arrivent. L'œuvre reste vivante même si l'IA est coupée, et on voit dans la base quelles valeurs viennent de l'IA.
+**Valeurs locales de repli** : calculées sans IA, de façon déterministe, avec un lexique de 30 à 50 mots et emojis et une légère variation tirée de l'`id` (règles exactes : charte §2). Elles sont calculées **par le serveur de l'application, à la volée**, pour chaque message dès son entrée dans un bloc (forme « prévision ») : c'est une fonction pure du texte et de l'`id`, sans écriture en base, dont le code est partagé avec le nœud. Ainsi, **un plantage du worker ne supprime jamais les formes** ; l'œuvre les remplace par les valeurs de l'IA quand une ligne `ai_results` en `status = ok` apparaît. Le retraitement (ci-dessus) cible les messages qui n'ont pas une telle ligne. L'œuvre reste vivante même si l'IA est coupée.
 
 La chaîne n'est **jamais** touchée par une panne d'IA (spec §9).
 
@@ -156,20 +156,20 @@ La chaîne n'est **jamais** touchée par une panne d'IA (spec §9).
 
 | Étape | Composant | Ce qui se passe |
 | --- | --- | --- |
-| 1 | Nœud | Le message entre dans un bloc de notre chaîne : il a un **rang** (index du bloc, puis position dans le bloc) |
-| 2 | Worker IA | Calcule tout de suite les **valeurs locales** (charte §2), `values_source = local`, puis, plus tard, les valeurs de l'IA (`values_source = ia`). Les deux sont écrites dans `ai_results`, avec un événement `values_ready` |
+| 1 | Nœud | Le message entre dans un bloc de notre chaîne : il a un **rang absolu** `n` (ordre de la chaîne : index du bloc, puis position dans le bloc) et un **âge** `k = N − 1 − n` (bible DA §6.1) |
+| 2 | Serveur de l'application, puis worker IA | Le serveur calcule tout de suite les **valeurs locales** (charte §2, `values_source = local`), sans rien écrire. Le worker obtient plus tard les valeurs de l'IA et les écrit dans `ai_results` (`values_source = ia`), avec un événement `values_ready` |
 | 3 | Serveur de l'application | Applique le masquage côté serveur (§2), puis envoie au navigateur, en SSE, le rang, le `node`, l'`id`, les valeurs, `values_source` et `masquer` (jamais `content` si le message est masqué) |
-| 4 | Œuvre (navigateur) | Applique les règles de la bible DA §6 : courbe en S, puis forme (`theme`), couleur (`chaleur`), mouvement (`energie`), taille (`densite`), satellites (`node`), contour (`values_source`), place dans la spirale (rang depuis le plus récent) |
+| 4 | Œuvre (navigateur) | Applique les règles de la bible DA §6 : courbe en S, puis forme (`theme`), couleur (`chaleur`), mouvement (`energie`), taille (`densite`), satellites (`node`), contour (`values_source`), place dans la spirale (angle selon le rang absolu, rayon selon l'âge) |
 
 **Exemple.** `Il pleut sur Béziers ce matin.` (premier exemple de la charte) : le nœud le place au rang 0 de la chaîne ; le worker écrit d'abord des valeurs locales (prévision en pointillés au centre de la spirale), puis `{"energie":0.20,"chaleur":0.30,"densite":0.25,"theme":"eau","masquer":false}` ; l'œuvre dessine alors des ondes concentriques lentes, bleu-gris, petites, pleines, sans satellite (message entré chez nous).
 
 **Technique et fonctionnement :**
 1. **Rendu :** Canvas 2D en JavaScript natif (aucune dépendance, dossier §7).
-2. **Temps réel :** le serveur pousse les événements en SSE ; à chaque nouveau message, l'œuvre fait tourner la spirale d'un cran (bible DA §6.1).
+2. **Temps réel :** le serveur pousse les événements en SSE ; à chaque nouveau message, les formes glissent d'un cran vers le bord, sans tourner (bible DA §6.1).
 3. **Déterminisme :** même chaîne et mêmes `ai_results` donnent la même image. Pour cela, aucun `Math.random` : un générateur pseudo-aléatoire est initialisé par l'`id` du message, et les positions sont calculées dans un repère normalisé (0 à 1 sur le petit côté du cadre), mis à l'échelle seulement au dessin. L'image ne dépend donc pas de la taille de l'écran.
-4. **Reconstruction :** depuis la base (chaîne + `ai_results`), à partir de l'index touché par un événement `chain_reorganized`, ou depuis le début au chargement de la page. Comme la place dépend du rang depuis le plus récent, toute la spirale est redessinée, en une animation.
+4. **Reconstruction :** depuis la base (chaîne + `ai_results`), à partir de l'index touché par un événement `chain_reorganized`, ou depuis le début au chargement de la page. Comme le rayon dépend de l'âge, les rayons sont tous recalculés en une animation ; les angles des messages d'avant le point de réorganisation ne changent pas.
 5. **États à prévoir :** œuvre vide, quelques messages, beaucoup de messages (esquisses de la bible DA, §7).
-6. **Beaucoup de messages :** au-delà de 150 messages, les plus anciens pâlissent ; au-delà de 400, ils se fondent dans le fond, qui garde la teinte moyenne (bible DA §6.1). Le nombre de formes dessinées reste donc borné (400), ce qui garde le rendu fluide.
+6. **Beaucoup de messages :** au-delà de 100 messages d'âge, les plus anciens pâlissent ; au-delà de 300, ils se fondent dans le fond, qui garde la teinte moyenne (bible DA §6.1). Le nombre de formes dessinées reste donc borné (300), et les contraintes de rendu de la bible DA §6.2 (halos pré-calculés, 60 formes animées au plus, 600 particules) gardent le rendu fluide.
 7. **Prévision et observation :** une forme dont `values_source = local` est une **prévision** (contour en pointillés) ; elle devient une **observation** (forme pleine) quand l'IA répond. Le quota rare devient une histoire visible au lieu d'un défaut.
 8. **Bulletin météo :** une phrase calculée sans IA à partir des moyennes des 20 derniers messages (« Aujourd'hui, ciel plutôt chaud et agité »), affichée sous l'œuvre. Elle ne consomme pas de quota et sert à l'oral. Classée « en plus » dans le backlog.
 9. **Message masqué :** tache de brume grise floue, avec l'info-bulle « Message masqué (charte §4) ».
@@ -195,7 +195,7 @@ Les langages sont libres selon le sujet. PHP et Python ont aussi SHA-256 et Ed25
 
 | Niveau | Comment | Quand |
 | --- | --- | --- |
-| **Nœud seul** | Tests automatiques qui rejouent les **26 cas** de la spec (§10.2) : `id`, `hash`, signatures, cas valides et invalides, règle de choix entre chaînes, tri des messages. Les entrées des 22 cas à produire sont partagées dans `tests/vectors/` du dépôt commun. **Notre part : les cas 20 à 26** (redémarrages, nœud isolé, file récupérée, `SAME_PRODUCER`, envoi raté, fourche de même hauteur). **Déjà écrits** (23/11) dans [tests/vectors/](../tests/vectors/README.md), pour la spec v1.0 : un fichier par cas (état de départ, étapes, ce que `GET /status` doit montrer), avec de vraies signatures pour les cas 22, 23 et 26 et une chaîne de hauteur 12. Valeurs recalculées en Node.js et vérifiées en Python. Reste à les déposer dans le dépôt commun dès qu'il existe (point ouvert O1) | Nos vecteurs : déposés dans le dépôt commun dès sa création (27/11), au plus tard lundi 07/12. **Palier 1 (07/12, sans réseau)** : les cas hors réseau (1 à 14, 17 à 19, 22). **Paliers 2 et 3** : les cas en direct sur le réseau (15, 16, 20, 21, 23 à 26) |
+| **Nœud seul** | Tests automatiques qui rejouent les **26 cas** de la spec (§10.2) : `id`, `hash`, signatures, cas valides et invalides, règle de choix entre chaînes, tri des messages. Les entrées des 22 cas à produire sont partagées dans `tests/vectors/` du dépôt commun. **Notre part : les cas 20 à 26** (redémarrages, nœud isolé, file récupérée, `SAME_PRODUCER`, envoi raté, fourche de même hauteur). **Déjà écrits** (23/11) dans [tests/vectors/](../tests/vectors/README.md), pour la spec v1.0 : un fichier par cas (état de départ, étapes, ce que `GET /status` doit montrer), avec de vraies signatures pour les cas 22, 23 et 26 et une chaîne de hauteur 12. Valeurs recalculées en Node.js et vérifiées en Python. Reste à les déposer dans le dépôt commun dès qu'il existe (point ouvert O1) | Nos vecteurs : déposés dans le dépôt commun dès sa création (27/11), au plus tard lundi 07/12. **Palier 1 (lundi 07/12, sans réseau)** : lundi soir, par appel de fonction (sans HTTP ni disque), les cas de calcul et de validité (3 à 8, 10 à 14, 19, 23) ; mardi soir, par HTTP, avec routes et stockage, les cas 1, 2, 9, 17 et 22. **Paliers 2 et 3** : les cas en direct sur le réseau (15, 16, 20, 21, 24 à 26) |
 | **Nœud avec les deux autres** | Essais deux à deux puis à trois : messages, blocs, fourche, coupure d'un nœud, redémarrage des trois (§10.3, paliers 2 et 3) | Mercredi 09/12 puis jeudi 10/12 |
 | **Application de bout en bout** | Un message écrit dans l'application passe par `en_attente`, `dans_un_bloc`, `confirme`, reçoit des valeurs de l'IA et modifie l'œuvre | Fin de S50 |
 | **Fourche et œuvre** | Provoquer une fourche en test : l'événement `chain_reorganized` reconstruit l'œuvre sans message perdu ni doublon | S50 |
@@ -224,6 +224,8 @@ Critère de fin : tous les cas de la spec passent, trois chaînes ont le même h
 | Retard de l'un des deux | Moyenne | Backlog partagé, daily chaque matin, tâches petites, relecture croisée |
 | Travail inégal dans le binôme | Moyenne | Répartition nominative (section 10), journal de bord, chacun comprend tout le code (oral individuel) |
 | L'export PDF du schéma Mermaid ne marche pas | Moyenne | Tester l'export (image du schéma) dès jeudi 26/11, bien avant vendredi 17h |
+| Les estimations du nœud sont trop courtes (validité, rattrapage, `SYNCING`) | Haute | Rattrapage relevé de 3 h à 5 h (backlog N7), 2 h de marge pour Dylan en S50, appel réel à l'IA repoussé à la S2 (IA simulée en S50) ; si le jeudi échoue, la jonction passe avant tout (backlog §3) |
+| Le rendu Canvas saccade (halos, particules, 300 formes) | Moyenne | Halos pré-calculés, 60 formes animées au plus, 600 particules (bible DA §6.2), fluidité mesurée sur les bases de test (backlog T6) |
 | Trop d'ambition pour l'œuvre | Moyenne | D'abord une version minimale qui marche de bout en bout, puis enrichir |
 
 ## 10. L'organisation
@@ -232,7 +234,7 @@ Critère de fin : tous les cas de la spec passent, trois chaînes ont le même h
 
 | Domaine | Contenu | Responsable | Relecteur |
 | --- | --- | --- | --- |
-| Nœud | Validation, production des blocs, consensus, échanges avec les pairs (spec) | Dylan | Nicolas (relecture réelle du code : c'est le chemin critique) |
+| Nœud | Validation, production des blocs, consensus, échanges avec les pairs (spec). **Nicolas prend** la structure du dépôt et le lanceur (backlog N1), l'API interne et le filtre avant signature (N8), le lanceur de tests (T1) | Dylan (le reste) ; Nicolas (N1, N8, T1) | Nicolas (relecture réelle du code : c'est le chemin critique) ; Dylan (N1, N8, T1) |
 | IA | Prompt (charte §3), worker, quota, gestion des pannes, trace en base | Dylan | Nicolas |
 | Application | Saisie d'un message, suivi de son état, affichage de la chaîne | Nicolas | Dylan |
 | Œuvre | Rendu génératif, valeurs locales, lien avec la bible DA | Nicolas | Dylan |
