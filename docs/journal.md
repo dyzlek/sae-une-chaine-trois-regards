@@ -13,6 +13,19 @@ Plus récent en haut. Un daily par matin : **hier / aujourd'hui / blocages**.
 
 ---
 
+### 2026-11-23 · S48 · Dossier de binôme v0.4
+**Fait :** corrections après relecture :
+- confirmation d'un message par le temps ;
+- IA en parallèle, avec un quota journalier et un repli local ;
+- `events` lus par sondage, `busy_timeout` ;
+- cas de test répartis par palier ;
+- port 8080 sur l'IP Tailscale ;
+- règles pour beaucoup de messages ;
+- nouveaux risques (quota, veille, SQLite).
+
+`02-spec-commune.md` devient un renvoi vers la v1.0, et D-002 est marquée comme remplacée.
+**À faire :** répartition nominative ; charte puis bible DA, puis recopie dans le §6 ; vérifier le quota OpenRouter ; demander à l'équipe pour la S49 et un éventuel crédit.
+
 ### 2026-11-23 · S48 · Spec commune v1.0
 **Fait :** `docs/spec-commune.md` passe en v1.0, la version validée par les six : 20 décisions actées, exemples et justifications dans chaque section. Le PDF et la v0.6 sont archivés dans `docs/spec-commune/`.
 **À faire :** déposer sur Moodle avant le jeu. 26/11 à 12h30 ; mieux mettre en page le tableau 6.3 du PDF ; points ouverts O1 à O3 ; D-002 (Google Doc) est remplacée par la décision 14 (dépôt GitHub).
