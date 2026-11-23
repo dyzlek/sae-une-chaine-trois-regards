@@ -4,15 +4,14 @@
 | --- | --- |
 | Binôme | **n°3** · Dylan Belledent, Nicolas Rapuzzi--Pisarczyk |
 | Nœud | `noeud-c` (spec commune, décision 7) |
-| Version du dossier | 0.4 (corrigé après relecture) · 23/11/2026 |
+| Version du dossier | 0.5 (répartition décidée, quota) · 23/11/2026 |
 | Rendu | Vendredi 27/11/2026, 17h. Cette version `.md` reste dans Git ; l'export PDF (avec le schéma d'architecture) viendra plus tard. |
 | S'appuie sur | [spec-commune.md](spec-commune.md) **v1.0** (validée par les six), [04-charte-editoriale.md](04-charte-editoriale.md), [05-bible-da.md](05-bible-da.md) |
 
 > Plan de construction de notre projet. Il s'appuie sur la spec commune et ne la recopie pas : on écrit « voir spec §x ». Rien ne doit contredire la spec ni la bible DA.
 > **Test :** un autre binôme doit pouvoir reprendre le projet avec ce seul document.
 
-**Légende.** **[PROPOSITION]** : choix écrit pour rendre le dossier concret, à valider à deux (et avec la bible DA pour tout ce qui est visuel). **[À RÉPARTIR]** : à décider entre nous avant vendredi.
-
+**Légende.** **[PROPOSITION]** : choix écrit pour rendre le dossier concret, à valider à deux (et avec la bible DA pour tout ce qui est visuel).
 ---
 
 ## 1. Le projet en bref
@@ -52,7 +51,12 @@ flowchart LR
 
 **Pourquoi trois processus.** Le nœud a des contraintes de temps (créneau de 20 s, production entre 2 s et 15 s, spec §4.2). Un plantage ou un blocage du traitement IA ne doit jamais vider un créneau : le worker est donc à part, et le nœud ne l'attend jamais. Un petit script de lancement les démarre et les relance s'ils s'arrêtent.
 
-**Deux interfaces locales, un seul port ouvert aux autres.** Seul le port 8080 est joignable depuis le tailnet : c'est celui de la spec. Le nœud l'écoute **sur l'adresse Tailscale de la machine** (100.x.y.z), pas sur toutes les interfaces, pour qu'il ne soit pas visible sur eduroam ou sur un autre réseau. Le serveur de l'application écoute sur 127.0.0.1 pour ne pas être joignable depuis Tailscale, et l'API interne du nœud aussi. Si on veut un jour que d'autres personnes écrivent depuis leur machine, on liera 3000 à l'adresse Tailscale, mais pas avant que ce soit nécessaire.
+**Deux interfaces locales, un seul port ouvert aux autres.** Seul le port 8080 est joignable depuis le tailnet : c'est celui de la spec. Le nœud l'écoute **sur l'adresse Tailscale de la machine** (100.x.y.z), pas sur toutes les interfaces, pour qu'il ne soit pas visible sur eduroam ou sur un autre réseau. Le serveur de l'application écoute sur 127.0.0.1 pour ne pas être joignable depuis Tailscale, et l'API interne du nœud aussi.
+
+**Qui peut écrire dans l'application.** eduroam isole les postes : aucun visiteur ne peut joindre notre PC directement.
+- **Mode principal :** les visiteurs écrivent **sur notre PC** (ou sur un second écran branché dessus), à `http://127.0.0.1:3000`. C'est le plus simple et le plus sûr.
+- **Variante prévue :** la variable `APP_HOST` lie le port 3000 à l'adresse Tailscale, pour que les membres du tailnet (les autres binômes, l'équipe enseignante) écrivent depuis leur machine. Elle n'est activée que pendant une démonstration.
+- **Écarté :** exposer l'application sur internet. Un message ne s'efface jamais, et notre filtre (charte §4.1) ne suffit pas face à un accès ouvert à tous.
 
 **Le navigateur ne lit jamais la base.** Il parle au serveur de l'application, qui lit SQLite et lui renvoie les états et les événements.
 
@@ -64,7 +68,7 @@ flowchart LR
 4. **File et relais.** Le message entre dans la file (état `en_attente`) et est envoyé tout de suite aux deux autres nœuds par `POST /messages` (spec §6.4). Le visiteur reçoit l'`id` et voit « en attente ».
 5. **Production du bloc.** À notre créneau, le nœud produit seulement si **toutes** les conditions de spec §4.2 sont réunies. Ce qui est propre à notre nœud : une minuterie vérifie le créneau chaque seconde, le créneau signé est écrit dans `node_state` avant la signature, et la vérification des pairs ne dépend jamais du worker IA. Sinon un autre nœud produit, et on reçoit le bloc par `POST /blocks`.
 6. **Entrée dans la chaîne.** Dès qu'un message est dans un bloc de notre chaîne, son état passe à `dans_un_bloc` et un événement `message_state` prévient l'application. Il passe à `confirme` **[PROPOSITION]** dès que l'une des deux conditions est remplie : 3 blocs de plus ont été ajoutés (spec §5.3), **ou** la chaîne n'a pas changé depuis 60 s et les pairs joignables annoncent la même tête. La seconde condition est nécessaire, car la spec ne crée pas de bloc vide : sans elle, le dernier message d'une démonstration ne serait jamais confirmé.
-7. **Traitement IA.** Le worker repère les messages `dans_un_bloc` qui n'ont pas de résultat, les prend par ordre d'index de bloc et en traite **2 en parallèle** **[PROPOSITION]**, pour qu'un message lent ne bloque pas les suivants. Il appelle OpenRouter avec notre prompt, valide la réponse et enregistre valeurs, modèle réel et statut (§5).
+7. **Traitement IA.** Le worker repère les messages `dans_un_bloc` qui n'ont pas de résultat, les prend par ordre d'index de bloc et les envoie **par lots de 10 au plus dans une seule requête** **[PROPOSITION]** (quota, §5). Il appelle OpenRouter avec notre prompt, valide la réponse et enregistre valeurs, modèle réel et statut (§5).
 8. **Œuvre.** Le serveur envoie l'événement `values_ready`. La **position** d'un message dans l'œuvre vient de la chaîne (index du bloc puis position dans le bloc, jamais `timestamp`, spec §5.3) ; son **apparition** vient de l'arrivée de ses valeurs. Un message dont les valeurs arrivent en retard apparaît donc à sa place, mais plus tard.
 9. **Fourche.** Si un bloc de notre chaîne disparaît ou change de place (spec §5.2), le nœud remet ses messages en file (état `remis_en_attente`) et émet un événement **`chain_reorganized`** avec l'index à partir duquel la chaîne a changé. L'application **reconstruit l'œuvre à partir de cet index** depuis la base. Les valeurs de l'IA restent valables : elles sont rattachées à l'`id` du message (spec §9).
 
@@ -110,19 +114,29 @@ SQLite, un fichier par nœud, en mode WAL (plusieurs processus). La chaîne est 
 - **Quand :** une fois le message dans un bloc de notre chaîne, par le worker. Un message ne passe qu'une fois par l'IA (clé : `id`). Chaque nœud traite **tous** les messages de la chaîne, pas seulement les siens.
 - **Modèle :** `openrouter/free` (accepté à condition d'enregistrer `model_used`, le modèle qui a réellement répondu). **[PROPOSITION]** si les réponses sont trop instables, fixer un modèle gratuit précis.
 - **Prompt :** décrit dans la [charte éditoriale](04-charte-editoriale.md) (valeurs, bornes, format JSON), versionné (`prompt_version`).
-- **Réponse attendue :** un objet JSON avec les valeurs de la section 6, chacune dans sa plage. On vérifie le format avant d'enregistrer.
-- **Clé d'API :** une par personne d'après le sujet. Le nœud utilise la clé de la personne qui le fait tourner ; l'autre membre utilise la sienne dans son `.env` pour développer.
-- **Débit :** chaque nœud traite tous les messages de la chaîne, donc la charge d'un test à trois est triple. Le worker applique un **plafond d'appels par minute** (`IA_MAX_PER_MINUTE`, 10 par défaut **[PROPOSITION]**) et traite 2 messages en parallèle au plus.
-- **Quota journalier (le vrai plafond).** Nos comptes sont en offre **Free** d'OpenRouter : **50 requêtes par jour**, environ 25 modèles gratuits (page des tarifs d'OpenRouter, consultée le 23/11/2026). Ce plafond compte bien plus que le plafond par minute. Une heure d'usage réel à trois peut l'épuiser en quelques minutes. Le worker compte ses appels du jour (`IA_MAX_PER_DAY`) ; une fois le plafond atteint, il passe aux **valeurs locales de repli** jusqu'au lendemain, et l'œuvre le montre (voir §6). Pistes à décider : utiliser à tour de rôle les deux clés du binôme, demander à l'équipe enseignante si un crédit est autorisé.
+- **Réponse attendue :** un objet JSON avec un résultat par message du lot, chacun avec les valeurs de la section 6 dans leur plage (format exact : charte §3). On vérifie le format avant d'enregistrer.
+- **Clé d'API :** une par personne d'après le sujet. Le nœud utilise la clé de la personne qui le fait tourner ; l'autre membre utilise la sienne pour développer. Question posée à l'équipe : peut-on alterner les deux clés du binôme pour une même application ?
+
+**Le quota, contrainte principale.** Nos comptes sont en offre **Free** d'OpenRouter : **50 requêtes par jour** (page des tarifs d'OpenRouter, consultée le 23/11/2026). Chaque nœud traite tous les messages de la chaîne, et chaque essai raté compte. D'où ces règles **[PROPOSITION]** :
+
+- **Lots :** jusqu'à 10 messages par requête (`IA_BATCH_SIZE`). C'est le levier principal : 50 requêtes peuvent traiter jusqu'à 500 messages. L'ordre (index de bloc) et la clé (`id`) ne changent pas.
+- **Peu d'essais :** une requête ratée est retentée **une seule fois**. Un lot coûte donc 2 requêtes au plus.
+- **Compteur journalier en base** (`node_state`), qui compte **chaque tentative** et survit à un redémarrage. Au plafond (`IA_MAX_PER_DAY`), le worker passe aux valeurs locales. L'heure de remise à zéro du quota est à vérifier avant le 07/12 (minuit UTC ?).
+- **IA simulée par défaut en développement** (`IA_MODE=simulee`) : elle renvoie des valeurs plausibles sans appel. Les appels réels sont réservés à des moments choisis (test du prompt, essais à trois).
+- **Budget réservé pour la démonstration et l'oral :** ces jours-là, `IA_MAX_PER_DAY = 20` jusqu'au passage devant le jury, puis 50 : il reste **30 requêtes** pour montrer de vraies valeurs de l'IA.
+- **Pas de crédit payant** tant que l'équipe enseignante n'a pas répondu (le sujet impose des modèles gratuits).
 
 | Situation | Ce que fait le worker |
 | --- | --- |
-| Pas de réponse ou réponse trop lente (plus de 20 s) | `status = timeout`, 3 essais avec délai croissant (2 s, 6 s, 18 s) |
-| Réponse hors format (pas du JSON, valeur absente ou hors plage) | `status = invalid_format`, un nouvel essai avec un rappel du format |
-| Quota par minute ou erreur 429 | Pause selon `Retry-After`, puis reprise dans l'ordre des index de bloc |
-| Quota du jour atteint | Valeurs locales de repli jusqu'au lendemain, `values_source = local` |
-| Refus du modèle | `status = refused` |
-| Après les essais ratés | **Valeurs locales de repli** (ci-dessous), `values_source = local` |
+| Pas de réponse ou réponse trop lente (plus de 20 s) | `status = timeout`, un seul nouvel essai après 5 s |
+| Réponse hors format (pas du JSON, ou lot incomplet) | `status = invalid_format`, un seul nouvel essai avec un rappel du format |
+| Un seul message du lot a une valeur absente ou hors plage | Valeurs locales pour ce message, sans nouvel appel ; les autres sont gardés |
+| Erreur 429 | Pause selon `Retry-After`, puis reprise dans l'ordre des index de bloc |
+| Quota du jour atteint | Valeurs locales jusqu'à la remise à zéro, `values_source = local` |
+| Refus du modèle | `status = refused`, message masqué (charte §4.2) |
+| Après l'essai raté | **Valeurs locales de repli** (ci-dessous), `values_source = local` |
+
+**Les valeurs locales portent une partie de la démo.** Avec ce quota, beaucoup de messages auront des valeurs locales : leur rendu doit donc être soigné (bible DA), et la démonstration doit aussi montrer des valeurs réelles de l'IA, grâce au budget réservé.
 
 **Valeurs locales de repli** **[PROPOSITION]** : calculées sans IA, de façon déterministe, à partir du texte : `energie` selon la part de `!` et de majuscules, `densite` selon la longueur sur 280, `chaleur` = 0,5, `theme` = `air`, `masquer` = `false` (sauf si le message contient un mot de la liste de la charte). L'œuvre reste vivante même si l'IA est coupée, et on voit dans la base quelles valeurs viennent de l'IA.
 
@@ -191,7 +205,7 @@ Les langages sont libres selon le sujet. PHP et Python ont aussi SHA-256 et Ed25
 | **Nœud avec les deux autres** | Essais deux à deux puis à trois : messages, blocs, fourche, coupure d'un nœud, redémarrage des trois (§10.3, paliers 2 et 3) | Mercredi 09/12 puis jeudi 10/12 |
 | **Application de bout en bout** | Un message écrit dans l'application passe par `en_attente`, `dans_un_bloc`, `confirme`, reçoit des valeurs de l'IA et modifie l'œuvre | Fin de S50 |
 | **Fourche et œuvre** | Provoquer une fourche en test : l'événement `chain_reorganized` reconstruit l'œuvre sans message perdu ni doublon | S50 |
-| **IA** | Appel réel d'OpenRouter sur 10 messages types (charte) ; IA simulée pour les pannes (timeout, hors format, quota) ; vérifier que le plafond d'appels par minute est respecté | S50 |
+| **IA** | IA simulée par défaut ; appels réels comptés, sur les 3 exemples de la charte et un lot de 10 messages ; IA simulée pour les pannes (timeout, hors format, lot incomplet, quota) ; vérifier que le compteur journalier survit à un redémarrage | S50 |
 | **Plantage du worker** | Arrêter le worker pendant un créneau : le nœud produit quand même son bloc | S50 |
 | **Œuvre** | Rejouer une base de messages de test : œuvre vide, quelques messages, beaucoup | S50 et S2 |
 
@@ -202,12 +216,12 @@ Critère de fin : tous les cas de la spec passent, trois chaînes ont le même h
 | Risque | Gravité | Ce que nous prévoyons |
 | --- | --- | --- |
 | Un nœud n'est pas compatible avec la spec | Haute | Rejouer les cas hors réseau le 07/12, les cas en direct les 09 et 10/12 ; si deux lectures divergent, corriger la spec avant le code |
-| Quota OpenRouter du jour épuisé (offre Free : 50 requêtes par jour, et chaque nœud traite tous les messages) | Haute | Compteur journalier, valeurs locales de repli ; question posée à l'équipe sur l'usage des deux clés du binôme ou d'un crédit |
+| Quota OpenRouter du jour épuisé (offre Free : 50 requêtes par jour, et chaque nœud traite tous les messages) | Haute | Lots de 10 messages, un seul nouvel essai, compteur journalier en base, IA simulée en développement, 30 requêtes réservées pour l'oral, valeurs locales soignées ; question posée à l'équipe sur l'alternance des deux clés |
 | Verrou SQLite : le nœud n'arrive pas à écrire pendant son créneau | Moyenne | `busy_timeout`, transactions courtes, jamais de transaction ouverte pendant un appel réseau |
 | Un portable se met en veille ou redémarre (mise à jour Windows) | Moyenne | Branché sur secteur, veille désactivée, mises à jour suspendues la semaine du 07/12 ; vérifié au début du jour J |
 | `better-sqlite3` ne s'installe pas (pas de binaire précompilé pour notre version de Node sous Windows) | Moyenne | `npm install` testé sur les deux machines dès S49 ; sinon outils de compilation ou `node:sqlite` |
 | Spec encore modifiée après jeudi | Haute | Une seule version de référence, citée par son numéro ; changements par accord des trois binômes ; gel au 07/12 |
-| IA gratuite lente, en panne ou limitée | Moyenne | Plafond d'appels par minute, essais et statuts (§5), valeurs locales de repli, IA simulée en test |
+| IA gratuite lente, en panne ou limitée | Moyenne | Un seul nouvel essai, statuts (§5), valeurs locales de repli, IA simulée en test |
 | Le traitement IA fait tomber le nœud pendant un créneau | Haute | Worker dans un processus séparé, relancé automatiquement ; le nœud ne l'attend jamais |
 | Perte des `ai_results` (l'œuvre ne se reconstruirait pas à l'identique) | Moyenne | Export JSON régulier dans `data/exports/`, copie sur la machine de l'autre membre |
 | Clé privée ou clé OpenRouter publiée par erreur dans Git | Haute | `.gitignore` (`.env`), `.env.example` vide, relecture avant chaque push, masquage des clés dans les prompts enregistrés |
@@ -220,19 +234,22 @@ Critère de fin : tous les cas de la spec passent, trois chaînes ont le même h
 
 ## 10. L'organisation
 
-**Qui fait quoi** **[À RÉPARTIR]** : la liste des domaines est établie ; le sujet attend une répartition **nominative** dans le dossier, donc à trancher à deux **au plus tard mercredi 25/11**.
+**Qui fait quoi** (décidé à deux le 23/11) :
 
 | Domaine | Contenu | Responsable | Relecteur |
 | --- | --- | --- | --- |
-| Nœud | Validation, production des blocs, consensus, échanges avec les pairs (spec) | à répartir | à répartir |
-| Application | Saisie d'un message, suivi de son état, affichage de la chaîne | à répartir | à répartir |
-| IA | Prompt, worker, gestion des pannes, trace en base | à répartir | à répartir |
-| Œuvre | Rendu génératif, lien avec la bible DA | à répartir | à répartir |
-| Tests | Vecteurs de la spec, tests du nœud, de l'IA et de bout en bout | à répartir | à répartir |
+| Nœud | Validation, production des blocs, consensus, échanges avec les pairs (spec) | Dylan | Nicolas (relecture réelle du code : c'est le chemin critique) |
+| IA | Prompt (charte §3), worker, quota, gestion des pannes, trace en base | Dylan | Nicolas |
+| Application | Saisie d'un message, suivi de son état, affichage de la chaîne | Nicolas | Dylan |
+| Œuvre | Rendu génératif, valeurs locales, lien avec la bible DA | Nicolas | Dylan |
+| Bible DA | Les huit éléments, règles génératives | Nicolas | Dylan |
+| Charte éditoriale | Tableau des valeurs : à deux · prompt : Dylan · consigne et limites : à deux | à deux | à deux |
+| Cas de test 20 à 26 (spec §10.2) | Entrées et résultats attendus | à deux | à deux |
+| Tests | Tests du nœud et de l'IA : Dylan · application et œuvre : Nicolas · bout en bout : à deux | selon le domaine | l'autre |
 | Intégration | Jonction avec les deux autres nœuds, essais à deux puis à trois | à deux | à deux |
-| Documents | Charte éditoriale, bible DA, backlog, journal, dossier | à répartir | à répartir |
+| Documents | Dossier, backlog, journal | Dylan | Nicolas |
 
-Règle déjà fixée : chacun relit le travail de l'autre, pour que chacun puisse expliquer **tout** le projet à l'oral.
+**Pourquoi cette répartition.** Le nœud vaut 25 % de la note et la jonction du 10/12 en dépend : il revient à un seul responsable, mais Nicolas le relit vraiment et co-écrit nos cas de test. La bible DA (20 %) revient à celui qui fait l'œuvre. Le travail est équilibré, et chacun relit l'autre pour pouvoir expliquer **tout** le projet à l'oral.
 
 **Comment nous travaillons à deux :**
 - Daily chaque matin (10 minutes avec l'enseignant), puis un point rapide entre nous à midi.
@@ -304,8 +321,10 @@ Puis ouvrir `http://127.0.0.1:3000`.
 | `DB_PATH` | Fichier SQLite | `data/node.db` |
 | `OPENROUTER_API_KEY` | Clé OpenRouter (secrète) | `sk-or-...` |
 | `OPENROUTER_MODEL` | Modèle demandé | `openrouter/free` |
-| `IA_MAX_PER_MINUTE` | Plafond d'appels par minute | `10` |
-| `IA_MAX_PER_DAY` | Plafond d'appels par jour, puis valeurs locales | `50` (offre Free) |
+| `IA_MODE` | `reelle` ou `simulee` (par défaut en développement) | `simulee` |
+| `IA_BATCH_SIZE` | Messages par requête | `10` |
+| `IA_MAX_PER_DAY` | Tentatives par jour, puis valeurs locales (20 avant l'oral, voir §5) | `50` (offre Free) |
+| `APP_HOST` | Adresse d'écoute de l'application (`127.0.0.1`, ou l'IP Tailscale pendant une démo) | `127.0.0.1` |
 
 **Ports :** 8080 (spec, sur l'IP Tailscale), 8081 et 3000 (locaux, 127.0.0.1).
 

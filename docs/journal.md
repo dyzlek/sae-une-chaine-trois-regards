@@ -13,6 +13,21 @@ Plus récent en haut. Un daily par matin : **hier / aujourd'hui / blocages**.
 
 ---
 
+### 2026-11-23 · S48 · Répartition décidée, quota OpenRouter
+**Décisions (à deux) :**
+- Dylan : nœud, IA et prompt, dossier.
+- Nicolas : application, œuvre et bible DA.
+- À deux : tableau des valeurs de la charte, cas 20 à 26.
+- Chacun relit l'autre.
+
+**Fait :** le dossier passe en v0.5 :
+- répartition nominative ;
+- IA par lots de 10 messages, un seul nouvel essai, compteur journalier en base, IA simulée en développement, 30 requêtes réservées pour l'oral ;
+- application ouverte sur notre PC, avec `APP_HOST` en variante.
+
+Le prompt de la charte passe en lots.
+**À faire :** savoir qui dépose la spec sur Moodle jeudi 12h30. Questions aux profs : vecteurs en S49 (fichiers JSON, pas du code) ; alterner nos deux clés OpenRouter.
+
 ### 2026-11-23 · S48 · Charte éditoriale v0.1
 **Fait :** la charte est écrite. Elle contient :
 - la consigne « Quel temps fait-il en vous ? » ;
