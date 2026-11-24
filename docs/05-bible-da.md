@@ -4,7 +4,7 @@
 | --- | --- |
 | Binôme | n°3 · Dylan Belledent, Nicolas Rapuzzi--Pisarczyk · `noeud-c` |
 | Responsable | Nicolas (relecture : Dylan) |
-| Version | 0.3 · 23/11/2026 · **v0.3 (relecture de la DA par Nicolas, avec Claude Code) :** la spirale ne tourne plus à chaque message (l'angle suit le rang absolu, le rayon l'âge), couleurs interpolées en OKLab (et non OKLCH) avec vecteurs de couleur, courbe en S définie, espacement mesuré (nouvelle échelle de la spirale), bordure des champs, glyphe de symbole simplifié, contraintes de rendu. **v0.2 :** contour à un seul usage, typographie Recursive, couleurs d'état propres à l'interface, grille de l'écran, nom de l'œuvre |
+| Version | 0.4 · 24/11/2026 · **v0.4 (proposée par Dylan, à valider par Nicolas) :** typographie en quatre temps (Fraunces, Quicksand, Special Elite, IBM Plex Mono) qui changent selon les valeurs et les interactions, section 4 et D-020 ; symbole retiré, à refaire (section 5). **v0.3 (relecture de la DA par Nicolas, avec Claude Code) :** la spirale ne tourne plus à chaque message (l'angle suit le rang absolu, le rayon l'âge), couleurs interpolées en OKLab (et non OKLCH) avec vecteurs de couleur, courbe en S définie, espacement mesuré (nouvelle échelle de la spirale), bordure des champs, glyphe de symbole simplifié, contraintes de rendu. **v0.2 :** contour à un seul usage, typographie Recursive, couleurs d'état propres à l'interface, grille de l'écran, nom de l'œuvre |
 | Rendu | PDF, vendredi 27/11/2026, 17h · pas de nombre de pages imposé |
 | S'appuie sur | [charte éditoriale](04-charte-editoriale.md) v0.5 (valeurs), [dossier de binôme](03-dossier-binome.md) v0.8 §6 (technique) |
 
@@ -35,7 +35,7 @@
 
 ## 2. Moodboard
 
-**Planche ✎ :** [moodboard-planche.png](moodboard-planche.png) (collage de 12 images sur un fond d'isobares, palette en hex, polices), faite dans Figma : [planche v4](https://www.figma.com/design/3kuh5BiZHfMOCHNWPh9dXD/?node-id=11-2). Chaque image porte sa source et sa licence ; liste complète dans [moodboard-sources.md](moodboard-sources.md).
+**Planche ✎ :** [moodboard-planche.png](moodboard-planche.png) (collage de 12 images sur un fond d'isobares, palette en hex, polices), faite dans Figma : [planche v5](https://www.figma.com/design/3kuh5BiZHfMOCHNWPh9dXD/?node-id=20-79) ✎ (la v4 avec les quatre polices de la section 4 à la place de Recursive ; la v4 reste à côté dans le fichier). Chaque image porte sa source et sa licence ; liste complète dans [moodboard-sources.md](moodboard-sources.md).
 
 | Référence | Ce que nous en retenons | Ce que nous laissons |
 | --- | --- | --- |
@@ -98,44 +98,81 @@ Fond sombre, couleurs **clés** plutôt qu'une teinte continue (le passage liné
 
 ## 4. Typographie
 
-**Une seule famille, trois réglages : Recursive** (Google Fonts, libre, variable). Recursive a deux axes qui nous servent directement : **Mono** (de proportionnelle à chasse fixe) et **Casual** (du dessin net au dessin manuscrit souple).
+**✎ v0.4 (proposée par Dylan, à valider par Nicolas, D-020) : le texte a, lui aussi, un temps.** Les mots écrits dans l'application changent de police selon le temps qu'ils décrivent. Quatre polices pour quatre temps. La police change quand on écrit, quand l'IA répond et quand le ciel change.
 
-| Rôle | Réglage de Recursive | Graisse et taille | Usage |
+**Planche d'essai ✎ :** [typo-planche.png](typo-planche.png), faite dans Figma : [essai typographique](https://www.figma.com/design/3kuh5BiZHfMOCHNWPh9dXD/?node-id=19-2). Les quatre temps avec un exemple de la charte, ce qui bouge, les accents ; les trois interactions ; ce qui reste fixe. Les axes `SOFT` et `WONK` de Fraunces n'étant pas réglables dans Figma, la planche les simule par la graisse et l'italique.
+
+### 4.1 Les quatre temps typographiques
+
+| Temps | Police | Ce qu'elle évoque | Réglage qui bouge |
 | --- | --- | --- | --- |
-| Titres et poésie | **Casual 1, Mono 0** (« Sans Casual ») | 700 · 32 px (titre) ; 500 · 22 px (consigne, bulletin) | Nom de l'œuvre, consigne « Quel temps fait-il en vous ? », bulletin météo |
-| Texte | **Casual 0, Mono 0** (« Sans Linear ») | 400 et 600 · 16 px, interligne 1,5 | Champ de saisie, messages, aides |
-| Données | **Casual 0, Mono 1** (« Mono Linear ») | 400 · 13 px | `id`, hash de bloc, index, compteur, états techniques |
+| ☀ **Ensoleillé** | **Fraunces** (serif variable, axes `wght`, `SOFT`, `WONK`) | Une serif chaleureuse, ronde, presque gourmande | `SOFT` = 100 × `chaleur` (plus c'est chaud, plus les empattements fondent) ; `wght` = 400 + 300 × `energie` ; `WONK` = 1 si `energie` ≥ 0,80 (les lettres penchent d'excitation) |
+| ☁ **Nuageux** | **Quicksand** (sans empattement arrondie, variable `wght`) | Une sans empattement douce, sans angle, comme un ciel couvert sans menace | `wght` = 400 + 300 × `densite` (un nuage léger est fin, un nuage chargé est gras) ; jamais sous 400 (trop fin sur fond Nuit) |
+| ☂ **Pluie** | **Special Elite** (machine à écrire, une seule graisse) | Les touches qui tombent comme des gouttes, un ruban un peu usé | À l'arrivée, les lettres apparaissent **une à une**, comme frappées : de 40 ms par lettre (calme) à 15 ms (agité), selon `energie` ; chaque lettre est décalée de ± 1 px sur la ligne, décalage tiré de l'`id` (comme les variations de l'œuvre, jamais `Math.random`) |
+| ≋ **Brouillard** | **IBM Plex Mono** (chasse fixe, 400) | Une police froide, technique, qui tient à distance | À l'arrivée, le texte est flou (3 px) et devient net en 1,5 s : **le brouillard se lève** ; interlettrage élargi de 0,04 em |
 
-**Hiérarchie :** titre (Casual 700, 32) → consigne et bulletin (Casual 500, 22) → texte (Linear 400, 16) → légende et états (Linear 400, 13, Brume claire) → données (Mono 400, 13).
+**Le temps d'un texte** se lit sur ses valeurs (charte §2), **avant** la courbe en S, dans cet ordre (la première règle qui s'applique gagne) :
 
-**Mise en œuvre ✎.** Le fichier variable est **hébergé chez nous** (`app/fonts/`, licence OFL) et non appelé chez Google : la démonstration doit marcher sans internet et sans envoyer de requête externe. Vérifier sur la page de test (backlog, S49) que les accents (é, è, à, ç, œ) et les trois réglages s'affichent, et que le Casual à 22 px reste lisible sur fond sombre (repli : Casual 0,5).
+1. `masquer` = `true` → **Brouillard** (le texte n'est pas affiché : seule la mention « Message masqué » prend cette police).
+2. `theme` = `eau` et `chaleur` < 0,60 → **Pluie**.
+3. `chaleur` ≥ 0,60 → **Ensoleillé**.
+4. `chaleur` ≥ 0,40 → **Nuageux**.
+5. `energie` ≥ 0,35 → **Pluie** (un froid agité : une averse).
+6. Sinon → **Brouillard** (un froid immobile).
 
-**Pourquoi.** « Une chaîne, trois regards » : une seule famille, comme une seule chaîne, avec trois réglages, comme trois regards. Le réglage Casual apporte la voix humaine du bulletin, Linear la lisibilité, Mono le côté donnée de la chaîne : la différence entre poésie et données reste visible, sans mélanger trois familles qui ne se ressemblent pas. Un seul fichier variable à charger. **Écarté :** Fraunces, Inter et IBM Plex Mono (v0.1 : trois familles très répandues, l'ensemble faisait « modèle de site » et pas « œuvre ») ; une écriture manuscrite (peu lisible, mal accentuée).
+**Vecteurs** (les six exemples de la charte §3, à retrouver dans le code) :
 
-**Piste en plus (si le temps le permet) :** l'axe Casual du bulletin suit l'`energie` moyenne du ciel (calme : dessin net ; agité : dessin plus souple).
+| Message | `energie` · `chaleur` · `theme` | Règle | Temps |
+| --- | --- | --- | --- |
+| `Il pleut sur Béziers ce matin.` | 0,20 · 0,30 · `eau` | 2 | ☂ Pluie |
+| `J'AI EU MON PERMIS !!! Je suis tellement heureux 🎉` | 0,95 · 0,90 · `feu` | 3 | ☀ Ensoleillé (`WONK` 1) |
+| `Fatigué. Les partiels arrivent…` | 0,15 · 0,20 · `terre` | 6 | ≋ Brouillard |
+| `Soleil sur la terrasse, rien à faire, tout est calme.` | 0,10 · 0,85 · `air` | 3 | ☀ Ensoleillé |
+| `Il a encore menti et je dois faire comme si de rien n'était.` | 0,55 · 0,25 · `feu` | 5 | ☂ Pluie (une colère froide tapée à la machine) |
+| `ok` | 0,50 · 0,50 · `air` | 4 | ☁ Nuageux |
+
+Les six exemples couvrent les quatre temps. Un message sans mot du lexique (valeurs locales autour de 0,5) est **Nuageux** : c'est le temps par défaut.
+
+### 4.2 Quand la police change : les interactions
+
+| Moment | Ce qui se passe | Durée |
+| --- | --- | --- |
+| **J'écris** | Le texte du champ prend le temps de ma **prévision**, calculée en direct à partir des valeurs locales (charte §2). Il ne change qu'à la fin d'un mot (espace ou ponctuation, après 300 ms sans frappe), pour ne pas sauter sous les doigts. Sous le champ, une ligne dit le temps en clair : « ☂ Temps prévu : pluie ». Le visiteur voit, avant d'envoyer, ce que son message deviendra. | fondu de 300 ms |
+| **J'envoie** | Ma carte de message (« mes derniers messages ») garde le temps prévu, en pointillés comme la forme de l'œuvre. | — |
+| **L'IA répond** | La police passe du temps **prévu** au temps **observé** si les deux diffèrent, en même temps que la forme passe des pointillés au plein (section 6). La carte affiche « prévu : nuageux → observé : pluie ». Le texte raconte la même histoire que l'œuvre : **le temps prévu n'est pas toujours le temps qu'il a fait**. | 1,5 s, comme le contour |
+| **Je survole une forme** | L'info-bulle montre le début du texte dans le temps de son message. | — |
+| **Le ciel change** | La **consigne** (« Quel temps fait-il en vous ? ») et le **bulletin météo** prennent le temps du **ciel** : la règle de 4.1 appliquée à la moyenne de `energie` et `chaleur` des 20 derniers messages (la même moyenne que le fond, section 6), et à leur `theme` le plus fréquent (à égalité : `feu`, `eau`, `terre`, `air`, comme dans la charte). La consigne s'adresse au visiteur dans le temps qu'il fait. Ciel vide : Nuageux. | 1,2 s, avec le glissement de la spirale |
+| **Un message très agité arrive** (`energie` ≥ 0,80) | Sa carte et son info-bulle tremblent 300 ms, quel que soit le temps (« seuls les messages très agités vibrent », section 1). | 300 ms |
+
+### 4.3 Ce qui ne change jamais
+
+Une interface qui change de police partout ne se lit plus. Ce qui doit être **lu**, et non ressenti, reste fixe :
+
+| Rôle | Police fixe | Graisse et taille | Usage |
+| --- | --- | --- | --- |
+| Nom de l'œuvre | Fraunces, `SOFT` 50, `WONK` 0 | 600 · 32 px | « Front commun » avec le symbole (section 5) : l'identité ne change pas avec le temps |
+| Interface | Quicksand | 500 et 700 · 16 px, interligne 1,5 | Boutons, aides, avertissement, pastilles d'état, légende |
+| Erreurs et refus | Quicksand | 700 · 16 px, Givre rose | Un refus se **lit**, il ne doit pas avoir l'air d'un temps |
+| Données | IBM Plex Mono | 400 · 13 px | `id`, hash de bloc, index, compteur, indicateur des trois nœuds |
+
+**Hiérarchie :** titre (Fraunces 600, 32) → consigne et bulletin (police du ciel, 22) → messages (police de leur temps, 16) → interface (Quicksand 500, 16) → légende et états (Quicksand 500, 13, Brume claire) → données (Plex Mono 400, 13).
+
+**Règles :**
+- La police n'est **jamais la seule information** : le temps est toujours écrit en clair ou accompagné de son pictogramme (☀ ☁ ☂ ≋), comme la couleur dans l'œuvre.
+- Aucun texte dans une couleur de l'œuvre (section 3.1) : seuls la police et le mouvement changent, la couleur du texte reste Lune.
+- Special Elite jamais sous 16 px (le grain du ruban empâte les petites tailles) ; Quicksand jamais sous 400.
+- « Réduire les animations » (`prefers-reduced-motion`) : pas de frappe lettre à lettre, pas de flou, pas de tremblement ; la police change d'un coup.
+- Aucune police n'est dessinée dans le Canvas de l'œuvre : l'œuvre reste sans texte.
+
+**Mise en œuvre ✎.** Les quatre polices sont **hébergées chez nous** (`app/fonts/`, en woff2, restreintes aux caractères latins) et non appelées chez Google : la démonstration doit marcher sans internet et sans envoyer de requête externe. Licences : Fraunces, Quicksand et IBM Plex Mono sous OFL, Special Elite sous Apache 2.0. Pour la prévision en direct, la fonction des valeurs locales (backlog A1) est aussi chargée dans le navigateur, **sans** la liste des mots interdits (qui ne quitte jamais le serveur, charte §4.1). Le navigateur n'a besoin que de `energie`, `chaleur` et `theme`. **À vérifier sur la page de test (S49) :** accents (é, è, à, ç, œ, É) et guillemets français dans les quatre polices, surtout Special Elite (si un caractère manque, le navigateur prend IBM Plex Mono, déclarée en repli) ; poids total des polices (objectif : moins de 400 Ko) ; lisibilité de Special Elite et de Plex Mono à 16 px sur fond Nuit.
+
+**Pourquoi.** L'œuvre traduit chaque message en temps ; jusqu'ici, le texte, lui, restait neutre. Avec une police par temps, le visiteur **voit son message changer de temps pendant qu'il l'écrit** : c'est le test de la charte (« on sait ce que l'IA en tirera ») rendu visible, sans explication. Le passage du temps prévu au temps observé redit l'histoire des pointillés et du plein. Chaque police a été choisie pour une sensation et non pour un rôle (titre, texte, code) : c'est ce qui distingue cet ensemble d'un « modèle de site », le reproche fait à la v0.1. Quatre familles très différentes restent lisibles parce que les textes qui doivent être lus (interface, erreurs, données) gardent une police fixe.
+
+**Écarté :** Recursive seule (v0.3, D-009 : son axe Casual donne un continu, pas quatre temps qu'on reconnaît d'un coup d'œil) ; une police par élément (`eau`, `terre`, `feu`, `air` : l'élément est déjà la forme dans l'œuvre, et « terre » ou « air » n'appellent aucune police évidente) ; une police par nœud (l'origine est déjà dite par les satellites) ; une écriture manuscrite pour l'ensoleillé (peu lisible, mal accentuée) ; un orage avec sa propre police (cinq familles, c'est trop : l'orage passe par le tremblement, qui s'ajoute à n'importe quel temps).
 
 ## 5. Symbole
 
-**Planche v6 ✎ (proposée par Dylan, à valider par Nicolas) :** [symbole-planche.png](symbole-planche.png), faite dans Figma : [symbole v6](https://www.figma.com/design/o9vW6Uadmu6n6YKKC3tu2I/?node-id=14-2). Les v1 à v5 restent à côté dans le fichier pour comparaison.
-
-**Le signe : le ciel est en train d'écrire.** Un nuage en forme de **bulle de discussion**, avec dedans les **trois points** qu'on voit quand quelqu'un écrit un message (« … »). Le symbole dit le projet en une image : une météo écrite par des gens.
-- Les trois points ont les couleurs de l'échelle de chaleur : **froid** (bleu #3F7FD6), **tiède** (jaune #E3AA4E), **chaud** (orange #F26A25).
-- Trois points, c'est aussi **trois nœuds, trois regards**.
-- Dans l'application, les points servent d'**animation d'attente** : quand l'IA lit un message, ils s'allument l'un après l'autre. Le symbole est donc aussi un élément de l'interface.
-
-| Déclinaison | Description | Usage |
-| --- | --- | --- |
-| Principale | Nuage Lune, trois points en couleur, sur fond Nuit | En-tête de l'application, couverture des PDF |
-| Sur fond clair | Nuage Nuit, trois points en couleur | Documents imprimés en couleur |
-| Monochromes | Nuage Lune et points Nuit, ou nuage Nuit et points Lune | Impression en noir et blanc, tampons |
-| Animée | Un point plein, les deux autres à 25 %, en boucle | État « l'IA lit le message » |
-| Avec nom | Symbole + « Front commun » en Recursive Casual 700, et « une chaîne, trois regards » dessous | Titre de la page |
-
-**Construction :** grille de 200 ; trois cercles (rayons 38, 50 et 32) et un rectangle arrondi pour le nuage, une queue de bulle en bas à gauche, trois points de diamètre 22 espacés de 32.
-
-**Règles :** marge autour du symbole égale au diamètre d'un point ; jamais de déformation ni de contour ; l'ordre des points ne change pas (froid, tiède, chaud) ; taille minimale 16 px. Une seule version pour toutes les tailles : la silhouette reste lisible à 16 px.
-
-**Pourquoi.** Un symbole simple, qui se comprend sans explication, et qui reste le même du favicon à l'affiche. Un nuage seul serait banal ; un nuage qui parle, avec les trois points du message en cours d'écriture, dit à la fois « météo », « messages » et « trois ». **Écarté :** la spirale de points (v1 et v2 : rien à raconter, illisible en petit) ; le point triple (v3 : trop technique) ; les courbes de niveau (v4 et v5 : jolies en grand, mais compliquées et sans lien évident avec les messages).
+**À refaire ✎.** Toutes les pistes proposées (v1 à v9) ont été retirées du dépôt le 24/11/2026 : aucune ne convenait. Les essais restent seulement dans le fichier Figma. Le nouveau symbole est à dessiner (backlog C5).
 
 ## 6. Règles génératives
 
@@ -200,7 +237,7 @@ Trois esquisses, au même cadrage (écran 16:9, application complète, grille de
 
 | État | Ce qu'on voit |
 | --- | --- |
-| **Vide** | Fond Nuit uni, symbole au centre de l'œuvre en monochrome très pâle (le nuage attend, ses trois points éteints) ✎, consigne lisible dans le panneau, bulletin « Ciel encore vide : écrivez le premier temps ». |
+| **Vide** | Fond Nuit uni, en-tête sans symbole tant qu'il n'est pas refait ✎, consigne lisible dans le panneau, bulletin « Ciel encore vide : écrivez le premier temps ». |
 | **Quelques messages** (5 à 10) | Une petite spirale serrée au centre ; le message le plus récent dans l'œil ; une prévision en pointillés en train de devenir pleine ; au moins une forme avec un ou deux satellites (autre nœud) ; fond à peine teinté. |
 | **Beaucoup de messages** (300) | Spirale large et dense, qui touche presque le bord ; les plus anciennes, au bord, pâlies ; le fond a pris la teinte moyenne ; une ou deux taches de brume ; bulletin « Ciel plutôt chaud et agité ». |
 
@@ -218,7 +255,7 @@ Trois esquisses, au même cadrage (écran 16:9, application complète, grille de
 
 ## 8. Design system
 
-**Jetons (tokens) :** couleurs de la section 3 (œuvre et interface séparées), réglages de Recursive de la section 4, espacements 4 / 8 / 16 / 24 / 40 px, rayons 8 px (cartes) et 999 px (boutons, pastilles), une seule ombre : halo `0 0 24px` de la couleur du message (dans l'œuvre seulement, voir 6.2 : pré-calculé, jamais `shadowBlur` par forme).
+**Jetons (tokens) :** couleurs de la section 3 (œuvre et interface séparées), polices et temps typographiques de la section 4 ✎, espacements 4 / 8 / 16 / 24 / 40 px, rayons 8 px (cartes) et 999 px (boutons, pastilles), une seule ombre : halo `0 0 24px` de la couleur du message (dans l'œuvre seulement, voir 6.2 : pré-calculé, jamais `shadowBlur` par forme).
 
 ### 8.1 Grille de l'écran
 
@@ -234,15 +271,15 @@ L'œuvre a toujours un cadre **carré** (le repère normalisé de la section 6) 
 
 | Composant | Description | États |
 | --- | --- | --- |
-| Champ de saisie | Surface Nuit claire avec **bordure de 1 px en Brume claire** ✎ (sans elle, le champ se distingue à peine du fond : 1,2:1), texte Recursive Linear 16, compteur « 120 / 280 » en Mono 13, phrase d'exemple en Brume claire | vide, en saisie (bordure Lune), limite proche (compteur en Lune gras dès 260), dépassé ou refusé (compteur et message sous le champ en Givre rose) |
-| Bouton « Envoyer » | Pastille Lune sur Nuit, texte Recursive Linear 600 couleur Nuit, hauteur de 44 px au moins ✎ | normal, survol (halo Lune), désactivé (Brume claire), envoi en cours |
+| Champ de saisie | Surface Nuit claire avec **bordure de 1 px en Brume claire** ✎ (sans elle, le champ se distingue à peine du fond : 1,2:1), texte dans la police du **temps prévu** (section 4.2) ✎, ligne « ☂ Temps prévu : pluie » sous le champ en Quicksand 13, compteur « 120 / 280 » en Plex Mono 13, phrase d'exemple en Brume claire (Quicksand) | vide, en saisie (bordure Lune, police qui suit le temps prévu), limite proche (compteur en Lune gras dès 260), dépassé ou refusé (compteur et message sous le champ en Givre rose) |
+| Bouton « Envoyer » | Pastille Lune sur Nuit, texte Quicksand 700 couleur Nuit ✎, hauteur de 44 px au moins ✎ | normal, survol (halo Lune), désactivé (Brume claire), envoi en cours |
 | Avertissement | Une ligne « Message définitif, sans donnée personnelle », détail dépliable | replié, déplié |
-| Pastille d'état d'un message | Pictogramme + texte Linear 13. Le pictogramme porte l'état, pas la couleur | en attente : ○ Brume claire · dans un bloc : ◐ Lune · confirmé : ● Lune · remis en attente : ↺ Brume claire |
-| Carte de message | Texte du message, index du bloc et début de l'`id` en Mono 13 | normale, masquée (« Message masqué », sans texte) |
-| Info-bulle sur une forme | Survol d'une forme : début du texte, nœud, valeurs, prévision ou observation | normale, masquée |
-| Bulletin météo | Phrase en Recursive Casual 500, 22 px, sous l'œuvre ou dans le panneau | — |
+| Pastille d'état d'un message | Pictogramme + texte Quicksand 13 ✎. Le pictogramme porte l'état, pas la couleur | en attente : ○ Brume claire · dans un bloc : ◐ Lune · confirmé : ● Lune · remis en attente : ↺ Brume claire |
+| Carte de message | Texte du message dans la police de son temps ✎ (section 4.1), index du bloc et début de l'`id` en Plex Mono 13 | prévision, passage prévu → observé, observation, masquée (« Message masqué » en Plex Mono, sans texte) |
+| Info-bulle sur une forme | Survol d'une forme : début du texte dans la police de son temps ✎, nœud, valeurs, prévision ou observation | normale, masquée |
+| Bulletin météo | Phrase en 22 px dans la police du **temps du ciel** ✎ (section 4.2), sous l'œuvre ou dans le panneau | change avec le ciel |
 | Légende de l'œuvre | Les quatre formes, l'échelle des cinq couleurs, pointillé = prévision, satellites = nœud d'origine, brume = masqué | repliée, dépliée |
-| Indicateur des trois nœuds ✎ (en plus) | Trois pastilles `a`, `b`, `c` en Mono 13, avec un pictogramme : ● joignable, ○ injoignable. Montre « une chaîne, trois nœuds » pendant la démonstration | normal, un nœud injoignable |
+| Indicateur des trois nœuds ✎ (en plus) | Trois pastilles `a`, `b`, `c` en Plex Mono 13, avec un pictogramme : ● joignable, ○ injoignable. Montre « une chaîne, trois nœuds » pendant la démonstration | normal, un nœud injoignable |
 
 **Accessibilité :** texte d'au moins 4,5:1 (Lune, Brume claire et Givre rose, sur Nuit comme sur Nuit claire) ; bordures et éléments d'interface d'au moins 3:1 ✎ ; **anneau de focus visible** de 2 px en Lune, décalé de 2 px, sur tout élément interactif ✎ ; aucun texte dans une couleur de l'œuvre ; la couleur n'est jamais la seule information (formes, pointillés, satellites, pictogrammes) ; option « réduire les animations » qui fige les mouvements, la rotation des satellites et le glissement (`prefers-reduced-motion`).
 

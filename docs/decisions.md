@@ -14,6 +14,24 @@ Un choix = un bloc court : contexte, décision, pourquoi, ce qui est écarté. P
 
 ---
 
+### D-021 · Symbole : l'œil du cyclone, une spirale de 34 points (proposée par Dylan, à valider par Nicolas)
+> **Écartée** le 24/11/2026 : Dylan ne la trouve pas belle ; toutes les pistes de symbole sont retirées du dépôt, le symbole est à refaire.
+
+- **Date :** 2026-11-24
+- **Contexte :** Dylan trouve le nuage-bulle v6 laid et veut un symbole algorithmique (cours d'art génératif : *Visit Nordkyn*, un logo qui suit la météo).
+- **Décision :** 34 points rangés par l'angle d'or (rayon `86 × √((k + 0,5) / 34)`, angle `n × 137,5078°`), le plus récent au centre entouré d'un anneau (l'œil), bras du cyclone entre `k` et `k + 13`. Logo fixe : du chaud au centre au froid au bord. Logo vivant : les 34 derniers messages (couleur = `chaleur`, taille = `densite`, creux = prévision, brume = masqué). Le nombre de points suit Fibonacci selon la taille : 34, 21, 13, 8 (bible §5).
+- **Pourquoi :** même règle que la spirale de l'œuvre (D-013), donc le symbole explique l'œuvre ; la règle de Fibonacci répond au défaut des spirales v1 et v2 (illisibles en petit) ; le logo vivant montre l'état réel de la chaîne.
+- **Écarté :** le nuage-bulle v6 (D-018) ; le nuage-bulle déformé (v7) ; une silhouette de nuage remplie de points (v8) ; une forme par `theme` pour chaque point (gardée comme variante pour les grandes tailles).
+- **Remplace :** D-018.
+
+### D-020 · Typographie : quatre polices, une par temps (proposée par Dylan, à valider par Nicolas)
+- **Date :** 2026-11-24
+- **Contexte :** avec Recursive seule (D-009), le texte restait neutre alors que l'œuvre traduit chaque message en temps. Dylan veut une police différente selon les interactions.
+- **Décision :** quatre temps typographiques. ☀ Ensoleillé : Fraunces ; ☁ Nuageux : Quicksand ; ☂ Pluie : Special Elite ; ≋ Brouillard : IBM Plex Mono. Le temps se lit sur `masquer`, `theme`, `chaleur` et `energie` avec une règle à six étapes et six vecteurs (bible §4.1). La police change pendant l'écriture (prévision), quand l'IA répond (prévu → observé) et quand le ciel change (consigne et bulletin). L'interface, les erreurs et les données gardent une police fixe (Quicksand, Plex Mono) ; le nom de l'œuvre est en Fraunces (bible §4.3).
+- **Pourquoi :** le visiteur voit son message changer de temps pendant qu'il l'écrit, ce qui rend visible ce que l'IA en tirera ; le passage prévu → observé répète celui des pointillés au plein dans l'œuvre. Chaque police porte une sensation, pas un rôle (titre, texte, code), ce qui répond au reproche « modèle de site » fait à la v0.1.
+- **Écarté :** Recursive seule (un continu, pas quatre temps reconnaissables) ; une police par élément ou par nœud (déjà dits par la forme et les satellites) ; une cinquième police pour l'orage (il passe par un tremblement de 300 ms).
+- **Remplace :** D-009, si Nicolas valide.
+
 ### D-019 · OpenRouter : aucun partage de données, refus de collecte à chaque requête
 - **Date :** 2026-11-23
 - **Décision :** sur le compte OpenRouter, tous les réglages de partage sont désactivés (*Allow free endpoints that train on request data*, *publish prompts*, *paid endpoints that train*, *1% data discount*). Le worker ajoute `"provider": { "data_collection": "deny" }` à chaque requête (charte §4.3).
@@ -21,6 +39,8 @@ Un choix = un bloc court : contexte, décision, pourquoi, ce qui est écarté. P
 - **Écarté :** autoriser l'entraînement par les fournisseurs gratuits (le réglage d'origine du compte : plus de modèles, mais pas nécessaire) ; activer la conservation nulle (*Zero Data Retention*), qui risquerait de bloquer la plupart des modèles gratuits.
 
 ### D-018 · Symbole : un nuage-bulle et trois points (proposée, à valider par Nicolas)
+> **Remplacée** le 24/11/2026 par D-021 (spirale de 34 points, l'œil du cyclone).
+
 - **Date :** 2026-11-23
 - **Décision :** le symbole est un nuage en forme de bulle de discussion, avec les trois points « quelqu'un écrit… » en bleu, jaune et orange (bible §5, v6). Les points servent aussi d'animation quand l'IA lit un message.
 - **Pourquoi :** il se comprend sans explication (météo, messages, trois), il reste lisible à 16 px avec une seule version, et il sert aussi dans l'interface.
@@ -80,6 +100,8 @@ Un choix = un bloc court : contexte, décision, pourquoi, ce qui est écarté. P
 - **Écarté :** une bibliothèque d'analyse de sentiment (lourde, souvent en anglais) ; un grand lexique (long à tester).
 
 ### D-009 · DA : une seule famille typographique, Recursive (validée par Nicolas, bible v0.3)
+> **Remplacée si D-020 est validée** (quatre polices, une par temps, bible v0.4).
+
 - **Date :** 2026-11-23
 - **Décision :** Recursive en trois réglages (Casual pour la poésie, Linear pour le texte, Mono pour les données), bible §4.
 - **Pourquoi :** Fraunces, Inter et Plex Mono sont très répandues et faisaient « modèle ». Une famille, trois réglages : « une chaîne, trois regards ». Un seul fichier variable.

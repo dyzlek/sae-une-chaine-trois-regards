@@ -31,7 +31,7 @@ Les esquisses actuelles (Figma, page « Esquisses », et `docs/esquisses/*.png`)
 
 ### 1.2 Moodboard à améliorer (C4, bible §2) · D · ☐
 
-Planche actuelle : v4 (Figma, nœud 11:2, `docs/moodboard-planche.png`).
+Planche actuelle : v5 (Figma, nœud 20:79, `docs/moodboard-planche.png`) : la v4 avec les quatre polices par temps (24/11). La v4 (nœud 11:2) reste dans le fichier.
 
 - ☐ Lister avec Nicolas ce qui ne va pas encore (retour : « trop propre, trop IA » sur la v1 ; la v4 reste à juger).
 - ☐ Rendre lisible le lien entre chaque image et une règle de l'œuvre (spirale, éléments, chaleur, brume) : c'est ce que le correcteur cherche.
@@ -41,12 +41,13 @@ Planche actuelle : v4 (Figma, nœud 11:2, `docs/moodboard-planche.png`).
 
 ### 1.3 Symbole (C5, bible §5) · N · ◐
 
-- ◐ La v6 (nuage-bulle et trois points) est proposée ; Nicolas choisit ou propose autre chose.
-- ☐ Une fois choisi : mettre à jour la bible §5, D-018 (passer de « proposée » à « validée » ou la remplacer), `docs/symbole-planche.png`.
+- ☐ Symbole à refaire : toutes les pistes (v1 à v9) ont été retirées du dépôt le 24/11 ; elles restent dans Figma. D-018 et D-021 sont écartées.
 
 ### 1.4 Points à trancher à deux · D + N · ☐
 
 - ☐ **Le bleu froid** (#3F7FD6) est trop discret sur le fond Nuit (#0E1424) : on garde, on éclaircit la clé, ou on ajoute un contour ? Si une couleur change, mettre à jour les 11 vecteurs de la bible §3.1 et ajouter une décision.
+
+- ☐ **Les quatre polices par temps** (bible §4 v0.4, D-020, proposée par Dylan le 24/11) : N valide ou refuse, en s'appuyant sur la planche d'essai (`docs/typo-planche.png`, Figma nœud 19:2). La planche du moodboard v5 utilise déjà ces polices. Si oui : D-020 passe à « validée ». Si non : revenir à la v0.3 (Recursive, D-009) et à la planche v4.
 
 ### 1.5 Relire toute la bible (C3) · D puis N · ☐
 
@@ -57,7 +58,7 @@ La bible contient encore **28 ✎** (passages à relire). Pour chaque section, v
 | 1 | Intention | Le « regard » est le même que dans le dossier §1 et la charte §1 |
 | 2 | Moodboard | Après 1.2 : lien, PNG et sources à jour |
 | 3 | Ambiance colorée | 3.1 (œuvre) et 3.2 (interface) ; contraste du texte (WCAG AA) ; décision sur le bleu |
-| 4 | Typographie | Recursive : les trois réglages (Sans Casual, Sans Linear, Mono Linear) et leur usage |
+| 4 | Typographie | v0.4 : les quatre temps (règle 4.1, vecteurs), les interactions (4.2), ce qui reste fixe (4.3) |
 | 5 | Symbole | Après 1.3 : version choisie par Nicolas |
 | 6 | Règles génératives | 6.1 spirale et 6.2 rendu : mêmes chiffres que le dossier §6 et D-013 à D-015 |
 | 7 | Esquisses | Après 1.1 : trois états, liens, textes |
@@ -65,7 +66,7 @@ La bible contient encore **28 ✎** (passages à relire). Pour chaque section, v
 
 - ☐ D relit et note les corrections.
 - ☐ N retire les ✎ une fois d'accord.
-- ☐ Vérifier qu'aucune image ni lien n'est cassé (`esquisses/`, `moodboard-planche.png`, `symbole-planche.png`, liens Figma).
+- ☐ Vérifier qu'aucune image ni lien n'est cassé (`esquisses/`, `moodboard-planche.png`, liens Figma).
 
 ## 2. Contrôle des rendus contre les consignes officielles
 
@@ -136,7 +137,7 @@ Les 8 éléments sont présents (voir 1.5). Reste : esquisses (1.1), moodboard (
 | C1 Déposer la spec commune | les six | jeu. 26/11, 12h30 | ◐ |
 | C3 Relecture de la bible, retrait des ✎ | D puis N | jeu. 26/11 | ☐ |
 | C4 Moodboard | D, validé par N | jeu. 26/11 | ◐ à améliorer |
-| C5 Symbole | N | jeu. 26/11 | ◐ v6 à valider |
+| C5 Symbole | N | jeu. 26/11 | ☐ à refaire |
 | C6 Esquisses | D + N | jeu. 26/11 | ◐ à refaire |
 | C7 Test de la charte | D + N | jeu. 26/11 | ◐ fiche prête |
 | C9 Relecture du dossier et de la charte | N | jeu. 26/11 | ☐ |

@@ -13,6 +13,37 @@ Plus récent en haut. Un daily par matin : **hier / aujourd'hui / blocages**.
 
 ---
 
+### 2026-11-24 · S48 · Symboles retirés (Dylan, avec Claude Code)
+**Aujourd'hui :** aucune piste de symbole ne convient (v6 à v9 trouvées laides). Toutes les images de symbole sont retirées du dépôt (`symbole-planche.png`, `symbole-spirale.png`) ; bible §5 marquée « à refaire » ; D-021 écartée ; O10 retirée du backlog. Les essais restent dans Figma.
+
+**Blocages :** le symbole (C5) est à refaire avant le rendu du 27/11.
+
+### 2026-11-24 · S48 · Nouveau symbole : l'œil du cyclone (écarté depuis) (Dylan, avec Claude Code)
+**Aujourd'hui :**
+- Lecture du cours d'art génératif (Moodle, `art-generatif.pdf`). La page « le logo algorithmique » montre *Visit Nordkyn*, un logo qui suit la météo.
+- Le nuage-bulle v6 ne plaît pas. Deux essais écartés dans la journée : le nuage-bulle déformé selon les valeurs (v7) et une silhouette de nuage remplie de points (v8).
+- **Bible §5 réécrite (proposée, D-021, remplace D-018) : v9 « l'œil du cyclone ».**
+  - 34 points (Fibonacci) rangés par l'angle d'or, comme la spirale de l'œuvre ; le plus récent au centre, entouré d'un anneau (l'œil).
+  - Logo fixe : du chaud au centre au froid au bord.
+  - Logo vivant dans l'en-tête : les 34 derniers messages (couleur = `chaleur`, taille = `densite`, creux = prévision, brume = masqué).
+  - Le nombre de points suit la taille : 34, 21, 13, 8.
+- Planche dans Figma ([symbole v9](https://www.figma.com/design/o9vW6Uadmu6n6YKKC3tu2I/?node-id=34-2)) ; export retiré depuis.
+
+**Blocages :** aucun ; Nicolas doit valider D-020 (polices) et D-021 (symbole), et trancher la variante « éléments ».
+
+### 2026-11-24 · S48 · Typographie en quatre temps (Dylan, avec Claude Code)
+**Aujourd'hui :**
+- **Bible §4 v0.4 (proposée, D-020) :** une police par temps. ☀ Ensoleillé : Fraunces ; ☁ Nuageux : Quicksand ; ☂ Pluie : Special Elite ; ≋ Brouillard : IBM Plex Mono.
+- Le temps se calcule à partir des valeurs (règle en six étapes). Les six exemples de la charte couvrent les quatre temps.
+- La police change à trois moments : pendant l'écriture (temps prévu), quand l'IA répond (prévu → observé) et quand le ciel change (consigne et bulletin). L'interface, les erreurs et les données gardent une police fixe.
+- Mises à jour : composants de la bible §8.2, backlog O8 et O8b, S49 de Nicolas, `a-faire.md`.
+
+**Blocages :** D-009 (Recursive) avait été validée par Nicolas : il doit valider ou refuser ce changement.
+
+- **Planche d'essai** dans Figma ([essai typographique](https://www.figma.com/design/3kuh5BiZHfMOCHNWPh9dXD/?node-id=19-2), export `docs/typo-planche.png`). **Moodboard v5** : la v4 avec les nouvelles polices ([planche v5](https://www.figma.com/design/3kuh5BiZHfMOCHNWPh9dXD/?node-id=20-79)), export dans `docs/moodboard-planche.png`.
+
+**À faire :** Nicolas, valider D-020 à partir de la planche d'essai ; si c'est non, revenir à la v4 du moodboard.
+
 ### 2026-11-23 · S48 · Symbole, esquisses, confidentialité, export PDF (Dylan, avec Claude Code)
 **Aujourd'hui :**
 - **Symbole (C5) :** six pistes dans Figma ; la v6 (un nuage-bulle avec les trois points « quelqu'un écrit… ») est proposée dans la bible §5. Le choix final revient à Nicolas.

@@ -25,7 +25,7 @@
 | C2 | Nos vecteurs de test 20 à 26 (spec v1.0) | Dylan | 3 h | I | 23/11 | ☑ ([tests/vectors/](../tests/vectors/README.md)) |
 | C3 | Relire la bible DA v0.3 (changements de Nicolas) et confirmer à deux ; puis **retirer tous les ✎** de la bible avant l'export PDF | Dylan relit, Nicolas retire les ✎ | 1 h | I | mer. 25/11 | ☐ |
 | C4 | Moodboard (8 à 12 images sourcées, libres de droits ou avec leur licence) | Nicolas | 2 h | I | mer. 25/11 | ☑ (planche Figma en collage et [export PNG](moodboard-planche.png), 12 images créditées ; sources dans [moodboard-sources.md](moodboard-sources.md)) |
-| C5 | Symbole, glyphe simplifié et déclinaisons | Nicolas | 2 h | I | mer. 25/11 | ◐ v6 « le ciel écrit » proposée par Dylan ([planche](symbole-planche.png), [Figma](https://www.figma.com/design/o9vW6Uadmu6n6YKKC3tu2I/?node-id=14-2)), à valider par Nicolas |
+| C5 | Symbole, glyphe simplifié et déclinaisons | Nicolas | 2 h | I | mer. 25/11 | ☐ à refaire : toutes les pistes ont été retirées le 24/11 |
 | C6 | Trois esquisses 16:9 (vide, quelques, beaucoup), dessinées avec les règles de la bible §6 (positions calculées au tableur, sans code) | Nicolas | 4 h | I | jeu. 26/11 |☑ faites par Dylan ([esquisses](esquisses/), [Figma](https://www.figma.com/design/o9vW6Uadmu6n6YKKC3tu2I/?node-id=16-4), positions dans `positions-10.csv` et `positions-300.csv`) |
 | C7 | Test de la charte auprès de 3 personnes (charte §3) | à deux | 1 h | I | jeu. 26/11 | ◐ fiche prête ([test-charte.md](test-charte.md)), test à faire passer |
 | C8 | Vérifier le réglage de confidentialité d'OpenRouter et l'écrire (charte §4.3) | Dylan | ½ h | I | mer. 25/11 | ☑ réglages relevés et désactivés, essai réussi avec `data_collection: "deny"` (charte §4.3, D-019) |
@@ -81,7 +81,8 @@
 | O5 | Reconstruction après `chain_reorganized` | Nicolas | 2 h | I | mar. 12/01 |
 | O6 | Vieillissement (de `k` = 100 à 300) et fondu dans le fond, fond teinté par la moyenne (0 % au centre, 15 % au bord) | Nicolas | 3 h | I | mar. 12/01 |
 | O7 | Bulletin météo (phrase calculée sans IA) | Nicolas | 2 h | + | mar. 12/01 |
-| O8 | Axe Casual du bulletin qui suit l'`energie` moyenne (bible §4) | Nicolas | 1 h | + | S2 si le temps le permet |
+| O8 | Temps typographiques (bible §4, D-020, à valider) : règle des quatre temps, police des cartes, info-bulles, consigne et bulletin selon le ciel, passage prévu → observé | Nicolas | 2 h | + | mar. 12/01 |
+| O8b | Temps prévu en direct dans le champ de saisie (fonction A1 chargée dans le navigateur, sans la liste des mots interdits) | Dylan | 2 h | + | S2 si le temps le permet |
 | O9 | `prefers-reduced-motion` | Nicolas | 1 h | I | mer. 13/01 |
 
 ### Tests et jonction
@@ -164,7 +165,7 @@ Reprise du dossier §10 :
 | Qui | Ce qu'il prépare chez lui | Fait quand |
 | --- | --- | --- |
 | Dylan | Tailscale installé, la machine du nœud nommée **`noeud-c`** ; compte et clé OpenRouter dans `.env` ; Node.js 24 ; `npm install better-sqlite3` qui marche sous Windows ; test du prompt (T7, 10 requêtes) ; heure de remise à zéro du quota OpenRouter notée | la commande `tailscale status` liste les autres machines ; un modèle gratuit répond |
-| Nicolas | Tailscale installé (`sae-nicolas`), compte et clé OpenRouter ; Node.js 24 et `better-sqlite3` ; Recursive chargée en local ; relecture des sections 2, 3 et 6 de la spec (pour relire le nœud dès le lundi) | même vérification ; les trois réglages de Recursive s'affichent dans une page de test |
+| Nicolas | Tailscale installé (`sae-nicolas`), compte et clé OpenRouter ; Node.js 24 et `better-sqlite3` ; les quatre polices (Fraunces, Quicksand, Special Elite, IBM Plex Mono) chargées en local ; relecture des sections 2, 3 et 6 de la spec (pour relire le nœud dès le lundi) | même vérification ; les quatre polices et leurs accents (é, è, à, ç, œ) s'affichent dans une page de test, poids total mesuré |
 | À deux | Veille et mises à jour Windows désactivées sur la machine du nœud pour la semaine du 07/12 ; vérifier que l'horloge se synchronise automatiquement | un message échangé sur le groupe du binôme |
 
 Écrire du code en S49 n'est prévu que si l'équipe enseignante l'accepte (question posée) ; le plan de la S50 ne compte pas dessus.
