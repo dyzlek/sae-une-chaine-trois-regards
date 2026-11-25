@@ -15,7 +15,7 @@ Légende : ☐ à faire · ◐ commencé · ☑ fait. **D** = Dylan, **N** = Nic
 
 ## 1. Visuels Figma à produire pour *Terre commune* (le gros du travail restant)
 
-Les textes de la bible DA v1.0, de la charte v1.0, du dossier v0.9 et du backlog v1.4 sont synchronisés. Il reste les **trois livrables Figma** :
+Les textes de la bible DA v1.3, de la charte v1.3, du dossier v0.12 et du backlog v1.7 sont synchronisés et gelés. Il reste les **trois livrables Figma** :
 
 ### 1.1 Moodboard *Terre commune* (C4, bible §2) · D + N · ☐
 - ☐ Rassembler 8 à 12 images libres/créditées (archipels volcaniques, *Wind Waker*, *Dorfromantik*, *Dredge*, cartes topographiques, low-poly) dans Figma.
@@ -23,20 +23,21 @@ Les textes de la bible DA v1.0, de la charte v1.0, du dossier v0.9 et du backlog
 - ☐ Exporter en PNG (`docs/moodboard-planche.png`) et mettre le lien Figma dans la bible §2.
 
 ### 1.2 Symbole *Terre commune* (C5, bible §5) · D + N · ☐
-- ☐ Dessiner le symbole dans Figma (piste : courbes topographiques / île minimaliste ou phare + 3 points des nœuds Cyan/Ambre/Corail).
+- ☐ Dessiner le symbole dans Figma (piste : courbes topographiques / île minimaliste ou phare + les **3 formes-nœuds** : pyramide Cyan `#38BDF8`, cube Ambre `#FBBF24`, losange Violet `#A78BFA`).
 - ☐ Exporter en SVG/PNG (16 px et 64 px) et intégrer le lien dans la bible §5.
 
 ### 1.3 Trois esquisses 16:9 (C6, bible §7) · D + N · ☐
 - ☐ Dessiner dans Figma les trois états de l'application complète : **1 · Vide** (océan vierge), **2 · Quelques messages (10)** (premiers îlots, phare, voilier, zone filaire en prévision), **3 · Beaucoup (300)** (continent complet avec forêts, lagons, volcan, voiliers et phares des 3 nœuds).
 - ☐ Exporter dans `docs/esquisses/1-vide.png`, `2-quelques.png`, `3-beaucoup.png` et mettre le lien Figma dans la bible §7.
 
-## 2. Validations et tests avant vendredi
+## 2. Validations, archivage et tests avant vendredi
 
+- ☐ **Conduite de projet (prioritaire) :** **Nicolas** relit la bible DA v1.3, la charte v1.3 et le dossier v0.12, **co-valide D-023, D-024 et D-025** et **ajoute sa propre entrée dans [journal.md](journal.md)**.
+- ☑ **Archiver les anciens visuels *Front commun*** : déplacés dans [archives-front-commun/](archives-front-commun/README.md) le 25/11/2026.
 - ☐ **Spec commune (C1, demain jeu. 26/11, 12h30) :** vérifier qui des six dépose la v1.0 sur Moodle.
 - ☐ **Dépôt commun aux six (C11) :** créer le repo commun et y pousser nos vecteurs `cas-20` à `cas-26`.
-- ☐ **Validation binôme (C3 & C9) :** Nicolas relit la bible DA v1.0, la charte v1.0 et le dossier v0.9 (confirmer le nom *Terre commune* et le passage à Three.js).
 - ☐ **Test de la charte (C7) :** faire passer [test-charte.md](test-charte.md) à 3 personnes extérieures et remplir le tableau.
-- ☐ **Test du dossier :** vérifier que le schéma Mermaid s'affiche bien à l'export PDF.
+- ☐ **Export PDF Mermaid :** tester dès jeudi que le schéma Mermaid du dossier s'affiche bien dans le PDF.
 
 ## 3. Le vendredi 27/11, avant 17h
 

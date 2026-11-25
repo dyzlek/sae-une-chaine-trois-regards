@@ -4,9 +4,9 @@
 | --- | --- |
 | Binôme | **n°3** · Dylan Belledent, Nicolas Rapuzzi--Pisarczyk |
 | Nœud | `noeud-c` (spec commune, décision 7) |
-| Version du dossier | 0.9 (aligné sur le pivot artistique *Terre commune* : carte 3D procédurale en Three.js, bible DA v1.0, charte v1.0, D-023 et D-024) · 25/11/2026 |
+| Version du dossier | 0.12 (ruines optionnelles, brume réservée aux messages masqués : bible v1.3, charte v1.3) · 25/11/2026 · v0.11 (aligné sur bible DA v1.2 et charte v1.2 : relief recalibré par simulation, D-025 ; lexique de 95 entrées ; spec de référence = PDF v1.0) · 25/11/2026 · v0.10 : import map Three.js, risque prise en main 3D, déterminisme par empreinte de heightmap, balises forme + couleur |
 | Rendu | Vendredi 27/11/2026, 17h. Cette version `.md` reste dans Git ; l'export PDF (avec le schéma d'architecture) viendra plus tard. |
-| S'appuie sur | [spec-commune.md](spec-commune.md) **v1.0** (validée par les six), [04-charte-editoriale.md](04-charte-editoriale.md) v1.0, [05-bible-da.md](05-bible-da.md) v1.0 |
+| S'appuie sur | [spec commune v1.0 (PDF)](spec-commune/v1.0.pdf) **v1.0** (validée par les six), [04-charte-editoriale.md](04-charte-editoriale.md) v1.3, [05-bible-da.md](05-bible-da.md) v1.3 |
 
 > Plan de construction de notre projet. Il s'appuie sur la spec commune et ne la recopie pas : on écrit « voir spec §x ». Rien ne doit contredire la spec ni la bible DA.
 > **Test :** un autre binôme doit pouvoir reprendre le projet avec ce seul document.
@@ -15,7 +15,7 @@
 
 ## 1. Le projet en bref
 
-- **Notre regard :** *une terre qui naît de nos mots*, et une œuvre qui s'appelle ***Terre commune***. Au départ, un océan vierge en 3D. Chaque message sculpte durablement une même carte procédurale (heightmap) et module l'atmosphère : la joie fait émerger des terres vertes, forêts et voiliers sous le soleil ; le calme façonne des criques et des phares ; la tristesse creuse des lagons sous la pluie et la brume ; la colère fait jaillir des volcans sous l'orage (intention complète : bible DA §1).
+- **Notre regard :** *une terre qui naît de nos mots*, et une œuvre qui s'appelle ***Terre commune***. Au départ, un océan vierge en 3D. Chaque message sculpte durablement une même carte procédurale (heightmap) et module l'atmosphère : la joie fait émerger des terres vertes, forêts et voiliers sous le soleil ; le calme façonne des criques et des phares ; la tristesse creuse des baies et des lagons sous la pluie et le brouillard ; la colère fait jaillir des volcans sous l'orage (intention complète : bible DA §1).
 - **Notre application :** une page web où un visiteur écrit un message de 280 caractères au plus, voit son état (en attente, dans un bloc, confirmé) et regarde l'œuvre évoluer en direct.
 - **Notre œuvre :** une visualisation générative en temps réel, construite à partir des valeurs que l'IA tire de chaque message de la chaîne. L'œuvre vide est l'état de départ.
 - **Notre nœud :** `noeud-c`, un programme qui garde une copie de la chaîne, applique les règles de la spec et parle aux deux autres nœuds.
@@ -142,7 +142,7 @@ SQLite, un fichier par nœud, en mode WAL (plusieurs processus). La chaîne est 
 
 **Les valeurs locales portent une partie de la démo.** Avec ce quota, beaucoup de messages auront des valeurs locales : leur rendu doit donc être soigné (bible DA), et la démonstration doit aussi montrer des valeurs réelles de l'IA, grâce au budget réservé.
 
-**Valeurs locales de repli** : calculées sans IA, de façon déterministe, avec un lexique de 30 à 50 mots et emojis et une légère variation tirée de l'`id` (règles exactes : charte §2). Elles sont calculées **par le serveur de l'application, à la volée**, pour chaque message dès son entrée dans un bloc (forme « prévision ») : c'est une fonction pure du texte et de l'`id`, sans écriture en base, dont le code est partagé avec le nœud. Ainsi, **un plantage du worker ne supprime jamais les formes** ; l'œuvre les remplace par les valeurs de l'IA quand une ligne `ai_results` en `status = ok` apparaît. Le retraitement (ci-dessus) cible les messages qui n'ont pas une telle ligne. L'œuvre reste vivante même si l'IA est coupée.
+**Valeurs locales de repli** : calculées sans IA, de façon déterministe, avec un lexique de 95 mots et emojis, une négation simple et une légère variation tirée de l'`id` (règles exactes : charte §2). Elles sont calculées **par le serveur de l'application, à la volée**, pour chaque message dès son entrée dans un bloc (forme « prévision ») : c'est une fonction pure du texte et de l'`id`, sans écriture en base, dont le code est partagé avec le nœud. Ainsi, **un plantage du worker ne supprime jamais les formes** ; l'œuvre les remplace par les valeurs de l'IA quand une ligne `ai_results` en `status = ok` apparaît. Le retraitement (ci-dessus) cible les messages qui n'ont pas une telle ligne. L'œuvre reste vivante même si l'IA est coupée.
 
 La chaîne n'est **jamais** touchée par une panne d'IA (spec §9).
 
@@ -159,19 +159,19 @@ La chaîne n'est **jamais** touchée par une panne d'IA (spec §9).
 | 1 | Nœud | Le message entre dans un bloc de notre chaîne : il reçoit son **rang absolu** `n` (ordre de la chaîne : index du bloc, puis position dans le bloc, bible DA §6.1) |
 | 2 | Serveur de l'application, puis worker IA | Le serveur calcule tout de suite les **valeurs locales** (charte §2, `values_source = local`), sans rien écrire. Le worker obtient plus tard les valeurs de l'IA et les écrit dans `ai_results` (`values_source = ia`), avec un événement `values_ready` |
 | 3 | Serveur de l'application | Applique le masquage côté serveur (§2), puis envoie au navigateur, en SSE, le rang `n`, le `node`, l'`id`, les valeurs, `values_source` et `masquer` (jamais `content` si le message est masqué) |
-| 4 | Œuvre 3D (navigateur) | Applique les règles de la bible DA §6 : point d'impact déterministe `(cx, cz)`, sculpture de la heightmap selon `emotion` et `densite`, génération des éléments (arbres, phares couleur du `node`, voiliers, ruines, volcan), état filaire (`local`) ou solide (`ia`), et mise à jour de l'atmosphère (`chaleur`, `energie`) |
+| 4 | Œuvre 3D (navigateur) | Applique les règles de la bible DA §6 : point d'impact déterministe `(cx, cz)`, sculpture de la heightmap selon `emotion` et `densite`, génération des éléments (arbres, phares, voiliers, volcans, balises de forme et couleur du `node` ; ruines seulement si O7b est fait), état filaire (`local`) ou solide (`ia`), et mise à jour de l'atmosphère (`chaleur`, `energie`) |
 
-**Exemple.** `J'AI EU MON PERMIS !!! Je suis tellement heureux 🎉` (exemple de la charte) : le serveur calcule tout de suite ses valeurs locales et la carte 3D fait monter un relief en filaire lumineux ; plus tard, le worker écrit dans `ai_results` les valeurs de l'IA, `{"energie":0.95,"chaleur":0.92,"densite":0.75,"emotion":"joie","masquer":false}` ; la zone se solidifie en colline verdoyante bordée de sable doré, fait pousser des arbres, lance un voilier portant le fanion corail de `noeud-c` et éclaircit le ciel.
+**Exemple.** `J'AI EU MON PERMIS !!! Je suis tellement heureux 🎉` (exemple de la charte) : le serveur calcule tout de suite ses valeurs locales et la carte 3D fait monter un relief coiffé d'un patch filaire translucide (prévision) ; plus tard, le worker écrit dans `ai_results` les valeurs de l'IA, `{"energie":0.95,"chaleur":0.92,"densite":0.75,"emotion":"joie","masquer":false}` ; le patch filaire s'efface en 1,5 s, la zone se solidifie en colline verdoyante bordée de sable doré, fait pousser des arbres, pose la balise losange violet de `noeud-c`, lance un voilier si le tirage③ tombe sous 0,33 et éclaircit le ciel.
 
 **Technique et fonctionnement :**
-1. **Rendu :** **Three.js (WebGL)** en esthétique *low-poly / flat-shading* (dossier §7, D-024), servi localement depuis `node_modules` / `app/vendor/` (aucun CDN externe en démonstration).
+1. **Rendu :** **Three.js (WebGL)** en esthétique *low-poly / flat-shading* (dossier §7, D-024), chargé en ES modules natifs via une **`<script type="importmap">`** pointant vers les fichiers locaux servis par Express (`three`, `OrbitControls`, `ImprovedNoise`) — **aucune étape de build ni CDN externe**.
 2. **Temps réel :** le serveur pousse les événements en SSE ; à chaque nouveau message, les sommets de la heightmap s'interpolent doucement vers leur nouvelle altitude (la terre monte littéralement hors de l'eau).
-3. **Déterminisme :** même chaîne et mêmes `ai_results` produisent exactement la même carte 3D. Aucun `Math.random` : tout bruit de terrain, placement d'arbre ou décalage est initialisé par la graine fixe et l'`id` du message.
-4. **Reconstruction :** depuis la base (chaîne + `ai_results`), au chargement de la page ou après un événement `chain_reorganized` (fourche) : la heightmap est recalculée depuis le début de la chaîne en quelques millisecondes et la scène 3D s'interpole vers le nouvel état.
-5. **États à prévoir :** océan vierge (0 message), premiers îlots (10 messages), continent complet (300 messages) — esquisses de la bible DA §7.
-6. **Beaucoup de messages :** la grille de terrain reste à taille fixe (`48 × 48` sommets) quel que soit le nombre de messages, et les objets posés dessus (arbres, phares, voiliers, particules) sont plafonnés et instanciés (`InstancedMesh`, bible DA §6.3) pour garantir la fluidité à 300 messages et au-delà.
-7. **Prévision et observation :** un message dont `values_source = local` apparaît en **prévision** (maillage filaire translucide) puis se solidifie en **observation** quand l'IA répond.
-8. **Message masqué :** ne déforme pas le terrain et laisse une nappe de brume grise sur l'eau, avec la mention « Message masqué (charte §4) ».
+3. **Déterminisme :** même chaîne et mêmes `ai_results` produisent exactement la même heightmap et les mêmes biomes (PRNG **Mulberry32** initialisé par l'`id` du message + `ImprovedNoise` à graine fixe, bible DA §6.1). En test (backlog T6), on vérifie l'**empreinte SHA-256 des tableaux `heightmap` + `warm` + `volc`** plutôt qu'une capture d'écran WebGL (qui peut varier de quelques pixels selon la carte graphique).
+4. **Reconstruction :** depuis la base (chaîne + `ai_results`), au chargement de la page, après un événement `chain_reorganized` (fourche) ou lorsqu'un événement `values_ready` remplace les valeurs locales d'un message ancien de rang `n` (bible DA §6.3) : la heightmap est recalculée depuis le rang concerné en quelques millisecondes et la scène 3D s'interpole vers le nouvel état en 1,5 s.
+5. **États à prévoir :** océan vierge (0 message), premiers îlots (10 messages), continent complet avec anneau d'océan permanent (300 messages) — esquisses de la bible DA §7.
+6. **Beaucoup de messages :** la grille de terrain reste à taille fixe (`48 × 48` sommets), la règle de saturation + masque côtier (bible DA §6.2) empêche toute saturation en montagne uniforme, et les éléments 3D sont plafonnés et instanciés (`InstancedMesh`, bible DA §6.4).
+7. **Prévision et observation :** un message dont `values_source = local` affiche un **patch filaire indépendant** `0,05` unité au-dessus de sa zone (`PlaneGeometry` 8 × 8) qui disparaît en fondu en 1,5 s quand l'IA répond (bible DA §6.3).
+8. **Message masqué :** ne déforme pas le terrain et laisse une nappe de brume grise sur l'eau avec la balise du nœud et la mention « Message masqué (charte §4) ».
 
 ## 7. Les choix techniques
 
@@ -182,7 +182,7 @@ La chaîne n'est **jamais** touchée par une panne d'IA (spec §9).
 | Stockage | **SQLite avec `better-sqlite3`**, mode WAL | Un seul fichier, API synchrone simple, plusieurs processus en lecture et écriture | `node:sqlite` (sans dépendance mais encore instable selon la version) ; MySQL/PostgreSQL (serveur à installer pour rien) ; fichiers JSON (écritures non sûres) |
 | Processus | Trois processus relancés par un script maison | Isole le nœud des pannes de l'IA | Tout dans un seul processus (un plantage vide un créneau) |
 | Application | HTML, CSS, JavaScript natifs | Cohérent avec le parcours développement web, aucune étape de build | React, Vue : inutile pour un écran |
-| Rendu de l'œuvre | **Three.js (WebGL)** en low-poly, servi en local | Vraie 3D fluide sur GPU (heightmap, éclairage, brouillard, caméra orbitale) sans étape de build (ES modules), D-024 | Canvas 2D (insuffisant pour un relief 3D réaliste), WebGL brut (trop verbeux), Unity/Babylon (trop lourd) |
+| Rendu de l'œuvre | **Three.js (WebGL)** en low-poly, servi en local via `importmap` | Vraie 3D fluide sur GPU (heightmap, `OrbitControls`, `ImprovedNoise`, éclairage, brouillard) sans étape de build (ES modules natifs), D-024 | Canvas 2D (insuffisant pour un relief 3D), WebGL brut (trop verbeux), Unity/Babylon (trop lourd) |
 | Temps réel | SSE | Flux simple du serveur vers le navigateur | WebSocket (plus complexe pour un flux à sens unique) |
 | Configuration | `node --env-file=.env` | Intégré, pas de bibliothèque `dotenv` | `dotenv` |
 | Tests | `node:test` | Intégré | Jest, Mocha |
@@ -224,7 +224,8 @@ Critère de fin : tous les cas de la spec passent, trois chaînes ont le même h
 | Travail inégal dans le binôme | Moyenne | Répartition nominative (section 10), journal de bord, chacun comprend tout le code (oral individuel) |
 | L'export PDF du schéma Mermaid ne marche pas | Moyenne | Tester l'export (image du schéma) dès jeudi 26/11, bien avant vendredi 17h |
 | Les estimations du nœud sont trop courtes (validité, rattrapage, `SYNCING`) | Haute | Rattrapage relevé de 3 h à 5 h (backlog N7), 2 h de marge pour Dylan en S50, appel réel à l'IA repoussé à la S2 (IA simulée en S50) ; si le jeudi échoue, la jonction passe avant tout (backlog §3) |
-| Le rendu 3D WebGL saccade sur le portable de démonstration | Moyenne | Maillage low-poly borné (`48 × 48`), éléments instanciés (`InstancedMesh`, bible DA §6.3), pas d'ombres portées coûteuses si besoin, fluidité mesurée sur 300 messages (backlog T6) |
+| Le rendu 3D WebGL saccade sur le portable de démonstration | Moyenne | Maillage low-poly borné (`48 × 48`), éléments instanciés (`InstancedMesh`, bible DA §6.4), pas d'ombres portées coûteuses si besoin, fluidité mesurée sur 300 messages (backlog T6) |
+| Prise en main de Three.js (technologie nouvelle pour Nicolas) | Moyenne | Scène vide + `importmap` + `OrbitControls` validés dès S49 ; uniquement des géométries primitives low-poly (aucun modèle `.glb` externe) ; effets riches (champignons, animaux, rivières, météorite) classés « en plus » (backlog O8) pour sécuriser le socle S50 |
 | Trop d'ambition pour l'œuvre | Moyenne | D'abord une version minimale qui marche de bout en bout, puis enrichir |
 
 ## 10. L'organisation
@@ -256,7 +257,7 @@ Critère de fin : tous les cas de la spec passent, trois chaînes ont le même h
 - Personne ne pousse directement sur `main` : une branche par tâche (`feat/...`, `fix/...`), fusion par pull request relue par l'autre. Si l'offre GitHub gratuite ne permet pas de verrouiller la branche sur un dépôt privé, c'est une règle d'équipe, pas un blocage technique.
 - Messages de commit courts et clairs, un sujet par commit.
 - Jamais de secret dans Git (`.env`, clés).
-- **La spec :** la référence est la spec des six, dans un dépôt GitHub privé commun (décision 14 ; création prévue le 27/11, point ouvert O1). La copie `docs/spec-commune.md` de ce dépôt est la v1.0 et ne se modifie jamais seule : tout changement passe par une pull request approuvée par les trois binômes (spec §11).
+- **La spec :** la référence est la spec des six, dans un dépôt GitHub privé commun (décision 14 ; création prévue le 27/11, point ouvert O1). Pour notre binôme, la version de référence est le **PDF v1.0** déposé ([spec-commune/v1.0.pdf](spec-commune/v1.0.pdf)) ; `docs/spec-commune.md` en est la copie de travail (mêmes sections et mêmes valeurs, vérifié le 25/11). Elle ne se modifie jamais seule : tout changement passe par une pull request approuvée par les trois binômes (spec §11).
 
 **IA pour coder** (autorisée par le sujet) :
 - Nous utilisons un assistant de code (Claude Code). Les prompts sont enregistrés automatiquement dans `docs/prompts/` (clés masquées) : cela donne une trace de notre usage.

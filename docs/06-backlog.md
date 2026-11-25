@@ -3,9 +3,9 @@
 | Champ | Valeur |
 | --- | --- |
 | Binôme | n°3 · Dylan Belledent, Nicolas Rapuzzi--Pisarczyk · `noeud-c` |
-| Version | 1.4 · 25/11/2026 : pivot artistique vers *Terre commune* (carte 3D procédurale en Three.js, D-023 et D-024) : tâches Œuvre O1 à O9 adaptées, C4/C5/C6 Figma remis à faire, `three` ajouté en S49. v1.2 · 23/11/2026 (planning S50 recalibré, cas 18/22, A2b avancée si jonction réussie) |
+| Version | 1.7 · 25/11/2026 : O7 coupé en O7a (bloom) et O7b (ruines). v1.6 : relief recalibré (bible v1.2, D-025), O3 réparti pour tenir les 35 h de Nicolas en S50, rivière et météorite seulement en O8. v1.5 : consolidation *Terre commune* (lexique `l2` en A1, `% de terre` en O2 indispensable, T6 par empreinte SHA-256 de la heightmap et renvoi §6.4, charge Three.js recalibrée avec effets avancés en `+`) |
 | Rendu | PDF ou lien, vendredi 27/11/2026, 17h |
-| S'appuie sur | [dossier](03-dossier-binome.md) v0.9 (§10 : répartition), [spec](spec-commune.md) v1.0 (§10 : paliers), [bible DA](05-bible-da.md) v1.0, [charte](04-charte-editoriale.md) v1.0 |
+| S'appuie sur | [dossier](03-dossier-binome.md) v0.12 (§10 : répartition), [spec v1.0 (PDF)](spec-commune/v1.0.pdf) (§10 : paliers), [bible DA](05-bible-da.md) v1.3, [charte](04-charte-editoriale.md) v1.3 |
 
 > **Test :** en lisant ce plan, on sait ce qui doit fonctionner chaque soir, et qui s'en occupe.
 
@@ -23,13 +23,13 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | C1 | Spec commune v1.0, déposée sur Moodle | les six | — | I | jeu. 26/11, 12h30 | ◐ (validée, à déposer) |
 | C2 | Nos vecteurs de test 20 à 26 (spec v1.0) | Dylan | 3 h | I | 23/11 | ☑ ([tests/vectors/](../tests/vectors/README.md)) |
-| C3 | Relire la bible DA v1.0 (*Terre commune*) et valider à deux avant l'export PDF | à deux | 1 h | I | jeu. 26/11 | ☐ |
+| C3 | Relire la bible DA v1.3 (*Terre commune*) et valider à deux avant l'export PDF | à deux | 1 h | I | jeu. 26/11 | ☐ |
 | C4 | Nouveau moodboard *Terre commune* dans Figma (références 3D/archipel, licences exactes) | D + N | 2 h | I | jeu. 26/11 | ☐ à refaire dans Figma |
-| C5 | Nouveau symbole *Terre commune* (topographie / phare + 3 nœuds) | D + N | 2 h | I | jeu. 26/11 | ☐ à faire dans Figma |
+| C5 | Nouveau symbole *Terre commune* (topographie / phare + 3 formes-nœuds) | D + N | 2 h | I | jeu. 26/11 | ☐ à faire dans Figma |
 | C6 | Trois esquisses 16:9 dans Figma (océan vide, 10 messages, 300 messages) | D + N | 3 h | I | jeu. 26/11 | ☐ à faire dans Figma |
-| C7 | Test de la charte v1.0 auprès de 3 personnes (charte §3) | à deux | 1 h | I | jeu. 26/11 | ◐ fiche prête ([test-charte.md](test-charte.md)), test à faire passer |
+| C7 | Test de la charte v1.3 auprès de 3 personnes (charte §3) | à deux | 1 h | I | jeu. 26/11 | ◐ fiche prête ([test-charte.md](test-charte.md)), test à faire passer |
 | C8 | Vérifier le réglage de confidentialité d'OpenRouter et l'écrire (charte §4.3) | Dylan | ½ h | I | mer. 25/11 | ☑ réglages relevés et désactivés, essai réussi avec `data_collection: "deny"` (charte §4.3, D-019) |
-| C9 | Relire dossier v0.9 et charte v1.0 | Nicolas | 1 h | I | jeu. 26/11 | ☐ |
+| C9 | Relire dossier v0.12 et charte v1.3 | Nicolas | 1 h | I | jeu. 26/11 | ☐ |
 | C10 | Export PDF des 4 rendus (schéma Mermaid en image, polices intégrées) | Dylan | 2 h | I | jeu. 26/11 (test), ven. 27/11 (dépôt) | ☐ (à faire après les 3 livrables Figma C4/C5/C6) |
 | C11 | Créer le dépôt commun des six et y déposer nos vecteurs (point ouvert O1) | Dylan + un membre par binôme | 1 h | I | ven. 27/11 | ☐ |
 | C12 | Proposer la spec v1.1 (précisions, [propositions](spec-commune/propositions-v1.1.md)) | Dylan | ½ h | + | ven. 27/11 | ☐ |
@@ -52,7 +52,7 @@
 
 | # | Tâche | Qui | Est. | Prio. | Jour |
 | --- | --- | --- | --- | --- | --- |
-| A1 | Valeurs locales (calcul exact et lexique `l1`, charte §2) : fonction pure dans le serveur de l'application, partagée avec le nœud, sans écriture en base (dossier §5) | Nicolas | 2 h | I | jeu. 10/12 |
+| A1 | Valeurs locales (calcul exact, lexique `l2` et règle anti-monotonie par `id`, charte §2) : fonction pure dans le serveur de l'application, partagée avec le nœud, sans écriture en base (dossier §5) | Nicolas | 2 h | I | jeu. 10/12 |
 | A2a | Worker minimal : repère les messages `dans_un_bloc`, **IA simulée** (`IA_MODE=simulee`), écrit `ai_results` et l'événement `values_ready` | Dylan | 2 h | I | ven. 11/12 |
 | A2b | Worker réel : lots de 10, déclenchement (10 messages ou 45 s, 30 s entre deux requêtes), compteur journalier, appel OpenRouter, statuts, validation de la réponse, `model_used` | Dylan | 3 h | I | lun. 11/01 |
 | A3 | Pannes simulées : délai, hors format, lot incomplet, quota, refus d'un lot | Dylan | 2 h | I | mar. 12/01 |
@@ -74,15 +74,16 @@
 
 | # | Tâche | Qui | Est. | Prio. | Jour |
 | --- | --- | --- | --- | --- | --- |
-| O1 | Scène Three.js low-poly : océan 3D animé, caméra orbitale (`OrbitControls`), éclairage, brouillard, PRNG déterministe par `id`, **trois bases de test** (vide, 10 et 300 messages) | Nicolas | 4 h | I | mer. 09/12 |
-| O2 | Heightmap procédurale (`48 × 48`) qui se sculpte message par message selon `emotion` et `densite`, coloration par altitude et biomes (bible §6.1) | Nicolas | 3 h | I | mer. 09/12 et ven. 11/12 |
-| O3 | Éléments 3D instanciés (`InstancedMesh`) : arbres, phares/lanternes (couleurs des 3 nœuds), ruines, volcans (cratère émissif) et voiliers | Nicolas | 2 h | I | ven. 11/12 |
-| O4 | Prévision (filaire translucide) → observation (solidification en 1,5 s), nappe de brume pour les messages masqués | Nicolas | 2 h | I | ven. 11/12 |
+| O1 | Scène Three.js low-poly (`importmap`, `OrbitControls`, `ImprovedNoise`, PRNG Mulberry32) : océan 3D animé, éclairage, brouillard, **trois bases de test** (vide, 10 et 300 messages) | Nicolas | 4 h | I | mer. 09/12 |
+| O2 | Heightmap procédurale (`48 × 48`) avec saturation, masque côtier, coloration par biomes et calcul du **`% de terre`** (bible §6.2) | Nicolas | 4 h | I | mer. 09/12 et ven. 11/12 |
+| O3 | Éléments 3D de base instanciés (`InstancedMesh`) : **balises de nœuds** (pyramide Cyan / cube Ambre / losange Violet), **arbres**, **phares** et **voiliers** | Nicolas | 3 h | I | ven. 11/12 (1 h : balises, arbres) et lun. 11/01 (2 h : phares, voiliers) |
+| O4 | Patch filaire indépendant de prévision (`PlaneGeometry` 8 × 8, fondu 1,5 s à l'observation) et nappe de brume pour les messages masqués (bible §6.3) | Nicolas | 2 h | I | ven. 11/12 |
 | O5 | Reconstruction de la heightmap après `chain_reorganized` | Nicolas | 2 h | I | mar. 12/01 |
-| O6 | Atmosphère dynamique : ciel selon `chaleur`, vagues selon `energie`, pluie 3D (`tristesse`), orage, éclairs et braises (`colere`) | Nicolas | 3 h | I | mar. 12/01 |
-| O7 | Post-processing léger (bloom sur la lave et les phares) et compteur `% de terre` | Nicolas | 2 h | + | mar. 12/01 |
-| O8 | Caméra cinématique qui se tourne brièvement vers la zone qui vient d'émerger | Dylan | 2 h | + | mer. 13/01 |
-| O9 | `prefers-reduced-motion` (caméra fixe, vagues figées, pas de flash d'éclair) | Nicolas | 1 h | I | mer. 13/01 |
+| O6 | Atmosphère dynamique (fenêtre des 5 derniers) : ciel selon `chaleur`, vagues selon `energie`, pluie 3D (`tristesse`), orage, éclairs et braises (`colere`) | Nicolas | 3 h | I | mar. 12/01 |
+| O7a | Post-processing léger (bloom sur la lave et les phares) | Nicolas | 1 h | + | mar. 12/01 |
+| O7b | Ruines solitaires avec lanterne du nœud (bible §6.5), tirées après les règles de base | Nicolas | 1 h | + | mar. 12/01 |
+| O8 | Enrichissements de la bible §6.5 (la carte est complète sans eux) : **rivières** avec arrêt garanti (`tristesse`), **impact de météorite** (`colere` intense), **champignons et petits animaux** (`joie`) | Dylan + Nicolas | 4 h | + | mer. 13/01 |
+| O9 | `prefers-reduced-motion` (caméra fixe, vagues figées, pas d'éclairs ni d'animation de météorite) | Nicolas | 1 h | I | mer. 13/01 |
 
 ### Tests et jonction
 
@@ -93,7 +94,7 @@
 | T3 | Palier 3 : jonction à trois, les 26 cas, puis une heure d'usage réel (spec §10.3) | à deux | 5 h | I | **jeu. 10/12** |
 | T4 | Bout en bout : un message de l'application jusqu'à l'œuvre, avec l'IA simulée (S50) puis avec de vraies valeurs de l'IA (lun. 11/01, après A2b) | à deux | 2 h | I | ven. 11/12 |
 | T5 | Fourche provoquée, arrêt du worker pendant un créneau, redémarrage des trois nœuds | à deux | 3 h | I | mer. 13/01 |
-| T6 | Déterminisme : même base, même image (capture comparée) ; bases de test vide, 10 et 300 messages ; **fluidité mesurée** (30 images par seconde au moins, bible §6.2) | Nicolas | 2 h | I | mer. 13/01 |
+| T6 | Déterminisme : même base, même **empreinte SHA-256 des tableaux `heightmap` + `warm` + `volc`** (indépendant du GPU) ; bases de test vide, 10 et 300 messages ; **fluidité mesurée** (30 images par seconde au moins, bible §6.4) | Nicolas | 2 h | I | mer. 13/01 |
 | T7 | Test du prompt : le lot de six exemples envoyé 10 fois (charte §3) | Dylan | 1 h | I | S49 |
 
 ### Documents et oral
@@ -125,7 +126,7 @@ Reprise du dossier §10 :
 
 **Pourquoi Nicolas prend N1, N8 et T1.** Ce sont les tâches où le nœud touche l'application et les tests : elles équilibrent la charge de la première semaine (Dylan a tout le cœur du nœud) et obligent Nicolas à lire le code du nœud dès le lundi, pour pouvoir l'expliquer à l'oral.
 
-**Charge :** S50, 33 h pour Dylan et 35 h pour Nicolas en tâches indispensables ; S2, environ 25 h pour Dylan (A2b passe en S2) et 25 h pour Nicolas, plus les tâches « en plus ».
+**Charge :** S50, 33 h pour Dylan et 35 h pour Nicolas en tâches indispensables ; S2, environ 25 h pour Dylan (A2b passe en S2) et 27 h pour Nicolas (2 h de O3 passées au lundi 11/01), plus les tâches « en plus ».
 
 ---
 
@@ -139,7 +140,7 @@ Reprise du dossier §10 :
 | **Mar. 08/12** | **Palier 1, seconde moitié :** les cas 1, 2, 9 et 17 passent **par HTTP** (routes et stockage). Le nœud démarre, garde sa chaîne sur disque et répond aux 5 routes. Un message écrit dans la page est filtré, signé et visible en file (`GET /messages/pending`) | N4, N5 | N8, P2 |
 | **Mer. 09/12** | **Palier 2 :** notre nœud échange messages et blocs avec `noeud-a` puis avec `noeud-b` sur Tailscale ; il produit à son créneau et rattrape un pair plus haut (rattrapage simple ; `SYNCING` et fourches terminés jeudi matin). Le cas 22 passe avec le sondage (pair simulé qui répond à `GET /messages/pending`). La carte 3D Three.js se sculpte avec des données simulées | N6, N7 (3 h sur 5), T2 | O1, O2 (2 h), T2 |
 | **Jeu. 10/12** | **Jalon : les trois nœuds rejoignent la chaîne.** Même `hash` de tête sur les trois après une minute, coupure de 2 minutes rattrapée, redémarrage des trois réussi. Valeurs locales calculées | N7 (fin, 2 h, le matin), T3 | T3, A1 |
-| **Ven. 11/12** | Un message va de la page jusqu'à l'œuvre 3D : prévision en filaire translucide, puis solidification avec des valeurs de l'**IA simulée** écrites dans `ai_results`. Message masqué en brume. Les vraies valeurs de l'IA arrivent le lundi 11/01 | A2a, N9, T4 | O2 (1 h), O3, O4, T4 |
+| **Ven. 11/12** | Un message va de la page jusqu'à l'œuvre 3D : prévision en filaire translucide, puis solidification avec des valeurs de l'**IA simulée** écrites dans `ai_results`. Message masqué en brume. Les vraies valeurs de l'IA arrivent le lundi 11/01 | A2a, N9, T4 | O2 (2 h), O3 (1 h), O4, T4 |
 
 **Si le jeudi échoue :** le vendredi matin est réservé à la jonction (T3) ; A2a, N9 et O3 glissent à la S2, les valeurs locales suffisent pour montrer l'œuvre. La jonction passe avant tout le reste.
 
@@ -151,8 +152,8 @@ Reprise du dossier §10 :
 
 | Jour | Ce qui fonctionne le soir | Dylan | Nicolas |
 | --- | --- | --- | --- |
-| **Lun. 11/01** | Les trois nœuds tournent à nouveau ensemble après la pause, avec la même tête ; les bogues notés le 10/12 sont corrigés. **Les vraies valeurs de l'IA arrivent** (lots, compteur journalier, `model_used` en base) ; masquage côté serveur ; légende et info-bulles | reprise de la chaîne à trois, corrections, A2b | P3, P5, P6 (+) |
-| **Mar. 12/01** | Pannes d'IA simulées gérées ; messages `confirme` ; export de `ai_results` ; la carte 3D se reconstruit après une fourche et adapte son atmosphère (pluie, orage, soleil) | A3, P4, A5, A4 (+) | O5, O6, O7 (+) |
+| **Lun. 11/01** | Les trois nœuds tournent à nouveau ensemble après la pause, avec la même tête ; les bogues notés le 10/12 sont corrigés. **Les vraies valeurs de l'IA arrivent** (lots, compteur journalier, `model_used` en base) ; masquage côté serveur ; légende et info-bulles | reprise de la chaîne à trois, corrections, A2b | O3 (fin, 2 h), P3, P5, P6 (+) |
+| **Mar. 12/01** | Pannes d'IA simulées gérées ; messages `confirme` ; export de `ai_results` ; la carte 3D se reconstruit après une fourche et adapte son atmosphère (pluie, orage, soleil) | A3, P4, A5, A4 (+) | O5, O6, O7a et O7b (+) |
 | **Mer. 13/01** | Tous les tests passent : fourche, arrêt du worker, redémarrage, déterminisme, trois états de l'œuvre 3D | T5, O8 (+) | T5, T6, O9 |
 | **Jeu. 14/01** | Démo répétée deux fois de bout en bout, plan B prêt, README à jour | D2, D3, D4 | D3, D4 |
 | **Ven. 15/01** | Oral (date exacte à confirmer par l'équipe enseignante ; si l'oral tombe plus tôt, le mercredi devient le jour de répétition) | oral | oral |
@@ -180,7 +181,7 @@ Démonstration d'environ 8 minutes, chacun présente la partie de l'**autre** (o
 | 1 | `tailscale status` et `GET /status` des trois nœuds : même hauteur, même `tip_hash` | Une chaîne, trois nœuds | Nicolas |
 | 2 | Un message écrit en direct : en attente → dans un bloc → relief en filaire (prévision) → solidification du biome avec les valeurs de l'IA (observation) | Le parcours complet d'un message | Dylan |
 | 3 | Dans la base : la ligne `ai_results` de ce message, avec `model_requested` et `model_used` | La trace du modèle exigée par le sujet | Nicolas |
-| 4 | Un message d'un autre binôme, avec son phare ou fanion de voilier coloré | « Trois regards » sur la même chaîne | Dylan |
+| 4 | Un message d'un autre binôme, avec sa balise forme + couleur (pyramide Cyan / cube Ambre) et son phare ou fanion | « Trois regards » sur la même chaîne | Dylan |
 | 5 | Un message refusé par le filtre (un numéro de téléphone), puis un message déjà signé qui apparaît en brume | La charte : refuser avant, masquer après | Nicolas |
 | 6 | On coupe notre nœud 2 minutes, on le rallume : il rattrape la chaîne et l'œuvre se reconstruit | Le rattrapage et le déterminisme | Dylan |
 | 7 | Les trois états de l'œuvre (bases vide, 10 et 300 messages) | La DA tient du vide au plein | Dylan |

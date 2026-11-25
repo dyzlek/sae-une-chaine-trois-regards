@@ -29,5 +29,5 @@ Règles : modèles **gratuits** uniquement ; `openrouter/free` accepté si on **
 ## Suivi par personne
 | Personne | Tailscale OK | OpenRouter OK | Hostname |
 |---|---|---|---|
-| Dylan (fait tourner le nœud, dossier §10) | ☐ | ☐ | `noeud-c` |
+| Dylan (fait tourner le nœud, dossier §10) | ☐ | ☑ (vérifié le 23/11, D-019) | `noeud-c` |
 | Nicolas | ☐ | ☐ | `sae-nicolas` |

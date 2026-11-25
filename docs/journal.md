@@ -13,13 +13,25 @@ Plus récent en haut. Un daily par matin : **hier / aujourd'hui / blocages**.
 
 ---
 
-### 2026-11-25 · S48 · Pivot artistique : *Terre commune*, carte 3D procédurale (Dylan)
+### 2026-11-25 · S48 · Relief recalibré par simulation (Dylan, avec Claude Code)
 **Aujourd'hui :**
-- Constat partagé : la piste météo en spirale 2D (*Front commun*) manque d'impact visuel et fait trop « déjà vu ». Après plusieurs essais de prototypes jetables (hors dépôt : survol d'archipel, diorama 3D, puis heightmap 3D procédurale), **pivot assumé vers *Terre commune*** (`D-023`) : un océan 3D vierge qui se sculpte message par message en un continent unique (joie → terres vertes, forêts, voiliers, soleil ; calme → criques et phares ; tristesse → lagons, ruines, pluie, brume ; colère → volcans, lave, orage).
-- Passage du rendu de Canvas 2D à **Three.js (WebGL)** en low-poly (`D-024`), tout le reste de l'architecture (nœud, SQLite, worker, OpenRouter, SSE) restant intact.
-- Tous les documents texte mis à jour et synchronisés : [04-charte-editoriale.md](04-charte-editoriale.md) v1.0 (`emotion`, lexique `l2`, prompt `p2`), [test-charte.md](test-charte.md), [05-bible-da.md](05-bible-da.md) v1.0 (retour à Recursive `D-009`), [03-dossier-binome.md](03-dossier-binome.md) v0.9, [06-backlog.md](06-backlog.md) v1.4, [decisions.md](decisions.md), [a-faire.md](a-faire.md).
+- Une simulation des formules de la bible v1.1 (script jetable, hors dépôt) montrait qu'aucune île n'apparaissait avant une trentaine de messages et qu'il n'y avait ni magma ni neige à 300. Règles recalibrées et revérifiées (`D-025`) : une île dès le premier message, environ 9 % de terre à 10 messages, environ 45 % à 300 avec des biomes variés.
+- Bible DA v1.2 : tristesse visible en pleine mer (haut-fond), magma lié au cratère, ordre des tirages fixé, balises limitées aux 60 derniers messages, carte qui s'affine quand l'IA répond (assumé), rivière (avec arrêt garanti), météorite, champignons et animaux sortis du socle (§6.5, O8). Esquisses 2 et 3 décrites d'après la simulation.
+- Charte v1.2 : « pleut » et « pleuvoir » ajoutés, « hate » retiré, négation simple, lexique compté (95 entrées), effets sur la carte des six exemples alignés.
+- Dossier v0.11, backlog v1.6 (O3 réparti pour tenir 35 h pour Nicolas en S50), `D-023` corrigée (« sera vérifié »), nouveau `moodboard-sources.md` à remplir. La spec de référence est le PDF v1.0 (renvois mis à jour).
 
-**À faire ensuite :** produire les trois éléments Figma sur cette nouvelle direction (moodboard C4, symbole C5, trois esquisses C6), faire passer le test de la charte (C7), relire à deux et exporter les PDF vendredi.
+- Après relecture : ruines sorties du socle partout (tirages de base, dossier, charte), O7 coupé en O7a (bloom) et O7b (ruines) ; « brume » réservée aux messages masqués, la tristesse épaissit le brouillard de tout l'horizon (bible v1.3, charte v1.3, dossier v0.12, backlog v1.7).
+
+**Blocages :** Nicolas doit relire et co-valider `D-023`, `D-024` et `D-025`, et écrire sa propre entrée ici.
+**Décisions :** D-025 (`decisions.md`).
+
+### 2026-11-25 · S48 · Pivot artistique assumé : *Terre commune* (Dylan — à co-valider par Nicolas)
+**Pourquoi nous avons changé de cap :** après quatre essais successifs sur la piste météo 2D (*Front commun* : spirale, quatre polices, symboles v1–v9, ciel à l'encre), aucun rendu ne nous satisfaisait vraiment : l'œuvre ressemblait toujours à un graphique de données plutôt qu'à une création marquante. Ces essais n'ont pas été perdus : ils nous ont appris à garder une architecture technique solide (tout le nœud, SQLite, le worker et OpenRouter sont intacts), à préférer une typographie sobre (**Recursive**, D-009) et à lier la forme visuelle directement à l'immuabilité de la blockchain.
+**Aujourd'hui :**
+- Pivot vers ***Terre commune*** (`D-023`, `D-024`) : une carte marine 3D procédurale en **Three.js low-poly** qui se sculpte message par message (joie → île qui grandit, forêts, champignons, animaux, voiliers, soleil ; calme → criques, phares ; tristesse → pluie, rivières/lagons, brume ; colère → volcan, météorite, vagues, orage).
+- Relecture critique des docs et blindage complet : formules exactes + saturation + masque côtier pour tenir de 0 à 300 messages (`05-bible-da.md` v1.1), lexique `l2` recentré sur 60 mots d'émotions + règle anti-monotonie (`04-charte-editoriale.md` v1.1), double encodage des 3 nœuds (pyramide Cyan, cube Ambre, losange Violet distinct de l'erreur), patch filaire de prévision, `importmap` Three.js, risque prise en main 3D et déterminisme par empreinte SHA-256 de la heightmap (`03-dossier-binome.md` v0.10, `06-backlog.md` v1.5, `07-evaluation.md`, `01-environnement.md`).
+
+**Blocages / Action immédiate :** **Nicolas doit relire, co-valider D-023/D-024 et ajouter sa propre entrée dans ce journal** (conduite de projet individuelle). Ensuite : produire ensemble les trois livrables Figma (moodboard C4, symbole C5, 3 esquisses C6) et archiver les anciens visuels de *Front commun*.
 **Décisions :** D-023, D-024 (`decisions.md`).
 
 ### 2026-11-25 · S48 · Ciel à l'encre (Dylan, avec Claude Code)

@@ -14,20 +14,28 @@ Un choix = un bloc court : contexte, décision, pourquoi, ce qui est écarté. P
 
 ---
 
-### D-024 · Rendu de l'œuvre : Three.js (WebGL) en low-poly à la place de Canvas 2D
+### D-025 · Relief recalibré par simulation, enrichissements séparés du socle (à co-valider par Nicolas)
+- **Date :** 2026-11-25
+- **Contexte :** une simulation des formules de la bible v1.1 (script jetable, hors dépôt) montre qu'aucune terre n'émerge avant une trentaine de messages (0 % à 10 messages), que le magma et la neige n'apparaissent jamais à 300, et qu'un message de tristesse en pleine mer ne laisse aucune trace. Cela contredit l'intention (« l'impact immédiat ») et l'esquisse à 10 messages.
+- **Décision :** fond initial à `−0,4` au centre (`−0,9` au bord) ; élévations plus fortes (`joie` `1,00 + 0,80 × densite`, `calme` `0,70 + 0,50 × densite`, volcan `1,60 + 1,60 × densite`) ; amortissement seulement après 3 passages (`0,30` par passage) et compression vers `3,2` ; tristesse en pleine mer = haut-fond qui reste sous l'eau ; magma lié au cratère (`h ≥ 0,9`, `volc ≥ 0,80`) ; bandes de couleur décalées (prairie jusqu'à `2,0`, neige dès `2,9`) ; ordre des tirages du PRNG fixé ; balises limitées aux 60 derniers messages. Rivière, météorite, champignons et animaux passent en enrichissements (bible §6.5, O8), avec une règle d'arrêt pour la rivière. Résultat simulé : une île dès le premier message, ≈ 9 % de terre à 10 messages, ≈ 45 % à 300 avec des biomes variés (bible §6.2).
+- **Pourquoi :** la bible doit produire ce que montrent les esquisses ; une règle vérifiée par simulation évite de découvrir le problème en S50. Sortir les enrichissements du socle garde une œuvre complète même si O8 n'est pas fait.
+- **Écarté :** passer la grille à `64 × 64` (plus de détail, mais toutes les références et le budget à revoir) ; garder la rivière dans les règles de base (une boucle sans arrêt et une tâche « en plus » dont dépendrait la règle principale) ; une balise par message (à 300, la carte redeviendrait un graphique de points).
+- **Remplace :** les valeurs numériques de la bible v1.1 §6.1 à §6.4.
+
+### D-024 · Rendu de l'œuvre : Three.js (WebGL) en low-poly à la place de Canvas 2D (à co-valider par Nicolas)
 - **Date :** 2026-11-25
 - **Contexte :** avec le pivot vers *Terre commune* (D-023), l'œuvre devient une carte marine 3D procédurale (heightmap vivante, reliefs, océan animé, caméra orbitale).
-- **Décision :** utiliser **Three.js (WebGL)** en esthétique *low-poly / flat-shading*, servi localement (ES modules, sans bundler ni CDN externe), avec un budget géométrique borné (`48 × 48` sommets, éléments instanciés via `InstancedMesh`).
+- **Décision :** utiliser **Three.js (WebGL)** en esthétique *low-poly / flat-shading*, servi localement via `<script type="importmap">` (ES modules natifs : `three`, `OrbitControls`, `ImprovedNoise`, sans bundler ni CDN externe), avec un budget géométrique borné (`48 × 48` sommets, éléments instanciés via `InstancedMesh`).
 - **Pourquoi :** vraie 3D fluide sur GPU, éclairage directionnel, brouillard atmosphérique et caméra orbitale 360° immédiats, tout en restant 100 % JavaScript natif côté navigateur.
 - **Écarté :** Canvas 2D (insuffisant et peu esthétique pour un terrain 3D) ; WebGL brut (trop verbeux pour S50) ; Unity ou Babylon.js (trop lourds).
 - **Remplace :** la ligne « Canvas 2D » de D-004 (tout le reste de D-004 — Node.js 24, Express 5, `better-sqlite3`, SSE — reste inchangé).
 
-### D-023 · Pivot artistique : *Terre commune*, carte marine 3D procédurale vivante
+### D-023 · Pivot artistique : *Terre commune*, carte marine 3D procédurale vivante (à co-valider par Nicolas)
 - **Date :** 2026-11-25
-- **Contexte :** la première direction (*Front commun*, météo abstraite en spirale 2D, D-003 et D-022) est jugée trop proche d'un graphique de données, déjà vue et insuffisamment marquante visuellement.
-- **Décision :** l'œuvre devient ***Terre commune*** : un océan vierge en 3D dont le fond marin (heightmap procédurale unique) se sculpte durablement à chaque message. La joie fait émerger des terres vertes, forêts et voiliers sous le soleil ; le calme façonne des criques et phares ; la tristesse creuse des lagons sous la pluie et la brume ; la colère fait jaillir des crêtes volcaniques sous l'orage. La charte passe de `theme` à `emotion` (`joie`, `calme`, `tristesse`, `colere`, lexique `l2`, prompt `p2`). Retour à la police variable **Recursive** (D-009) pour laisser toute la place à la scène 3D.
-- **Pourquoi :** visuellement beaucoup plus fort pour la démonstration, immédiatement compréhensible, 100 % génératif et déterministe (chaque blockchain engendre un continent unique), et incarne littéralement l'immuabilité de la chaîne.
-- **Écarté :** garder la météo 2D en spirale (D-003, D-008, D-013, D-015, D-022) ; les 4 polices par temps (D-020, surcharge visuelle devant une scène 3D) ; poser des îles préfabriquées identiques (moins génératif qu'une heightmap continue).
+- **Contexte :** après plusieurs essais de la piste météo 2D (*Front commun* : spirale, 4 polices, ciel à l'encre), nous constatons que le rendu reste trop proche d'un graphique de données et manque d'impact visuel.
+- **Décision :** l'œuvre devient ***Terre commune*** : un océan vierge en 3D dont le fond marin (heightmap procédurale `48 × 48` avec saturation et masque côtier) se sculpte durablement à chaque message. La joie fait grandir l'île (forêts, champignons, animaux, voiliers, soleil) ; le calme façonne des criques et phares ; la tristesse déclenche la pluie et creuse rivières ou lagons ; la colère déclenche l'orage, la houle, des volcans ou des impacts de météorite. La charte passe à `emotion` (`joie`, `calme`, `tristesse`, `colere`, lexique `l2` émotionnel, prompt `p2`). Chaque message laisse une balise forme + couleur de son nœud (pyramide Cyan, cube Ambre, losange Violet). Retour à **Recursive** (D-009).
+- **Pourquoi :** visuellement plus fort, immédiatement lisible, 100 % génératif et déterministe (sera vérifié en S50 par une empreinte SHA-256 de la heightmap, backlog T6), et incarne physiquement l'immuabilité de la blockchain.
+- **Écarté :** garder la météo 2D en spirale (D-003, D-008, D-013 à D-015, D-022) ; les 4 polices par temps (D-020) ; poser des îles préfabriquées identiques ; la couleur Corail `#FB7185` pour `noeud-c` (trop proche de l'erreur `#F47280`, remplacée par Violet `#A78BFA`).
 - **Remplace :** D-003, D-008, D-013 à D-015, D-020, D-022.
 
 ### D-022 · DA : un ciel tracé à l'encre sous la spirale (écartée le 25/11/2026 par D-023)
@@ -38,7 +46,7 @@ Un choix = un bloc court : contexte, décision, pourquoi, ce qui est écarté. P
 - **Écarté :** la touche épaisse et la palette de Van Gogh (pastiche) ; un paysage de Béziers vu du sol (quitte la vue satellite) ; un cyclone 3D en WebGL (dépendance, lisibilité, fluidité sur le portable de démonstration) ; une palette par temps (la couleur aurait deux sens) ; un ciel qui remplace les formes (on perd l'élément, la prévision et l'origine).
 - **Conséquences :** une exception à « l'œuvre reste sans texte » (bible §4.3) pendant l'arrivée d'un message ; T6 compare des captures faites avec « réduire les animations » ; tâches O11 et O12 (« en plus ») ; esquisses à refaire avec le ciel (bible §7).
 
-### D-021 · Symbole : l'œil du cyclone, une spirale de 34 points (proposée par Dylan, à valider par Nicolas)
+### D-021 · Symbole : l'œil du cyclone, une spirale de 34 points (écartée le 24/11/2026)
 > **Écartée** le 24/11/2026 : Dylan ne la trouve pas belle ; toutes les pistes de symbole sont retirées du dépôt, le symbole est à refaire.
 
 - **Date :** 2026-11-24
@@ -48,7 +56,7 @@ Un choix = un bloc court : contexte, décision, pourquoi, ce qui est écarté. P
 - **Écarté :** le nuage-bulle v6 (D-018) ; le nuage-bulle déformé (v7) ; une silhouette de nuage remplie de points (v8) ; une forme par `theme` pour chaque point (gardée comme variante pour les grandes tailles).
 - **Remplace :** D-018.
 
-### D-020 · Typographie : quatre polices, une par temps (proposée par Dylan, à valider par Nicolas)
+### D-020 · Typographie : quatre polices, une par temps (écartée le 25/11/2026 par D-023)
 - **Date :** 2026-11-24
 - **Contexte :** avec Recursive seule (D-009), le texte restait neutre alors que l'œuvre traduit chaque message en temps. Dylan veut une police différente selon les interactions.
 - **Décision :** quatre temps typographiques. ☀ Ensoleillé : Fraunces ; ☁ Nuageux : Quicksand ; ☂ Pluie : Special Elite ; ≋ Brouillard : IBM Plex Mono. Le temps se lit sur `masquer`, `theme`, `chaleur` et `energie` avec une règle à six étapes et six vecteurs (bible §4.1). La police change pendant l'écriture (prévision), quand l'IA répond (prévu → observé) et quand le ciel change (consigne et bulletin). L'interface, les erreurs et les données gardent une police fixe (Quicksand, Plex Mono) ; le nom de l'œuvre est en Fraunces (bible §4.3).
@@ -62,7 +70,7 @@ Un choix = un bloc court : contexte, décision, pourquoi, ce qui est écarté. P
 - **Pourquoi :** les messages sont écrits par des visiteurs et restent dans la chaîne pour toujours ; ils n'ont pas à servir à entraîner un modèle. L'essai du 23/11 montre que les modèles gratuits répondent quand même (`openrouter/free` → `recursive/flint-v1.0:free`).
 - **Écarté :** autoriser l'entraînement par les fournisseurs gratuits (le réglage d'origine du compte : plus de modèles, mais pas nécessaire) ; activer la conservation nulle (*Zero Data Retention*), qui risquerait de bloquer la plupart des modèles gratuits.
 
-### D-018 · Symbole : un nuage-bulle et trois points (proposée, à valider par Nicolas)
+### D-018 · Symbole : un nuage-bulle et trois points (écartée le 24/11/2026)
 > **Remplacée** le 24/11/2026 par D-021 (spirale de 34 points, l'œil du cyclone).
 
 - **Date :** 2026-11-23
@@ -83,20 +91,20 @@ Un choix = un bloc court : contexte, décision, pourquoi, ce qui est écarté. P
 - **Pourquoi :** si le worker plante, plus aucune forme n'aurait de « prévision », ce qui contredit « l'œuvre n'attend jamais l'IA ». Le calcul est déterministe : il n'a pas besoin d'être stocké.
 - **Écarté :** valeurs locales écrites par le worker (point de défaillance en plus, lignes inutiles en base).
 
-### D-015 · Échelle de la spirale mesurée : `c = 0,028`, profondeur 300, rayons de 0,6 % à 1,5 %
+### D-015 · Échelle de la spirale mesurée : `c = 0,028`, profondeur 300, rayons de 0,6 % à 1,5 % (remplacée par D-023)
 - **Date :** 2026-11-23
 - **Contexte :** avec `c = 0,023` et des rayons jusqu'à 2 %, le voisin le plus proche est à 2,3 % pour un diamètre de forme de 4 % : les formes se chevauchaient, contrairement à ce que disait la bible (« espacement d'environ 4 % » est l'espacement moyen).
 - **Décision :** `c = 0,028` (voisin le plus proche à 2,8 %, médiane 4,7 %), vieillissement de `k = 100` à `k = 300`, fondu au-delà, rayons de 0,6 % à 1,5 % du petit côté, mélange additif pour les contacts (bible §6.1 et §6.2).
 - **Écarté :** garder 400 messages visibles (formes trop serrées ou trop petites) ; empêcher tout contact (formes minuscules).
 
-### D-014 · Couleurs interpolées en OKLab, pas en OKLCH
+### D-014 · Couleurs interpolées en OKLab, pas en OKLCH (remplacée par D-023)
 - **Date :** 2026-11-23
 - **Contexte :** en OKLCH, l'interpolation entre le gris-lavande (teinte 299°) et l'ocre (77°) passe par le rose (`#e69fab` au milieu), presque la couleur de l'alerte (`#F28B9B`).
 - **Décision :** interpolation linéaire en OKLab, 11 vecteurs de couleur dans la bible §3.1 (le milieu lavande-ocre devient `#ceaf97`), courbe en S `v²(3 − 2v)`.
 - **Pourquoi :** pas de rose parasite, et pas de sens de rotation de teinte à définir : le même résultat dans tous les langages.
 - **Écarté :** OKLCH ; la teinte HSL linéaire (le vert du milieu).
 
-### D-013 · Spirale : l'angle suit le rang absolu, le rayon suit l'âge
+### D-013 · Spirale : l'angle suit le rang absolu, le rayon suit l'âge (remplacée par D-023)
 - **Date :** 2026-11-23
 - **Contexte :** en v0.2 (D-008), l'angle suivait l'âge (`k × 137,5°`) : à chaque nouveau message, tous les messages se décalaient de 137,5°, soit en moyenne 57 % de la largeur de l'écran (86 % au plus, calcul sur 400 messages) : un tourbillon permanent, contraire à « calme, lent ».
 - **Décision :** angle `n × 137,5°` avec `n` le rang absolu depuis le premier message, rayon `0,028 × √k` avec `k = N − 1 − n` l'âge. Un message ne change jamais d'angle ; il glisse vers le bord (0,16 % de la largeur en moyenne par message).
@@ -123,15 +131,14 @@ Un choix = un bloc court : contexte, décision, pourquoi, ce qui est écarté. P
 - **Pourquoi :** l'œuvre doit se reconstruire à l'identique sans IA, et le quota fait que beaucoup de messages n'auront que ces valeurs.
 - **Écarté :** une bibliothèque d'analyse de sentiment (lourde, souvent en anglais) ; un grand lexique (long à tester).
 
-### D-009 · DA : une seule famille typographique, Recursive (validée par Nicolas, bible v0.3)
-> **Remplacée si D-020 est validée** (quatre polices, une par temps, bible v0.4).
+### D-009 · DA : une seule famille typographique, Recursive (validée par Nicolas, maintenue par D-023)
 
 - **Date :** 2026-11-23
 - **Décision :** Recursive en trois réglages (Casual pour la poésie, Linear pour le texte, Mono pour les données), bible §4.
 - **Pourquoi :** Fraunces, Inter et Plex Mono sont très répandues et faisaient « modèle ». Une famille, trois réglages : « une chaîne, trois regards ». Un seul fichier variable.
 - **Écarté :** garder les trois familles ; une écriture manuscrite.
 
-### D-008 · DA : le plus récent au centre de la spirale (validée par Nicolas, puis corrigée)
+### D-008 · DA : le plus récent au centre de la spirale (remplacée par D-023)
 > **Corrigée en partie** le 23/11/2026 par D-013 (l'angle suit le rang absolu, plus l'âge : « tourne d'un cran » devient « glisse d'un cran ») et D-015 (profondeur 300 au lieu de 400).
 
 - **Date :** 2026-11-23
@@ -157,13 +164,13 @@ Un choix = un bloc court : contexte, décision, pourquoi, ce qui est écarté. P
 - **Pourquoi :** une panne ou une lenteur de l'IA ne doit jamais vider un créneau de 20 s ; SQLite tient en un fichier et accepte plusieurs processus en mode WAL.
 - **Écarté :** un seul processus (un plantage vide un créneau) ; MySQL ou PostgreSQL (un serveur à installer pour rien) ; des fichiers JSON (écritures non sûres).
 
-### D-004 · Node.js 24 partout, Express 5, `better-sqlite3`, SSE, Canvas 2D
+### D-004 · Node.js 24 partout, Express 5, `better-sqlite3`, SSE, Canvas 2D (Canvas 2D remplacé par Three.js en D-024)
 - **Date :** 2026-11-23
 - **Décision :** JavaScript pour le nœud, le worker, le serveur et l'œuvre (dossier §7).
 - **Pourquoi :** un seul langage et un seul outillage ; SHA-256 et Ed25519 sont dans `node:crypto` ; le code de calcul des `id` est partagé entre le nœud et l'application. SSE suffit pour un flux à sens unique ; Canvas 2D sans dépendance.
 - **Écarté :** PHP et Python (aucun gain pour nous) ; WebSocket (flux à double sens inutile) ; p5.js et WebGL ; React et Vue (un seul écran).
 
-### D-003 · Œuvre : météo collective, *Front commun* (nom validé par Nicolas, bible v0.3)
+### D-003 · Œuvre : météo collective, *Front commun* (remplacée le 25/11/2026 par D-023)
 - **Date :** 2026-11-23
 - **Décision :** chaque message est un temps qui passe ; l'œuvre est une dépression vue par satellite (bible §1).
 - **Pourquoi :** la consigne « Quel temps fait-il en vous ? » et l'œuvre parlent la même langue ; « front » dit à la fois la météo et le collectif.
