@@ -14,6 +14,30 @@ Un choix = un bloc court : contexte, décision, pourquoi, ce qui est écarté. P
 
 ---
 
+### D-024 · Rendu de l'œuvre : Three.js (WebGL) en low-poly à la place de Canvas 2D
+- **Date :** 2026-11-25
+- **Contexte :** avec le pivot vers *Terre commune* (D-023), l'œuvre devient une carte marine 3D procédurale (heightmap vivante, reliefs, océan animé, caméra orbitale).
+- **Décision :** utiliser **Three.js (WebGL)** en esthétique *low-poly / flat-shading*, servi localement (ES modules, sans bundler ni CDN externe), avec un budget géométrique borné (`48 × 48` sommets, éléments instanciés via `InstancedMesh`).
+- **Pourquoi :** vraie 3D fluide sur GPU, éclairage directionnel, brouillard atmosphérique et caméra orbitale 360° immédiats, tout en restant 100 % JavaScript natif côté navigateur.
+- **Écarté :** Canvas 2D (insuffisant et peu esthétique pour un terrain 3D) ; WebGL brut (trop verbeux pour S50) ; Unity ou Babylon.js (trop lourds).
+- **Remplace :** la ligne « Canvas 2D » de D-004 (tout le reste de D-004 — Node.js 24, Express 5, `better-sqlite3`, SSE — reste inchangé).
+
+### D-023 · Pivot artistique : *Terre commune*, carte marine 3D procédurale vivante
+- **Date :** 2026-11-25
+- **Contexte :** la première direction (*Front commun*, météo abstraite en spirale 2D, D-003 et D-022) est jugée trop proche d'un graphique de données, déjà vue et insuffisamment marquante visuellement.
+- **Décision :** l'œuvre devient ***Terre commune*** : un océan vierge en 3D dont le fond marin (heightmap procédurale unique) se sculpte durablement à chaque message. La joie fait émerger des terres vertes, forêts et voiliers sous le soleil ; le calme façonne des criques et phares ; la tristesse creuse des lagons sous la pluie et la brume ; la colère fait jaillir des crêtes volcaniques sous l'orage. La charte passe de `theme` à `emotion` (`joie`, `calme`, `tristesse`, `colere`, lexique `l2`, prompt `p2`). Retour à la police variable **Recursive** (D-009) pour laisser toute la place à la scène 3D.
+- **Pourquoi :** visuellement beaucoup plus fort pour la démonstration, immédiatement compréhensible, 100 % génératif et déterministe (chaque blockchain engendre un continent unique), et incarne littéralement l'immuabilité de la chaîne.
+- **Écarté :** garder la météo 2D en spirale (D-003, D-008, D-013, D-015, D-022) ; les 4 polices par temps (D-020, surcharge visuelle devant une scène 3D) ; poser des îles préfabriquées identiques (moins génératif qu'une heightmap continue).
+- **Remplace :** D-003, D-008, D-013 à D-015, D-020, D-022.
+
+### D-022 · DA : un ciel tracé à l'encre sous la spirale (écartée le 25/11/2026 par D-023)
+- **Date :** 2026-11-25
+- **Contexte :** Dylan trouve le rendu « une forme par message sur fond uni » pas assez artistique. Plusieurs prototypes jetables (hors dépôt) ont été essayés : particules en cyclone, lavis, isobares, cyclone 3D, ciel peint à la manière de *La Nuit étoilée*. Dylan aime le ciel de Van Gogh, mais l'œuvre ne doit pas en être un pastiche.
+- **Décision :** sous la spirale, un calque de traits d'encre fins qui suivent un vent fait d'un tourbillon par message récent (force = `energie`, rayon = `densite`, couleur des traits proches = `chaleur`). Le temps du ciel (bible §4.2) change l'écriture : longs traits lisses (ensoleillé), bandes (nuageux), hachures obliques (pluie), lignes presque immobiles et nappes (brouillard). Deux voisins de chaleur opposée (écart ≥ 0,4) forment un front avec ses symboles. À son arrivée, un message s'écrit dans l'œil dans la police de son temps, puis se dissout en traits. Règles complètes : bible §6.3.
+- **Pourquoi :** le ciel relie les messages entre eux (« ne pas être seul », bible §1) et donne un moment fort à la démonstration sans aucune requête d'IA. Il ne change aucune règle existante (formes, couleurs, spirale, prévision, satellites, brume) et n'ajoute aucune couleur. On garde le mouvement de Van Gogh, mais pas sa matière, sa palette, son point de vue ni sa composition. Les fronts rendent visible le nom de l'œuvre.
+- **Écarté :** la touche épaisse et la palette de Van Gogh (pastiche) ; un paysage de Béziers vu du sol (quitte la vue satellite) ; un cyclone 3D en WebGL (dépendance, lisibilité, fluidité sur le portable de démonstration) ; une palette par temps (la couleur aurait deux sens) ; un ciel qui remplace les formes (on perd l'élément, la prévision et l'origine).
+- **Conséquences :** une exception à « l'œuvre reste sans texte » (bible §4.3) pendant l'arrivée d'un message ; T6 compare des captures faites avec « réduire les animations » ; tâches O11 et O12 (« en plus ») ; esquisses à refaire avec le ciel (bible §7).
+
 ### D-021 · Symbole : l'œil du cyclone, une spirale de 34 points (proposée par Dylan, à valider par Nicolas)
 > **Écartée** le 24/11/2026 : Dylan ne la trouve pas belle ; toutes les pistes de symbole sont retirées du dépôt, le symbole est à refaire.
 

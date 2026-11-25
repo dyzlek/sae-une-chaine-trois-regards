@@ -13,6 +13,24 @@ Plus récent en haut. Un daily par matin : **hier / aujourd'hui / blocages**.
 
 ---
 
+### 2026-11-25 · S48 · Pivot artistique : *Terre commune*, carte 3D procédurale (Dylan)
+**Aujourd'hui :**
+- Constat partagé : la piste météo en spirale 2D (*Front commun*) manque d'impact visuel et fait trop « déjà vu ». Après plusieurs essais de prototypes jetables (hors dépôt : survol d'archipel, diorama 3D, puis heightmap 3D procédurale), **pivot assumé vers *Terre commune*** (`D-023`) : un océan 3D vierge qui se sculpte message par message en un continent unique (joie → terres vertes, forêts, voiliers, soleil ; calme → criques et phares ; tristesse → lagons, ruines, pluie, brume ; colère → volcans, lave, orage).
+- Passage du rendu de Canvas 2D à **Three.js (WebGL)** en low-poly (`D-024`), tout le reste de l'architecture (nœud, SQLite, worker, OpenRouter, SSE) restant intact.
+- Tous les documents texte mis à jour et synchronisés : [04-charte-editoriale.md](04-charte-editoriale.md) v1.0 (`emotion`, lexique `l2`, prompt `p2`), [test-charte.md](test-charte.md), [05-bible-da.md](05-bible-da.md) v1.0 (retour à Recursive `D-009`), [03-dossier-binome.md](03-dossier-binome.md) v0.9, [06-backlog.md](06-backlog.md) v1.4, [decisions.md](decisions.md), [a-faire.md](a-faire.md).
+
+**À faire ensuite :** produire les trois éléments Figma sur cette nouvelle direction (moodboard C4, symbole C5, trois esquisses C6), faire passer le test de la charte (C7), relire à deux et exporter les PDF vendredi.
+**Décisions :** D-023, D-024 (`decisions.md`).
+
+### 2026-11-25 · S48 · Ciel à l'encre (Dylan, avec Claude Code)
+**Aujourd'hui :**
+- Rendu « une forme par message » jugé pas assez artistique. Prototypes jetables (hors dépôt) : particules en cyclone, lavis, isobares, cyclone 3D, ciel peint inspiré de *La Nuit étoilée*.
+- **Bible v0.5 (proposée, D-022) : un ciel tracé à l'encre sous la spirale.** Un tourbillon par message récent (force = `energie`, rayon = `densite`, couleur = `chaleur`) ; quatre écritures du ciel selon le temps (ensoleillé, nuageux, pluie, brouillard) ; fronts entre voisins de chaleur opposée ; à l'arrivée, le message s'écrit dans l'œil puis se dissout en traits.
+- On garde le mouvement de Van Gogh, pas sa matière, sa palette ni sa composition (bible §1 et §2). Aucune couleur nouvelle, aucune règle existante changée.
+- Mis à jour : bible §1, §2, §4.3, §6, §6.2, §6.3 (nouvelle), §7, §8.2 ; dossier §6 (point 10) ; backlog v1.3 (O11, O12 en « en plus ») ; `a-faire.md`.
+
+**Blocages :** Nicolas doit valider D-022 (et toujours D-020). Esquisses à refaire avec le ciel.
+
 ### 2026-11-24 · S48 · Symboles retirés (Dylan, avec Claude Code)
 **Aujourd'hui :** aucune piste de symbole ne convient (v6 à v9 trouvées laides). Toutes les images de symbole sont retirées du dépôt (`symbole-planche.png`, `symbole-spirale.png`) ; bible §5 marquée « à refaire » ; D-021 écartée ; O10 retirée du backlog. Les essais restent dans Figma.
 

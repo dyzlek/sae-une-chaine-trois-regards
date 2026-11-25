@@ -4,9 +4,9 @@
 | --- | --- |
 | Binôme | **n°3** · Dylan Belledent, Nicolas Rapuzzi--Pisarczyk |
 | Nœud | `noeud-c` (spec commune, décision 7) |
-| Version du dossier | 0.8 (aligné sur la bible DA v0.3 : spirale à angle fixe, couleurs en OKLab ; valeurs locales calculées par le serveur de l'application ; planning de la semaine du 07/12 corrigé) · 23/11/2026 |
+| Version du dossier | 0.9 (aligné sur le pivot artistique *Terre commune* : carte 3D procédurale en Three.js, bible DA v1.0, charte v1.0, D-023 et D-024) · 25/11/2026 |
 | Rendu | Vendredi 27/11/2026, 17h. Cette version `.md` reste dans Git ; l'export PDF (avec le schéma d'architecture) viendra plus tard. |
-| S'appuie sur | [spec-commune.md](spec-commune.md) **v1.0** (validée par les six), [04-charte-editoriale.md](04-charte-editoriale.md) v0.5, [05-bible-da.md](05-bible-da.md) v0.3 |
+| S'appuie sur | [spec-commune.md](spec-commune.md) **v1.0** (validée par les six), [04-charte-editoriale.md](04-charte-editoriale.md) v1.0, [05-bible-da.md](05-bible-da.md) v1.0 |
 
 > Plan de construction de notre projet. Il s'appuie sur la spec commune et ne la recopie pas : on écrit « voir spec §x ». Rien ne doit contredire la spec ni la bible DA.
 > **Test :** un autre binôme doit pouvoir reprendre le projet avec ce seul document.
@@ -15,7 +15,7 @@
 
 ## 1. Le projet en bref
 
-- **Notre regard :** *une météo collective*, et une œuvre qui s'appelle ***Front commun***. Chaque message est un temps qui passe : un message calme et froid fait naître une onde lente et bleue, un message vif et chaleureux une gerbe orange. L'œuvre est une image satellite de nuit : une dépression qui s'enroule en spirale, où chaque nouveau message vient se placer dans l'œil du cyclone (intention complète : bible DA §1).
+- **Notre regard :** *une terre qui naît de nos mots*, et une œuvre qui s'appelle ***Terre commune***. Au départ, un océan vierge en 3D. Chaque message sculpte durablement une même carte procédurale (heightmap) et module l'atmosphère : la joie fait émerger des terres vertes, forêts et voiliers sous le soleil ; le calme façonne des criques et des phares ; la tristesse creuse des lagons sous la pluie et la brume ; la colère fait jaillir des volcans sous l'orage (intention complète : bible DA §1).
 - **Notre application :** une page web où un visiteur écrit un message de 280 caractères au plus, voit son état (en attente, dans un bloc, confirmé) et regarde l'œuvre évoluer en direct.
 - **Notre œuvre :** une visualisation générative en temps réel, construite à partir des valeurs que l'IA tire de chaque message de la chaîne. L'œuvre vide est l'état de départ.
 - **Notre nœud :** `noeud-c`, un programme qui garde une copie de la chaîne, applique les règles de la spec et parle aux deux autres nœuds.
@@ -70,7 +70,7 @@ flowchart LR
 5. **Production du bloc.** À notre créneau, le nœud produit seulement si **toutes** les conditions de spec §4.2 sont réunies. Ce qui est propre à notre nœud : une minuterie vérifie le créneau chaque seconde, le créneau signé est écrit dans `node_state` avant la signature, et la vérification des pairs ne dépend jamais du worker IA. Sinon un autre nœud produit, et on reçoit le bloc par `POST /blocks`.
 6. **Entrée dans la chaîne.** Dès qu'un message est dans un bloc de notre chaîne, son état passe à `dans_un_bloc` et un événement `message_state` prévient l'application. Il passe à `confirme` dès que l'une des deux conditions est remplie : 3 blocs de plus ont été ajoutés (spec §5.3), **ou** la chaîne n'a pas changé depuis 60 s et les pairs joignables annoncent la même tête. La seconde condition est nécessaire, car la spec ne crée pas de bloc vide : sans elle, le dernier message d'une démonstration ne serait jamais confirmé.
 7. **Traitement IA.** Le worker repère les messages `dans_un_bloc` qui n'ont pas de résultat, les prend par ordre d'index de bloc et les envoie **par lots dans une seule requête**, selon la règle de déclenchement du §5. Il appelle OpenRouter avec notre prompt, valide la réponse et enregistre valeurs, modèle réel et statut (§5).
-8. **Œuvre.** Le serveur envoie l'événement `values_ready`. La **position** d'un message dans l'œuvre vient de la chaîne (rang absolu pour l'angle, âge pour le rayon, jamais `timestamp`, spec §5.3 ; bible DA §6.1) ; un message apparaît **dès son entrée dans un bloc**, en **prévision** (valeurs locales, contour en pointillés), puis passe en **observation** (forme pleine) quand les valeurs de l'IA arrivent. L'œuvre n'attend donc jamais l'IA, et le quota rare devient visible.
+8. **Œuvre.** Le serveur envoie l'événement `values_ready`. Le point d'impact d'un message sur la carte 3D vient de son rang dans la chaîne et de son `id` (jamais `timestamp`, spec §5.3 ; bible DA §6.1) ; un message sculpte le terrain **dès son entrée dans un bloc**, en **prévision** (valeurs locales, maillage filaire lumineux translucide), puis se solidifie en **observation** (matière définitive du biome) quand les valeurs de l'IA arrivent. L'œuvre n'attend donc jamais l'IA, et le quota rare devient visible.
 9. **Fourche.** Si un bloc de notre chaîne disparaît ou change de place (spec §5.2), le nœud remet ses messages en file (état `remis_en_attente`) et émet un événement **`chain_reorganized`** avec l'index à partir duquel la chaîne a changé. L'application **reconstruit l'œuvre à partir de cet index** depuis la base. Les valeurs de l'IA restent valables : elles sont rattachées à l'`id` du message (spec §9).
 
 **États d'un message :** `en_attente` → `dans_un_bloc` → `confirme`, avec `remis_en_attente` en cas de fourche (le message repart alors dans un bloc et retrouve `dans_un_bloc`).
@@ -148,31 +148,30 @@ La chaîne n'est **jamais** touchée par une panne d'IA (spec §9).
 
 ## 6. Des valeurs à l'œuvre
 
-**Qui définit quoi.** La [charte éditoriale](04-charte-editoriale.md) (§2 et §3) définit les valeurs et le prompt ; la [bible DA](05-bible-da.md) (§6) définit les règles génératives (valeur → forme, couleur, mouvement, place). Cette section ne les recopie pas, pour qu'il n'y ait qu'une seule version de chaque règle : elle décrit **comment les valeurs arrivent jusqu'au rendu**.
+**Qui définit quoi.** La [charte éditoriale](04-charte-editoriale.md) (§2 et §3) définit les valeurs et le prompt ; la [bible DA](05-bible-da.md) (§6) définit les règles génératives (valeur → relief, biome, éléments 3D, atmosphère). Cette section ne les recopie pas, pour qu'il n'y ait qu'une seule version de chaque règle : elle décrit **comment les valeurs arrivent jusqu'au rendu**.
 
-**Les valeurs, en bref :** `energie`, `chaleur`, `densite` (nombres de 0 à 1), `theme` (`eau`, `terre`, `feu` ou `air`) et `masquer` (booléen). Format d'un résultat : `{"energie":0.20,"chaleur":0.30,"densite":0.25,"theme":"eau","masquer":false}`, dans une réponse par lot (charte §3).
+**Les valeurs, en bref :** `energie`, `chaleur`, `densite` (nombres de 0 à 1), `emotion` (`joie`, `calme`, `tristesse` ou `colere`) et `masquer` (booléen). Format d'un résultat : `{"energie":0.20,"chaleur":0.30,"densite":0.30,"emotion":"tristesse","masquer":false}`, dans une réponse par lot (charte §3).
 
 **Le chemin des valeurs :**
 
 | Étape | Composant | Ce qui se passe |
 | --- | --- | --- |
-| 1 | Nœud | Le message entre dans un bloc de notre chaîne : il a un **rang absolu** `n` (ordre de la chaîne : index du bloc, puis position dans le bloc) et un **âge** `k = N − 1 − n` (bible DA §6.1) |
+| 1 | Nœud | Le message entre dans un bloc de notre chaîne : il reçoit son **rang absolu** `n` (ordre de la chaîne : index du bloc, puis position dans le bloc, bible DA §6.1) |
 | 2 | Serveur de l'application, puis worker IA | Le serveur calcule tout de suite les **valeurs locales** (charte §2, `values_source = local`), sans rien écrire. Le worker obtient plus tard les valeurs de l'IA et les écrit dans `ai_results` (`values_source = ia`), avec un événement `values_ready` |
-| 3 | Serveur de l'application | Applique le masquage côté serveur (§2), puis envoie au navigateur, en SSE, le rang, le `node`, l'`id`, les valeurs, `values_source` et `masquer` (jamais `content` si le message est masqué) |
-| 4 | Œuvre (navigateur) | Applique les règles de la bible DA §6 : courbe en S, puis forme (`theme`), couleur (`chaleur`), mouvement (`energie`), taille (`densite`), satellites (`node`), contour (`values_source`), place dans la spirale (angle selon le rang absolu, rayon selon l'âge) |
+| 3 | Serveur de l'application | Applique le masquage côté serveur (§2), puis envoie au navigateur, en SSE, le rang `n`, le `node`, l'`id`, les valeurs, `values_source` et `masquer` (jamais `content` si le message est masqué) |
+| 4 | Œuvre 3D (navigateur) | Applique les règles de la bible DA §6 : point d'impact déterministe `(cx, cz)`, sculpture de la heightmap selon `emotion` et `densite`, génération des éléments (arbres, phares couleur du `node`, voiliers, ruines, volcan), état filaire (`local`) ou solide (`ia`), et mise à jour de l'atmosphère (`chaleur`, `energie`) |
 
-**Exemple.** `Il pleut sur Béziers ce matin.` (premier exemple de la charte) : le nœud le place au rang 0 de la chaîne ; le serveur de l'application calcule tout de suite ses valeurs locales, sans rien écrire en base (prévision en pointillés au centre de la spirale) ; plus tard, le worker écrit dans `ai_results` les valeurs de l'IA, `{"energie":0.20,"chaleur":0.30,"densite":0.25,"theme":"eau","masquer":false}` ; l'œuvre dessine alors des ondes concentriques lentes, bleu-gris, petites, pleines, sans satellite (message entré chez nous).
+**Exemple.** `J'AI EU MON PERMIS !!! Je suis tellement heureux 🎉` (exemple de la charte) : le serveur calcule tout de suite ses valeurs locales et la carte 3D fait monter un relief en filaire lumineux ; plus tard, le worker écrit dans `ai_results` les valeurs de l'IA, `{"energie":0.95,"chaleur":0.92,"densite":0.75,"emotion":"joie","masquer":false}` ; la zone se solidifie en colline verdoyante bordée de sable doré, fait pousser des arbres, lance un voilier portant le fanion corail de `noeud-c` et éclaircit le ciel.
 
 **Technique et fonctionnement :**
-1. **Rendu :** Canvas 2D en JavaScript natif (aucune dépendance, dossier §7).
-2. **Temps réel :** le serveur pousse les événements en SSE ; à chaque nouveau message, les formes glissent d'un cran vers le bord, sans tourner (bible DA §6.1).
-3. **Déterminisme :** même chaîne et mêmes `ai_results` donnent la même image. Pour cela, aucun `Math.random` : un générateur pseudo-aléatoire est initialisé par l'`id` du message, et les positions sont calculées dans un repère normalisé (0 à 1 sur le petit côté du cadre), mis à l'échelle seulement au dessin. L'image ne dépend donc pas de la taille de l'écran.
-4. **Reconstruction :** depuis la base (chaîne + `ai_results`), à partir de l'index touché par un événement `chain_reorganized`, ou depuis le début au chargement de la page. Comme le rayon dépend de l'âge, les rayons sont tous recalculés en une animation ; les angles des messages d'avant le point de réorganisation ne changent pas.
-5. **États à prévoir :** œuvre vide, quelques messages, beaucoup de messages (esquisses de la bible DA, §7).
-6. **Beaucoup de messages :** au-delà de 100 messages d'âge, les plus anciens pâlissent ; au-delà de 300, ils se fondent dans le fond, qui garde la teinte moyenne (bible DA §6.1). Le nombre de formes dessinées reste donc borné (300), et les contraintes de rendu de la bible DA §6.2 (halos pré-calculés, 60 formes animées au plus, 600 particules) gardent le rendu fluide.
-7. **Prévision et observation :** une forme dont `values_source = local` est une **prévision** (contour en pointillés) ; elle devient une **observation** (forme pleine) quand l'IA répond. Le quota rare devient une histoire visible au lieu d'un défaut.
-8. **Bulletin météo :** une phrase calculée sans IA à partir des moyennes des 20 derniers messages (« Aujourd'hui, ciel plutôt chaud et agité »), affichée sous l'œuvre. Elle ne consomme pas de quota et sert à l'oral. Classée « en plus » dans le backlog.
-9. **Message masqué :** tache de brume grise floue, avec l'info-bulle « Message masqué (charte §4) ».
+1. **Rendu :** **Three.js (WebGL)** en esthétique *low-poly / flat-shading* (dossier §7, D-024), servi localement depuis `node_modules` / `app/vendor/` (aucun CDN externe en démonstration).
+2. **Temps réel :** le serveur pousse les événements en SSE ; à chaque nouveau message, les sommets de la heightmap s'interpolent doucement vers leur nouvelle altitude (la terre monte littéralement hors de l'eau).
+3. **Déterminisme :** même chaîne et mêmes `ai_results` produisent exactement la même carte 3D. Aucun `Math.random` : tout bruit de terrain, placement d'arbre ou décalage est initialisé par la graine fixe et l'`id` du message.
+4. **Reconstruction :** depuis la base (chaîne + `ai_results`), au chargement de la page ou après un événement `chain_reorganized` (fourche) : la heightmap est recalculée depuis le début de la chaîne en quelques millisecondes et la scène 3D s'interpole vers le nouvel état.
+5. **États à prévoir :** océan vierge (0 message), premiers îlots (10 messages), continent complet (300 messages) — esquisses de la bible DA §7.
+6. **Beaucoup de messages :** la grille de terrain reste à taille fixe (`48 × 48` sommets) quel que soit le nombre de messages, et les objets posés dessus (arbres, phares, voiliers, particules) sont plafonnés et instanciés (`InstancedMesh`, bible DA §6.3) pour garantir la fluidité à 300 messages et au-delà.
+7. **Prévision et observation :** un message dont `values_source = local` apparaît en **prévision** (maillage filaire translucide) puis se solidifie en **observation** quand l'IA répond.
+8. **Message masqué :** ne déforme pas le terrain et laisse une nappe de brume grise sur l'eau, avec la mention « Message masqué (charte §4) ».
 
 ## 7. Les choix techniques
 
@@ -183,7 +182,7 @@ La chaîne n'est **jamais** touchée par une panne d'IA (spec §9).
 | Stockage | **SQLite avec `better-sqlite3`**, mode WAL | Un seul fichier, API synchrone simple, plusieurs processus en lecture et écriture | `node:sqlite` (sans dépendance mais encore instable selon la version) ; MySQL/PostgreSQL (serveur à installer pour rien) ; fichiers JSON (écritures non sûres) |
 | Processus | Trois processus relancés par un script maison | Isole le nœud des pannes de l'IA | Tout dans un seul processus (un plantage vide un créneau) |
 | Application | HTML, CSS, JavaScript natifs | Cohérent avec le parcours développement web, aucune étape de build | React, Vue : inutile pour un écran |
-| Rendu de l'œuvre | Canvas 2D | Contrôle total, pas de bibliothèque | p5.js (plus rapide à prototyper), WebGL (trop lourd) |
+| Rendu de l'œuvre | **Three.js (WebGL)** en low-poly, servi en local | Vraie 3D fluide sur GPU (heightmap, éclairage, brouillard, caméra orbitale) sans étape de build (ES modules), D-024 | Canvas 2D (insuffisant pour un relief 3D réaliste), WebGL brut (trop verbeux), Unity/Babylon (trop lourd) |
 | Temps réel | SSE | Flux simple du serveur vers le navigateur | WebSocket (plus complexe pour un flux à sens unique) |
 | Configuration | `node --env-file=.env` | Intégré, pas de bibliothèque `dotenv` | `dotenv` |
 | Tests | `node:test` | Intégré | Jest, Mocha |
@@ -225,7 +224,7 @@ Critère de fin : tous les cas de la spec passent, trois chaînes ont le même h
 | Travail inégal dans le binôme | Moyenne | Répartition nominative (section 10), journal de bord, chacun comprend tout le code (oral individuel) |
 | L'export PDF du schéma Mermaid ne marche pas | Moyenne | Tester l'export (image du schéma) dès jeudi 26/11, bien avant vendredi 17h |
 | Les estimations du nœud sont trop courtes (validité, rattrapage, `SYNCING`) | Haute | Rattrapage relevé de 3 h à 5 h (backlog N7), 2 h de marge pour Dylan en S50, appel réel à l'IA repoussé à la S2 (IA simulée en S50) ; si le jeudi échoue, la jonction passe avant tout (backlog §3) |
-| Le rendu Canvas saccade (halos, particules, 300 formes) | Moyenne | Halos pré-calculés, 60 formes animées au plus, 600 particules (bible DA §6.2), fluidité mesurée sur les bases de test (backlog T6) |
+| Le rendu 3D WebGL saccade sur le portable de démonstration | Moyenne | Maillage low-poly borné (`48 × 48`), éléments instanciés (`InstancedMesh`, bible DA §6.3), pas d'ombres portées coûteuses si besoin, fluidité mesurée sur 300 messages (backlog T6) |
 | Trop d'ambition pour l'œuvre | Moyenne | D'abord une version minimale qui marche de bout en bout, puis enrichir |
 
 ## 10. L'organisation
