@@ -1,11 +1,11 @@
-# Backlog et plan S50 / S2
+﻿# Backlog et plan S50 / S2
 
 | Champ | Valeur |
 | --- | --- |
 | Binôme | n°3 · Dylan Belledent, Nicolas Rapuzzi--Pisarczyk · `noeud-c` |
-| Version | 1.7 · 25/11/2026 : O7 coupé en O7a (bloom) et O7b (ruines). v1.6 : relief recalibré (bible v1.2, D-025), O3 réparti pour tenir les 35 h de Nicolas en S50, rivière et météorite seulement en O8. v1.5 : consolidation *Terre commune* (lexique `l2` en A1, `% de terre` en O2 indispensable, T6 par empreinte SHA-256 de la heightmap et renvoi §6.4, charge Three.js recalibrée avec effets avancés en `+`) |
+| Version | 1.8 · 26/11/2026 : C5 fait (symbole, D-026), O10 ajouté (logo vivant, en plus). v1.7 · 25/11/2026 : O7 coupé en O7a (bloom) et O7b (ruines). v1.6 : relief recalibré (bible v1.2, D-025), O3 réparti pour tenir les 35 h de Nicolas en S50, rivière et météorite seulement en O8. v1.5 : consolidation *Terre commune* (lexique `l2` en A1, `% de terre` en O2 indispensable, T6 par empreinte SHA-256 de la heightmap et renvoi §6.4, charge Three.js recalibrée avec effets avancés en `+`) |
 | Rendu | PDF ou lien, vendredi 27/11/2026, 17h |
-| S'appuie sur | [dossier](03-dossier-binome.md) v0.12 (§10 : répartition), [spec v1.0 (PDF)](spec-commune/v1.0.pdf) (§10 : paliers), [bible DA](05-bible-da.md) v1.3, [charte](04-charte-editoriale.md) v1.3 |
+| S'appuie sur | [dossier](03-dossier-binome.md) v0.12 (§10 : répartition), [spec v1.0 (PDF)](spec-commune/v1.0.pdf) (§10 : paliers), [bible DA](05-bible-da.md) v1.4, [charte](04-charte-editoriale.md) v1.3 |
 
 > **Test :** en lisant ce plan, on sait ce qui doit fonctionner chaque soir, et qui s'en occupe.
 
@@ -25,7 +25,7 @@
 | C2 | Nos vecteurs de test 20 à 26 (spec v1.0) | Dylan | 3 h | I | 23/11 | ☑ ([tests/vectors/](../tests/vectors/README.md)) |
 | C3 | Relire la bible DA v1.3 (*Terre commune*) et valider à deux avant l'export PDF | à deux | 1 h | I | jeu. 26/11 | ☐ |
 | C4 | Nouveau moodboard *Terre commune* dans Figma (références 3D/archipel, licences exactes) | D + N | 2 h | I | jeu. 26/11 | ☐ à refaire dans Figma |
-| C5 | Nouveau symbole *Terre commune* (topographie / phare + 3 formes-nœuds) | D + N | 2 h | I | jeu. 26/11 | ☐ à faire dans Figma |
+| C5 | Nouveau symbole *Terre commune* : le cristal-île, règles exactes, déclinaisons (bible §5, D-026) | Nicolas | 2 h | I | jeu. 26/11 | ☑ planche et SVG dans [symbole/](symbole/planche-symbole.png) ; à co-valider par Dylan |
 | C6 | Trois esquisses 16:9 dans Figma (océan vide, 10 messages, 300 messages) | D + N | 3 h | I | jeu. 26/11 | ☐ à faire dans Figma |
 | C7 | Test de la charte v1.3 auprès de 3 personnes (charte §3) | à deux | 1 h | I | jeu. 26/11 | ◐ fiche prête ([test-charte.md](test-charte.md)), test à faire passer |
 | C8 | Vérifier le réglage de confidentialité d'OpenRouter et l'écrire (charte §4.3) | Dylan | ½ h | I | mer. 25/11 | ☑ réglages relevés et désactivés, essai réussi avec `data_collection: "deny"` (charte §4.3, D-019) |
@@ -84,6 +84,7 @@
 | O7b | Ruines solitaires avec lanterne du nœud (bible §6.5), tirées après les règles de base | Nicolas | 1 h | + | mar. 12/01 |
 | O8 | Enrichissements de la bible §6.5 (la carte est complète sans eux) : **rivières** avec arrêt garanti (`tristesse`), **impact de météorite** (`colere` intense), **champignons et petits animaux** (`joie`) | Dylan + Nicolas | 4 h | + | mer. 13/01 |
 | O9 | `prefers-reduced-motion` (caméra fixe, vagues figées, pas d'éclairs ni d'animation de météorite) | Nicolas | 1 h | I | mer. 13/01 |
+| O10 | Logo vivant dans l'en-tête : le cristal-île recalculé à chaque bloc (bible §5.3) ; sans lui, symbole de référence | Nicolas | 1 h | + | mer. 13/01 |
 
 ### Tests et jonction
 

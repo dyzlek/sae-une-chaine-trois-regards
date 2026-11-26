@@ -20,11 +20,12 @@ Les textes de la bible DA v1.3, de la charte v1.3, du dossier v0.12 et du backlo
 ### 1.1 Moodboard *Terre commune* (C4, bible §2) · D + N · ☐
 - ☐ Rassembler 8 à 12 images libres/créditées (archipels volcaniques, *Wind Waker*, *Dorfromantik*, *Dredge*, cartes topographiques, low-poly) dans Figma.
 - ☐ Mettre à jour [moodboard-sources.md](moodboard-sources.md) avec les sources et mentions de licence exactes.
-- ☐ Exporter en PNG (`docs/moodboard-planche.png`) et mettre le lien Figma dans la bible §2.
+- ☑ Moodboard exporté en PNG (`docs/moodboard-terre/moodboard-planche.png`), lien Figma dans la bible §2 (26/11/2026).
 
-### 1.2 Symbole *Terre commune* (C5, bible §5) · D + N · ☐
-- ☐ Dessiner le symbole dans Figma (piste : courbes topographiques / île minimaliste ou phare + les **3 formes-nœuds** : pyramide Cyan `#38BDF8`, cube Ambre `#FBBF24`, losange Violet `#A78BFA`).
-- ☐ Exporter en SVG/PNG (16 px et 64 px) et intégrer le lien dans la bible §5.
+### 1.2 Symbole *Terre commune* (C5, bible §5) · N · ☑ (26/11)
+- ☑ Le cristal-île : une île low-poly coupée par la mer, calculée depuis l'état de la chaîne (inspiré de *Visit Nordkyn*, D-026). Planche [symbole/planche-symbole.png](symbole/planche-symbole.png).
+- ☑ SVG exportés (référence, favicon, mono Sel, mono Encre) et bible §5 rédigée.
+- ☐ **Dylan** co-valide D-026 ; si besoin, reprendre la planche dans Figma (facultatif : la planche HTML/PNG suffit pour le PDF).
 
 ### 1.3 Trois esquisses 16:9 (C6, bible §7) · D + N · ☐
 - ☐ Dessiner dans Figma les trois états de l'application complète : **1 · Vide** (océan vierge), **2 · Quelques messages (10)** (premiers îlots, phare, voilier, zone filaire en prévision), **3 · Beaucoup (300)** (continent complet avec forêts, lagons, volcan, voiliers et phares des 3 nœuds).

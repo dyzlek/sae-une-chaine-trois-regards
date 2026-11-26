@@ -14,6 +14,14 @@ Un choix = un bloc court : contexte, décision, pourquoi, ce qui est écarté. P
 
 ---
 
+### D-026 · Symbole : le cristal-île, calculé depuis l'état de la chaîne (confirmé par Nicolas après comparaison, à co-valider par Dylan)
+- **Date :** 2026-11-26
+- **Contexte :** le symbole (C5) restait à faire depuis le retrait des pistes *Front commun* (D-018, D-021) et le pivot vers *Terre commune* (D-023). Le brief de la bible v1.3 proposait des courbes de niveau ou un phare. Le cours d'art génératif (« le logo algorithmique » : *Visit Nordkyn*, *MIT Media Lab*) montre des logos qui ont une règle plutôt qu'un dessin.
+- **Décision :** une île low-poly coupée par la surface de la mer : 7 points de rivage, un sommet au-dessus de l'eau (hauteur = part de terre), une racine en dessous (profondeur = nombre de messages). Les faces de terre sont coupées en 6 secteurs, un par message récent (le plus récent de face), couleur = biome de son `emotion` ; Brume pour un message masqué, facette filaire pour une prévision. Mulberry32 comme l'œuvre. Un symbole de référence figé (graine `0x20264F04`) pour le PDF et le favicon ; un logo vivant recalculé à chaque bloc dans l'en-tête (O10, « en plus »). Règles exactes : bible §5.
+- **Pourquoi :** le symbole résume l'œuvre (mêmes facettes, lumière, couleurs et PRNG) au lieu d'en être une illustration ; il est lisible de 16 à 500 px parce qu'il n'a que 14 faces ; il parle de la chaîne (ce qui émerge, ce qui reste dessous) sans aucun texte.
+- **Écarté :** courbes de niveau (déjà le fond du moodboard, et en 2D) ; un phare (un objet de la carte, pas la carte) ; une double pyramide symétrique (lue comme un diamant et confondue avec le losange de `noeud-c`) ; une île à 15 facettes (un caillou à 64 px, une tache à 16 px) ; reprendre les aplats superposés du MIT Media Lab (ils ne disent rien de la 3D). Après une relecture où le cristal-île semblait « ne rien évoquer », trois pistes à double sens ont été dessinées et comparées sur une planche (non conservée) : la chaîne de montagnes à strates, l'empreinte-courbes de niveau, la bulle-île. Écartées : ce sont des dessins fixes qui illustrent l'œuvre, alors que le cristal-île en est un morceau calculé ; la bulle-île rappelait aussi D-018.
+- **Remplace :** le brief de la bible v1.3 §5.
+
 ### D-025 · Relief recalibré par simulation, enrichissements séparés du socle (à co-valider par Nicolas)
 - **Date :** 2026-11-25
 - **Contexte :** une simulation des formules de la bible v1.1 (script jetable, hors dépôt) montre qu'aucune terre n'émerge avant une trentaine de messages (0 % à 10 messages), que le magma et la neige n'apparaissent jamais à 300, et qu'un message de tristesse en pleine mer ne laisse aucune trace. Cela contredit l'intention (« l'impact immédiat ») et l'esquisse à 10 messages.
