@@ -25,6 +25,7 @@ Plus récent en haut. Un daily par matin : **hier / aujourd'hui / blocages**.
 
 - Après comparaison, **on garde le cristal-île** : c'est le seul symbole calculé comme l'œuvre ; les trois pistes sont notées comme écartées (bible §5.1, `D-026`).
 - Moodboard : retrouvé et rangé le même jour dans `docs/moodboard-terre/` (voir l'entrée suivante).
+- Planche du symbole refaite dans la DA de la planche du moodboard (fond crème, halo aqua, courbes de niveau, cartes blanches scotchées, étiquettes en pastille, Fraunces / Quicksand / IBM Plex Mono) ; les symboles eux-mêmes ne changent pas, et le bloc-marque reste en Recursive, police de l'application.
 - Journal de prompts complété : les 32 tout premiers prompts de Nicolas (23 au 26/11), faits dans une conversation ouverte hors du dépôt et donc jamais vus par le hook, sont archivés dans [prompts/00-avant-projet-sae-blockchain-specification.md](prompts/00-avant-projet-sae-blockchain-specification.md) (messages techniques de l'application retirés, aucun secret).
 
 **Blocages :** esquisses (C6) à faire avant vendredi 17h ; planche visuelle du design system (§8) conseillée ; Dylan doit co-valider `D-026`.
