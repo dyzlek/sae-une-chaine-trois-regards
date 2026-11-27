@@ -18,8 +18,8 @@ Légende : ☐ à faire · ◐ commencé · ☑ fait. **D** = Dylan, **N** = Nic
 Les textes de la bible DA v1.5, de la charte v1.5, du dossier v0.15 et du backlog v2.1 sont synchronisés sur la **spec v1.1 validée**.
 
 ### 1.1 Moodboard *Terre commune* (C4, bible §2) · D + N · ☑ (27/11)
-- ☑ 12 images libres/créditées assemblées dans Figma, avec liens Commons CC BY complets dans [moodboard-sources.md](moodboard-sources.md).
-- ☑ Typo alignée (*Bricolage Grotesque + Recursive*), carte spécimen typographique ajoutée, palette alignée sur §3.1, export PNG dans `docs/moodboard-terre/moodboard-planche.png`.
+- ☑ v6 critiquée par l'enseignante le 27/11 (trop centrée sur les îles, pas assez de domaines culturels).
+- ☑ **v8 retenue** (Dylan, Figma) : 12 références, 10 domaines, sources et licences dans [moodboard-sources.md](moodboard-sources.md), export `docs/moodboard-terre/moodboard-planche.png`. La v7 HTML de Nicolas reste en archive.
 
 ### 1.2 Symbole *Terre commune* (C5, bible §5) · D + N · ☑ (27/11)
 - ☑ Le cristal-île unifié (un seul bloc continu, couleur unie selon l'émotion majoritaire, sans trait bleu, `D-026`). Planche [symbole/planche-symbole.png](symbole/planche-symbole.png) et 4 SVG exportés.
@@ -36,12 +36,14 @@ Les textes de la bible DA v1.5, de la charte v1.5, du dossier v0.15 et du backlo
 - ☑ **Partage de la spec aux six (C11) :** PDF v1.1 partagé directement (pas de dépôt commun créé ; nos vecteurs restent dans `tests/vectors/` de notre dépôt et se partagent sur Discord).
 - ☑ **Test mesuré du prompt (C16) :** fait le 27/11, [test-prompt/](test-prompt/README.md) ; modèle fixe ernie (D-029).
 - ☐ **Relecture par Nicolas (C15) :** dossier v0.15 et charte v1.5 (D-029, D-030, message de détresse).
-- ☐ **Test de la charte (C7) :** faire passer [test-charte.md](test-charte.md) à 3 personnes extérieures et remplir le tableau.
+- ☑ **Test de la charte (C7) :** fait le 27/11, 3/3 réussis ([test-charte.md](test-charte.md)).
+- ☑ **Allègement des rendus (~−10 %)** : fait le 27/11 (journal).
+- ☑ **Code des visuels en S48 justifié** (D-031).
 - ☑ **Schéma d'architecture PDF :** [architecture.svg](architecture.svg) généré et intégré dans le dossier §2 (plus de risque Mermaid à l'export PDF).
 
 ## 3. Le vendredi 27/11, avant 17h
 
-1. ☐ Les 3 livrables Figma (moodboard, symbole, esquisses) sont intégrés dans `05-bible-da.md`.
+1. Livrables visuels intégrés dans `05-bible-da.md` : ☑ symbole (§5) · ☑ esquisses (§7) · ☑ moodboard v8 (§2).
 2. ☐ Export PDF (C10) des 4 rendus : vérifier schémas, tableaux, images, liens.
 3. ☐ Relire les 4 PDF à deux (10 min chacun).
 4. ☐ Déposer sur Moodle, puis noter le dépôt dans `docs/journal.md`.

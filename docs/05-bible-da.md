@@ -129,7 +129,7 @@ Nous retenons **un duo typographique cohérent et peu commun**, utilisé **parto
 
 ## 5. Symbole : le cristal-île
 
-**Planche :** [symbole/planche-symbole.png](symbole/planche-symbole.png) (calculée par [symbole/symbole.js](symbole/symbole.js)). **Fichiers :** [symbole.svg](symbole/symbole.svg) (référence), [favicon.svg](symbole/favicon.svg), [symbole-mono-sel.svg](symbole/symbole-mono-sel.svg), [symbole-mono-encre.svg](symbole/symbole-mono-encre.svg). Choix : `D-026`.
+**Planche :** [symbole/planche-symbole.png](symbole/planche-symbole.png) (calculée par [symbole/symbole.js](symbole/symbole.js), outil de dessin et non code du projet, D-031). **Fichiers :** [symbole.svg](symbole/symbole.svg) (référence), [favicon.svg](symbole/favicon.svg), [symbole-mono-sel.svg](symbole/symbole-mono-sel.svg), [symbole-mono-encre.svg](symbole/symbole-mono-encre.svg). Choix : `D-026`.
 
 ### 5.1 L'idée
 
@@ -292,7 +292,7 @@ Ils ne s'ajoutent que si le socle (§6.1 à §6.4) marche de bout en bout. Ils t
 
 ## 7. Esquisses
 
-Trois vues 16:9 (1920 × 1080) de l'application, calculées avec les formules de §6 (maquette : [esquisses/index.html](esquisses/index.html), pas le code de l'application) :
+Trois vues 16:9 (1920 × 1080) de l'application, calculées avec les formules de §6 (maquette : [esquisses/index.html](esquisses/index.html), outil de dessin et non code du projet, D-031) :
 
 | État | Fichier | Ce que l'esquisse montre |
 | --- | --- | --- |

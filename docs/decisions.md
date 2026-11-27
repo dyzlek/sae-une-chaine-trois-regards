@@ -14,6 +14,13 @@ Un choix = un bloc court : contexte, décision, pourquoi, ce qui est écarté. P
 
 ---
 
+### D-031 · Les scripts des visuels de la bible DA sont des outils de dessin, pas du code du projet
+- **Date :** 2026-11-27
+- **Contexte :** la S48 est « sans code », mais deux fichiers du dépôt contiennent du JavaScript : `docs/esquisses/index.html` (les trois esquisses Three.js de la bible §7) et `docs/symbole/symbole.js` (la planche et les SVG du symbole, bible §5).
+- **Décision :** ces fichiers restent dans `docs/`, comme **outils de dessin** qui produisent les images de la bible. Ils ne font partie ni du nœud, ni du worker, ni de l'application, et ne seront pas repris tels quels en S50 (le code de l'œuvre sera écrit dans `app/`).
+- **Pourquoi :** la bible exige des règles génératives exactes (§6) et un symbole calculé (§5). Les dessiner à la main aurait donné des images qui ne correspondent pas aux formules ; les calculer prouve que les règles produisent bien ce que les esquisses montrent (même logique que la simulation de D-025 sur les formules). Le livrable reste l'image (PNG, SVG), pas le script.
+- **Écarté :** dessiner les esquisses dans Figma (images non fidèles aux formules, impossible de vérifier 300 messages à la main) ; retirer les scripts du dépôt (on perdrait la preuve de la façon dont les images ont été faites).
+
 ### D-030 · Le masquage proposé par l'IA reste soumis à une décision humaine (proposée le 27/11/2026, à valider par Nicolas)
 - **Date :** 2026-11-27
 - **Contexte :** `masquer` est une valeur de l'IA. Un modèle peut masquer à tort, ou laisser passer une attaque sans mot interdit. Le binôme 2 prévoit un masquage manuel noté avec sa raison.
