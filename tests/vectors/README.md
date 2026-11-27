@@ -18,10 +18,10 @@ Les anciens vecteurs (spec v0.5, avec le champ `author` supprimé depuis) sont a
 
 | N° | Type | Ce qu'on vérifie | Attendu |
 | --- | --- | --- | --- |
-| 20 | scénario | Les trois nœuds redémarrent en même temps (avec `chaine-12`, puis avec le seul bloc zéro) | `GET` toujours en `200` ; sortie de `SYNCING` en moins de 40 s ; même `tip_hash` après une minute |
+| 20 | scénario | Les trois nœuds redémarrent en même temps (avec `chaine-12`, puis avec le seul bloc zéro) | `GET` toujours en `200` ; sortie de `SYNCING` en 60 s au plus (spec 7.2 ; la v1.0 écrit 40 s au tableau 10.2, correction proposée en v1.1, M8) ; même `tip_hash` après une minute |
 | 21 | scénario | Nœud sans chaîne, aucun pair ne répond, un message en file | 10 essais, sortie de `SYNCING`, **aucun bloc** |
 | 22 | récupération de file | Message vieux de 120 s récupéré par `GET /messages/pending` | Accepté dans la file ; le même message en `POST /messages` sur un nœud neuf : `422 BAD_TIMESTAMP` |
-| 23 | requête | Bloc 2 de `noeud-a`, trois créneaux après son bloc 1, tout le reste juste | `422 SAME_PRODUCER` |
+| 23 | requête | Bloc 2 de `noeud-a`, trois créneaux après son bloc 1, tout le reste juste. **Heure du nœud : `1796889672000`** (2 s après le bloc), pas l'heure simulée par défaut : sinon la règle 9 passe avant et donne `BAD_TIMESTAMP`. La v1.0 classe ce cas en « essai en direct » ; la v1.1 proposée en fait un vecteur (I4) | `422 SAME_PRODUCER` |
 | 24 | scénario | Nœud coupé des deux pairs, son créneau arrive | Aucun bloc ; reprise au retour d'un pair |
 | 25 | scénario | Envoi initial d'un message raté vers un pair | Le pair l'a au sondage suivant |
 | 26 | scénario | Fourche de même hauteur, ma tête (`1db16cf1…`) est plus petite que celle du pair (`7c8f7209…`) | Je garde ma chaîne, jamais de `SYNCING` |
@@ -50,3 +50,7 @@ Les anciens vecteurs (spec v0.5, avec le champ `author` supprimé depuis) sont a
 - **Python** (`hashlib` et `cryptography`), contrôle indépendant : les cinq chaînes passent les règles 3.2 (2 à 8 et 10), toutes les signatures sont vérifiées, le bloc du cas 23 échoue bien à la règle 10 (`SAME_PRODUCER`) et seulement là, et le message du cas 22 est valide.
 
 Ces fichiers ne remplacent pas votre propre calcul : chaque binôme les rejoue sur son nœud.
+
+## Spec v1.1 proposée (26/11/2026)
+
+La [proposition v1.1](../../docs/spec-commune/v1.1-proposition.md) ne change aucun `id`, `hash` ni signature : ces fichiers restent justes. Tous se jouent sur la **chaîne d'essai** (bloc zéro `9af1db54…`, clés de test). Si la v1.1 est validée, ce format devient le format commun des vecteurs (§10.2), et le binôme 3 ajoute les cas 30, 32 et 36 (backlog C13).

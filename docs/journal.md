@@ -13,6 +13,18 @@ Plus récent en haut. Un daily par matin : **hier / aujourd'hui / blocages**.
 
 ---
 
+### 2026-11-26 · S48 · Réponse à la relecture de la spec (Dylan, avec Claude Code)
+**Aujourd'hui :**
+- L'équipe enseignante a relu la spec v1.0 : formats et cryptographie justes, mais deux points bloquants (horloge contournée et chaîne qui peut geler ; bloc invalide produit par un nœud qui suit 4.2), cinq points importants et huit mineurs.
+- Proposition de **spec v1.1** écrite pour les six ([texte complet](spec-commune/v1.1-proposition.md), [réponses point par point](spec-commune/propositions-v1.1.md)), chaque correction marquée de son repère (B1 à M8). Aucun format ni vecteur existant ne change. Le bloc zéro réel avec l'empreinte des clés a été recalculé (exemple avec les clés de test dans §2.3.1).
+- Nos fichiers alignés : cas 20 (60 s au lieu de 40 s), README des vecteurs (heure du cas 23), dossier v0.13 (production, horloge, `CHAINE`, risques), backlog v1.8 (C12 passe en indispensable, C13 ajouté).
+- Relecture de la proposition par Dylan, trois ajustements : tests sur un seul PC (table « adresse:port » en mode test, une adresse de boucle locale par nœud, car tout viendrait sinon de `127.0.0.1`) ; arrêt de la chaîne si les trois horloges sont fausses deux à deux, écrit dans les limites acceptées, horloges réglées à la main à chaque séance ; dépôt des vecteurs le lundi 07/12 sauf accord des enseignants pour un script en S49 (O6, tâche C14).
+
+**Blocages :** la v1.1 doit être relue par Nicolas puis validée par un membre de chaque binôme (pull request, spec §11) ; B1 et B2 avant tout code. Écart réel des horloges sur eduroam à mesurer (O4). Le dépôt commun (O1) n'existe pas encore. Réponse des enseignants sur le code en S49 attendue (O6).
+**Décisions :** D-026 (`decisions.md`).
+
+---
+
 ### 2026-11-25 · S48 · Relief recalibré par simulation (Dylan, avec Claude Code)
 **Aujourd'hui :**
 - Une simulation des formules de la bible v1.1 (script jetable, hors dépôt) montrait qu'aucune île n'apparaissait avant une trentaine de messages et qu'il n'y avait ni magma ni neige à 300. Règles recalibrées et revérifiées (`D-025`) : une île dès le premier message, environ 9 % de terre à 10 messages, environ 45 % à 300 avec des biomes variés.

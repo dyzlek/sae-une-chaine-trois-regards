@@ -4,9 +4,9 @@
 | --- | --- |
 | Binôme | **n°3** · Dylan Belledent, Nicolas Rapuzzi--Pisarczyk |
 | Nœud | `noeud-c` (spec commune, décision 7) |
-| Version du dossier | 0.12 (ruines optionnelles, brume réservée aux messages masqués : bible v1.3, charte v1.3) · 25/11/2026 · v0.11 (aligné sur bible DA v1.2 et charte v1.2 : relief recalibré par simulation, D-025 ; lexique de 95 entrées ; spec de référence = PDF v1.0) · 25/11/2026 · v0.10 : import map Three.js, risque prise en main 3D, déterminisme par empreinte de heightmap, balises forme + couleur |
+| Version du dossier | 0.13 (prêt pour la spec v1.1 proposée après la relecture de l'équipe enseignante : horloge, auto-vérification, chaînes d'essai et réelle, expéditeur) · 26/11/2026 · v0.12 (ruines optionnelles, brume réservée aux messages masqués : bible v1.3, charte v1.3) · 25/11/2026 · v0.11 (aligné sur bible DA v1.2 et charte v1.2 : relief recalibré par simulation, D-025 ; lexique de 95 entrées ; spec de référence = PDF v1.0) · 25/11/2026 · v0.10 : import map Three.js, risque prise en main 3D, déterminisme par empreinte de heightmap, balises forme + couleur |
 | Rendu | Vendredi 27/11/2026, 17h. Cette version `.md` reste dans Git ; l'export PDF (avec le schéma d'architecture) viendra plus tard. |
-| S'appuie sur | [spec commune v1.0 (PDF)](spec-commune/v1.0.pdf) **v1.0** (validée par les six), [04-charte-editoriale.md](04-charte-editoriale.md) v1.3, [05-bible-da.md](05-bible-da.md) v1.3 |
+| S'appuie sur | [spec commune v1.0 (PDF)](spec-commune/v1.0.pdf) **v1.0** (validée par les six) ; les points marqués « v1.1 » suivent la [proposition v1.1](spec-commune/v1.1-proposition.md), en attente de validation par les six (si elle est refusée, on revient à la v1.0 sur ces points), [04-charte-editoriale.md](04-charte-editoriale.md) v1.3, [05-bible-da.md](05-bible-da.md) v1.3 |
 
 > Plan de construction de notre projet. Il s'appuie sur la spec commune et ne la recopie pas : on écrit « voir spec §x ». Rien ne doit contredire la spec ni la bible DA.
 > **Test :** un autre binôme doit pouvoir reprendre le projet avec ce seul document.
@@ -67,7 +67,7 @@ flowchart LR
 2. **Contrôle d'entrée.** Le nœud applique d'abord notre filtre avant signature (charte §4.1 : données personnelles, liste de mots, débit, sans appel à l'IA), retire les espaces au début et à la fin (sans message, charte §4.1), met `content` en NFC et refuse ce qui sort de la spec §2.1 (longueur, caractères interdits). Il répond tout de suite au visiteur en cas de refus.
 3. **Signature.** Le nœud fixe `timestamp` (strictement croissant, spec §2.1), calcule l'`id` (texte à barres, spec §2.1) et signe avec sa clé privée (lue dans `.env`).
 4. **File et relais.** Le message entre dans la file (état `en_attente`) et est envoyé tout de suite aux deux autres nœuds par `POST /messages` (spec §6.4). Le visiteur reçoit l'`id` et voit « en attente ».
-5. **Production du bloc.** À notre créneau, le nœud produit seulement si **toutes** les conditions de spec §4.2 sont réunies. Ce qui est propre à notre nœud : une minuterie vérifie le créneau chaque seconde, le créneau signé est écrit dans `node_state` avant la signature, et la vérification des pairs ne dépend jamais du worker IA. Sinon un autre nœud produit, et on reçoit le bloc par `POST /blocks`.
+5. **Production du bloc.** À notre créneau, le nœud produit seulement si **toutes** les conditions de spec §4.2 sont réunies. Ce qui est propre à notre nœud : une minuterie vérifie le créneau chaque seconde, le créneau signé est écrit dans `node_state` avant la signature, et la vérification des pairs ne dépend jamais du worker IA. **v1.1 :** le nœud ne produit pas si le créneau en cours n'est pas strictement après celui de la tête, ni si son horloge est à plus de 2 s de tous les pairs ; et il **valide son propre bloc** avec la même fonction que pour un bloc reçu (spec §3.2, règles 1 à 10) avant de l'ajouter à sa chaîne. Sinon un autre nœud produit, et on reçoit le bloc par `POST /blocks`.
 6. **Entrée dans la chaîne.** Dès qu'un message est dans un bloc de notre chaîne, son état passe à `dans_un_bloc` et un événement `message_state` prévient l'application. Il passe à `confirme` dès que l'une des deux conditions est remplie : 3 blocs de plus ont été ajoutés (spec §5.3), **ou** la chaîne n'a pas changé depuis 60 s et les pairs joignables annoncent la même tête. La seconde condition est nécessaire, car la spec ne crée pas de bloc vide : sans elle, le dernier message d'une démonstration ne serait jamais confirmé.
 7. **Traitement IA.** Le worker repère les messages `dans_un_bloc` qui n'ont pas de résultat, les prend par ordre d'index de bloc et les envoie **par lots dans une seule requête**, selon la règle de déclenchement du §5. Il appelle OpenRouter avec notre prompt, valide la réponse et enregistre valeurs, modèle réel et statut (§5).
 8. **Œuvre.** Le serveur envoie l'événement `values_ready`. Le point d'impact d'un message sur la carte 3D vient de son rang dans la chaîne et de son `id` (jamais `timestamp`, spec §5.3 ; bible DA §6.1) ; un message sculpte le terrain **dès son entrée dans un bloc**, en **prévision** (valeurs locales, maillage filaire lumineux translucide), puis se solidifie en **observation** (matière définitive du biome) quand les valeurs de l'IA arrivent. L'œuvre n'attend donc jamais l'IA, et le quota rare devient visible.
@@ -96,7 +96,8 @@ SQLite, un fichier par nœud, en mode WAL (plusieurs processus). La chaîne est 
 | Dernier `timestamp` de message émis | Rester strictement croissant après un redémarrage (sinon, dernier + 1) | spec §2.1 |
 | Têtes ignorées (`tip_hash`, fin d'ignorance) | Une tête qui a échoué est ignorée 5 minutes | spec §7 |
 | État `SYNCING` ou normal | Répondre `503` aux `POST` pendant un rattrapage | spec §7 |
-| Dernier `/status` de chaque pair (heure, écart d'horloge) | Avertir au-delà de 2 s, savoir si un pair est joignable | spec §6.4 |
+| Dernier `/status` de chaque pair (heure, écart d'horloge) | Savoir si un pair est joignable ; au-delà de 2 s d'écart avec tous les pairs, ne plus produire ni signer et l'afficher dans la console (v1.1) | spec §4.2, §6.4 |
+| Adresse IP Tailscale de chaque pair | Reconnaître l'expéditeur d'une requête : limites par pair, relais, journal (v1.1) | spec §6.1 |
 
 **Événements entre processus.** SQLite ne prévient pas les autres processus d'une écriture. Le serveur de l'application lit donc la table `events` **toutes les 500 ms** (`id > dernier id lu`). Chaque événement SSE porte cet `id` : après une coupure, le navigateur renvoie `Last-Event-ID` et reprend sans rien perdre.
 
@@ -218,7 +219,7 @@ Critère de fin : tous les cas de la spec passent, trois chaînes ont le même h
 | Le traitement IA fait tomber le nœud pendant un créneau | Haute | Worker dans un processus séparé, relancé automatiquement ; le nœud ne l'attend jamais |
 | Perte des `ai_results` (l'œuvre ne se reconstruirait pas à l'identique) | Moyenne | Export JSON régulier dans `data/exports/`, copie sur la machine de l'autre membre |
 | Clé privée ou clé OpenRouter publiée par erreur dans Git | Haute | `.gitignore` (`.env`), `.env.example` vide, relecture avant chaque push, masquage des clés dans les prompts enregistrés |
-| Horloges des PC différentes | Moyenne | Synchronisation automatique, avertissement au-delà de 2 s (spec §6.4) |
+| Horloges des PC différentes (une heure d'écart suffit à geler la chaîne en v1.0) | Haute | Proposition v1.1 (borne future partout, arrêt de la production au-delà de 2 s d'écart) ; horloge vérifiée contre une référence HTTPS et corrigée à la main au début de chaque séance (trois horloges fausses deux à deux arrêtent la chaîne, limite acceptée en spec v1.1 §5.3) ; cas 33 et 34 rejoués |
 | Réseau Tailscale ou eduroam instable en salle | Moyenne | Préparer l'environnement chez soi en S49, tester la liaison avant le 10/12, garder des tests locaux sans réseau |
 | Retard de l'un des deux | Moyenne | Backlog partagé, daily chaque matin, tâches petites, relecture croisée |
 | Travail inégal dans le binôme | Moyenne | Répartition nominative (section 10), journal de bord, chacun comprend tout le code (oral individuel) |
@@ -310,12 +311,13 @@ Puis ouvrir `http://127.0.0.1:3000`.
 | --- | --- | --- |
 | `NODE_ID` | Identifiant du nœud (spec) | `noeud-c` |
 | `NODE_SEED_HEX` | Graine privée Ed25519 (secrète) | 64 caractères hexadécimaux |
-| `PEERS` | Pairs et leur port ; adresses IP Tailscale si les noms ne sont pas résolus (spec décision 13) | `noeud-a:8080,noeud-b:8080` ou `100.x.y.z:8080,...` |
-| `HOST_NODE` | Adresse d'écoute de l'API de la spec : l'IP Tailscale de la machine. Si elle n'est pas encore disponible au démarrage (Tailscale pas lancé), le nœud réessaie toutes les 5 s sans planter ; `127.0.0.1` pour les tests hors réseau | `100.x.y.z` |
+| `CHAINE` | `essai` (bloc zéro d'essai et clés de test, pour tous les tests) ou `reelle` (bloc zéro réel et clés réelles) ; un seul réglage pour les deux, spec v1.1 §2.3.1. La chaîne d'essai a son propre fichier SQLite et ne passe jamais par l'IA | `essai` |
+| `PEERS` | Pairs et leur port ; adresses IP Tailscale si les noms ne sont pas résolus (spec décision 13). Avec `CHAINE=essai` seulement, la forme `noeud-a=127.0.0.1:8080,noeud-b=127.0.0.2:8080` associe une adresse et un port à chaque pair pour les tests sur un seul PC ; refusée avec `reelle` (spec v1.1 §6.1) | `noeud-a:8080,noeud-b:8080` ou `100.x.y.z:8080,...` |
+| `HOST_NODE` | Adresse d'écoute de l'API de la spec : l'IP Tailscale de la machine. Si elle n'est pas encore disponible au démarrage (Tailscale pas lancé), le nœud réessaie toutes les 5 s sans planter ; pour les tests sur un seul PC, une adresse de boucle locale par nœud (`127.0.0.1`, `127.0.0.2`, `127.0.0.3`), qui sert aussi d'adresse d'envoi pour que les pairs reconnaissent l'expéditeur (spec v1.1 §6.1) | `100.x.y.z` |
 | `PORT_NODE` | Port de l'API de la spec (tailnet) | `8080` |
 | `PORT_INTERNAL` | API interne, 127.0.0.1 | `8081` |
 | `PORT_APP` | Serveur de l'application, 127.0.0.1 | `3000` |
-| `DB_PATH` | Fichier SQLite | `data/node.db` |
+| `DB_PATH` | Fichier SQLite (un par chaîne) | `data/node-essai.db` |
 | `OPENROUTER_API_KEY` | Clé OpenRouter (secrète) | `sk-or-...` |
 | `OPENROUTER_MODEL` | Modèle demandé | `openrouter/free` |
 | `IA_MODE` | `reelle` ou `simulee` (par défaut en développement) | `simulee` |
@@ -329,4 +331,4 @@ Puis ouvrir `http://127.0.0.1:3000`.
 
 **Liste de mots interdits (charte §4.1).** `config/mots-interdits.example.txt` est versionné (quelques mots de démonstration, un par ligne). La vraie liste, `config/mots-interdits.txt`, est **ignorée par Git** (`.gitignore`) et se partage entre nous hors du dépôt. Sans ce fichier, le nœud démarre avec la liste d'exemple et écrit un avertissement dans ses journaux.
 
-**Si quelque chose ne marche pas :** `tailscale status` doit lister les autres nœuds ; `GET http://noeud-a:8080/api/v1/status` doit répondre ; l'heure de l'ordinateur doit être synchronisée automatiquement.
+**Si quelque chose ne marche pas :** `tailscale status` doit lister les autres nœuds ; `GET http://noeud-a:8080/api/v1/status` doit répondre ; l'écart d'horloge avec chaque pair (affiché dans la console du nœud) doit rester sous 2 s. Sur eduroam, la synchronisation automatique peut échouer (NTP passe par le port UDP 123) : comparer l'heure du poste à l'en-tête `Date` d'un site en HTTPS et corriger à la main au-delà d'1 s (spec v1.1 §10.3).

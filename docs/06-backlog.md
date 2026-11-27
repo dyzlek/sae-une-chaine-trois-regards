@@ -3,7 +3,7 @@
 | Champ | Valeur |
 | --- | --- |
 | Binôme | n°3 · Dylan Belledent, Nicolas Rapuzzi--Pisarczyk · `noeud-c` |
-| Version | 1.7 · 25/11/2026 : O7 coupé en O7a (bloom) et O7b (ruines). v1.6 : relief recalibré (bible v1.2, D-025), O3 réparti pour tenir les 35 h de Nicolas en S50, rivière et météorite seulement en O8. v1.5 : consolidation *Terre commune* (lexique `l2` en A1, `% de terre` en O2 indispensable, T6 par empreinte SHA-256 de la heightmap et renvoi §6.4, charge Three.js recalibrée avec effets avancés en `+`) |
+| Version | 1.8 · 26/11/2026 : proposition de spec v1.1 après la relecture de l'équipe enseignante (C12, C13, N2, N3, N6, T3). v1.7 · 25/11/2026 : O7 coupé en O7a (bloom) et O7b (ruines). v1.6 : relief recalibré (bible v1.2, D-025), O3 réparti pour tenir les 35 h de Nicolas en S50, rivière et météorite seulement en O8. v1.5 : consolidation *Terre commune* (lexique `l2` en A1, `% de terre` en O2 indispensable, T6 par empreinte SHA-256 de la heightmap et renvoi §6.4, charge Three.js recalibrée avec effets avancés en `+`) |
 | Rendu | PDF ou lien, vendredi 27/11/2026, 17h |
 | S'appuie sur | [dossier](03-dossier-binome.md) v0.12 (§10 : répartition), [spec v1.0 (PDF)](spec-commune/v1.0.pdf) (§10 : paliers), [bible DA](05-bible-da.md) v1.3, [charte](04-charte-editoriale.md) v1.3 |
 
@@ -32,18 +32,20 @@
 | C9 | Relire dossier v0.12 et charte v1.3 | Nicolas | 1 h | I | jeu. 26/11 | ☐ |
 | C10 | Export PDF des 4 rendus (schéma Mermaid en image, polices intégrées) | Dylan | 2 h | I | jeu. 26/11 (test), ven. 27/11 (dépôt) | ☐ (à faire après les 3 livrables Figma C4/C5/C6) |
 | C11 | Créer le dépôt commun des six et y déposer nos vecteurs (point ouvert O1) | Dylan + un membre par binôme | 1 h | I | ven. 27/11 | ☐ |
-| C12 | Proposer la spec v1.1 (précisions, [propositions](spec-commune/propositions-v1.1.md)) | Dylan | ½ h | + | ven. 27/11 | ☐ |
+| C12 | Proposer la spec v1.1 aux six : réponses à la relecture de l'équipe enseignante ([réponses](spec-commune/propositions-v1.1.md), [texte complet](spec-commune/v1.1-proposition.md)), pull request dans le dépôt commun | Dylan | 3 h | **I** | ven. 27/11 (B1, B2) ; lun. 07/12 (le reste) | ◐ proposition écrite, à faire relire par Nicolas puis valider par les six |
+| C13 | Si la v1.1 est validée : nos nouveaux vecteurs 30, 32 et 36, cas 20 et 23 mis à jour (`version_spec` 1.1) | Dylan | 2 h | I | lun. 07/12 (ven. 04/12 si O6 est accepté) | ☐ |
+| C14 | Demander à l'équipe enseignante si un script de calcul des vecteurs est accepté en S49 (spec v1.1, point ouvert O6) ; sans accord, dépôt des cas le lun. 07/12 | Dylan | ¼ h | I | ven. 27/11 | ☐ |
 
 ### Nœud (spec)
 
 | # | Tâche | Qui | Est. | Prio. | Jour |
 | --- | --- | --- | --- | --- | --- |
 | N1 | Structure du dépôt, `.env.example`, script qui lance et relance les trois processus, **horloge injectable** (pour les vecteurs) | Nicolas | 2 h | I | lun. 07/12 |
-| N2 | Empreintes, signatures, bloc zéro : retrouver les valeurs de la spec §2 | Dylan | 2 h | I | lun. 07/12 |
-| N3 | Validité des messages, des blocs et de la chaîne (spec §3), codes d'erreur dans l'ordre | Dylan | 5 h | I | lun. 07/12 |
+| N2 | Empreintes, signatures, bloc zéro : retrouver les valeurs de la spec §2 ; bloc zéro d'essai et réel, réglage `CHAINE` (v1.1 §2.3.1) | Dylan | 2 h | I | lun. 07/12 |
+| N3 | Validité des messages, des blocs et de la chaîne (spec §3), codes d'erreur dans l'ordre ; borne future 9a aussi au rattrapage (v1.1) | Dylan | 5 h | I | lun. 07/12 |
 | N4 | Stockage SQLite en mode WAL : `blocks`, `messages`, `node_state` | Dylan | 3 h | I | mar. 08/12 |
 | N5 | Les 5 routes de la spec §6, erreurs, limites de §8.2 (`429`, `413`), écoute sur `HOST_NODE` (IP Tailscale donnée à la main dans `.env`) | Dylan | 4 h | I | mar. 08/12 |
-| N6 | Production par créneau (§4.2), file d'attente, envoi aux pairs (§6.4) | Dylan | 3 h | I | mer. 09/12 |
+| N6 | Production par créneau (§4.2), file d'attente, envoi aux pairs (§6.4) ; v1.1 : conditions 7 et 8 (créneau après la tête, écart d'horloge) et validation de notre propre bloc par la fonction de N3 | Dylan | 3 h | I | mer. 09/12 |
 | N7 | Sondage toutes les 10 s, rattrapage et `SYNCING` (§7), choix entre chaînes (§5), remise en file. **Estimation relevée (3 h → 5 h) :** c'est la partie la plus risquée du nœud ; les 2 dernières heures (`SYNCING`, fourches) se font le jeudi matin | Dylan | 5 h | I | mer. 09/12 et jeu. 10/12 (matin) |
 | N8 | API interne `127.0.0.1:8081` : filtre avant signature (charte §4.1), débit par visiteur, liste de mots | Nicolas | 3 h | I | mar. 08/12 |
 | N9 | Nouvelles tentatives toutes les 5 s si l'IP Tailscale n'est pas encore là (dossier §11) ; l'écoute elle-même est faite en N5 | Dylan | 1 h | I | ven. 11/12 |
@@ -91,7 +93,7 @@
 | --- | --- | --- | --- | --- | --- |
 | T1 | Lanceur des vecteurs (`node:test` lit `tests/vectors/`, les nôtres et ceux des deux autres binômes) | Nicolas | 2 h | I | lun. 07/12 |
 | T2 | Palier 2 de la spec : essais deux à deux (avec `noeud-a`, puis `noeud-b`) | à deux | 1 h | I | mer. 09/12 |
-| T3 | Palier 3 : jonction à trois, les 26 cas, puis une heure d'usage réel (spec §10.3) | à deux | 5 h | I | **jeu. 10/12** |
+| T3 | Palier 3 : jonction à trois, les cas de la spec sur la chaîne d'essai (horloges mesurées d'abord), puis ouverture de la chaîne réelle et une heure d'usage réel (spec §10.3) | à deux | 5 h | I | **jeu. 10/12** |
 | T4 | Bout en bout : un message de l'application jusqu'à l'œuvre, avec l'IA simulée (S50) puis avec de vraies valeurs de l'IA (lun. 11/01, après A2b) | à deux | 2 h | I | ven. 11/12 |
 | T5 | Fourche provoquée, arrêt du worker pendant un créneau, redémarrage des trois nœuds | à deux | 3 h | I | mer. 13/01 |
 | T6 | Déterminisme : même base, même **empreinte SHA-256 des tableaux `heightmap` + `warm` + `volc`** (indépendant du GPU) ; bases de test vide, 10 et 300 messages ; **fluidité mesurée** (30 images par seconde au moins, bible §6.4) | Nicolas | 2 h | I | mer. 13/01 |
