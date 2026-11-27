@@ -33,7 +33,7 @@ Les textes de la bible DA v1.5, de la charte v1.4, du dossier v0.14 et du backlo
 - ☑ **Conduite de projet :** **Nicolas** a validé à l'oral le 27/11 la bible DA v1.5 (C3), la charte v1.4, le dossier v0.14 (C9) et les décisions `D-023` à `D-028`.
 - ☑ **Archiver les anciens visuels *Front commun*** : déplacés dans [archives-front-commun/](archives-front-commun/README.md) le 25/11/2026 ; fichiers hors-sujet (`art-generatif.pdf`, `LAST_CLICK*`) retirés le 27/11.
 - ☑ **Spec commune v1.1 (C1, C12) :** validée par les trois binômes le 26/11/2026 et déposée sur Moodle.
-- ☐ **Dépôt commun aux six (C11) :** créer le repo commun (O1) et y pousser la spec v1.1 + nos vecteurs.
+- ☑ **Partage de la spec aux six (C11) :** PDF v1.1 partagé directement (pas de dépôt commun créé ; nos vecteurs restent dans `tests/vectors/` de notre dépôt et se partagent sur Discord).
 - ☐ **Test de la charte (C7) :** faire passer [test-charte.md](test-charte.md) à 3 personnes extérieures et remplir le tableau.
 - ☑ **Schéma d'architecture PDF :** [architecture.svg](architecture.svg) généré et intégré dans le dossier §2 (plus de risque Mermaid à l'export PDF).
 

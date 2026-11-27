@@ -30,7 +30,7 @@ Plus récent en haut. Un daily par matin : **hier / aujourd'hui / blocages**.
 - **Accessibilité, schéma PDF & nettoyage :** contrastes vérifiés par calcul (tous AAA : Sel 17,3:1, Embruns 7,4:1, nœuds 7,0 à 11,4:1), double encodage daltonisme + liste accessible clavier/lecteur d'écran ajoutés en bible §3.2 et §8, numéros d'aide (`3114`, `15`, `112`) ajoutés dans la charte §1, schéma vectoriel `docs/architecture.svg` intégré dans le dossier §2, et fichiers hors-sujet (`art-generatif.pdf`, `LAST_CLICK_Presentation.pptx`) retirés du dépôt.
 - **Validation à deux :** Nicolas a validé à l'oral le 27/11 l'ensemble des livrables (`C3`, `C9`, `D-023` à `D-028`).
 
-**Blocages / Reste avant 17h :** faire passer le test de la charte à 3 personnes extérieures (C7), créer le dépôt commun aux six (C11), exporter et déposer les 4 PDF (C10).
+**Blocages / Reste avant 17h :** faire passer le test de la charte à 3 personnes extérieures (C7), exporter et déposer les 4 PDF (C10). *(C11 clos : la spec v1.1 est partagée directement en PDF, sans dépôt commun.)*
 **Décisions :** D-026 (affinée), D-027 (validée), D-028, D-006 et D-009 (précisées) dans `decisions.md`.
 
 ### 2026-11-26 · S48 · Réponse à la relecture de la spec (Dylan, avec Claude Code)

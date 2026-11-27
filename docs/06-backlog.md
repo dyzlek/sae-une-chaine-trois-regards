@@ -31,7 +31,7 @@
 | C8 | Vérifier le réglage de confidentialité d'OpenRouter et l'écrire (charte §4.3) | Dylan | ½ h | I | mer. 25/11 | ☑ réglages relevés et désactivés, essai réussi avec `data_collection: "deny"` (charte §4.3, D-019) |
 | C9 | Relire dossier v0.14 et charte v1.4 | Nicolas | 1 h | I | ven. 27/11 | ☑ validés à l'oral par Nicolas le 27/11 |
 | C10 | Export PDF des 4 rendus (schéma Mermaid en image, polices intégrées) | Dylan | 2 h | I | jeu. 26/11 (test), ven. 27/11 (dépôt) | ☐ (à faire après les 3 livrables Figma C4/C5/C6) |
-| C11 | Créer le dépôt commun des six et y déposer nos vecteurs (point ouvert O1) | Dylan + un membre par binôme | 1 h | I | ven. 27/11 | ☐ |
+| C11 | Partage de la spec commune aux six (finalement en PDF sur Moodle / Discord, pas de dépôt commun créé) | les six | — | I | ven. 27/11 | ☑ fait (PDF v1.1 partagé, pas de dépôt commun) |
 | C12 | Proposer la spec v1.1 aux six : réponses à la relecture de l'équipe enseignante ([réponses](spec-commune/propositions-v1.1.md), [texte complet](spec-commune/v1.1-proposition.md)) | Dylan | 3 h | **I** | ven. 27/11 | ☑ **validée par les trois binômes le 26/11/2026** (remplace la v1.0) |
 | C13 | Nos nouveaux vecteurs v1.1 : 30, 32 et 36, cas 20 et 23 mis à jour (`version_spec` 1.1) | Dylan | 2 h | I | lun. 07/12 (ven. 04/12 si O6 est accepté) | ☐ |
 | C14 | Demander à l'équipe enseignante si un script de calcul des vecteurs est accepté en S49 (spec v1.1, point ouvert O6) ; sans accord, dépôt des cas le lun. 07/12 | Dylan | ¼ h | I | ven. 27/11 | ☐ |

@@ -18,7 +18,7 @@
 
 | Critère | État actuel | Point fort | Point de vigilance / action |
 | --- | --- | --- | --- |
-| **Conception (S48)** | ◐ Presque prêt | Spec commune **v1.1 validée** (26/11) + vecteurs 20–26 vérifiés ; dossier v0.14 (schéma `architecture.svg` prêt), charte v1.4 (numéros d'aide `3114`/`15`/`112`) | Faire le test charte (C7) ; créer le dépôt commun (C11) ; exporter les 4 PDF (C10) avant 17h |
+| **Conception (S48)** | ◐ Presque prêt | Spec commune **v1.1 validée** (26/11, partagée en PDF) + vecteurs 20–26 vérifiés ; dossier v0.14 (schéma `architecture.svg` prêt), charte v1.4 (numéros d'aide `3114`/`15`/`112`) | Faire le test charte (C7) ; exporter les 4 PDF (C10) avant 17h |
 | **Direction artistique** | ☑ Prêt pour PDF | Bible DA v1.5 complète (les 8 éléments) : moodboard Figma (C4 ☑), symbole cristal-île unifié (C5 ☑), 3 esquisses Three.js + UI cartographique (C6 ☑), accessibilité AAA + liste clavier (§8), duo *Bricolage Grotesque + Recursive* (D-028) | Exporter le PDF (C10) avant 17h |
 | **Conduite de projet** | ☑ À jour | Journal (Dylan et Nicolas), décisions `D-001` à `D-028` toutes co-validées à l'oral le 27/11, dépôt nettoyé (`art-generatif.pdf` et `LAST_CLICK*` retirés) | Appliquer les branches/PR dès le début du code en S50 |
 | **Nœud (S50)** | ☐ À venir | Architecture 3 processus + SQLite WAL + socle 10/12 (spec §10.0) bien cadrés | Palier 2 au plus tard mercredi 09/12 matin ; rattrapage `SYNCING` (N7) prioritaire |
