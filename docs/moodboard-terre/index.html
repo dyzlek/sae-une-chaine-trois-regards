@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Moodboard v7 · Terre commune · le cheminement</title>
+<!--
+  Outil de maquette S48 (pas du code de l'application) : source de la planche du moodboard v7.
+  Rendu en PNG 3840 × 2400 avec Chrome sans interface (voir moodboard-sources.md).
+  Refonte après le retour de l'équipe enseignante du 27/11/2026 : plus de domaines culturels,
+  et la planche raconte le cheminement (message → émotion → vivant → ciel → carte → île).
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Recursive:MONO,CASL,wght@0..1,0..1,400..700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --creme:#F4F1E8; --abysse:#133C59; --encre2:#3F5B6B; --lagon:#36B5BC;
+    --sable:#E4CA94; --magma:#FF7626; --brume:#7B8798; --prairie:#56A85C;
+    --W:2880px; --H:1800px;
+  }
+  @page{size:2880px 1800px;margin:0}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  html,body{width:var(--W);height:var(--H);overflow:hidden;background:var(--creme);color:var(--abysse);
+    font-family:"Recursive",system-ui,sans-serif;font-variation-settings:"MONO" 0,"CASL" 0}
+  #fond,#route{position:absolute;inset:0;width:var(--W);height:var(--H);pointer-events:none}
+  .mono{font-variation-settings:"MONO" 1,"CASL" 0}
+  .bric{font-family:"Bricolage Grotesque",sans-serif}
+
+  /* ---------- en-tête ---------- */
+  header{position:absolute;left:64px;top:40px;width:1500px}
+  h1{font-family:"Bricolage Grotesque";font-weight:800;font-size:120px;line-height:.9;letter-spacing:-3px}
+  .sous{font-family:"Bricolage Grotesque";font-weight:600;font-size:34px;margin-top:14px;color:var(--abysse)}
+  .sous em{font-style:normal;color:var(--encre2);font-weight:400}
+  .intention{position:absolute;left:1220px;top:52px;width:880px;font-size:21px;line-height:1.45;color:var(--encre2)}
+  .intention b{color:var(--abysse);font-weight:600}
+  .compte{position:absolute;right:64px;top:48px;text-align:right}
+  .compte .gros{font-family:"Bricolage Grotesque";font-weight:800;font-size:64px;line-height:1}
+  .compte .petit{font-size:17px;color:var(--encre2);margin-top:4px}
+
+  /* ---------- colonnes (étapes) ---------- */
+  .etapes{position:absolute;left:64px;top:262px;right:64px;display:grid;grid-template-columns:repeat(5,1fr);gap:38px}
+  .etape-tete{display:flex;align-items:center;gap:16px;height:96px;margin-bottom:14px}
+  .noeud{flex:none;width:76px;height:76px;border-radius:50%;background:var(--abysse);color:var(--creme);
+    display:grid;place-items:center;font-family:"Bricolage Grotesque";font-weight:800;font-size:40px;
+    box-shadow:0 0 0 7px var(--creme),0 0 0 10px var(--abysse)}
+  .etape-tete > div:last-child{background:var(--creme);padding:6px 14px 8px 8px;border-radius:12px}
+  .etape-tete h2{font-family:"Bricolage Grotesque";font-weight:700;font-size:34px;line-height:1}
+  .etape-tete p{font-size:18px;color:var(--encre2);margin-top:6px;line-height:1.25}
+  .grille{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .large{grid-column:span 2}
+
+  /* ---------- cartes ---------- */
+  .carte{background:#fff;padding:9px 9px 12px;border-radius:4px;position:relative;
+    box-shadow:0 2px 3px rgba(19,60,89,.10),0 10px 26px rgba(19,60,89,.12)}
+  .carte:nth-child(3n+1){transform:rotate(-.6deg)}
+  .carte:nth-child(3n+2){transform:rotate(.5deg)}
+  .carte img{display:block;width:100%;object-fit:cover;border-radius:2px;background:#ddd}
+  .scotch::before{content:"";position:absolute;top:-13px;left:50%;width:92px;height:26px;margin-left:-46px;
+    background:rgba(228,202,148,.72);transform:rotate(-2deg);box-shadow:0 1px 2px rgba(0,0,0,.06)}
+  .leg{padding:9px 3px 0}
+  .ligne1{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .dom{font-variation-settings:"MONO" 1;font-size:12.5px;font-weight:600;letter-spacing:.9px;text-transform:uppercase;
+    background:var(--abysse);color:#fff;padding:3px 8px 2px;border-radius:99px;white-space:nowrap}
+  .emo{font-family:"Bricolage Grotesque";font-weight:700;font-size:15px;padding:2px 10px;border-radius:99px;color:var(--abysse)}
+  .emo.joie{background:var(--sable)} .emo.calme{background:#9ED8DB} .emo.tristesse{background:#C9CFD8} .emo.colere{background:var(--magma);color:#2A1206}
+  .titre{font-family:"Bricolage Grotesque";font-weight:700;font-size:20px;line-height:1.12;margin-top:7px}
+  .credit{font-variation-settings:"MONO" 1;font-size:12.5px;color:var(--encre2);margin-top:3px;line-height:1.3}
+  .arg{font-size:16px;line-height:1.34;margin-top:6px;color:var(--abysse)}
+  .arg::before{content:"→ ";color:var(--lagon);font-weight:700}
+
+  /* carte typographique */
+  .typo{padding:16px 18px 14px}
+  .typo .a{font-family:"Bricolage Grotesque";font-weight:800;font-size:46px;line-height:1;letter-spacing:-1px}
+  .typo .b{font-variation-settings:"MONO" 1;font-size:25px;margin-top:8px}
+  .typo .c{font-size:17px;color:var(--encre2);margin-top:6px}
+  .typo .lettres{display:flex;justify-content:space-between;align-items:baseline;margin-top:8px}
+  .typo .lettres span:first-child{font-family:"Bricolage Grotesque";font-weight:800;font-size:64px;line-height:1}
+  .typo .lettres span:last-child{font-variation-settings:"MONO" 1;font-size:30px;color:var(--lagon);font-weight:600}
+
+  /* arrivée */
+  .arrivee{outline:4px solid var(--lagon);outline-offset:4px}
+  .arrivee .dom{background:var(--lagon);color:var(--abysse)}
+
+  /* ---------- bandeau bas ---------- */
+  .bas{position:absolute;left:64px;right:64px;bottom:34px;display:flex;align-items:flex-end;justify-content:space-between;gap:40px}
+  .palette{display:flex;gap:12px;align-items:flex-end}
+  .pastille{text-align:center;font-variation-settings:"MONO" 1;font-size:12px;color:var(--encre2)}
+  .pastille i{display:block;width:50px;height:50px;border-radius:50%;margin:0 auto 5px;box-shadow:inset 0 0 0 2px rgba(255,255,255,.6),0 2px 6px rgba(19,60,89,.18)}
+  .domaines{font-size:17px;color:var(--encre2);text-align:right;line-height:1.5;max-width:1240px}
+  .domaines b{color:var(--abysse)}
+  .droits{font-variation-settings:"MONO" 1;font-size:12.5px;color:var(--encre2);margin-top:4px}
+</style>
+</head>
+<body>
+<canvas id="fond" width="2880" height="1800"></canvas>
+<svg id="route" viewBox="0 0 2880 1800"></svg>
+
+<header>
+  <h1>Terre commune</h1>
+  <div class="sous">Le moodboard du cheminement <em>· d'un message à une île</em></div>
+</header>
+<p class="intention">L'île est <b>le résultat, pas le point de départ</b>. On suit le chemin, comme sur la carte d'un jeu : <b>un message</b> porte <b>une émotion</b>, l'émotion fait pousser ou brûler <b>ce qui vit</b>, change <b>le temps qu'il fait</b>, et le tout se lit comme <b>une carte à explorer</b>. Chaque image vient d'un domaine différent et dit ce qu'on en garde.</p>
+<div class="compte"><div class="gros">23</div><div class="petit">références · 11 domaines</div></div>
+
+<main class="etapes">
+
+  <!-- 1 · UN MESSAGE -->
+  <section>
+    <div class="etape-tete"><div class="noeud">1</div><div><h2>Un message</h2><p>D'où naît la terre ?</p></div></div>
+    <div class="grille">
+      <div class="carte large scotch">
+        <img src="images/13-earthrise-anders.jpg" style="height:260px;object-position:50% 72%" alt="">
+        <div class="leg"><div class="ligne1"><span class="dom">Presse</span></div>
+          <div class="titre">Earthrise</div>
+          <div class="credit">NASA, William Anders · 24/12/1968 · domaine public</div>
+          <div class="arg">Une seule Terre, vue de loin, que tout le monde partage : le sens de « commune ».</div></div>
+      </div>
+      <div class="carte">
+        <img src="images/05-surtsey-1963.jpg" style="height:220px;object-position:40% 50%" alt="">
+        <div class="leg"><div class="ligne1"><span class="dom">Presse</span></div>
+          <div class="titre">Naissance de Surtsey</div>
+          <div class="credit">H. Williams, NOAA · 1963 · DP</div>
+          <div class="arg">Une île sort vraiment de la mer : le principe de l'œuvre.</div></div>
+      </div>
+      <div class="carte">
+        <img src="images/26-affiche-lava.jpg" style="height:220px;object-position:50% 30%" alt="">
+        <div class="leg"><div class="ligne1"><span class="dom">Cinéma</span></div>
+          <div class="titre">Lava</div>
+          <div class="credit">Pixar, J. Ford Murphy · 2014 · © Disney/Pixar</div>
+          <div class="arg">Un volcan chante son espoir et une île naît : l'émotion fait la terre.</div></div>
+      </div>
+      <div class="carte large">
+        <img src="images/14-utopia-ortelius.jpg" style="height:230px;object-position:50% 45%" alt="">
+        <div class="leg"><div class="ligne1"><span class="dom">Cartographie</span></div>
+          <div class="titre">L'île d'Utopie</div>
+          <div class="credit">Abraham Ortelius · vers 1595 · DP</div>
+          <div class="arg">L'île de Thomas More : une terre commune inventée avec des mots, comme la nôtre.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · UNE ÉMOTION -->
+  <section>
+    <div class="etape-tete"><div class="noeud">2</div><div><h2>Une émotion</h2><p>Qu'est-ce qui la façonne ?</p></div></div>
+    <div class="grille">
+      <div class="carte scotch">
+        <img src="images/27-affiche-vice-versa.jpg" style="height:330px;object-position:50% 20%" alt="">
+        <div class="leg"><div class="ligne1"><span class="dom">Cinéma</span></div>
+          <div class="titre">Vice-Versa</div>
+          <div class="credit">Pixar, P. Docter · 2015 · © Disney/Pixar</div>
+          <div class="arg">Une couleur par émotion, et des souvenirs qui bâtissent des îles.</div></div>
+      </div>
+      <div class="carte">
+        <img src="images/01-neuvieme-vague-aivazovski.jpg" style="height:330px;object-position:62% 40%" alt="">
+        <div class="leg"><div class="ligne1"><span class="dom">Peinture</span><span class="emo joie">joie</span></div>
+          <div class="titre">La Neuvième Vague</div>
+          <div class="credit">I. Aïvazovski · 1850 · DP</div>
+          <div class="arg">Le soleil perce : la terre monte, la lumière revient.</div></div>
+      </div>
+      <div class="carte">
+        <img src="images/10-aube-mattole.jpg" style="height:190px;object-position:30% 50%" alt="">
+        <div class="leg"><div class="ligne1"><span class="dom">Photo</span><span class="emo calme">calme</span></div>
+          <div class="titre">Aube sur Mattole</div>
+          <div class="credit">BLM California · DP</div>
+          <div class="arg">Mer d'huile et aube : îlots doux, phares.</div></div>
+      </div>
+      <div class="carte">
+        <img src="images/07-brouillard-friedrich.jpg" style="height:190px;object-position:50% 30%" alt="">
+        <div class="leg"><div class="ligne1"><span class="dom">Peinture</span><span class="emo tristesse">tristesse</span></div>
+          <div class="titre">Mer de nuages</div>
+          <div class="credit">C. D. Friedrich · 1817 · DP</div>
+          <div class="arg">Le brouillard voile l'horizon, la baie se creuse.</div></div>
+      </div>
+      <div class="carte large">
+        <img src="images/11-cratere-kilauea.jpg" style="height:180px;object-position:50% 62%" alt="">
+        <div class="leg"><div class="ligne1"><span class="dom">Photo</span><span class="emo colere">colère</span></div>
+          <div class="titre">Lac de lave du Kīlauea</div>
+          <div class="credit">USGS · 2014 · DP</div>
+          <div class="arg">Le magma à vif : la colère fait jaillir un volcan dès le premier message.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · CE QUI VIT -->
+  <section>
+    <div class="etape-tete"><div class="noeud">3</div><div><h2>Ce qui vit</h2><p>Végétation et traces, sans personnage</p></div></div>
+    <div class="grille">
+      <div class="carte scotch">
+        <img src="images/16-ete-arcimboldo.jpg" style="height:280px;object-position:50% 35%" alt="">
+        <div class="leg"><div class="ligne1"><span class="dom">Peinture</span></div>
+          <div class="titre">L'Été</div>
+          <div class="credit">G. Arcimboldo · 1573 · DP</div>
+          <div class="arg">Un visage fait de centaines de fruits : un tout fait de fragments, comme l'île faite de messages.</div></div>
+      </div>
+      <div class="carte">
+        <img src="images/17-acros-fukuoka.jpg" style="height:280px;object-position:58% 50%" alt="">
+        <div class="leg"><div class="ligne1"><span class="dom">Architecture</span></div>
+          <div class="titre">ACROS Fukuoka</div>
+          <div class="credit">E. Ambasz, 1995 · photo K. Mabuchi · CC BY-SA 2.0</div>
+          <div class="arg">Un immeuble devenu colline : plus c'est joyeux, plus les arbres couvrent le relief.</div></div>
+      </div>
+      <div class="carte large">
+        <img src="images/18-mousse-laufhofdahraun.jpg" style="height:170px;object-position:50% 60%" alt="">
+        <div class="leg"><div class="ligne1"><span class="dom">Photo</span><span class="emo tristesse">tristesse</span></div>
+          <div class="titre">Mousse sur la lave, Islande</div>
+          <div class="credit">V. van Zeijst · 2024 · CC BY-SA 3.0</div>
+          <div class="arg">La vie reprend sur le basalte : notre Mousse grise, quand la tristesse refroidit la terre.</div></div>
+      </div>
+      <div class="carte">
+        <img src="images/19-regates-monet.jpg" style="height:190px;object-position:45% 50%" alt="">
+        <div class="leg"><div class="ligne1"><span class="dom">Peinture</span><span class="emo joie">joie</span></div>
+          <div class="titre">Régates à Argenteuil</div>
+          <div class="credit">C. Monet · 1872 · DP</div>
+          <div class="arg">Les voiliers que la joie lance sur l'eau.</div></div>
+      </div>
+      <div class="carte">
+        <img src="images/24-phare-cordouan.jpg" style="height:190px;object-position:40% 50%" alt="">
+        <div class="leg"><div class="ligne1"><span class="dom">Architecture</span><span class="emo calme">calme</span></div>
+          <div class="titre">Phare de Cordouan</div>
+          <div class="credit">1611 · photo F. Pépellin · CC BY-SA 3.0</div>
+          <div class="arg">Il veille sans personne : nos phares portent la couleur du nœud.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · LE TEMPS QU'IL FAIT -->
+  <section>
+    <div class="etape-tete"><div class="noeud">4</div><div><h2>Le temps qu'il fait</h2><p>Ciel, mer et saisons suivent l'humeur</p></div></div>
+    <div class="grille">
+      <div class="carte scotch">
+        <img src="images/22-averse-hiroshige.jpg" style="height:330px;object-position:50% 30%" alt="">
+        <div class="leg"><div class="ligne1"><span class="dom">Estampe</span><span class="emo tristesse">tristesse</span></div>
+          <div class="titre">Averse sur le pont Ōhashi</div>
+          <div class="credit">U. Hiroshige · 1857 · MET · CC0</div>
+          <div class="arg">La pluie en traits, stylisée et non réaliste.</div></div>
+      </div>
+      <div class="carte">
+        <img src="images/20-hydromedusa-van-herpen.jpg" style="height:330px;object-position:50% 30%" alt="">
+        <div class="leg"><div class="ligne1"><span class="dom">Mode</span></div>
+          <div class="titre">Robe Hydromedusa</div>
+          <div class="credit">Iris van Herpen · Sensory Seas, PE 2020 · photo Premeditated Chaos · CC BY-SA 4.0</div>
+          <div class="arg">L'eau devient une matière vivante et translucide : notre houle.</div></div>
+      </div>
+      <div class="carte large">
+        <img src="images/15-eclairs-rinjani.jpg" style="height:190px;object-position:50% 45%" alt="">
+        <div class="leg"><div class="ligne1"><span class="dom">Photo</span><span class="emo colere">colère</span></div>
+          <div class="titre">Éclairs sur le Rinjani</div>
+          <div class="credit">Oliver Spalt · 1994 · CC BY 2.0</div>
+          <div class="arg">Volcan, orage et éclairs ensemble : la colère gagne aussi le ciel.</div></div>
+      </div>
+      <div class="carte large">
+        <img src="images/23-erables-kyoto.jpg" style="height:150px;object-position:50% 45%" alt="">
+        <div class="leg"><div class="ligne1"><span class="dom">Photo</span><span class="dom" style="background:var(--prairie)">saisons</span></div>
+          <div class="titre">Érables, Ryōan-ji, Kyoto</div>
+          <div class="credit">KimonBerlin · 2008 · CC BY-SA 2.0</div>
+          <div class="arg">Nos saisons sont des humeurs : chaleur haute, prairie et soleil ; chaleur basse, mousse et brume.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · UNE CARTE À EXPLORER -->
+  <section>
+    <div class="etape-tete"><div class="noeud">5</div><div><h2>Une carte à explorer</h2><p>Comment la regarde-t-on ?</p></div></div>
+    <div class="grille">
+      <div class="carte scotch">
+        <img src="images/28-jaquette-super-mario-world.png" style="height:160px;object-position:50% 50%" alt="">
+        <div class="leg"><div class="ligne1"><span class="dom">Jeu vidéo</span></div>
+          <div class="titre">Super Mario World</div>
+          <div class="credit">Nintendo · 1990 (Europe 1992) · © Nintendo</div>
+          <div class="arg">Une carte où l'on va d'île en île, chacune avec sa particularité.</div></div>
+      </div>
+      <div class="carte">
+        <img src="images/29-jaquette-wind-waker.jpg" style="height:160px;object-position:50% 40%" alt="">
+        <div class="leg"><div class="ligne1"><span class="dom">Jeu vidéo</span></div>
+          <div class="titre">The Wind Waker</div>
+          <div class="credit">Nintendo · 2002 · © Nintendo</div>
+          <div class="arg">Mer stylisée, îles lisibles, voiliers : notre ton visuel.</div></div>
+      </div>
+      <div class="carte">
+        <img src="images/21-catan-geant.jpg" style="height:140px;object-view-box:inset(41% 10% 33% 8%)" alt="">
+        <div class="leg"><div class="ligne1"><span class="dom">Jeu de société</span></div>
+          <div class="titre">Catan</div>
+          <div class="credit">K. Teuber · 1995 · photo A. De Smet · CC BY 3.0</div>
+          <div class="arg">Une île posée tuile par tuile ; une tuile, un biome.</div></div>
+      </div>
+      <div class="carte">
+        <img src="images/25-eden-project.jpg" style="height:140px;object-position:50% 50%" alt="">
+        <div class="leg"><div class="ligne1"><span class="dom">Architecture</span></div>
+          <div class="titre">Eden Project</div>
+          <div class="credit">N. Grimshaw, Cornouailles, 2001 · photo I. Capper · CC BY-SA 2.0</div>
+          <div class="arg">Des dômes à facettes qui abritent des biomes : le low-poly en vrai.</div></div>
+      </div>
+      <div class="carte large typo">
+        <div class="ligne1"><span class="dom">Typographie</span></div>
+        <div class="lettres"><span>Aa</span><span>0x3f · 0,82</span></div>
+        <div class="a">Bricolage Grotesque</div>
+        <div class="b">Recursive Mono</div>
+        <div class="c">Une grotesque sculptée comme le relief, une mono pour les données de la chaîne.</div>
+      </div>
+      <div class="carte large arrivee" id="arrivee">
+        <img src="../esquisses/3-beaucoup.png" style="height:200px;object-view-box:inset(14% 18% 12% 22%)" alt="">
+        <div class="leg"><div class="ligne1"><span class="dom">Arrivée · notre esquisse S48</span></div>
+          <div class="titre">L'île après 300 messages</div>
+          <div class="arg">Toutes ces références finissent ici : une seule île, écrite à six.</div></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="bas">
+  <div class="palette">
+    <div class="pastille"><i style="background:#133C59"></i>Abysse</div>
+    <div class="pastille"><i style="background:#36B5BC"></i>Lagon</div>
+    <div class="pastille"><i style="background:#3B82A6"></i>Cours d'eau</div>
+    <div class="pastille"><i style="background:#E4CA94"></i>Sable</div>
+    <div class="pastille"><i style="background:#3E363A"></i>Sable noir</div>
+    <div class="pastille"><i style="background:#56A85C"></i>Prairie</div>
+    <div class="pastille"><i style="background:#607A70"></i>Mousse</div>
+    <div class="pastille"><i style="background:#7A808A"></i>Falaise</div>
+    <div class="pastille"><i style="background:#ECF2F8"></i>Neige</div>
+    <div class="pastille"><i style="background:#FF7626"></i>Magma</div>
+    <div class="pastille"><i style="background:#7B8798"></i>Brume</div>
+  </div>
+  <div>
+    <div class="domaines"><b>Domaines :</b> presse · cinéma · cartographie · peinture · photographie · architecture · estampe · mode · jeu vidéo · jeu de société · typographie</div>
+    <div class="droits domaines">Affiches et jaquettes © leurs éditeurs, citation pédagogique hors redistribution · autres images libres, sources complètes dans moodboard-sources.md</div>
+  </div>
+</footer>
+
+<script>
+// ---------- fond : courbes de niveau (bruit simple, déterministe) ----------
+(function(){
+  const c = document.getElementById('fond'), g = c.getContext('2d');
+  const W = c.width, H = c.height;
+  const halo = g.createRadialGradient(W*0.5, H*0.56, 80, W*0.5, H*0.56, 1250);
+  halo.addColorStop(0, 'rgba(54,181,188,0.16)'); halo.addColorStop(1, 'rgba(54,181,188,0)');
+  g.fillStyle = halo; g.fillRect(0, 0, W, H);
+  g.strokeStyle = 'rgba(54,181,188,0.22)'; g.lineWidth = 1.4;
+  for (let k = 1; k <= 34; k++) {
+    const r0 = k * 58; g.beginPath();
+    for (let a = 0; a <= 360; a += 2) {
+      const t = a * Math.PI / 180;
+      const r = r0 * (1 + 0.10*Math.sin(3*t + k*0.35) + 0.06*Math.sin(5*t - k*0.2) + 0.04*Math.sin(8*t + k));
+      const x = W*0.5 + r * Math.cos(t) * 1.25, y = H*0.56 + r * Math.sin(t) * 0.82;
+      a ? g.lineTo(x, y) : g.moveTo(x, y);
+    }
+    g.closePath(); g.stroke();
+  }
+})();
+
+// ---------- arrivée sous la colonne 5, puis route pointillée entre les nœuds ----------
+function placer(){
+  const pts = [...document.querySelectorAll('.noeud')].map(n => { const b = n.getBoundingClientRect(); return [b.left + b.width/2, b.top + b.height/2]; });
+  const svg = document.getElementById('route');
+  let d = `M ${pts[0][0]} ${pts[0][1]}`;
+  for (let i = 1; i < pts.length; i++) {
+    const [x0,y0] = pts[i-1], [x1,y1] = pts[i], mx = (x0+x1)/2;
+    const dy = (i % 2 ? -46 : 46);
+    d += ` C ${mx} ${y0+dy}, ${mx} ${y1+dy}, ${x1} ${y1}`;
+  }
+  svg.innerHTML = `<path d="${d}" fill="none" stroke="#133C59" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 16" opacity=".55"/>`;
+}
+document.fonts.ready.then(placer);
+window.addEventListener('load', placer);
+</script>
+</body>
+</html>
