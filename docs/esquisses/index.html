@@ -1,0 +1,793 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Esquisses 16:9 · Terre commune (Three.js)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--
+  Outil de maquette S48 (non code de l'application) : génère les 3 esquisses 16:9 (1920 × 1080)
+  de la bible DA §7 en vrai Three.js (WebGL, flatShading, ombres portées, plan d'eau translucide).
+  Ouvrir avec ?etat=1 (vide), ?etat=2 (10 messages), ?etat=3 (300 messages).
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Recursive:MONO,CASL,wght@0..1,0..1,400..700&display=swap" rel="stylesheet">
+<script src="../symbole/symbole.js"></script>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"
+  }
+}
+</script>
+<style>
+  :root{
+    --encre: rgba(8, 17, 29, 0.82);
+    --bord: rgba(255, 255, 255, 0.18);
+    --sel: #F1F5F9;
+    --embruns: #94A3B8;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1920px;height:1080px;overflow:hidden;background:#08111D;font-family:"Recursive",system-ui,sans-serif;color:var(--sel)}
+  #webgl{position:absolute;inset:0;width:1920px;height:1080px;display:block}
+  #fx{position:absolute;inset:0;width:1920px;height:1080px;pointer-events:none}
+
+  .panel{
+    background:var(--encre);
+    border:1px solid var(--bord);
+    border-radius:16px;
+    backdrop-filter:blur(12px);
+    box-shadow:0 16px 40px rgba(4, 10, 18, 0.38);
+  }
+
+  /* Haut gauche : en-tête unique (bible §8.1) */
+  header.panel{
+    position:absolute;left:28px;top:24px;
+    display:flex;align-items:center;gap:16px;
+    padding:12px 22px 12px 14px;
+  }
+  header .title{
+    font-family:"Bricolage Grotesque",sans-serif;font-weight:700;
+    font-size:28px;letter-spacing:-0.6px;line-height:1;color:var(--sel);
+  }
+  header .meta-row{
+    margin-top:6px;display:flex;align-items:center;gap:14px;
+    font-family:"Recursive",monospace;font-variation-settings:"MONO" 1;
+    font-size:12.5px;color:var(--embruns);
+  }
+  header .meta-row b{color:var(--sel);font-weight:600}
+  .sep{opacity:0.35}
+  .nodes-inline{display:flex;align-items:center;gap:10px}
+  .nd{display:inline-flex;align-items:center;gap:4px;color:var(--sel)}
+  .nd svg{width:11px;height:11px}
+
+  /* Haut droite : bouton Légende / Historique replié (bible §8.1) */
+  .btn-side.panel{
+    position:absolute;right:28px;top:24px;
+    border-radius:999px;padding:11px 20px;
+    font-family:"Recursive",sans-serif;font-size:14px;font-weight:500;color:var(--sel);
+    display:flex;align-items:center;gap:10px;
+  }
+  .btn-side svg{width:16px;height:16px;opacity:0.8}
+
+  /* Bas centre : toast + barre de saisie compacte (bible §8.1 & §8.2) */
+  .bottom-center{
+    position:absolute;left:50%;bottom:28px;transform:translateX(-50%);
+    width:660px;display:flex;flex-direction:column;align-items:center;gap:12px;
+  }
+  .toast.panel{
+    width:100%;padding:12px 18px;border-radius:14px;
+    display:flex;align-items:center;justify-content:space-between;gap:14px;
+  }
+  .toast-left{display:flex;align-items:center;gap:12px;min-width:0}
+  .toast-icon{width:14px;height:14px;flex-shrink:0}
+  .toast-txt{font-size:14.5px;color:var(--sel);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .toast-right{
+    display:flex;align-items:center;gap:10px;flex-shrink:0;
+    font-family:"Recursive",monospace;font-variation-settings:"MONO" 1;font-size:12px;color:var(--embruns);
+  }
+  .pill{padding:3px 10px;border-radius:999px;font-size:11.5px;color:var(--sel);background:rgba(255,255,255,0.08)}
+  .pill.prev{border:1px dashed rgba(241,245,249,0.55);background:rgba(56,189,248,0.16);color:#BAE6FD}
+  .pill.ok{background:rgba(86,168,92,0.22);color:#BBF7D0}
+
+  .bar.panel{width:100%;padding:14px 16px 12px 20px}
+  .bar-prompt{
+    font-family:"Bricolage Grotesque",sans-serif;font-weight:600;font-size:17px;
+    color:var(--sel);margin-bottom:10px;display:flex;justify-content:space-between;align-items:baseline;
+  }
+  .bar-prompt span{
+    font-family:"Recursive",monospace;font-variation-settings:"MONO" 1;
+    font-size:12px;font-weight:400;color:var(--embruns);
+  }
+  .bar-row{display:flex;align-items:center;gap:12px}
+  .bar-input{
+    flex:1;height:44px;padding:0 16px;border-radius:999px;
+    background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.16);
+    display:flex;align-items:center;font-size:15px;color:var(--embruns);
+  }
+  .bar-input.filled{color:var(--sel);border-color:rgba(241,245,249,0.55)}
+  .bar-btn{
+    height:44px;padding:0 24px;border-radius:999px;
+    background:var(--sel);color:#08111D;
+    font-family:"Recursive",sans-serif;font-weight:600;font-size:15px;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .bar-warn{
+    margin-top:9px;font-size:12px;color:var(--embruns);
+    display:flex;align-items:center;justify-content:space-between;
+  }
+</style>
+</head>
+<body>
+<canvas id="webgl" width="1920" height="1080"></canvas>
+<canvas id="fx" width="1920" height="1080"></canvas>
+
+<header class="panel">
+  <div id="logo"></div>
+  <div>
+    <div class="title">Terre commune</div>
+    <div class="meta-row">
+      <span id="stat-txt"></span>
+      <span class="sep">·</span>
+      <span id="bloc-txt"></span>
+      <span class="sep">·</span>
+      <span class="nodes-inline">
+        <span class="nd"><svg viewBox="0 0 16 16"><path d="M8 1.5L15 14.5H1z" fill="#38BDF8"/></svg>● a</span>
+        <span class="nd"><svg viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" fill="#FBBF24"/></svg>● b</span>
+        <span class="nd"><svg viewBox="0 0 16 16"><path d="M8 0.8l7 7.2-7 7.2L1 8z" fill="#A78BFA"/></svg>● c</span>
+      </span>
+    </div>
+  </div>
+</header>
+
+<div class="btn-side panel">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+  Légende · Historique
+</div>
+
+<div class="bottom-center">
+  <div class="toast panel" id="toast" style="display:none">
+    <div class="toast-left">
+      <span class="toast-icon" id="toast-icon"></span>
+      <span class="toast-txt" id="toast-txt"></span>
+    </div>
+    <div class="toast-right">
+      <span id="toast-effect"></span>
+      <span class="pill" id="toast-state"></span>
+    </div>
+  </div>
+
+  <div class="bar panel">
+    <div class="bar-prompt">
+      Qu'est-ce que vous traversez, là, maintenant ?
+      <span id="char-count">0 / 280</span>
+    </div>
+    <div class="bar-row">
+      <div class="bar-input" id="bar-input"></div>
+      <div class="bar-btn">Envoyer</div>
+    </div>
+    <div class="bar-warn">
+      <span>Message définitif, sans donnée personnelle.</span>
+      <span>Partagé entre 3 nœuds · lu par IA</span>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import * as THREE from 'three';
+
+const params = new URLSearchParams(location.search);
+const ETAT = parseInt(params.get('etat') || '1', 10);
+
+// PRNG Mulberry32 (bible §6.1)
+function mulberry32(a){
+  return function(){
+    a |= 0; a = a + 0x6D2B79F5 | 0;
+    let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+function hash2(ix, iz){
+  let n = Math.imul(ix, 374761393) + Math.imul(iz, 668265263);
+  n = (n ^ (n >>> 13)) * 1274126177;
+  return ((n ^ (n >>> 16)) >>> 0) / 4294967296 * 2 - 1;
+}
+function noise2(x, z){
+  const ix = Math.floor(x), iz = Math.floor(z);
+  const fx = x - ix, fz = z - iz;
+  const ux = fx*fx*(3-2*fx), uz = fz*fz*(3-2*fz);
+  const a = hash2(ix, iz), b = hash2(ix+1, iz), c = hash2(ix, iz+1), d = hash2(ix+1, iz+1);
+  return a + (b-a)*ux + (c-a)*uz + (a-b-c+d)*ux*uz;
+}
+function fbm(x, z){
+  return 0.60*noise2(x, z) + 0.30*noise2(2*x, 2*z) + 0.10*noise2(4*x, 4*z);
+}
+function smoothstep(a, b, x){
+  const t = Math.max(0, Math.min(1, (x - a) / (b - a)));
+  return t * t * (3 - 2 * t);
+}
+function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
+
+// ==================== 1. SCÈNE THREE.JS, CIEL & LUMIÈRES ====================
+const canvas = document.getElementById('webgl');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
+renderer.setSize(1920, 1080, false);
+renderer.setPixelRatio(1);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.08;
+
+const scene = new THREE.Scene();
+
+// Ciel dégradé en dôme 3D + brouillard FogExp2 (bible §6.3 & §6.4)
+const skyTop    = ETAT === 1 ? '#12314F' : (ETAT === 2 ? '#163852' : '#10416B');
+const skyMid    = ETAT === 1 ? '#5E8CA0' : (ETAT === 2 ? '#598A9C' : '#4EA5BE');
+const skyHoriz  = ETAT === 1 ? '#F2CCA0' : (ETAT === 2 ? '#B5CED4' : '#DCEFE9');
+const fogHex    = ETAT === 1 ? '#C8B9A6' : (ETAT === 2 ? '#98B8C2' : '#A9D6D9');
+const fogDens   = ETAT === 1 ? 0.011 : (ETAT === 2 ? 0.018 : 0.009);
+
+scene.fog = new THREE.FogExp2(fogHex, fogDens);
+
+// Dôme de ciel peint sur canvas texture
+const skyCan = document.createElement('canvas');
+skyCan.width = 16; skyCan.height = 512;
+const sctx = skyCan.getContext('2d');
+const sg = sctx.createLinearGradient(0, 0, 0, 512);
+sg.addColorStop(0.00, skyTop);
+sg.addColorStop(0.38, skyMid);
+sg.addColorStop(0.50, skyHoriz);
+sg.addColorStop(0.56, '#133C59');
+sg.addColorStop(1.00, '#091E30');
+sctx.fillStyle = sg; sctx.fillRect(0, 0, 16, 512);
+const skyTex = new THREE.CanvasTexture(skyCan);
+skyTex.colorSpace = THREE.SRGBColorSpace;
+const skyDome = new THREE.Mesh(
+  new THREE.SphereGeometry(180, 32, 24),
+  new THREE.MeshBasicMaterial({ map: skyTex, side: THREE.BackSide, fog: false })
+);
+scene.add(skyDome);
+
+// Caméra orbitale basse, cinématographique
+const camera = new THREE.PerspectiveCamera(36, 1920 / 1080, 0.5, 300);
+if (ETAT === 1)      camera.position.set(0, 13.5, 31);
+else if (ETAT === 2) camera.position.set(16, 14.5, 25);
+else                 camera.position.set(22, 16.5, 27);
+camera.lookAt(0, ETAT === 3 ? 1.8 : 0.4, 0);
+
+// Éclairage léger de la bible §6.4 : 1 HemisphereLight + 1 DirectionalLight (+ soleil doux)
+const hemi = new THREE.HemisphereLight(
+  ETAT === 1 ? 0xFFE3C2 : (ETAT === 2 ? 0xCDE4EC : 0xE8F8FF),
+  0x133C59,
+  ETAT === 2 ? 0.85 : 0.95
+);
+scene.add(hemi);
+
+const dirLight = new THREE.DirectionalLight(
+  ETAT === 1 ? 0xFFD2A0 : (ETAT === 2 ? 0xDCEEF5 : 0xFFF6E0),
+  ETAT === 2 ? 1.35 : 1.85
+);
+dirLight.position.set(-22, 28, 16);
+dirLight.castShadow = true;
+dirLight.shadow.mapSize.set(2048, 2048);
+dirLight.shadow.camera.near = 5;
+dirLight.shadow.camera.far = 90;
+dirLight.shadow.camera.left = -24;
+dirLight.shadow.camera.right = 24;
+dirLight.shadow.camera.top = 24;
+dirLight.shadow.camera.bottom = -24;
+dirLight.shadow.bias = -0.0005;
+scene.add(dirLight);
+
+// ==================== 2. SIMULATION HEIGHTMAP 96 × 96 (CÔTES ET PLAGES FLUIDES) ====================
+const SEG = 96;
+const N = SEG + 1;
+const SIZE = 38;
+const h = new Float32Array(N * N);
+const warm = new Float32Array(N * N);
+const volc = new Float32Array(N * N);
+const touches = new Uint16Array(N * N);
+function coord(i){ return -SIZE/2 + (i / SEG) * SIZE; }
+
+for (let iz = 0; iz < N; iz++){
+  for (let ix = 0; ix < N; ix++){
+    const x = coord(ix), z = coord(iz);
+    const dc = Math.hypot(x, z);
+    const idx = iz * N + ix;
+    h[idx] = -0.55 - 0.85 * smoothstep(0, 16, dc) + 0.14 * fbm(0.15*x + 5.2, 0.15*z + 3.7) * (1 - smoothstep(13, 18.5, dc));
+    warm[idx] = 0.50;
+    volc[idx] = 0.00;
+  }
+}
+
+const objects = [];
+let volcanoPos = null;
+const nodesList = ['a', 'b', 'c'];
+
+function applyMessage(n, msg){
+  const rnd = mulberry32(msg.seed >>> 0);
+  const t1 = rnd(), t2 = rnd(), t3 = rnd(), t4 = rnd();
+  const theta = (n * 137.5078 + (t1 - 0.5) * 26) * Math.PI / 180;
+  const r = msg.pos ? Math.hypot(msg.pos[0], msg.pos[1]) : (n < 30 ? Math.min(12.2, 2.0 * Math.sqrt(n + 1)) : (0.20 + 0.72 * t2) * 12.2);
+  const cx = msg.pos ? msg.pos[0] : r * Math.cos(theta);
+  const cz = msg.pos ? msg.pos[1] : r * Math.sin(theta);
+
+  if (msg.masquer){
+    objects.push({ type: 'mist', x: cx, z: cz, node: msg.node });
+    return;
+  }
+
+  const cix = clamp(Math.round((cx + SIZE/2) / SIZE * SEG), 0, SEG);
+  const ciz = clamp(Math.round((cz + SIZE/2) / SIZE * SEG), 0, SEG);
+  const hc = h[ciz * N + cix];
+  const R = msg.R || (2.4 + 2.5 * msg.densite);
+  const sig = R / 2.1;
+
+  for (let iz = 0; iz < N; iz++){
+    const z = coord(iz);
+    if (Math.abs(z - cz) > R * 1.3) continue;
+    for (let ix = 0; ix < N; ix++){
+      const x = coord(ix);
+      const d = Math.hypot(x - cx, z - cz);
+      if (d > R * 1.3) continue;
+      const idx = iz * N + ix;
+      const w = Math.exp(-(d * d) / (2 * sig * sig));
+      const dc = Math.hypot(x, z);
+      const mask = 1 - smoothstep(13.5, 17.5, dc);
+      const f = 1 / (1 + 0.28 * Math.max(0, touches[idx] - 3));
+      let dh = 0;
+      if (msg.emotion === 'joie'){
+        dh = (1.05 + 0.85 * msg.densite) * (0.78 + 0.22 * fbm(x*0.35, z*0.35));
+        warm[idx] = clamp(warm[idx] + 0.45 * w, 0, 1);
+        volc[idx] = clamp(volc[idx] - 0.30 * w, 0, 1);
+      } else if (msg.emotion === 'calme'){
+        dh = 0.72 + 0.48 * msg.densite;
+        warm[idx] = clamp(warm[idx] + 0.18 * w, 0, 1);
+        volc[idx] = clamp(volc[idx] - 0.20 * w, 0, 1);
+      } else if (msg.emotion === 'tristesse'){
+        dh = hc < -0.10 ? (0.30 + 0.22 * msg.densite) : -(0.38 + 0.42 * msg.densite);
+        warm[idx] = clamp(warm[idx] - 0.55 * w, 0, 1);
+        volc[idx] = clamp(volc[idx] - 0.20 * w, 0, 1);
+      }
+      let dhEff = dh >= 0
+        ? dh * w * mask * f * (1 - clamp(h[idx] / 3.4, 0, 0.94))
+        : dh * w * mask * f * (1 - clamp(-h[idx] / 1.5, 0, 0.94));
+      let nh = clamp(h[idx] + dhEff, -1.6, 3.8);
+      if (msg.emotion === 'tristesse' && hc < -0.10) nh = Math.min(nh, -0.06);
+      h[idx] = nh;
+      if (w >= 0.10) touches[idx]++;
+    }
+  }
+
+  if (msg.local) objects.push({ type: 'wireframe', x: cx, z: cz, R: R * 0.72, node: msg.node });
+  if (msg.emotion === 'joie'){
+    const nb = 1 + Math.floor(t4 * 2.5);
+    for (let k = 0; k < nb; k++){
+      objects.push({ type: 'tree', x: cx + (rnd()-0.5)*2.5, z: cz + (rnd()-0.5)*2.5, s: 0.75 + rnd()*0.55 });
+    }
+  }
+  if (msg.emotion === 'calme') objects.push({ type: 'lighthouse', x: cx, z: cz, node: msg.node });
+  objects.push({ type: 'beacon', x: cx, z: cz, node: msg.node, n: n });
+}
+
+// Sculpteur dédié de volcan 3D (vrai cône sombre en basalte + cratère creusé au sommet)
+function sculptVolcano(vx, vz){
+  volcanoPos = { x: vx, z: vz };
+  for (let iz = 0; iz < N; iz++){
+    const z = coord(iz);
+    for (let ix = 0; ix < N; ix++){
+      const x = coord(ix);
+      const d = Math.hypot(x - vx, z - vz);
+      if (d > 6.8) continue;
+      const idx = iz * N + ix;
+      // Cône escarpé qui domine l'île (jusqu'à h = 4.2) + cratère creusé au centre (d < 1.45)
+      const cone = 4.4 * Math.exp(-(d * d) / (2 * 2.45 * 2.45)) * (0.90 + 0.12 * fbm(x*0.9, z*0.9));
+      const crater = d < 1.55 ? 1.55 * Math.pow(Math.cos((d / 1.55) * Math.PI * 0.5), 1.4) : 0;
+      const targetH = Math.max(h[idx], cone - crater + 0.35);
+      h[idx] = targetH;
+      // Zone volcanique basaltique propre tout autour du cône
+      const vWeight = smoothstep(5.6, 2.2, d);
+      volc[idx] = Math.max(volc[idx], vWeight);
+      if (d < 1.30) volc[idx] = 1.0; // cœur magma
+    }
+  }
+}
+
+let totalMsgs = 0, symState;
+if (ETAT === 1){
+  totalMsgs = 0;
+  symState = { n: 0, terre: 0, seed: 0x00000000, recents: [] };
+} else if (ETAT === 2){
+  totalMsgs = 10;
+  const seq = [
+    { emotion:'joie', densite:0.85, node:'a', seed:0x101, pos:[-5.2, -1.5], R:3.8 },
+    { emotion:'calme', densite:0.70, node:'a', seed:0x202, pos:[-6.5, -0.2], R:2.8 },
+    { emotion:'joie', densite:0.85, node:'b', seed:0x303, pos:[4.8, -2.5], R:3.8 },
+    { emotion:'tristesse', densite:0.60, node:'c', seed:0x404, pos:[0.0, 5.0], R:4.2 },
+    { emotion:'calme', densite:0.65, node:'b', seed:0x505, pos:[6.4, -1.0], R:2.8 },
+    { emotion:'joie', densite:0.75, node:'c', seed:0x606, pos:[0.8, -6.2], R:3.4 },
+    { emotion:'tristesse', densite:0.45, node:'a', seed:0x707, pos:[3.2, 2.2], R:2.8 },
+    { emotion:'colere', densite:0.40, node:'b', seed:0x808, pos:[-1.2, 1.8], masquer:true },
+    { emotion:'joie', densite:0.65, node:'c', seed:0x909, pos:[-4.4, -2.2], R:2.8 },
+    { emotion:'joie', densite:0.80, node:'c', seed:0xA10, pos:[5.4, 3.2], R:3.4, local:true },
+  ];
+  seq.forEach((m, i) => applyMessage(i, m));
+  objects.push({ type: 'boat', x: -0.4, z: -1.6, node: 'c', rot: 0.6 });
+  objects.push({ type: 'boat', x: 8.8, z: 1.4, node: 'a', rot: -0.9 });
+  symState = { n: 10, terre: 0.09, seed: 0x9b14e27a, recents: [
+    {emotion:'calme'},{emotion:'joie'},{emotion:'tristesse'},{emotion:'colere',masquer:true},{emotion:'joie'},{emotion:'joie',source:'local'}
+  ]};
+} else {
+  totalMsgs = 300;
+  const gr = mulberry32(0x20261127);
+  const emos = ['joie','joie','joie','joie','calme','calme','tristesse','tristesse'];
+  for (let i = 0; i < 296; i++){
+    applyMessage(i, {
+      emotion: emos[Math.floor(gr() * emos.length)],
+      densite: 0.35 + 0.55 * gr(),
+      node: nodesList[i % 3],
+      seed: (0x5000 + i * 7919) >>> 0,
+      masquer: (i === 288)
+    });
+  }
+  // Pic alpin enneigé à gauche + vrai volcan conique en basalte à droite
+  applyMessage(296, { emotion:'joie', densite:1.0, node:'a', seed:0x9901, pos:[-5.0, -3.5], R:5.5 });
+  applyMessage(297, { emotion:'joie', densite:1.0, node:'c', seed:0x9902, pos:[-4.6, -3.2], R:4.5 });
+  sculptVolcano(4.8, -2.8);
+
+  objects.push({ type: 'boat', x: 14.5, z: 5.5, node: 'a', rot: 0.5 });
+  objects.push({ type: 'boat', x: -13.5, z: 7.5, node: 'b', rot: -0.7 });
+  objects.push({ type: 'boat', x: 2.5, z: 14.2, node: 'c', rot: 1.2 });
+  symState = { n: 300, terre: 0.45, seed: 0x20264F04, recents: [
+    {emotion:'tristesse'},{emotion:'joie'},{emotion:'calme'},{emotion:'colere'},{emotion:'joie'},{emotion:'joie'}
+  ]};
+}
+
+// % de terre
+let landCount = 0;
+for (let i = 0; i < N*N; i++) if (h[i] >= 0) landCount++;
+const pctLand = ETAT === 1 ? 0 : Math.round((landCount / (N*N)) * 100);
+
+// ==================== 3. MAILLAGE TERRAIN THREE.JS (ORGANIC LOW-POLY + PLAGES CONTINUES) ====================
+const terrGeo = new THREE.PlaneGeometry(SIZE, SIZE, SEG, SEG);
+terrGeo.rotateX(-Math.PI / 2);
+
+// Légère perturbation organique (x, z) des sommets pour casser l'effet damier de la grille carrée
+const jRnd = mulberry32(0x1337);
+const gp = terrGeo.attributes.position;
+const step = SIZE / SEG;
+for (let i = 0; i < gp.count; i++){
+  const x = gp.getX(i), z = gp.getZ(i);
+  if (Math.abs(x) < SIZE/2 - 0.5 && Math.abs(z) < SIZE/2 - 0.5){
+    gp.setX(i, x + (jRnd() - 0.5) * step * 0.42);
+    gp.setZ(i, z + (jRnd() - 0.5) * step * 0.42);
+  }
+}
+
+// Interpolation bilinéaire lisse de la grille (finit les sauts brusques sur les plages !)
+function sampleGrid(x, z){
+  const fx = clamp((x + SIZE/2) / SIZE * SEG, 0, SEG - 0.001);
+  const fz = clamp((z + SIZE/2) / SIZE * SEG, 0, SEG - 0.001);
+  const ix = Math.floor(fx), iz = Math.floor(fz);
+  const tx = fx - ix, tz = fz - iz;
+  const i00 = iz * N + ix, i10 = i00 + 1, i01 = i00 + N, i11 = i01 + 1;
+  const bilerp = (arr) =>
+    (arr[i00] * (1 - tx) + arr[i10] * tx) * (1 - tz) +
+    (arr[i01] * (1 - tx) + arr[i11] * tx) * tz;
+  return { h: bilerp(h), warm: bilerp(warm), volc: bilerp(volc) };
+}
+
+const colAbysse   = new THREE.Color('#133C59');
+const colLagon    = new THREE.Color('#36B5BC');
+const colEcume    = new THREE.Color('#DDF4F5');
+const colSableHum = new THREE.Color('#CFAF72'); // sable humide près de l'eau
+const colSable    = new THREE.Color('#E8D19A'); // sable doré lumineux
+const colSableN   = new THREE.Color('#3E363A');
+const colPrairie  = new THREE.Color('#56A85C');
+const colPrairieH = new THREE.Color('#6BB863'); // herbe ensoleillée
+const colMousse   = new THREE.Color('#607A70');
+const colFalaise  = new THREE.Color('#7A808A');
+const colBasalte  = new THREE.Color('#2B2128');
+const colNeige    = new THREE.Color('#ECF2F8');
+const colMagma    = new THREE.Color('#FF7626');
+const colMagmaHot = new THREE.Color('#FFC65C');
+const tmpCol = new THREE.Color();
+
+// Couleurs par sommet (transition douce plage -> prairie -> falaise) + flatShading pour le volume low-poly !
+const vColors = new Float32Array(gp.count * 3);
+for (let i = 0; i < gp.count; i++){
+  const x = gp.getX(i), z = gp.getZ(i);
+  const s = sampleGrid(x, z);
+  const hv = s.h, wv = s.warm, vv = s.volc;
+  gp.setY(i, hv * 1.48);
+
+  if (hv < -0.05){
+    // Fond marin dégradé Abysse -> Lagon -> Écume côtière
+    const tL = smoothstep(-0.95, -0.05, hv);
+    tmpCol.copy(colAbysse).lerp(colLagon, tL);
+    if (hv > -0.14) tmpCol.lerp(colEcume, smoothstep(-0.14, -0.05, hv) * 0.45);
+  } else if (volcanoPos && Math.hypot(x - volcanoPos.x, z - volcanoPos.z) < 1.25 && hv > 1.7){
+    const dC = Math.hypot(x - volcanoPos.x, z - volcanoPos.z);
+    tmpCol.copy(colMagma).lerp(colMagmaHot, smoothstep(1.2, 0.2, dC) * 0.65);
+  } else if (hv < 0.42){
+    // Plage continue : sable humide -> sable doré -> début de végétation
+    if (vv >= 0.45){
+      tmpCol.copy(colSableN);
+    } else {
+      tmpCol.copy(colSableHum).lerp(colSable, smoothstep(-0.05, 0.14, hv));
+      const vegTarget = colMousse.clone().lerp(colPrairie, smoothstep(0.32, 0.56, wv));
+      tmpCol.lerp(vegTarget, smoothstep(0.28, 0.42, hv));
+    }
+  } else if (hv < 2.1){
+    if (vv >= 0.42){
+      tmpCol.copy(colBasalte);
+    } else {
+      tmpCol.copy(colMousse).lerp(colPrairie, smoothstep(0.32, 0.56, wv));
+      tmpCol.lerp(colPrairieH, smoothstep(0.5, 1.4, hv) * 0.35);
+      if (hv > 1.75) tmpCol.lerp(colFalaise, smoothstep(1.75, 2.1, hv));
+    }
+  } else if (hv < 2.95){
+    tmpCol.copy(vv >= 0.42 ? colBasalte : colFalaise);
+    if (hv > 2.65 && vv < 0.42) tmpCol.lerp(colNeige, smoothstep(2.65, 2.95, hv));
+  } else {
+    tmpCol.copy(vv >= 0.42 ? colBasalte : colNeige);
+  }
+
+  vColors[i*3]   = tmpCol.r;
+  vColors[i*3+1] = tmpCol.g;
+  vColors[i*3+2] = tmpCol.b;
+}
+terrGeo.setAttribute('color', new THREE.BufferAttribute(vColors, 3));
+terrGeo.computeVertexNormals();
+
+const terrMesh = new THREE.Mesh(
+  terrGeo,
+  new THREE.MeshStandardMaterial({
+    vertexColors: true,
+    flatShading: true,
+    roughness: 0.84,
+    metalness: 0.04
+  })
+);
+terrMesh.castShadow = true;
+terrMesh.receiveShadow = true;
+scene.add(terrMesh);
+
+// ==================== 4. PLAN D'EAU LOW-POLY TRANSLUCIDE (COUPURE PROPRE SANS DENTS DE SCIE) ====================
+const waterGeo = new THREE.PlaneGeometry(240, 240, 96, 96);
+waterGeo.rotateX(-Math.PI / 2);
+const wp = waterGeo.attributes.position;
+for (let i = 0; i < wp.count; i++){
+  const x = wp.getX(i), z = wp.getZ(i);
+  const wave = (ETAT === 1 ? 0.04 : 0.09) * (Math.sin(x * 0.45 + z * 0.3) + 0.5 * Math.cos(x * 0.25 - z * 0.5));
+  wp.setY(i, wave);
+}
+waterGeo.computeVertexNormals();
+
+const waterMat = new THREE.MeshStandardMaterial({
+  color: ETAT === 1 ? 0x1D6582 : (ETAT === 2 ? 0x1B5B75 : 0x1E728E),
+  flatShading: true,
+  transparent: true,
+  opacity: 0.74,
+  roughness: 0.18,
+  metalness: 0.15
+});
+const waterMesh = new THREE.Mesh(waterGeo, waterMat);
+waterMesh.position.y = 0.02;
+waterMesh.receiveShadow = true;
+scene.add(waterMesh);
+
+// Fond marin infini Abysse sous le bassin pour effacer tout bord carré du maillage
+const deepFloor = new THREE.Mesh(
+  new THREE.PlaneGeometry(240, 240),
+  new THREE.MeshBasicMaterial({ color: 0x133C59 })
+);
+deepFloor.rotation.x = -Math.PI / 2;
+deepFloor.position.y = -2.0;
+scene.add(deepFloor);
+
+// ==================== 5. CŒUR MAGMA ÉMISSIF + POINTLIGHT DU VOLCAN ====================
+if (volcanoPos){
+  const vs = sampleGrid(volcanoPos.x, volcanoPos.z);
+  const lavaPool = new THREE.Mesh(
+    new THREE.CircleGeometry(1.12, 7),
+    new THREE.MeshBasicMaterial({ color: 0xFF7626 })
+  );
+  lavaPool.rotation.x = -Math.PI / 2;
+  lavaPool.position.set(volcanoPos.x, vs.h * 1.45 + 0.28, volcanoPos.z);
+  scene.add(lavaPool);
+
+  const lavaGlow = new THREE.PointLight(0xFF6A1A, 16, 12, 1.4);
+  lavaGlow.position.set(volcanoPos.x, vs.h * 1.48 + 1.4, volcanoPos.z);
+  scene.add(lavaGlow);
+
+  // Panache de fumée volcanique low-poly s'élevant du cratère
+  const smokeMat = new THREE.MeshStandardMaterial({ color: 0x5B626E, flatShading: true, transparent: true, opacity: 0.46, roughness: 1 });
+  for (let k = 0; k < 4; k++){
+    const sp = new THREE.Mesh(new THREE.IcosahedronGeometry(0.55 + k * 0.28, 0), smokeMat);
+    sp.position.set(volcanoPos.x + k * 0.45, vs.h * 1.48 + 1.2 + k * 0.95, volcanoPos.z - k * 0.25);
+    scene.add(sp);
+  }
+}
+
+// Nuages low-poly stylisés dans le ciel (légèreté Wind Waker / Dorfromantik)
+const cloudMat = new THREE.MeshStandardMaterial({
+  color: ETAT === 1 ? 0xFCE5CC : (ETAT === 2 ? 0xD2E1E6 : 0xF5FAFC),
+  flatShading: true, transparent: true, opacity: ETAT === 2 ? 0.65 : 0.82, roughness: 1
+});
+const cloudCoords = ETAT === 1
+  ? [[-16, 11.5, -26], [14, 10.5, -24]]
+  : [[-18, 12.5, -22], [12, 13.5, -26], [-2, 15.0, -30]];
+for (const [cx, cy, cz] of cloudCoords){
+  const cg = new THREE.Group();
+  for (let k = 0; k < 3; k++){
+    const puff = new THREE.Mesh(new THREE.IcosahedronGeometry(1.4 - Math.abs(k-1)*0.35, 0), cloudMat);
+    puff.scale.set(1.5, 0.55, 1.0);
+    puff.position.set((k - 1) * 1.4, (k === 1 ? 0.3 : 0), 0);
+    cg.add(puff);
+  }
+  cg.position.set(cx, cy, cz);
+  scene.add(cg);
+}
+
+// ==================== 6. VRAIS OBJETS 3D LOW-POLY (ARBRES, PHARES, VOILIERS, BALISES, FILAIRE, BRUME) ====================
+const nodeHex = { a: 0x38BDF8, b: 0xFBBF24, c: 0xA78BFA };
+const trunkMat = new THREE.MeshStandardMaterial({ color: 0x4E3629, flatShading: true, roughness: 0.9 });
+const leafMat1 = new THREE.MeshStandardMaterial({ color: 0x3D8B47, flatShading: true, roughness: 0.85 });
+const leafMat2 = new THREE.MeshStandardMaterial({ color: 0x2F703B, flatShading: true, roughness: 0.85 });
+const whiteMat = new THREE.MeshStandardMaterial({ color: 0xECF2F8, flatShading: true, roughness: 0.6 });
+const hullMat  = new THREE.MeshStandardMaterial({ color: 0x7D4F32, flatShading: true, roughness: 0.8 });
+
+let treeC = 0, lhC = 0, boatC = 0;
+const minBeaconN = Math.max(0, totalMsgs - 45);
+
+for (const o of objects){
+  const s = sampleGrid(o.x, o.z);
+  const nearVolc = volcanoPos && Math.hypot(o.x - volcanoPos.x, o.z - volcanoPos.z) < 5.6;
+
+  if (o.type === 'tree'){
+    if (treeC >= 75 || nearVolc || s.h < 0.36 || s.h > 2.0 || s.volc >= 0.35) continue;
+    treeC++;
+    const sc = o.s || 1;
+    const g = new THREE.Group();
+    const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.12, 0.45, 5), trunkMat);
+    trunk.position.y = 0.22; trunk.castShadow = true;
+    const c1 = new THREE.Mesh(new THREE.ConeGeometry(0.46, 0.95, 6), leafMat2);
+    c1.position.y = 0.72; c1.castShadow = true;
+    const c2 = new THREE.Mesh(new THREE.ConeGeometry(0.32, 0.75, 6), leafMat1);
+    c2.position.y = 1.18; c2.castShadow = true;
+    g.add(trunk, c1, c2);
+    g.scale.setScalar(sc);
+    g.position.set(o.x, s.h * 1.45 - 0.05, o.z);
+    scene.add(g);
+  } else if (o.type === 'lighthouse'){
+    if (lhC >= (ETAT === 2 ? 2 : 5) || nearVolc || s.h < 0.14 || s.h > 1.6) continue;
+    lhC++;
+    const g = new THREE.Group();
+    const tower = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.30, 1.5, 7), whiteMat);
+    tower.position.y = 0.75; tower.castShadow = true;
+    const band = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.25, 0.35, 7), new THREE.MeshStandardMaterial({ color: nodeHex[o.node], flatShading: true }));
+    band.position.y = 1.05;
+    const lamp = new THREE.Mesh(new THREE.SphereGeometry(0.16, 6, 5), new THREE.MeshBasicMaterial({ color: 0xFFF7D6 }));
+    lamp.position.y = 1.62;
+    const pl = new THREE.PointLight(nodeHex[o.node], 3.5, 5.5);
+    pl.position.y = 1.75;
+    g.add(tower, band, lamp, pl);
+    g.position.set(o.x, s.h * 1.45 - 0.05, o.z);
+    scene.add(g);
+  } else if (o.type === 'boat'){
+    if (boatC >= 4 || s.h >= -0.04) continue;
+    boatC++;
+    const g = new THREE.Group();
+    const hull = new THREE.Mesh(new THREE.BoxGeometry(0.95, 0.22, 0.42), hullMat);
+    hull.position.y = 0.08; hull.castShadow = true;
+    const sail = new THREE.Mesh(new THREE.ConeGeometry(0.36, 1.05, 3), whiteMat);
+    sail.position.set(0.05, 0.72, 0); sail.castShadow = true;
+    const flag = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.14, 0.04), new THREE.MeshBasicMaterial({ color: nodeHex[o.node] }));
+    flag.position.set(-0.12, 1.24, 0);
+    g.add(hull, sail, flag);
+    g.rotation.y = o.rot || 0;
+    g.position.set(o.x, 0.04, o.z);
+    scene.add(g);
+  } else if (o.type === 'wireframe'){
+    // Patch filaire 8×8 de prévision épousant la heightmap (bible §6.3)
+    const wGeo = new THREE.PlaneGeometry(o.R * 2, o.R * 2, 8, 8);
+    wGeo.rotateX(-Math.PI / 2);
+    const wp2 = wGeo.attributes.position;
+    for (let i = 0; i < wp2.count; i++){
+      const gx = o.x + wp2.getX(i), gz = o.z + wp2.getZ(i);
+      const gs = sampleGrid(gx, gz);
+      wp2.setY(i, Math.max(0, gs.h) * 1.45 + 0.14);
+    }
+    const wMesh = new THREE.Mesh(
+      wGeo,
+      new THREE.MeshBasicMaterial({ color: 0xF1F5F9, wireframe: true, transparent: true, opacity: 0.78 })
+    );
+    wMesh.position.set(o.x, 0, o.z);
+    scene.add(wMesh);
+  } else if (o.type === 'mist'){
+    // Nappe de brume 3D low-poly pour message masqué (bible §6.3)
+    const g = new THREE.Group();
+    const mMat = new THREE.MeshStandardMaterial({ color: 0x9BA6B5, flatShading: true, transparent: true, opacity: 0.58, roughness: 1 });
+    for (let k = 0; k < 4; k++){
+      const puff = new THREE.Mesh(new THREE.IcosahedronGeometry(0.95 + (k%2)*0.35, 0), mMat);
+      puff.scale.set(1.4, 0.45, 1.2);
+      puff.position.set((k - 1.5) * 0.7, 0.35 + (k%2)*0.15, (k%2 - 0.5)*0.5);
+      g.add(puff);
+    }
+    g.position.set(o.x, Math.max(0, s.h) * 1.45, o.z);
+    scene.add(g);
+  } else if (o.type === 'beacon'){
+    if (o.n < minBeaconN) continue;
+    if (ETAT === 3 && o.n % 3 !== 0) continue;
+    let bGeo;
+    if (o.node === 'a') bGeo = new THREE.TetrahedronGeometry(0.24);
+    else if (o.node === 'b') bGeo = new THREE.BoxGeometry(0.32, 0.32, 0.32);
+    else bGeo = new THREE.OctahedronGeometry(0.24);
+    const bm = new THREE.Mesh(bGeo, new THREE.MeshStandardMaterial({ color: nodeHex[o.node], emissive: nodeHex[o.node], emissiveIntensity: 0.35, flatShading: true }));
+    bm.position.set(o.x, Math.max(0, s.h) * 1.45 + 0.65, o.z);
+    scene.add(bm);
+  }
+}
+
+// Rendu WebGL
+renderer.render(scene, camera);
+
+// ==================== 7. EFFETS LÉGERS (PLUIE ÉTAT 2 / BRAISES VOLCAN ÉTAT 3) ====================
+const fx = document.getElementById('fx').getContext('2d');
+if (ETAT === 2){
+  const pr = mulberry32(0x777);
+  fx.strokeStyle = 'rgba(236,242,248,0.22)';
+  fx.lineWidth = 1.1;
+  for (let i = 0; i < 110; i++){
+    const rx = pr() * 1920, ry = pr() * 1080;
+    fx.beginPath(); fx.moveTo(rx, ry); fx.lineTo(rx - 4, ry + 20); fx.stroke();
+  }
+} else if (ETAT === 3 && volcanoPos){
+  const v3 = new THREE.Vector3(volcanoPos.x, sampleGrid(volcanoPos.x, volcanoPos.z).h * 1.45 + 0.8, volcanoPos.z);
+  v3.project(camera);
+  const sx = (v3.x * 0.5 + 0.5) * 1920;
+  const sy = (-v3.y * 0.5 + 0.5) * 1080;
+  const er = mulberry32(0x999);
+  for (let i = 0; i < 24; i++){
+    const ex = sx + (er()-0.5)*110, ey = sy - er()*140;
+    fx.fillStyle = `rgba(255,140,48,${(0.45 + er()*0.5).toFixed(2)})`;
+    fx.beginPath(); fx.arc(ex, ey, 1.5 + er()*2.0, 0, Math.PI*2); fx.fill();
+  }
+}
+
+// ==================== 8. UI BIBLE DA §8.1 ====================
+document.getElementById('logo').innerHTML = Symbole.svg(symState, { taille: 56 });
+document.getElementById('stat-txt').innerHTML = `<b>${totalMsgs}</b> message${totalMsgs>1?'s':''} · <b>${pctLand} %</b> terre`;
+document.getElementById('bloc-txt').textContent = ETAT === 1 ? 'bloc #0' : (ETAT === 2 ? 'bloc #4' : 'bloc #84');
+
+const barIn = document.getElementById('bar-input');
+const toast = document.getElementById('toast');
+if (ETAT === 1){
+  barIn.textContent = '« Super fier de ce qu\'on vient de finir ensemble »';
+  document.getElementById('char-count').textContent = '0 / 280';
+} else if (ETAT === 2){
+  barIn.classList.add('filled');
+  barIn.textContent = 'Un rayon de soleil sur le port ce matin, ça fait du bien.';
+  document.getElementById('char-count').textContent = '56 / 280';
+  toast.style.display = 'flex';
+  document.getElementById('toast-icon').innerHTML = '<svg viewBox="0 0 16 16"><path d="M8 0.8l7 7.2-7 7.2L1 8z" fill="#A78BFA"/></svg>';
+  document.getElementById('toast-txt').textContent = 'Hâte de voir la suite de l\'île pousser !';
+  document.getElementById('toast-effect').textContent = 'joie · îlot en prévision';
+  const st = document.getElementById('toast-state');
+  st.textContent = '◐ dans un bloc · prévision';
+  st.className = 'pill prev';
+} else {
+  barIn.textContent = '« Un peu fatigué ce soir, envie de silence »';
+  document.getElementById('char-count').textContent = '0 / 280';
+  toast.style.display = 'flex';
+  document.getElementById('toast-icon').innerHTML = '<svg viewBox="0 0 16 16"><path d="M8 1.5L15 14.5H1z" fill="#38BDF8"/></svg>';
+  document.getElementById('toast-txt').textContent = 'J\'AI EU MON PERMIS !!! Je suis tellement heureux 🎉';
+  document.getElementById('toast-effect').textContent = 'joie · collines & forêts';
+  const st = document.getElementById('toast-state');
+  st.textContent = '● confirmé';
+  st.className = 'pill ok';
+}
+</script>
+</body>
+</html>

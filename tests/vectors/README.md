@@ -1,6 +1,6 @@
-# Vecteurs de test · spec commune v1.0 · part du binôme 3
+# Vecteurs de test · spec commune v1.1 · part du binôme 3
 
-Cas **20 à 26** de la section 10.2 de [la spec](../../docs/spec-commune.md) (répartition de la spec : binôme 1, cas 3 à 10 ; binôme 2, cas 11 à 14 et 17 à 19 ; binôme 3, cas 20 à 26). Ils sont à déposer dans `tests/vectors/` du dépôt commun avant le lundi 07/12 au soir.
+Cas **20 à 26** (déjà générés) et **30, 32, 36** (à ajouter, backlog C13) de la section 10.2 de [la spec v1.1](../../docs/spec-commune.md). Répartition v1.1 (36 cas au total) : binôme 1, vecteurs 3 à 10, 27 + scénarios 15, 33, 35 (12) ; binôme 2, vecteurs 11 à 14, 17 à 19, 28, 29, 31 + scénarios 16, 34 (12) ; **binôme 3, vecteurs 22, 23, 30, 32, 36 + scénarios 20, 21, 24 à 26 (10)**. Dépôt dans `tests/vectors/` du dépôt commun le lundi 07/12 (ou vendredi 04/12 si O6 accepté).
 
 > Les clés de ce dossier sont les **clés de test publiques** de la spec (10.1). Ne jamais les utiliser en vrai.
 
@@ -51,6 +51,6 @@ Les anciens vecteurs (spec v0.5, avec le champ `author` supprimé depuis) sont a
 
 Ces fichiers ne remplacent pas votre propre calcul : chaque binôme les rejoue sur son nœud.
 
-## Spec v1.1 proposée (26/11/2026)
+## Spec v1.1 (validée le 26/11/2026)
 
-La [proposition v1.1](../../docs/spec-commune/v1.1-proposition.md) ne change aucun `id`, `hash` ni signature : ces fichiers restent justes. Tous se jouent sur la **chaîne d'essai** (bloc zéro `9af1db54…`, clés de test). Si la v1.1 est validée, ce format devient le format commun des vecteurs (§10.2), et le binôme 3 ajoute les cas 30, 32 et 36 (backlog C13).
+La [spec v1.1](../../docs/spec-commune.md) ne change aucun `id`, `hash` ni signature : ces fichiers restent justes. Tous se jouent sur la **chaîne d'essai** (bloc zéro `9af1db54…`, clés de test). Ce format est le format commun des vecteurs (§10.2), et le binôme 3 ajoute les cas **30, 32 et 36** (`version_spec: "1.1"`, backlog C13).

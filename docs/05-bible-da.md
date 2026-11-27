@@ -4,14 +4,14 @@
 | --- | --- |
 | Binôme | n°3 · Dylan Belledent, Nicolas Rapuzzi--Pisarczyk · `noeud-c` |
 | Responsable | Nicolas (relecture : Dylan) |
-| Version | 1.4 · 26/11/2026 · **Symbole : le cristal-île (§5, D-026), règles exactes, déclinaisons, planche et fichiers SVG.** v1.3 : **Ruines en enrichissement (O7b) partout, « brume » réservée aux messages masqués (la tristesse épaissit le brouillard du ciel).** v1.2 : **Relief recalibré et vérifié par simulation (D-025) :** fond moins profond, élévations plus fortes, amortissement après 3 passages, tristesse visible sur l'eau, couleurs du magma liées au cratère, ordre des tirages fixé, balises limitées aux 60 derniers messages, rivière et météorite sorties des règles de base (enrichissements §6.5). v1.1 : formules exactes, saturation, double encodage des nœuds, patch filaire, droits du moodboard. |
+| Version | 1.5 · 27/11/2026 · **Typographie unifiée (Bricolage Grotesque + Recursive, D-028), symbole cristal-île d'un seul bloc uni sans trait bleu (§5, D-026), moodboard Figma aligné (§2).** v1.4 · 26/11/2026 : symbole cristal-île. v1.3 : ruines en enrichissement (O7b), « brume » réservée aux messages masqués. v1.2 : relief recalibré et vérifié par simulation (D-025). |
 | Rendu | PDF, vendredi 27/11/2026, 17h · pas de nombre de pages imposé |
-| S'appuie sur | [charte éditoriale](04-charte-editoriale.md) v1.3 (valeurs, lexique `l2`), [dossier de binôme](03-dossier-binome.md) v0.12 §6 et §7 (technique) |
+| S'appuie sur | [charte éditoriale](04-charte-editoriale.md) v1.4 (valeurs, lexique `l2`), [dossier de binôme](03-dossier-binome.md) v0.14 §6 et §7 (technique) |
 
 > La référence de notre direction artistique. Chaque choix est justifié.
 > **Test :** quelqu'un qui ne connaît pas le projet doit pouvoir, avec cette bible, dessiner un écran qui s'accorde avec notre œuvre et obtenir exactement la même carte à partir d'une même blockchain.
 
-**Légende.** **[À PRODUIRE DANS FIGMA]** : visuel à réaliser dans Figma avant l'export PDF du vendredi 27/11 (moodboard, trois esquisses ; le symbole est fait, §5). Les anciens visuels de la piste *Front commun* sont archivés dans [archives-front-commun/](archives-front-commun/README.md).
+**Légende.** Les trois livrables visuels de la bible DA sont produits : moodboard (§2), symbole (§5) et trois esquisses 16:9 (§7). Les anciens visuels de la piste *Front commun* sont archivés dans [archives-front-commun/](archives-front-commun/README.md).
 
 ---
 
@@ -42,7 +42,7 @@ Chaque émotion façonne durablement le monde et module l'atmosphère :
 
 ## 2. Moodboard
 
-**[À PRODUIRE DANS FIGMA — tâche C4]** La planche précédente (météo satellite) est archivée et remplacée. La nouvelle planche est faite : [planche v6 dans Figma](https://www.figma.com/design/3kuh5BiZHfMOCHNWPh9dXD/?node-id=51-2) et son export [moodboard-terre/moodboard-planche.png](moodboard-terre/moodboard-planche.png) (12 images, sources et licences dans [moodboard-sources.md](moodboard-sources.md)). Elle suit ces références :
+La planche précédente (météo satellite) est archivée et remplacée. La nouvelle planche est dans Figma : [planche v6 dans Figma](https://www.figma.com/design/3kuh5BiZHfMOCHNWPh9dXD/?node-id=51-2) et son export [moodboard-terre/moodboard-planche.png](moodboard-terre/moodboard-planche.png) (sources et licences dans [moodboard-sources.md](moodboard-sources.md)). Elle suit ces références :
 
 | Référence | Ce que nous en retenons | Ce que nous laissons |
 | --- | --- | --- |
@@ -103,21 +103,21 @@ Panneaux sombres translucides (*glassmorphism* sobre) par-dessus la scène 3D pl
 
 ## 4. Typographie
 
-Nous retenons **une seule famille variable : Recursive** (`D-009`, validée par Nicolas), hébergée localement dans `app/fonts/` (licence OFL, zéro requête externe) :
+Nous retenons **un duo typographique cohérent et peu commun**, utilisé **partout** (application et planches de présentation), hébergé localement dans `app/fonts/` (licences OFL, zéro requête externe) :
 
-| Rôle | Réglage Recursive | Taille | Usage |
+| Rôle | Police et réglage | Taille | Usage |
 | --- | --- | --- | --- |
-| Titre & Consigne | `CASL 1`, graisse `600` (Casual) | 28 px / 18 px | Nom *Terre commune*, consigne d'écriture |
-| Interface & Messages | `CASL 0`, `MONO 0`, graisse `400`–`600` (Linear) | 15–16 px | Champ de saisie, boutons, avertissement, légende, toast |
-| Données techniques | `MONO 1`, graisse `400` (Mono) | 12–13 px | Numéro de bloc, `id`, valeurs IA, `% de terre`, 3 nœuds |
+| Titres & Consigne | **Bricolage Grotesque** (variable, graisse `600`–`700`, largeur `100`) | 28–36 px / 18 px | Nom *Terre commune*, titres de planches, consigne d'écriture |
+| Interface & Messages | **Recursive** (`CASL 0`, `MONO 0`, graisse `400`–`600`, Linear) | 15–16 px | Champ de saisie, boutons, avertissement, légende, toast |
+| Données techniques | **Recursive** (`MONO 1`, graisse `400`, Mono) | 12–13 px | Numéro de bloc, `id`, valeurs IA, `% de terre`, 3 nœuds, crédits |
 
-**Pourquoi Recursive.** Une seule famille variable en trois réglages (« une chaîne, trois regards ») laisse toute la place visuelle à la scène 3D et évite la surcharge des 4 polices météo (`D-020`, écartée).
+**Pourquoi Bricolage Grotesque + Recursive.** *Bricolage Grotesque* apporte un dessin sculptural, chaleureux et singulier (loin des polices génériques comme Inter ou Fraunces) qui dialogue avec le relief low-poly de l'île. *Recursive* (`D-009`) assure une lisibilité irréprochable pour l'interface (Linear) et les données de la blockchain (Mono) dans un seul fichier variable. Utiliser ce même duo sur le moodboard, la planche symbole et l'application supprime tout décalage visuel.
 
 ---
 
 ## 5. Symbole : le cristal-île
 
-**Planche :** [symbole/planche-symbole.png](symbole/planche-symbole.png) (source : [symbole/index.html](symbole/index.html), calculée par [symbole/symbole.js](symbole/symbole.js), outil de dessin de la planche et non code de l'application). **Fichiers :** [symbole.svg](symbole/symbole.svg) (référence), [favicon.svg](symbole/favicon.svg), [symbole-mono-sel.svg](symbole/symbole-mono-sel.svg), [symbole-mono-encre.svg](symbole/symbole-mono-encre.svg). Choix : `D-026` (à co-valider par Dylan).
+**Planche :** [symbole/planche-symbole.png](symbole/planche-symbole.png) (source : [symbole/index.html](symbole/index.html), calculée par [symbole/symbole.js](symbole/symbole.js), outil de dessin de la planche et non code de l'application). **Fichiers :** [symbole.svg](symbole/symbole.svg) (référence), [favicon.svg](symbole/favicon.svg), [symbole-mono-sel.svg](symbole/symbole-mono-sel.svg), [symbole-mono-encre.svg](symbole/symbole-mono-encre.svg). Choix : `D-026`.
 
 ### 5.1 L'idée
 
@@ -136,39 +136,38 @@ Nous retenons **une seule famille variable : Recursive** (`D-009`, validée par 
 
 ### 5.2 Construction (règles exactes)
 
-Tout se calcule dans une boîte de `64 × 64`. La surface de la mer passe au milieu (`y = 32`).
+Tout se calcule dans une boîte de `64 × 64`. La ligne de flottaison passe à `y = 33`, **sans trait horizontal** : la séparation mer/terre se lit directement par la rupture de couleur et de facettes entre le massif émergé et la quille sous-marine.
 
-1. **Tirages.** PRNG **Mulberry32** (§6.1) initialisé par la graine. **Ordre fixe :** rivage (angle puis rayon) pour les 7 points, puis sommet (`x`, `z`), puis racine (`x`, `z`). Avec `R = 25` et `t` le tirage courant :
-   - **Rivage** (7 points posés sur l'eau) : angle `k × 360/7 + 90° + (t − 0,5) × 30°`, rayon `R × (0,80 + 0,34 × t)`.
-   - **Sommet** : hauteur `H = R × (0,22 + 0,40 × √min(1 ; terre / 0,45))`, où `terre` est la part de terre de l'œuvre (§6.2) ; `x = −0,10 R + (t − 0,5) × 0,30 R`, `z = −0,05 R + (t − 0,5) × 0,20 R`. **À 0 message**, `H = −0,6` : le sommet reste sous l'eau, le symbole est un haut-fond Lagon (« océan vierge »).
-   - **Racine** : profondeur `D = R × (0,55 + 0,60 × ln(1 + n) / ln(301))`, `n` = nombre de messages ; `x = 0,10 R + (t − 0,5) × 0,30 R`, `z = (t − 0,5) × 0,20 R`.
-2. **Faces.** 14 triangles : 7 de **terre** (sommet → deux points voisins du rivage), 7 d'**eau** (racine → rivage). Vue inclinée de `20°` vers le bas ; on ne dessine pas les faces tournées vers l'arrière, et on dessine du fond vers l'avant. Pas de contour (un filet de `0,25` de la couleur de la face bouche seulement les jours entre facettes).
-3. **Couleur des faces de terre : les six derniers messages.** Le tour de l'île est coupé en **6 secteurs** égaux. **Le message le plus récent occupe le secteur de face** ; les plus anciens tournent vers l'arrière, et on les voit moins : ils s'éloignent comme le passé. Chaque secteur prend la couleur de l'`emotion` de son message, celle du biome que cette émotion fait naître dans l'œuvre (§6.2) :
+1. **Tirages.** PRNG **Mulberry32** (§6.1) initialisé par la graine (`seed`).
+   - **Rivage** (5 points continus de gauche à droite, demi-largeur `w = 23 + 5 × √t` où `t = min(1 ; terre / 0,45)`), avec légère variation organique.
+   - **Massif émergé (un seul bloc continu)** : un sommet principal de hauteur `hPeak = 7 + 16 × √t ± 1` et une épaule reliée (`0,52` à `0,70 × hPeak`), formant une crête asymétrique continue. **À 0 message**, `hPeak = 1,2` : simple haut-fond Lagon plat (« océan vierge »).
+   - **Racine sous-marine (quille cristalline)** : profondeur `dRoot = 8 + 14 × ln(1 + n) / ln(301)`, `n` = nombre de messages ; trois points inférieurs asymétriques formant une quille large (et non un cône pointu).
+2. **Faces.** 10 polygones facettés au total : **5 de terre** (versant gauche, crête centrale, versant droit) et **5 d'eau** (quille sous-marine). Pas de contour (un filet de `0,25` de la couleur de la face bouche seulement les jours entre facettes).
+3. **Couleur unie par émotion majoritaire (les 6 derniers messages).** Pour éviter tout effet patchwork et garder un symbole lisible jusqu'à `16 px`, l'ensemble du massif émergé prend la **teinte unie de l'émotion majoritaire** parmi les 6 derniers messages (en cas d'égalité, la plus récente l'emporte), sculptée uniquement par la lumière et l'ombre :
 
-   | `emotion` / état | Couleur | Pourquoi |
+   | `emotion` majoritaire / état | Couleur unie | Pourquoi |
    | --- | --- | --- |
    | `joie` | Prairie `#56A85C` | la joie fait pousser collines et forêts |
    | `calme` | Sable doré `#E4CA94` | le calme étend des plages douces |
    | `tristesse` | Mousse grise `#607A70` | la tristesse refroidit la végétation |
    | `colere` | Magma `#FF7626` | la colère fait jaillir un volcan |
-   | message masqué | Brume `#7B8798` | comme la nappe de brume de l'œuvre (§6.3) |
-   | message en prévision (`values_source = local`) | facette **filaire pointillée** en Sel | comme le patch filaire de l'œuvre (§6.3) |
-   | moins de 6 messages | les messages existants se répètent dans l'ordre | |
+   | message masqué présent | versant gauche en **Brume** `#7B8798` | comme la nappe de brume de l'œuvre (§6.3) |
+   | message en prévision (`values_source = local`) | versant droit **filaire pointillé** | comme le patch filaire de l'œuvre (§6.3) |
+   | 0 message | haut-fond **Lagon** `#36B5BC` | océan vierge |
 
-   **Éclairage** (comme le `flatShading` de la scène) : chaque face mélange la teinte assombrie (58 % couleur + 42 % Encre) et la teinte éclairée (72 % couleur + 28 % Neige) selon l'éclairement `max(0 ; normale · lumière)`, lumière `(−0,55 ; 0,75 ; 0,45)` normalisée. On ne crée donc aucune couleur hors de la palette : seulement ses ombres et ses lumières.
-4. **Faces d'eau.** Mélange Abysse `#133C59` → Lagon `#36B5BC` à `6 % + 50 % × éclairement`, avec une lumière sous-marine venue de face `(−0,70 ; −0,10 ; 0,70)`.
-5. **Trait de mer.** Une ligne Lagon de `1,1` d'épaisseur, de `x = 2` à `x = 62`, **derrière** l'île.
+   **Éclairage** (comme le `flatShading` de la scène) : chaque face mélange la teinte assombrie (66 % couleur + 34 % Abysse `#133C59`) et la teinte éclairée (76 % couleur + 24 % Neige `#ECF2F8`) selon l'orientation de la facette (lumière venue d'en haut à gauche).
+4. **Faces d'eau.** Mélange Abysse `#133C59` → Lagon `#36B5BC` de `8 %` à `73 %` de la gauche (éclairée) vers la droite (ombrée).
 
 ### 5.3 Déclinaisons
 
 | Déclinaison | Où | Règle |
 | --- | --- | --- |
-| **Symbole de référence** (figé) | PDF, README, favicon, partage | graine `0x20264F04`, `n = 120`, `terre = 0,38`, du plus ancien au plus récent : `tristesse`, `joie`, `calme`, `colere`, `calme`, `joie` (les quatre émotions sont visibles). Fichier [symbole.svg](symbole/symbole.svg) |
+| **Symbole de référence** (figé) | PDF, README, favicon, partage | graine `0x20264F04`, `n = 120`, `terre = 0,38`, 6 derniers messages à majorité `joie` (`tristesse, joie, calme, colere, joie, joie`). Fichier [symbole.svg](symbole/symbole.svg) |
 | **Logo vivant** | en-tête de l'application (64 px), à côté du compteur et du `% de terre` (§8.1) | recalculé **à chaque nouveau bloc**, jamais en boucle : graine = `parseInt(id.slice(0, 8), 16)` du dernier message (comme l'œuvre), `n`, `terre` affichée, six derniers messages. Backlog O10 (« en plus ») ; sans O10, l'en-tête montre le symbole de référence |
-| **Bloc-marque** | page de titre, en-tête large | symbole à gauche, *Terre commune* en Recursive Casual 600 (§4), puis les trois formes des nœuds (pyramide Cyan, cube Ambre, losange Violet) en Mono 12 px : « trois regards » |
-| **Monochrome Sel** | sur la scène 3D ou une image | faces de terre en Sel à 45–100 % d'opacité selon l'éclairement, faces d'eau à 10–40 %. [symbole-mono-sel.svg](symbole/symbole-mono-sel.svg) |
+| **Bloc-marque** | page de titre, en-tête large | symbole à gauche, *Terre commune* en **Bricolage Grotesque 600** (§4), puis les trois formes des nœuds (pyramide Cyan, cube Ambre, losange Violet) en Recursive Mono 12 px : « trois regards » |
+| **Monochrome Sel** | sur la scène 3D ou une image | faces de terre en Sel à 42–100 % d'opacité selon l'éclairement, faces d'eau à 12–42 %. [symbole-mono-sel.svg](symbole/symbole-mono-sel.svg) |
 | **Monochrome Encre** | impression, fond clair (Neige) | même règle en Encre `#08111D`. [symbole-mono-encre.svg](symbole/symbole-mono-encre.svg) |
-| **Tailles** | — | 128 et 64 px avec le trait de mer ; **32 et 16 px sans le trait** (il deviendrait un trait d'un pixel). Taille minimale : 16 px ([favicon.svg](symbole/favicon.svg)). Zone de protection : un huitième de la taille tout autour |
+| **Tailles** | — | Identique de `500 px` à `16 px` ([favicon.svg](symbole/favicon.svg)), sans détail superflu à retirer. Zone de protection : un huitième de la taille tout autour |
 
 **Accessibilité.** Le symbole porte `role="img"` et `aria-label="Terre commune"` ; le logo vivant ajoute le nombre de messages et le `% de terre` (« Terre commune, 120 messages, 38 % de terre »). Ses couleurs ne portent aucune information qui ne soit écrite ailleurs (compteur, légende). Avec `prefers-reduced-motion`, le changement de symbole se fait sans transition.
 
@@ -247,7 +246,7 @@ Une chaîne très sombre (30 % de colère) donne une île nettement plus volcani
 
 ### 6.3 Atmosphère, trace des nœuds et prévision → observation
 
-- **Atmosphère (calculée sur la fenêtre des 5 derniers messages) :**
+- **Atmosphère (calculée sur la fenêtre des 5 derniers messages non masqués ; les messages avec `masquer = true` sont exclus de cette fenêtre pour ne jamais altérer le ciel ni la houle) :**
   - **Luminosité du ciel :** interpolée linéairement selon `chaleur_moy_5` (0 = nuit/brume bleue, 0,5 = aube/crépuscule, 1 = plein soleil doré).
   - **Vagues 3D :** amplitude `0,08 + 0,45 × energie_moy_5`.
   - **Brouillard du ciel (`FogExp2`) :** densité `0,012` par défaut, `0,012 + 0,006 × (nombre de messages `tristesse` parmi les 5 derniers)`, soit `0,042` au plus. Il voile **tout** l'horizon, jamais un point précis : on ne peut pas le confondre avec la nappe d'un message masqué.
@@ -281,19 +280,19 @@ Ils ne s'ajoutent que si le socle (§6.1 à §6.4) marche de bout en bout. Ils t
 
 ## 7. Esquisses
 
-**[À PRODUIRE DANS FIGMA — tâche C6]** Les anciennes esquisses 2D (spirale) sont archivées et remplacées par trois vues 16:9 de l'application complète *Terre commune* (à exporter dans `docs/esquisses/1-vide.png`, `2-quelques.png`, `3-beaucoup.png`) :
+Trois vues 16:9 (1920 × 1080) de l'application complète *Terre commune* (source HTML de maquette : [esquisses/index.html](esquisses/index.html), générée à partir des formules exactes de §6 et du symbole §5 — outil de maquette S48, non code de l'application) :
 
-| État | Ce que l'esquisse doit montrer |
-| --- | --- |
-| **1 · Vide** (0 message) | Océan 3D vierge, calme, lumière d'aube ; panneau flottant discret avec *Terre commune*, le symbole, la consigne et `0 message · 0 % terre` |
-| **2 · Quelques messages** (10 messages) | Environ 9 % de terre (§6.2) : trois ou quatre îlots verts près du centre, pas encore soudés ; un phare (`noeud-a`, pyramide Cyan), un voilier, un patch filaire en **prévision**, un haut-fond turquoise sous la pluie (tristesse), une nappe de brume grise (un message masqué), balises des 3 nœuds |
-| **3 · Beaucoup de messages** (300 messages) | Environ 45 % du bassin en terre : une grande île qui occupe tout le disque central, l'anneau d'océan toujours visible (masque côtier). Prairies et forêts, côtes en mousse grise, baies et lagons, un ou deux volcans à cratère de magma, voiliers, phares, et les balises des 60 derniers messages |
+| État | Fichier | Ce que l'esquisse montre |
+| --- | --- | --- |
+| **1 · Vide** (0 message) | [1-vide.png](esquisses/1-vide.png) | Océan 3D vierge, calme, lumière d'aube ; panneau flottant discret avec *Terre commune*, le symbole, la consigne et `0 message · 0 % de terre` |
+| **2 · Quelques messages** (10 messages) | [2-quelques.png](esquisses/2-quelques.png) | Environ 9 % de terre (§6.2) : premiers îlots verts autour du centre ; un phare (`noeud-a`, pyramide Cyan), un voilier, un patch filaire en **prévision**, un haut-fond turquoise sous la pluie (tristesse), une nappe de brume grise (message masqué), balises des 3 nœuds |
+| **3 · Beaucoup de messages** (300 messages) | [3-beaucoup.png](esquisses/3-beaucoup.png) | Environ 45 % du bassin en terre : une grande île occupant le disque central, anneau d'océan toujours visible (masque côtier). Prairies et forêts, côtes en mousse grise, baies et lagons, volcans à cratère de magma et braises, sommet enneigé, voiliers, phares et balises des 3 nœuds |
 
 ---
 
 ## 8. Design system
 
-**Jetons (tokens) :** couleurs §3.3, Recursive (§4), espacements 4 / 8 / 16 / 24 px, rayons 16 px (panneaux flottants) et 999 px (boutons, pastilles), `backdrop-filter: blur(12px)`.
+**Jetons (tokens) :** couleurs §3.3, **Bricolage Grotesque + Recursive** (§4), espacements 4 / 8 / 16 / 24 px, rayons 16 px (panneaux flottants) et 999 px (boutons, pastilles), `backdrop-filter: blur(12px)`.
 
 ### 8.1 Grille de l'écran
 

@@ -5,10 +5,10 @@
 | Proposé par | Binôme 3 (Dylan Belledent, Nicolas Rapuzzi--Pisarczyk) |
 | Date | 23/11/2026, complété le 26/11/2026 après la relecture critique de l'équipe enseignante |
 | Texte complet | [v1.1-proposition.md](v1.1-proposition.md) : la spec entière avec les corrections, chacune marquée de son repère (**[B1]**, **[I3]**, **[M5]**…) |
-| Statut | **Proposition**, à ouvrir en pull request dans le dépôt commun (spec §11) : il faut l'accord d'un membre de chaque binôme. Les points B1 et B2 sont à trancher **avant d'écrire du code**, les autres avant le gel du lundi 07/12 |
+| Statut | **Validée par les trois binômes le 26/11/2026** (spec §11). Elle sera versée dans le dépôt commun dès sa création (O1) |
 | Compatibilité | Aucun format ne change : les `id`, `hash`, signatures et vecteurs de la v1.0 restent justes. Seul le bloc zéro de la chaîne **réelle** est nouveau |
 
-Ce fichier ne modifie pas la spec : la copie [spec-commune.md](../spec-commune.md) et le [PDF](v1.0.pdf) restent la v1.0 tant que les six n'ont pas validé.
+La v1.1 a été validée par les trois binômes le 26/11/2026 : elle remplace la v1.0.
 
 ## 1. Réponses aux questions de la relecture
 

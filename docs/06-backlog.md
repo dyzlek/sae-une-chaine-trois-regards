@@ -3,9 +3,9 @@
 | Champ | Valeur |
 | --- | --- |
 | Binôme | n°3 · Dylan Belledent, Nicolas Rapuzzi--Pisarczyk · `noeud-c` |
-| Version | 1.9 · 26/11/2026 : proposition de spec v1.1 après la relecture de l'équipe enseignante (C12, C13, N2, N3, N6, T3). v1.8 · 26/11/2026 : C5 fait (symbole, D-026), O10 ajouté (logo vivant, en plus). v1.7 · 25/11/2026 : O7 coupé en O7a (bloom) et O7b (ruines). v1.6 : relief recalibré (bible v1.2, D-025), O3 réparti pour tenir les 35 h de Nicolas en S50, rivière et météorite seulement en O8. v1.5 : consolidation *Terre commune* (lexique `l2` en A1, `% de terre` en O2 indispensable, T6 par empreinte SHA-256 de la heightmap et renvoi §6.4, charge Three.js recalibrée avec effets avancés en `+`) |
+| Version | 2.0 · 27/11/2026 : **spec v1.1 validée** par les trois binômes (C12 fait), moodboard v6 et symbole cristal-île unifié finalisés (C4, C5), bible DA v1.5 (Bricolage Grotesque + Recursive). v1.9 · 26/11/2026 : proposition de spec v1.1 après la relecture de l'équipe enseignante (C12, C13, N2, N3, N6, T3). v1.8 · 26/11/2026 : C5 fait (symbole, D-026), O10 ajouté (logo vivant, en plus). v1.7 · 25/11/2026 : O7 coupé en O7a (bloom) et O7b (ruines). v1.6 : relief recalibré (bible v1.2, D-025), O3 réparti pour tenir les 35 h de Nicolas en S50, rivière et météorite seulement en O8. |
 | Rendu | PDF ou lien, vendredi 27/11/2026, 17h |
-| S'appuie sur | [dossier](03-dossier-binome.md) v0.12 (§10 : répartition), [spec v1.0 (PDF)](spec-commune/v1.0.pdf) (§10 : paliers), [bible DA](05-bible-da.md) v1.4, [charte](04-charte-editoriale.md) v1.3 |
+| S'appuie sur | [dossier](03-dossier-binome.md) v0.14 (§10 : répartition), **spec commune v1.1** (validée le 26/11/2026, §10 : paliers), [bible DA](05-bible-da.md) v1.5, [charte](04-charte-editoriale.md) v1.4 |
 
 > **Test :** en lisant ce plan, on sait ce qui doit fonctionner chaque soir, et qui s'en occupe.
 
@@ -23,28 +23,28 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | C1 | Spec commune v1.0, déposée sur Moodle | les six | — | I | jeu. 26/11, 12h30 | ◐ (validée, à déposer) |
 | C2 | Nos vecteurs de test 20 à 26 (spec v1.0) | Dylan | 3 h | I | 23/11 | ☑ ([tests/vectors/](../tests/vectors/README.md)) |
-| C3 | Relire la bible DA v1.3 (*Terre commune*) et valider à deux avant l'export PDF | à deux | 1 h | I | jeu. 26/11 | ☐ |
-| C4 | Nouveau moodboard *Terre commune* dans Figma (références 3D/archipel, licences exactes) | D + N | 2 h | I | jeu. 26/11 | ☐ à refaire dans Figma |
-| C5 | Nouveau symbole *Terre commune* : le cristal-île, règles exactes, déclinaisons (bible §5, D-026) | Nicolas | 2 h | I | jeu. 26/11 | ☑ planche et SVG dans [symbole/](symbole/planche-symbole.png) ; à co-valider par Dylan |
-| C6 | Trois esquisses 16:9 dans Figma (océan vide, 10 messages, 300 messages) | D + N | 3 h | I | jeu. 26/11 | ☐ à faire dans Figma |
+| C3 | Relire la bible DA v1.5 (*Terre commune*) et valider à deux avant l'export PDF | à deux | 1 h | I | ven. 27/11 | ☐ |
+| C4 | Nouveau moodboard *Terre commune* dans Figma (références 3D/archipel, licences exactes, palette §3.1, spécimen typo) | D + N | 2 h | I | jeu. 26/11 | ☑ fait dans Figma et exporté ([moodboard-planche.png](moodboard-terre/moodboard-planche.png)) |
+| C5 | Nouveau symbole *Terre commune* : le cristal-île unifié, règles exactes, déclinaisons (bible §5, D-026) | D + N | 2 h | I | jeu. 26/11 | ☑ planche et SVG dans [symbole/](symbole/planche-symbole.png) |
+| C6 | Trois esquisses 16:9 (océan vide, 10 messages, 300 messages) | D + N | 3 h | I | ven. 27/11 | ☑ produites en HTML et exportées ([esquisses/](esquisses/1-vide.png)) |
 | C7 | Test de la charte v1.3 auprès de 3 personnes (charte §3) | à deux | 1 h | I | jeu. 26/11 | ◐ fiche prête ([test-charte.md](test-charte.md)), test à faire passer |
 | C8 | Vérifier le réglage de confidentialité d'OpenRouter et l'écrire (charte §4.3) | Dylan | ½ h | I | mer. 25/11 | ☑ réglages relevés et désactivés, essai réussi avec `data_collection: "deny"` (charte §4.3, D-019) |
-| C9 | Relire dossier v0.12 et charte v1.3 | Nicolas | 1 h | I | jeu. 26/11 | ☐ |
+| C9 | Relire dossier v0.14 et charte v1.4 | Nicolas | 1 h | I | ven. 27/11 | ☐ |
 | C10 | Export PDF des 4 rendus (schéma Mermaid en image, polices intégrées) | Dylan | 2 h | I | jeu. 26/11 (test), ven. 27/11 (dépôt) | ☐ (à faire après les 3 livrables Figma C4/C5/C6) |
 | C11 | Créer le dépôt commun des six et y déposer nos vecteurs (point ouvert O1) | Dylan + un membre par binôme | 1 h | I | ven. 27/11 | ☐ |
-| C12 | Proposer la spec v1.1 aux six : réponses à la relecture de l'équipe enseignante ([réponses](spec-commune/propositions-v1.1.md), [texte complet](spec-commune/v1.1-proposition.md)), pull request dans le dépôt commun | Dylan | 3 h | **I** | ven. 27/11 (B1, B2) ; lun. 07/12 (le reste) | ◐ proposition écrite, à faire relire par Nicolas puis valider par les six |
-| C13 | Si la v1.1 est validée : nos nouveaux vecteurs 30, 32 et 36, cas 20 et 23 mis à jour (`version_spec` 1.1) | Dylan | 2 h | I | lun. 07/12 (ven. 04/12 si O6 est accepté) | ☐ |
+| C12 | Proposer la spec v1.1 aux six : réponses à la relecture de l'équipe enseignante ([réponses](spec-commune/propositions-v1.1.md), [texte complet](spec-commune/v1.1-proposition.md)) | Dylan | 3 h | **I** | ven. 27/11 | ☑ **validée par les trois binômes le 26/11/2026** (remplace la v1.0) |
+| C13 | Nos nouveaux vecteurs v1.1 : 30, 32 et 36, cas 20 et 23 mis à jour (`version_spec` 1.1) | Dylan | 2 h | I | lun. 07/12 (ven. 04/12 si O6 est accepté) | ☐ |
 | C14 | Demander à l'équipe enseignante si un script de calcul des vecteurs est accepté en S49 (spec v1.1, point ouvert O6) ; sans accord, dépôt des cas le lun. 07/12 | Dylan | ¼ h | I | ven. 27/11 | ☐ |
 
 ### Nœud (spec)
 
 | # | Tâche | Qui | Est. | Prio. | Jour |
 | --- | --- | --- | --- | --- | --- |
-| N1 | Structure du dépôt, `.env.example`, script qui lance et relance les trois processus, **horloge injectable** (pour les vecteurs) | Nicolas | 2 h | I | lun. 07/12 |
+| N1 | Structure du dépôt, `.env.example`, script qui lance et relance les trois processus, **mode test** : **horloge injectable** et **chargement d'une chaîne depuis `chaines.json`** (spec v1.1 §10.2) | Nicolas | 2 h | I | lun. 07/12 |
 | N2 | Empreintes, signatures, bloc zéro : retrouver les valeurs de la spec §2 ; bloc zéro d'essai et réel, réglage `CHAINE` (v1.1 §2.3.1) | Dylan | 2 h | I | lun. 07/12 |
 | N3 | Validité des messages, des blocs et de la chaîne (spec §3), codes d'erreur dans l'ordre ; borne future 9a aussi au rattrapage (v1.1) | Dylan | 5 h | I | lun. 07/12 |
 | N4 | Stockage SQLite en mode WAL : `blocks`, `messages`, `node_state` | Dylan | 3 h | I | mar. 08/12 |
-| N5 | Les 5 routes de la spec §6, erreurs, limites de §8.2 (`429`, `413`), écoute sur `HOST_NODE` (IP Tailscale donnée à la main dans `.env`) | Dylan | 4 h | I | mar. 08/12 |
+| N5 | Les 5 routes de la spec §6, erreurs du **socle 10/12** (`400`, `409`, `422`, `503`, spec §10.0), écoute sur `HOST_NODE` (IP Tailscale donnée à la main dans `.env`). Les limites `429`/`413` et l'ordre exact des refus (§6.2, §8.2) peuvent glisser en S2 sans casser la compatibilité (spec §10.0) | Dylan | 4 h | I | mar. 08/12 |
 | N6 | Production par créneau (§4.2), file d'attente, envoi aux pairs (§6.4) ; v1.1 : conditions 7 et 8 (créneau après la tête, écart d'horloge) et validation de notre propre bloc par la fonction de N3 | Dylan | 3 h | I | mer. 09/12 |
 | N7 | Sondage toutes les 10 s, rattrapage et `SYNCING` (§7), choix entre chaînes (§5), remise en file. **Estimation relevée (3 h → 5 h) :** c'est la partie la plus risquée du nœud ; les 2 dernières heures (`SYNCING`, fourches) se font le jeudi matin | Dylan | 5 h | I | mer. 09/12 et jeu. 10/12 (matin) |
 | N8 | API interne `127.0.0.1:8081` : filtre avant signature (charte §4.1), débit par visiteur, liste de mots | Nicolas | 3 h | I | mar. 08/12 |
@@ -93,7 +93,7 @@
 | # | Tâche | Qui | Est. | Prio. | Jour |
 | --- | --- | --- | --- | --- | --- |
 | T1 | Lanceur des vecteurs (`node:test` lit `tests/vectors/`, les nôtres et ceux des deux autres binômes) | Nicolas | 2 h | I | lun. 07/12 |
-| T2 | Palier 2 de la spec : essais deux à deux (avec `noeud-a`, puis `noeud-b`) | à deux | 1 h | I | mer. 09/12 |
+| T2 | Palier 2 de la spec (§10 [I4]) : essais deux à deux (avec `noeud-a`, puis `noeud-b`) sur la chaîne d'essai — premier échange dès mardi 08/12 après-midi si possible, **mercredi 09/12 matin au plus tard** | à deux | 1 h | I | mar. 08/12 (PM) / mer. 09/12 (matin) |
 | T3 | Palier 3 : jonction à trois, les cas de la spec sur la chaîne d'essai (horloges mesurées d'abord), puis ouverture de la chaîne réelle et une heure d'usage réel (spec §10.3) | à deux | 5 h | I | **jeu. 10/12** |
 | T4 | Bout en bout : un message de l'application jusqu'à l'œuvre, avec l'IA simulée (S50) puis avec de vraies valeurs de l'IA (lun. 11/01, après A2b) | à deux | 2 h | I | ven. 11/12 |
 | T5 | Fourche provoquée, arrêt du worker pendant un créneau, redémarrage des trois nœuds | à deux | 3 h | I | mer. 13/01 |
@@ -139,9 +139,9 @@ Reprise du dossier §10 :
 
 | Jour | Ce qui fonctionne le soir | Dylan | Nicolas |
 | --- | --- | --- | --- |
-| **Lun. 07/12** | **Palier 1, première moitié :** `npm test` rejoue, **par appel de fonction** (sans HTTP ni disque), les cas de calcul et de validité (3 à 8, 10 à 14, 18, 19, 23) et ils passent. La page s'affiche sur `127.0.0.1:3000` | N2, N3 | N1, T1, P1 |
-| **Mar. 08/12** | **Palier 1, seconde moitié :** les cas 1, 2, 9 et 17 passent **par HTTP** (routes et stockage). Le nœud démarre, garde sa chaîne sur disque et répond aux 5 routes. Un message écrit dans la page est filtré, signé et visible en file (`GET /messages/pending`) | N4, N5 | N8, P2 |
-| **Mer. 09/12** | **Palier 2 :** notre nœud échange messages et blocs avec `noeud-a` puis avec `noeud-b` sur Tailscale ; il produit à son créneau et rattrape un pair plus haut (rattrapage simple ; `SYNCING` et fourches terminés jeudi matin). Le cas 22 passe avec le sondage (pair simulé qui répond à `GET /messages/pending`). La carte 3D Three.js se sculpte avec des données simulées | N6, N7 (3 h sur 5), T2 | O1, O2 (2 h), T2 |
+| **Lun. 07/12** | **Palier 1, première moitié :** `npm test` rejoue, **par appel de fonction** (sans HTTP ni disque), les cas de calcul et de validité (3 à 8, 10 à 14, 18, 19, 23, 28 à 32) et ils passent. La page s'affiche sur `127.0.0.1:3000` | N2, N3 | N1, T1, P1 |
+| **Mar. 08/12** | **Palier 1, seconde moitié :** les cas 1, 2, 9, 27 et 36 passent **par HTTP** (routes et stockage ; `429`/cas 17 si fait, sinon S2 selon socle §10.0). Premier test palier 2 (`GET /status` + cas 9) dès que possible. Un message écrit dans la page est filtré, signé et visible en file (`GET /messages/pending`) | N4, N5, T2 (si prêt) | N8, P2 |
+| **Mer. 09/12** | **Palier 2 (matin au plus tard, spec §10 [I4]) :** notre nœud échange messages et blocs avec `noeud-a` puis avec `noeud-b` sur Tailscale ; il produit à son créneau et rattrape un pair plus haut (rattrapage simple ; `SYNCING` et fourches terminés jeudi matin). Le cas 22 passe avec le sondage (pair simulé qui répond à `GET /messages/pending`). La carte 3D Three.js se sculpte avec des données simulées | T2 (matin), N6, N7 (3 h sur 5) | T2 (matin), O1, O2 (2 h) |
 | **Jeu. 10/12** | **Jalon : les trois nœuds rejoignent la chaîne.** Même `hash` de tête sur les trois après une minute, coupure de 2 minutes rattrapée, redémarrage des trois réussi. Valeurs locales calculées | N7 (fin, 2 h, le matin), T3 | T3, A1 |
 | **Ven. 11/12** | Un message va de la page jusqu'à l'œuvre 3D : prévision en filaire translucide, puis solidification avec des valeurs de l'**IA simulée** écrites dans `ai_results`. Message masqué en brume. Les vraies valeurs de l'IA arrivent le lundi 11/01 | A2a, N9, T4 | O2 (2 h), O3 (1 h), O4, T4 |
 
@@ -168,8 +168,8 @@ Reprise du dossier §10 :
 | Qui | Ce qu'il prépare chez lui | Fait quand |
 | --- | --- | --- |
 | Dylan | Tailscale installé, la machine du nœud nommée **`noeud-c`** ; compte et clé OpenRouter dans `.env` ; Node.js 24 ; `npm install better-sqlite3` qui marche sous Windows ; test du prompt (T7, 10 requêtes) ; heure de remise à zéro du quota OpenRouter notée | la commande `tailscale status` liste les autres machines ; un modèle gratuit répond |
-| Nicolas | Tailscale installé (`sae-nicolas`), compte et clé OpenRouter ; Node.js 24, `better-sqlite3` et `three` installés en local ; police variable **Recursive** chargée en local (`app/fonts/`) ; relecture des sections 2, 3 et 6 de la spec (pour relire le nœud dès le lundi) | même vérification ; une scène Three.js vide et la police Recursive s'affichent hors ligne |
-| À deux | Veille et mises à jour Windows désactivées sur la machine du nœud pour la semaine du 07/12 ; vérifier que l'horloge se synchronise automatiquement | un message échangé sur le groupe du binôme |
+| Nicolas | Tailscale installé (`sae-nicolas`), compte et clé OpenRouter ; Node.js 24, `better-sqlite3` et `three` installés en local ; polices variables **Bricolage Grotesque** et **Recursive** chargées en local (`app/fonts/`, D-028) ; relecture des sections 2, 3 et 6 de la spec v1.1 (pour relire le nœud dès le lundi) | même vérification ; une scène Three.js vide et les deux polices s'affichent hors ligne |
+| À deux | Veille et mises à jour Windows désactivées sur la machine du nœud pour la semaine du 07/12 ; **horloge :** ne pas compter sur la synchro automatique sur eduroam (NTP UDP 123 bloqué), tester la vérification manuelle contre l'en-tête `Date` d'une réponse HTTPS (spec v1.1 §10.3, étape 2) | un message échangé sur le groupe du binôme |
 
 Écrire du code en S49 n'est prévu que si l'équipe enseignante l'accepte (question posée) ; le plan de la S50 ne compte pas dessus.
 

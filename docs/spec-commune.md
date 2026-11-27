@@ -2,9 +2,11 @@
 
 | Champ | Valeur |
 | --- | --- |
-| Version | **1.0**, validée par les six |
-| Date | 23/11/2026 |
-| Rendu | Jeudi 26/11/2026 à 12h30, sur Moodle |
+| Version | **1.1, validée par les trois binômes le 26/11/2026** (section 11). Elle remplace la v1.0 |
+| Date | 26/11/2026 |
+| Origine | Relecture critique de la v1.0 par l'équipe enseignante (26/11/2026) : 2 points bloquants (B1, B2), 5 importants (I1 à I5), 8 mineurs (M1 à M8). Chaque changement porte en marge son repère, par exemple **[B1]** |
+| Compatibilité | Aucun format de message ou de bloc ne change : tous les `id`, `hash`, signatures et vecteurs de la v1.0 restent justes. Seul le bloc zéro de la **chaîne réelle** est nouveau (2.3) |
+| Rendu v1.0 | Jeudi 26/11/2026 à 12h30, sur Moodle |
 | Auteurs | Dylan Belledent, Nicolas Rapuzzi--Pisarczyk (binôme 3) · Maxens Sevilla, Rahim Tamhaev (binôme 2) · Mouhamed Al Amine Bah, Hugo Delpuech (binôme 1) |
 | Nœuds | `noeud-a` = binôme 1 · `noeud-b` = binôme 2 · `noeud-c` = binôme 3 |
 
@@ -58,12 +60,17 @@ Ce document est le contrat entre les trois nœuds : avec lui seul, on doit pouvo
 | Application | Site web d'un binôme, dans lequel écrit le visiteur. |
 | Tailnet | Réseau privé Tailscale réservé à la SAÉ. |
 | Strictement meilleure | Qui gagne selon la règle 5.1 et n'a pas le même `hash` de tête. |
+| Bloc confirmé | Bloc qui a au moins 3 blocs au-dessus de lui, **ou** qui est dans la chaîne depuis 60 s sans changement alors que tous les pairs joignables annoncent la même tête (5.3). **[I1]** |
+| Chaîne d'essai | Chaîne qui part du bloc zéro de test (2.3) et n'utilise que les clés de test (10.1). Elle sert à tous les essais. **[I2]** |
+| Chaîne réelle | Chaîne qui part du bloc zéro réel (2.3) et utilise les clés réelles. Elle seule alimente les œuvres. **[I2]** |
+| Écart d'horloge | Différence estimée entre l'heure d'un pair et la sienne, mesurée à chaque sondage (6.4.3). **[B1]** |
+| Expéditeur | Pair qui envoie une requête, reconnu par son adresse IP Tailscale, ou en mode test par la table « adresse:port » (6.1). Ce n'est pas forcément le producteur d'un bloc ni le `node` d'un message. **[I3]** |
 
 ---
 
 ## 2. Les messages et les blocs
 
-Tout échange est en JSON encodé en UTF-8, sans BOM. Un booléen n'est pas un entier, `1.0` est lu comme `1`, un champ `null`, absent ou inconnu est refusé. Si une clé est répétée, la dernière valeur compte. Les empreintes et identifiants sont en minuscules. Une signature fait exactement 88 caractères Base64 (seule exception : la signature vide du bloc zéro, qui n'est jamais reçue ni validée). Les empreintes ne portent **jamais** sur du JSON, mais sur un texte canonique (voir ci-dessous).
+Tout échange est en JSON encodé en UTF-8, sans BOM. Un booléen n'est pas un entier. Un nombre dont la partie décimale est nulle (`1.0`, `1e3`) est accepté comme l'entier correspondant ; un nombre avec une partie décimale non nulle donne `MESSAGE_FORMAT` ou `BLOCK_FORMAT` ; un nœud n'écrit jamais lui-même un entier avec `.0` (en Python, `json.loads` donne un `float` là où JavaScript ne fait pas la différence). Un champ `null`, absent ou inconnu est refusé. Si une clé est répétée, la dernière valeur compte. Les empreintes et identifiants sont en minuscules. Une signature fait exactement 88 caractères Base64 (seule exception : la signature vide du bloc zéro, qui n'est jamais reçue ni validée). Les empreintes ne portent **jamais** sur du JSON, mais sur un texte canonique (voir ci-dessous).
 
 ### 2.1 Le message
 
@@ -72,15 +79,15 @@ Tout échange est en JSON encodé en UTF-8, sans BOM. Un booléen n'est pas un e
 | `version` | entier | Toujours `1`. |
 | `id` | texte, 64 car. | Empreinte du texte canonique du message. Identifie le message. |
 | `node` | texte | Identifiant du nœud qui a reçu le message et l'a signé. |
-| `timestamp` | entier | Horodatage de réception par le nœud, **strictement croissant** d'un message à l'autre pour un même nœud, y compris après redémarrage (sinon, dernier + 1). Deux textes identiques ont ainsi deux `id` différents. |
-| `content` | texte | 1 à 280 **points de code Unicode** (un emoji = 1), en forme NFC, sans caractère interdit, sans espace au début ni à la fin (listes ci-dessous). |
+| `timestamp` | entier | Horodatage de réception par le nœud. **Règle de production, pas de validité [M7] :** le nœud d'origine le rend strictement croissant d'un message à l'autre, y compris après redémarrage (à la même milliseconde : dernier + 1). Si son heure est inférieure de plus d'1 s au dernier `timestamp` émis (horloge reculée), il ne signe pas et attend. Les autres nœuds **ne vérifient pas** cet ordre : des messages valides peuvent arriver dans le désordre. Deux textes identiques ont ainsi deux `id` différents. |
+| `content` | texte | 1 à 280 **points de code Unicode**, sans caractère interdit, sans espace au début ni à la fin (listes ci-dessous). Un emoji simple compte 1, un emoji composé en compte plusieurs : famille 👨‍👩‍👧 = 5, drapeau 🇫🇷 = 2, ❤️ = 2. En JavaScript, compter avec `[...texte].length`, jamais `texte.length` (280 emojis donnent 560). **[M2]** |
 | `signature` | texte | Signature Ed25519 de `id` (les 64 caractères ASCII), Base64. |
 
 **Caractères interdits :** U+0000 à U+001F, U+007F à U+009F, U+2028, U+2029, U+FEFF et les demi-codets isolés (U+D800 à U+DFFF). U+200D, utilisé dans certains emojis, est autorisé.
 
 **Espaces interdites au début et à la fin :** U+0020, U+00A0, U+1680, U+2000 à U+200A, U+202F, U+205F et U+3000. Ne pas utiliser `trim()` pour valider : sa liste dépend du langage.
 
-Le nœud d'origine met `content` en NFC avant tout calcul. Les autres nœuds ne modifient jamais `content`.
+**NFC [M1].** Le nœud d'origine met `content` en NFC avant tout calcul. Les autres nœuds ne modifient jamais `content` et **ne vérifient pas** la forme NFC. Raison : le résultat dépend de la version d'Unicode du langage. Exemple mesuré : la suite U+16D67 U+16D67 (écriture kirat rai, Unicode 16) est en NFC pour Python 3.13 et PHP 8.3 (Unicode 15.1), pas pour Node.js 22 (Unicode 17). Si la NFC était une règle de validité, un bloc signé par un nœud Python serait refusé par un nœud Node.js, et les chaînes se sépareraient pour de bon. L'`id` protège déjà le contenu : la NFC sert seulement à ce qu'un même texte tapé deux fois donne la même empreinte chez son nœud d'origine.
 
 **Texte canonique du message** (champs reliés par `|`, sans espace) :
 
@@ -177,21 +184,48 @@ Son horodatage est le 01/12/2026 à 00:00:00 UTC. `messages_hash` est l'empreint
 
 **Pourquoi.** Un premier bloc fixe assure que les trois chaînes sont comparables. **Écarté :** un bloc zéro créé par le premier nœud allumé, qui serait différent à chaque démarrage.
 
+#### 2.3.1 Deux chaînes : essai et réelle **[I2]**
+
+Le bloc zéro ci-dessus est celui de la **chaîne d'essai**. Il ne change pas, donc tous les vecteurs restent justes. La **chaîne réelle** a son propre bloc zéro, construit de la même façon avec deux différences :
+
+| Champ | Chaîne d'essai | Chaîne réelle |
+| --- | --- | --- |
+| `timestamp` | `1796083200000` (01/12/2026, 00:00 UTC) | Heure d'ouverture fixée par les six. Première ouverture : `1796889600000` (10/12/2026, 08:00:00 UTC) |
+| `previous_hash` | 64 zéros | **Empreinte des clés** : SHA-256 hex de `v1|keys|noeud-a|{clé A}|noeud-b|{clé B}|noeud-c|{clé C}` (clés publiques réelles en Base64, dans cet ordre) |
+| Clés utilisées | Clés de test (10.1) | Clés réelles (6.1) |
+
+Les autres champs sont ceux du bloc zéro d'essai, et `hash` se calcule pareil. Un nœud a **un seul réglage** (`essai` ou `reelle`) qui choisit ensemble le bloc zéro et les clés : on ne peut pas mélanger une chaîne et les mauvaises clés.
+
+**Exemple de calcul** (avec les clés de test, seulement pour vérifier son code) : empreinte des clés `ee98b5f5955490f7d16442fd8071cfddfcc8f0561f239b4452c567f5db1ba1f9`, et avec `timestamp` = `1796889600000`, `hash` = `ec91e835ee5a01baa0d962afa32d8b2a7270e5baeb1c24912866214adaef0a7f`.
+
+**Ce que ça règle.**
+
+- **Une mauvaise clé se voit tout de suite.** Si un nœud n'a pas la même clé publique pour un pair, son `genesis_hash` diffère et il est ignoré (6.2). La comparaison à la main de 10.3 devient une vérification de plus, pas la seule.
+- **Les essais ne polluent pas les œuvres.** Les cas de test et les répétitions se jouent sur la chaîne d'essai ; aucun de leurs messages n'entre dans la chaîne réelle, donc ni dans les IA, ni dans les œuvres.
+- **Repartir de zéro est sûr.** Pour redémarrer la chaîne réelle (clé changée en 8.4, chaîne gelée, décision des six), les six fixent une nouvelle heure d'ouverture et la notent dans cette section. Le nouveau bloc zéro a un autre `hash` : une ancienne chaîne restée sur un disque a un autre `genesis_hash` et **ne peut plus revenir** (6.2), même si elle est plus haute. Chaque nœud archive son ancien fichier au lieu de l'effacer.
+
+**Écarté :** effacer les fichiers à la main sur les trois postes (un seul oubli et l'ancienne chaîne revient au premier sondage, comme dans le cas 16) ; un champ `chain` dans chaque message (change le format et tous les vecteurs).
+
+| Ouverture de la chaîne réelle | `timestamp` du bloc zéro | Raison |
+| --- | --- | --- |
+| n° 1 | `1796889600000` | Première ouverture, 10/12/2026 |
+
 ---
 
 ## 3. La validité
 
-Un nœud vérifie lui-même tout ce qu'il reçoit, dans l'ordre, et s'arrête à la première erreur (code entre parenthèses, voir section 6).
+Un nœud vérifie lui-même tout ce qu'il reçoit **et tout ce qu'il produit** (4.2, **[B2]**), dans l'ordre, et s'arrête à la première erreur (code entre parenthèses, voir section 6).
 
 ### 3.1 Un message est valide si
 
 1. Il a exactement les 6 champs de 2.1, avec les bons types, `version` = 1, un `timestamp` entier, un `id` de 64 caractères hexadécimaux et une signature de 88 caractères (`MESSAGE_FORMAT`).
-2. `content` respecte les règles de 2.1 : 1 à 280 points de code, NFC, caractères et espaces autorisés (`MESSAGE_LIMITS`).
+2. `content` respecte les règles de 2.1 : 1 à 280 points de code, caractères et espaces autorisés (`MESSAGE_LIMITS`). La forme NFC n'est pas vérifiée ici (2.1, **[M1]**).
 3. `node` est un identifiant connu (`UNKNOWN_NODE`).
 4. `id` est l'empreinte recalculée (`BAD_ID`).
 5. `signature` est valide avec la clé publique de `node` (`BAD_SIGNATURE`).
 6. Un message dont l'`id` est déjà dans la file ou dans la chaîne **n'est pas une erreur** : `POST /messages` répond `200 known`, ne le stocke pas une seconde fois et s'arrête là (la règle 7 n'est pas vérifiée). `DUPLICATE` ne sert que pour un message qui apparaît dans un bloc alors qu'il est déjà dans un bloc plus ancien (3.2.8).
-7. **Seulement à la première réception par `POST /messages`** (venant d'un pair) et à la création depuis une application : `timestamp` à moins de 60 s de l'heure du nœud qui reçoit (`BAD_TIMESTAMP`). Cette fenêtre ne s'applique **jamais** à un message d'un bloc, ni à la récupération de la file d'attente d'un pair (`GET /messages/pending`), ni aux messages rechargés du disque ou remis en file après une fourche.
+7. **Seulement à la première réception par `POST /messages`** (venant d'un pair) et à la création depuis une application : `timestamp` à moins de 60 s de l'heure du nœud qui reçoit (`BAD_TIMESTAMP`). Cette fenêtre ne s'applique **jamais** à un message d'un bloc, ni aux messages rechargés du disque ou remis en file après une fourche.
+   **Récupération de la file d'un pair (`GET /messages/pending`) [B1] :** seule la borne **future** s'applique. Un message daté de plus de 60 s **dans le futur** n'est pas pris (il est simplement sauté, sans erreur) ; un message ancien est pris, car il a pu attendre longtemps dans la file (cas 22). Sans cette borne, le sondage contournait la fenêtre : un message refusé par `POST` revenait 10 s plus tard par la file.
 
 **Exemple.** Dans le message de 2.1, on remplace `Il` par `ll` sans changer `id`. L'empreinte recalculée est `b138a215d7d950cdaf13d96b9efad582f5a0c6c359dca73f97873863017b09cc` : elle diffère, donc `BAD_ID`.
 
@@ -205,12 +239,18 @@ Un nœud vérifie lui-même tout ce qu'il reçoit, dans l'ordre, et s'arrête à
 4. `producer` = `ordre[(timestamp // 20000) mod 3]`, avec `ordre = [noeud-a, noeud-b, noeud-c]` (`WRONG_PRODUCER`).
 5. **Un seul bloc par créneau :** `timestamp // 20000` est strictement supérieur à celui du bloc précédent (`BAD_TIMESTAMP`).
 6. `signature` est valide avec la clé publique de `producer` (`BAD_SIGNATURE`).
-7. De 1 à 50 messages, triés, et `messages_hash` correct (`BAD_MESSAGES`).
-8. Chaque message passe les vérifications 1 à 5 de 3.1 (code du message, toujours en `422`) et n'apparaît ni deux fois dans le bloc ni dans un bloc plus ancien (`DUPLICATE`).
-9. **Seulement à la réception d'un bloc nouveau par `POST /blocks` :** `timestamp` pas plus de 5 s dans le futur et pas plus de 30 s dans le passé par rapport à l'heure du nœud (`BAD_TIMESTAMP`). La borne basse empêche un producteur d'antidater plusieurs blocs d'un coup après un long silence. C'est un garde-fou contre les erreurs, pas une sécurité : elle ne s'applique pas à une chaîne téléchargée.
+7. De 1 à 50 messages, triés **strictement** (chaque message est strictement après le précédent selon l'ordre de 2.2 : `timestamp`, puis `id`), et `messages_hash` correct (`BAD_MESSAGES`). Le même message deux fois dans un bloc n'est donc pas trié strictement : `BAD_MESSAGES`. **[M5]**
+8. Chaque message passe les vérifications 1 à 5 de 3.1 (code du message, toujours en `422`) et n'apparaît dans aucun bloc plus ancien (`DUPLICATE`).
+9. **Fenêtre d'horloge [B1]**, en deux bornes qui ne s'appliquent pas aux mêmes moments :
+   - **9a. Borne future, toujours** (bloc reçu par `POST /blocks`, bloc d'une chaîne téléchargée, bloc qu'on produit soi-même) : `timestamp` pas plus de **5 s dans le futur** par rapport à l'heure du nœud (`BAD_TIMESTAMP`).
+   - **9b. Borne passée, seulement à la réception d'un bloc nouveau par `POST /blocks`** : `timestamp` pas plus de 30 s dans le passé (`BAD_TIMESTAMP`). Elle empêche un producteur d'antidater plusieurs blocs d'un coup après un long silence. Elle ne s'applique pas à une chaîne téléchargée, dont les blocs anciens sont normalement anciens.
+
+   La borne 9a n'est pas une règle de validité définitive : elle dit « pas encore ». Un bloc refusé par 9a peut devenir acceptable plus tard, quand l'heure réelle le rattrape ; d'ici là, les deux autres nœuds continuent la chaîne sans lui et leur chaîne gagne (5.1). C'est ce qui empêche un nœud en avance de geler la chaîne des trois (voir le pourquoi plus bas).
 10. `producer` est différent de celui du bloc précédent (`SAME_PRODUCER`). Le bloc zéro ayant `producer` = `genesis`, n'importe quel nœud peut créer le bloc 1.
 
-Les règles 1 à 8 et 10 s'appliquent aussi à une chaîne téléchargée. La règle 10 est vérifiable par tous et empêche un nœud seul de fabriquer une longue chaîne antidatée.
+Les règles 1 à 8, **9a** et 10 s'appliquent aussi à une chaîne téléchargée. La règle 10 est vérifiable par tous et empêche un nœud seul de fabriquer une longue chaîne antidatée.
+
+**Pourquoi la borne future vaut partout [B1].** En v1.0, la fenêtre ne valait que pour `POST /blocks`. Un bloc refusé par `POST` revenait 10 s plus tard par le sondage et le rattrapage, qui ne la vérifiaient pas. Si ce bloc était daté loin dans le futur, plus aucun bloc honnête ne pouvait le suivre (règle 5 : créneau strictement supérieur) et son producteur non plus (règle 10) : **la chaîne des trois restait gelée** jusqu'à ce que l'heure réelle rattrape la date du bloc, ou pour toujours avec un horodatage proche de 9007199254740991. Simulation de la relecture : un nœud en avance d'une heure donnait 6 blocs en 90 min au lieu de 270. Avec 9a partout, ce bloc n'est adopté par personne et les deux nœuds à l'heure continuent. **Écarté :** garder la fenêtre au seul `POST` (elle ne protège rien) ; appliquer aussi la borne passée au rattrapage (tout bloc de plus de 30 s deviendrait invalide).
 
 **Exemple.** Le bloc 1 de 2.2 est valide après le bloc zéro : 1796889610000 // 20000 = 89844480, 89844480 mod 3 = 0, donc `noeud-a`. Un bloc 2 de `noeud-a` au créneau 89844483 respecte l'ordre, mais donne `SAME_PRODUCER`.
 
@@ -222,7 +262,7 @@ Les règles 1 à 8 et 10 s'appliquent aussi à une chaîne téléchargée. La r�
 - chaque bloc est valide par rapport au précédent (3.2) ;
 - les index vont de 0 à n sans trou et **tous les `id` de messages sont uniques** dans toute la chaîne.
 
-Les règles de fenêtre d'horloge (3.1.7 et 3.2.9) ne s'appliquent **jamais** à une chaîne téléchargée : on utilise seulement les horodatages inscrits.
+Pour une chaîne téléchargée, seule la **borne future 3.2.9a** s'applique (à chaque bloc, avec l'heure du nœud au moment de la vérification). La fenêtre de 60 s des messages (3.1.7) et la borne passée des blocs (3.2.9b) ne s'appliquent **jamais** à une chaîne téléchargée. **[B1]**
 
 **Exemple.** Une chaîne dont les blocs 1 et 2 contiennent le même `id` est invalide, même si toutes les signatures sont bonnes.
 
@@ -230,7 +270,7 @@ Les règles de fenêtre d'horloge (3.1.7 et 3.2.9) ne s'appliquent **jamais** à
 
 ### 3.4 Quand c'est invalide
 
-Le nœud répond avec le code d'erreur, **ne stocke rien et ne retransmet rien**, note l'erreur dans ses journaux avec l'expéditeur. Il ne bannit personne.
+Le nœud répond avec le code d'erreur, **ne stocke rien et ne retransmet rien**, note l'erreur dans ses journaux avec l'expéditeur (reconnu par son adresse, 6.1, **[I3]**). Il ne bannit personne.
 
 Cette règle vaut pour les **objets invalides**. Un bloc valide qui ne s'enchaîne pas sur ma chaîne (fourche ou retard) reçoit `409 BAD_LINK` : il n'est pas ajouté à la chaîne, mais le receveur **interroge `/status` de ses pairs et synchronise si une chaîne est strictement meilleure** (section 7). Ce n'est pas une faute de l'expéditeur. Le même code `409` sert aussi à un lien réellement cassé (cas de test 10) : le receveur ne peut pas distinguer les deux et fait la même vérification.
 
@@ -259,9 +299,15 @@ Le producteur d'un créneau est `ordre[(créneau) mod 3]`. Un nœud crée un blo
 3. il n'a pas déjà signé de bloc dans ce créneau ou un plus récent. Il enregistre le créneau sur disque **avant** de signer, pour ne pas recommencer après un redémarrage ;
 4. **il n'est pas isolé et sa chaîne est à jour** : juste avant de produire, il appelle `GET /status` sur chaque pair (en parallèle, délai maximal 3 s). Au moins un pair doit répondre `200`, et aucun pair qui a répondu ne doit annoncer une chaîne strictement meilleure (hors têtes ignorées en section 7). Le nœud n'est pas en `SYNCING` ;
 5. il n'a pas produit le dernier bloc de sa chaîne (3.2.10) ;
-6. le créneau est toujours le sien quand il signe, et `timestamp` est son heure actuelle.
+6. le créneau est toujours le sien quand il signe, et `timestamp` est son heure actuelle ;
+7. **le créneau en cours est strictement supérieur à celui de sa tête** (3.2.5). Sinon, il ne produit pas dans ce créneau. **[B2]**
+8. **son horloge est d'accord avec celle de ses pairs** : au dernier sondage (6.4.3), l'écart avec au moins un pair joignable est de 2 s au plus. S'il est à plus de 2 s de **tous** les pairs qui répondent, c'est son horloge qui est fausse : il ne produit pas et ne signe plus de message depuis son application tant que l'écart dure. **[B1]**
 
-Il prend jusqu'à 50 messages, les plus anciens d'abord, signe, ajoute à sa chaîne, retire ses messages de la file, puis envoie le bloc aux deux autres. Les messages en trop attendent le créneau suivant.
+Il prend jusqu'à 50 messages, les plus anciens d'abord, et signe. **Avant d'ajouter le bloc à sa chaîne, il le valide lui-même avec les règles 1 à 10 de 3.2**, exactement comme s'il le recevait d'un pair (9a et 9b comprises). Si une règle échoue, il n'ajoute pas le bloc, ne l'envoie pas, garde ses messages en file et journalise l'erreur. Sinon, il ajoute le bloc à sa chaîne, retire ses messages de la file, puis l'envoie aux deux autres. Les messages en trop attendent le créneau suivant. **[B2]**
+
+**Pourquoi l'auto-vérification [B2].** En v1.0, les six conditions ne reprenaient pas la règle 3.2.5. Dès que la tête portait un créneau postérieur à l'heure du producteur (horloge en retard, ou tête datée dans le futur), un nœud qui suivait 4.2 à la lettre signait un bloc que les autres refusaient, et l'ajoutait quand même à sa chaîne. Il se retrouvait plus haut que ses pairs avec une chaîne invalide et ne se rattrapait plus jamais sur eux. Un nœud ne doit jamais avoir dans sa chaîne un bloc qu'il refuserait chez un autre. **Écarté :** ajouter seulement la condition 7 (une autre règle oubliée referait le même piège ; valider son propre bloc couvre tout, avec le code déjà écrit pour la réception).
+
+**Pourquoi la condition 8 [B1].** En v1.0, un nœud qui mesurait un écart se contentait d'un avertissement dans ses journaux et continuait à produire. Avec trois nœuds, celui qui est loin des **deux** autres est presque toujours le fautif ; s'il est loin d'un seul, c'est l'autre. À deux nœuds en désaccord, les deux s'arrêtent : on préfère une chaîne qui attend à une chaîne qui gèle (B1). **Écarté :** se fier à l'heure du système seule (rien ne garantit qu'elle est synchronisée sur eduroam, voir 10.3) ; une horloge commune donnée par un nœud (il deviendrait un point de panne unique).
 
 Il commence au plus tôt 2 s après le début du créneau et doit avoir signé avant la 15e seconde, pour laisser au bloc le temps d'arriver. Ces deux bornes sont des règles de production, pas de validité.
 
@@ -269,7 +315,7 @@ Il commence au plus tôt 2 s après le début du créneau et doit avoir signé a
 
 **Exemple.** Le 10/12/2026 à 8h00 UTC, le créneau est 89844480, reste 0 : `noeud-a` produit. 20 s plus tard, 89844481 : `noeud-b`.
 
-**Pourquoi un tour de rôle par créneaux.** Un seul producteur par créneau : presque pas de blocs simultanés, pas de calcul lourd, pas de vote, et la validité d'un bloc ne dépend que du bloc lui-même. **Écarté :** preuve de travail (inutile ici), vote entre nœuds (casse dès qu'un nœud est éteint), un bloc par message (trop de blocs). **Limite :** les horloges doivent être à peu près justes (synchronisation automatique du système).
+**Pourquoi un tour de rôle par créneaux.** Un seul producteur par créneau : presque pas de blocs simultanés, pas de calcul lourd, pas de vote, et la validité d'un bloc ne dépend que du bloc lui-même. **Écarté :** preuve de travail (inutile ici), vote entre nœuds (casse dès qu'un nœud est éteint), un bloc par message (trop de blocs). **Limite :** les horloges doivent être à 2 s près les unes des autres. La synchronisation automatique du système ne suffit pas à le garantir : sur eduroam, seuls les ports 80, 443 et 8080 sortent, et la synchronisation de Windows ou de Linux passe d'habitude par NTP (port UDP 123), qui peut être bloqué. On ne la suppose donc pas : la condition 8 la vérifie entre pairs, et 10.3 la mesure le jour J. Pièges connus : un PC en double démarrage dont Linux lit l'heure locale de Windows comme de l'UTC (une heure d'écart en hiver), un code qui prend l'heure locale pour de l'UTC. **[B1]**
 
 ---
 
@@ -306,9 +352,24 @@ Quand un nœud adopte une autre chaîne, les messages de ses blocs abandonnés q
 
 ### 5.3 Pas de finalité
 
-**Limites acceptées.** Un nœud malveillant peut encore remplacer le dernier bloc par un concurrent de plus petit `hash`, et deux nœuds complices peuvent réécrire la chaîne.
+**Limites acceptées.**
 
-Un bloc récent peut être remplacé. L'application et l'œuvre ne doivent considérer un message comme stable que quelques blocs plus tard, et **ordonner par index de bloc puis position dans le bloc, jamais par `timestamp`**.
+- Un nœud malveillant peut encore remplacer le dernier bloc par un concurrent de plus petit `hash`, et deux nœuds complices peuvent réécrire la chaîne.
+- **L'horloge reste une confiance [B1].** Les créneaux supposent des horloges à 2 s près. Un nœud dont l'horloge est fausse cesse de produire (4.2, condition 8) et ses blocs datés dans le futur ne sont adoptés par personne (3.2.9a) : il ne peut plus geler la chaîne, mais **deux nœuds dont les horloges sont fausses de la même façon** feraient avancer la chaîne à leur heure. Le jour J, on mesure l'écart de chacun avec une référence extérieure (10.3).
+- **Trois horloges fausses deux à deux arrêtent la chaîne [B1].** Si chaque poste est à plus de 2 s de tous les autres (par exemple +3 s, 0 et −3 s), chaque nœud conclut que son horloge est fausse (4.2, condition 8) : aucun ne produit et la chaîne s'arrête. C'est pareil avec deux nœuds joignables décalés de plus de 2 s. On l'accepte : la chaîne s'arrête sans qu'aucun bloc faux n'y entre, et elle repart dès qu'une horloge est corrigée (le +3 s ramené à 0 suffit). Un seuil plus large laisserait produire des nœuds dont l'horloge est fausse ; aucun seuil n'évite les deux. Parade : le réglage des horloges à la main au début de chaque séance (10.3, étape 2), et l'écart affiché par chaque nœud.
+- **Un nœud seul en retard d'horloge se tait** (la borne passée de 3.2.9b refuse ses blocs par `POST`) : la chaîne continue à deux. C'est voulu.
+- Un nœud en panne garde ses messages en file : ils n'entrent dans la chaîne qu'à son retour ou par la file lue au sondage.
+
+**Stabilité [I1].** Un bloc récent peut être remplacé. Un message est **confirmé** quand son bloc est **confirmé** (définition en 1) :
+
+1. au moins **3 blocs** au-dessus de lui ; **ou**
+2. dans la chaîne depuis **60 s** (trois créneaux) sans changement, et **tous les pairs joignables** annoncent le même `tip_hash` dans `/status`.
+
+La condition 2 existe parce qu'il n'y a pas de bloc vide (2.2) : sans elle, le dernier message écrit ne serait jamais confirmé tant que personne n'écrit après lui, ce qui est le cas le plus courant devant une œuvre. Pourquoi 3 blocs : un nœud seul ne peut remplacer que le dernier bloc (3.2.10), et une fourche ordinaire se résout en un ou deux créneaux. Pourquoi 60 s : un créneau de chaque nœud est passé, chacun a donc eu l'occasion de proposer un bloc concurrent.
+
+**Ce que l'application et l'œuvre en font.** « Confirmé » est un **terme commun** ; ce que chaque binôme montre avant confirmation (message en attente, forme provisoire, rien) est **libre** et décrit dans son dossier. La spec impose seulement que l'application et l'œuvre **ordonnent par index de bloc puis position dans le bloc, jamais par `timestamp`**, en lisant toujours **la chaîne actuelle** (et pas un index enregistré plus tôt, voir 9).
+
+**Écarté :** un nombre de blocs seul (le dernier message d'une journée ne serait jamais confirmé) ; un délai seul (pendant une fourche active, il confirmerait un bloc qui va disparaître) ; des blocs vides pour faire avancer la chaîne (contraire à 2.2).
 
 **Exemple de fourche.** Réseau coupé entre `noeud-a` et les deux autres. `noeud-a` a vérifié ses pairs puis signé un bloc 5 (créneau 0), mais la coupure survient avant l'envoi. Il s'arrête ensuite ; `noeud-b` crée un autre bloc 5 (créneau 1) ; `noeud-c` crée le bloc 6 (créneau 2). Au retour du réseau, `noeud-a` voit par `/status` une hauteur plus grande, récupère la chaîne de `noeud-c` (hauteur 6 contre 5), la valide, l'adopte et remet dans sa file les messages de son ancien bloc 5.
 
@@ -330,7 +391,23 @@ Chaque nœud écoute sur le port **8080**, joignable par son nom Tailscale. La l
 | `noeud-b` | `noeud-b` | idem |
 | `noeud-c` | `noeud-c` | idem |
 
-Le nom de la machine dans Tailscale doit être exactement l'identifiant du nœud (`tailscale set --hostname noeud-a`). Si les noms ne sont pas résolus (MagicDNS inactif), chaque nœud utilise l'adresse IP Tailscale du pair dans sa configuration locale. L'adresse ne change aucun message ni bloc. Les IP ne sont pas publiées.
+Le nom de la machine dans Tailscale doit être exactement l'identifiant du nœud (`tailscale set --hostname noeud-a`). Si les noms ne sont pas résolus (MagicDNS inactif), chaque nœud utilise l'adresse IP Tailscale du pair dans sa configuration locale. L'adresse ne change aucun message ni bloc. Les IP ne sont pas publiées dans la spec : elles sont échangées entre les six (Discord) et notées dans la configuration locale de chaque nœud.
+
+**Reconnaître l'expéditeur [I3].** Un nœud reconnaît le pair qui lui parle par **l'adresse IP source de la requête**, qui est l'adresse Tailscale de la machine (de la forme `100.x.y.z`, fixe pour une machine donnée). Au démarrage puis à chaque sondage, il résout le nom de chaque pair (ou lit l'adresse de sa configuration) et tient la table « adresse → identifiant ». Cette table sert aux trois règles qui en ont besoin : les limites « par pair » (8.2), le relais « sauf à celui qui vient de le donner » (6.4.2) et le journal « avec l'expéditeur » (3.4). Une requête d'une adresse inconnue est traitée normalement (les objets sont signés), mais ses limites sont comptées à part, sous le nom `inconnu`, et elle est journalisée.
+
+**En mode test, sur un seul PC [I3].** Quand les trois nœuds tournent sur la même machine, toutes les requêtes viennent de `127.0.0.1` : l'adresse seule ne dit plus qui parle. Avec le réglage `essai` **seulement**, un nœud lit une table de test « adresse:port → identifiant » qui remplace la liste des noms Tailscale, par exemple :
+
+| Identifiant | Adresse:port (test) |
+| --- | --- |
+| `noeud-a` | `127.0.0.1:8080` |
+| `noeud-b` | `127.0.0.2:8080` |
+| `noeud-c` | `127.0.0.3:8080` |
+
+Le port de la table est le port d'**écoute** du pair : il sert à le joindre. Il ne sert pas à reconnaître l'expéditeur, car le port source d'une requête est tiré au hasard par le système. C'est pourquoi chaque nœud de test écoute **et envoie** depuis sa propre adresse de boucle locale (`127.0.0.1`, `127.0.0.2`, `127.0.0.3`) : la table se lit alors comme en réseau. Si les trois partagent `127.0.0.1` (ports différents), leurs requêtes sont comptées sous `inconnu` : tout marche, sauf les cas qui testent les limites par pair (8.2) et le relais (6.4.2). Avec le réglage `reelle`, une table de test est refusée au démarrage : la chaîne réelle ne parle jamais à une adresse de boucle locale. Windows et Linux acceptent toute adresse en `127.x.y.z` ; macOS n'a que `127.0.0.1` sans alias (`sudo ifconfig lo0 alias 127.0.0.2`).
+
+Attention : l'expéditeur n'est pas forcément l'auteur. Un bloc est relayé (6.4.2), donc son `producer` n'est pas forcément celui qui l'envoie ; le `node` d'un message désigne le nœud d'origine. Ni l'un ni l'autre ne sert à reconnaître l'expéditeur.
+
+**Écarté :** un en-tête `X-Node` déclaré par l'expéditeur (n'importe qui peut l'écrire, et il faudrait le vérifier quand même) ; le même en-tête réservé au mode test (le code testé ne serait plus celui qui tourne sur le réseau, justement pour la règle qu'on veut tester) ; reconnaître l'expéditeur par son port source (aléatoire) ; une authentification par jeton (un secret de plus à distribuer, alors que Tailscale identifie déjà les machines).
 
 **Exemple.** `noeud-a` joint `noeud-b` par `http://noeud-b:8080/api/v1/status`.
 
@@ -339,7 +416,15 @@ Le nom de la machine dans Tailscale doit être exactement l'identifiant du nœud
 ### 6.2 Règles communes
 
 - Base : `http://{nom}:8080/api/v1`, en-tête `Content-Type: application/json; charset=utf-8`.
-- Pas d'authentification : réseau privé et objets signés.
+- Pas d'authentification : réseau privé et objets signés. L'expéditeur est reconnu par son adresse (6.1).
+- **Ordre des refus [M6]** pour `POST /blocks` et `POST /messages` : on renvoie la première condition rencontrée dans cet ordre.
+  1. `413 TOO_LARGE` (corps trop gros, vérifié avant de le lire en entier) ;
+  2. `503 SYNCING` (le nœud est en rattrapage) ;
+  3. `429 RATE_LIMIT` (limite de l'expéditeur atteinte, ou file pleine) ;
+  4. `400` (JSON illisible, `MESSAGE_FORMAT`, `BLOCK_FORMAT`) ;
+  5. les codes de validité de 3.1 ou 3.2 (`409` ou `422`), dans leur ordre.
+
+  Un nœud en `SYNCING` qui reçoit un bloc invalide répond donc `503`, pas `422`. Raison de cet ordre : du moins cher au plus cher à vérifier, et une requête refusée tôt ne coûte presque rien.
 - Erreur : toujours `{ "error": "CODE", "detail": "texte libre" }`. Le `CODE` est contractuel, pas le `detail`.
 - `400` est réservé au format (`MESSAGE_FORMAT`, `BLOCK_FORMAT`, `BAD_QUERY`), y compris un JSON illisible. Adresse inconnue : `404 NOT_FOUND`. Panne interne : `500 INTERNAL`.
 - Un pair dont `genesis_hash` diffère est ignoré et ne compte pas comme joignable ; l'écart est journalisé.
@@ -348,7 +433,9 @@ Le nom de la machine dans Tailscale doit être exactement l'identifiant du nœud
 
 **Exemple.** Un JSON illisible envoyé à `POST /messages` donne `400` et `{ "error":"MESSAGE_FORMAT", "detail":"JSON illisible" }`.
 
-**Pourquoi.** HTTP et JSON existent dans tous les langages, et 8080 fait partie des ports cités par le sujet. Tailscale protège déjà le transport. **Écarté :** WebSocket, à reconnecter et plus difficile à tester ; HTTPS, qui ajouterait des certificats.
+**Pourquoi.** HTTP et JSON existent dans tous les langages. Tailscale protège déjà le transport.
+
+**Pourquoi le port 8080 [M3].** Dans le tailnet, le filtrage d'eduroam (seuls 80, 443 et 8080 sortent) ne s'applique pas : le trafic passe dans le tunnel de Tailscale, et n'importe quel port conviendrait. On a pris 8080 parce que c'est le port HTTP de remplacement le plus courant, qu'il est au-dessus de 1024 (pas besoin de droits d'administrateur pour l'écouter) et qu'il ne gêne aucun outil de nos postes. **Écarté :** le port 80 (droits d'administrateur sous Linux, souvent déjà pris par un serveur local) ; un port différent par nœud (une valeur de plus à configurer, sans gain). **Écarté :** WebSocket, à reconnecter et plus difficile à tester ; HTTPS, qui ajouterait des certificats.
 
 ### 6.3 La liste complète des échanges
 
@@ -373,8 +460,10 @@ Seuls `POST /blocks` et `POST /messages` répondent `503 SYNCING` pendant un rat
 ### 6.4 Quand envoyer quoi
 
 1. **Nouveau message** accepté depuis l'application : ajouté à la file, puis envoyé tout de suite aux deux autres (`POST /messages`). Un nœud **ne retransmet pas** un message reçu d'un pair.
-2. **Nouveau bloc** créé ou reçu et accepté : envoyé aux deux autres par `POST /blocks`, sauf à celui qui vient de le donner.
-3. **Toutes les 10 s** : `GET /status` sur chaque pair ; si sa chaîne est strictement meilleure, rattrapage (section 7). Puis `GET /messages/pending` sur chaque pair joignable pour récupérer les messages manqués, sans la fenêtre de 60 s. Ce sondage estime aussi l'écart d'horloge : `écart = time − (t_envoi + t_réception) / 2`. Au-delà de 2 s, le nœud écrit un avertissement dans ses journaux (la tolérance d'un bloc nouveau est de 5 s).
+2. **Nouveau bloc** créé ou reçu et accepté : envoyé aux deux autres par `POST /blocks`, sauf à l'expéditeur qui vient de le donner (reconnu par son adresse, 6.1).
+3. **Toutes les 10 s** : `GET /status` sur chaque pair ; si sa chaîne est strictement meilleure, rattrapage (section 7). Puis `GET /messages/pending` sur chaque pair joignable pour récupérer les messages manqués, avec la seule borne future de 3.1.7. Ce sondage estime aussi l'écart d'horloge : `écart = time − (t_envoi + t_réception) / 2`. **Au-delà de 2 s avec tous les pairs qui répondent, le nœud cesse de produire et de signer des messages** (4.2, condition 8), l'écrit dans ses journaux et l'affiche à son binôme (dans l'application ou la console). Il reprend dès qu'un sondage redonne un écart de 2 s au plus avec au moins un pair. **[B1]**
+
+**Une tête datée dans le futur [B1].** Si le sondage trouve une chaîne plus haute dont un bloc dépasse la borne future de 3.2.9a, le rattrapage la refuse (7, étape 4) et ignore ce `tip_hash` 5 minutes, comme pour toute chaîne invalide. Il réessaie ensuite : si l'heure l'a rattrapée entre-temps et qu'elle est toujours strictement meilleure, il l'adopte. En pratique, les deux nœuds à l'heure l'auront dépassée depuis longtemps.
 
 **Exemple.** `noeud-c` manque un message de `noeud-a`. Au sondage suivant, il le trouve dans `GET /messages/pending` ou dans la chaîne.
 
@@ -472,8 +561,8 @@ Un nœud y entre au démarrage, ou quand un pair annonce une chaîne strictement
 1. Le nœud passe en état `SYNCING` : il répond `503 SYNCING` aux seuls `POST` et ne produit pas de bloc. Ses `GET` répondent normalement (`"syncing":true` dans `/status`), pour que deux nœuds qui redémarrent ensemble puissent se lire.
 2. Il appelle `GET /status` sur les deux pairs et choisit la meilleure chaîne annoncée (5.1). **Règle de sortie :** si au moins un pair répond et qu'aucun n'est strictement meilleur, il passe **tout de suite** à l'étape 5. Si aucun ne répond, il réessaie **10 fois, à 3 s d'intervalle**, puis quitte `SYNCING` avec sa chaîne et continue le sondage. Avec le délai de 3 s par appel, cela dure **environ 60 s au plus**. Il ne produit toujours pas tant qu'il est isolé (4.2).
 3. Il télécharge la chaîne par pages de 20 avec `GET /blocks?from=N&limit=20`, jusqu'à la hauteur annoncée. **La méthode simple : N = 1.** Il construit cette chaîne **à part**, sans toucher à la sienne. Un nœud peut démarrer plus loin s'il connaît le dernier bloc commun.
-4. Il vérifie chaque bloc (3.2, règles 1 à 8 et 10). Si un lien casse entre deux pages, le pair a pu changer de chaîne : il recommence, 3 fois au plus. Après 3 liens cassés, ou pour toute autre erreur, il abandonne ce pair et essaie l'autre, en ignorant ce `tip_hash` pendant 5 minutes. Si aucun pair ne convient, il garde sa chaîne et sort.
-5. Si la chaîne construite est complète, valide et strictement meilleure, elle **remplace en une fois** la sienne (5.2). Puis il récupère la file d'attente des pairs (`GET /messages/pending`) en rejetant ce qui est déjà dans la chaîne. La fenêtre de 60 s de 3.1.7 ne s'applique pas ici.
+4. Il vérifie chaque bloc (3.2, règles 1 à 8, **9a** et 10, **[B1]**). Si un lien casse entre deux pages, le pair a pu changer de chaîne : il recommence, 3 fois au plus. Après 3 liens cassés, ou pour toute autre erreur, il abandonne ce pair et essaie l'autre, en ignorant ce `tip_hash` pendant 5 minutes. Si aucun pair ne convient, il garde sa chaîne et sort.
+5. Si la chaîne construite est complète, valide et strictement meilleure, elle **remplace en une fois** la sienne (5.2). Puis il récupère la file d'attente des pairs (`GET /messages/pending`) en rejetant ce qui est déjà dans la chaîne. Seule la borne future de 3.1.7 s'applique ici (60 s dans le futur au plus). **[B1]**
 6. Il repasse en état normal.
 
 **Exemple.** `noeud-c` redémarre à la hauteur 40 ; `noeud-a` est à 52, `noeud-b` à 51. `noeud-c` choisit `noeud-a`, télécharge, valide, arrive à 52, récupère les messages en attente et reprend à son prochain créneau.
@@ -508,13 +597,19 @@ Avant d'écrire, le visiteur est prévenu que son message ne s'effacera pas, est
 | Limite | Valeur | Où | Erreur |
 | --- | --- | --- | --- |
 | Messages par visiteur | 5 par 10 s | nœud d'origine, avant signature | libre |
-| Messages reçus d'un pair | 40 par minute et par pair | `POST /messages` | `429 RATE_LIMIT` |
-| Blocs reçus d'un pair | 10 par minute et par pair | `POST /blocks` | `429 RATE_LIMIT` |
+| Messages reçus d'un pair | 40 par minute et par expéditeur (6.1) | `POST /messages` | `429 RATE_LIMIT` |
+| Blocs reçus d'un pair | 10 par minute et par expéditeur (6.1) | `POST /blocks` | `429 RATE_LIMIT` |
 | Corps d'un message | 8 Ko | `POST /messages` | `413 TOO_LARGE` |
 | Corps d'un bloc | 512 Ko | `POST /blocks` | `413 TOO_LARGE` |
 | File d'attente | 1000 messages | nœud qui reçoit | `429 RATE_LIMIT` |
 
-Les limites **ne font jamais partie de la validité** d'un bloc et ne s'appliquent pas au rattrapage (`GET /blocks`). `429` contient `Retry-After` (secondes) ; le sondage de 6.4 rattrape ce qui a été refusé. Un bloc accepte 50 messages par 20 s = 150 messages par minute au plus ; 3 × 40 = 120 reste sous cette capacité. La limite de 512 Ko laisse de la marge : 50 messages de 280 emojis, tous écrits en échappements Unicode, pèsent environ 185 Ko. **Limite acceptée :** `GET /messages/pending` renvoie 50 messages au plus ; si la file d'un pair en contient davantage, les suivants ne sont récupérés qu'aux sondages suivants, à mesure que des blocs vident la file.
+Au-delà de 1000 messages en file, le nœud ne prend plus de nouveau message, ni par `POST /messages` (`429`) ni par `GET /messages/pending` (il saute les suivants). Les messages remis en file après une fourche sont **toujours** gardés, même au-delà de 1000 : ils étaient déjà acceptés.
+
+Les limites **ne font jamais partie de la validité** d'un bloc et ne s'appliquent pas au rattrapage (`GET /blocks`). `429` contient `Retry-After` (secondes) ; le sondage de 6.4 rattrape ce qui a été refusé.
+
+**La minute [M6]** est une **fenêtre glissante** : on compte les requêtes reçues de cet expéditeur sur cette route pendant les 60 dernières secondes, refusées comprises. Le 41e message en moins de 60 s reçoit `429`, quelle que soit l'heure de début.
+
+**Capacité [M4].** Un bloc prend 50 messages et il y a un bloc par créneau de 20 s **au plus**. À trois nœuds, la chaîne produit 3 blocs par minute, soit **150 messages par minute** ; les deux pairs ne peuvent envoyer que 2 × 40 = 80 messages par minute, plus ceux de son propre nœud. À deux nœuds (un éteint), ses créneaux restent vides : 2 blocs par minute, soit **100 messages par minute**, pour au plus 40 messages reçus de l'autre pair. Au-delà, les messages attendent en file et la file se vide plus lentement ; rien n'est perdu (limite de 1000 ci-dessus). La limite de 512 Ko laisse de la marge : 50 messages de 280 emojis, tous écrits en échappements Unicode, pèsent environ 185 Ko. **Limite acceptée :** `GET /messages/pending` renvoie 50 messages au plus ; si la file d'un pair en contient davantage, les suivants ne sont récupérés qu'aux sondages suivants, à mesure que des blocs vident la file.
 
 **Exemple.** Le 41e message d'un pair dans la minute reçoit `429 RATE_LIMIT` avec `Retry-After: 12`. Le pair le garde dans sa file ; il sera lu au sondage ou dans un bloc.
 
@@ -534,7 +629,7 @@ Les limites **ne font jamais partie de la validité** d'un bloc et ne s'applique
 
 Une clé privée volée, ou un nœud qui signe volontairement du contenu choquant : seuls les six et l'équipe enseignante tranchent. Les clés privées restent dans un `.env` absent de Git (avec un `.env.example` vide).
 
-**Exemple.** Si la clé de `noeud-b` est publiée par erreur, le binôme 2 prévient les six, arrête son nœud et une nouvelle clé est distribuée. Avec une seule clé par nœud, ce changement invalide tous les blocs et messages que `noeud-b` a signés, donc la chaîne à partir du premier bloc qui en contient un. Les six décident ensemble du redémarrage de la chaîne.
+**Exemple.** Si la clé de `noeud-b` est publiée par erreur, le binôme 2 prévient les six, arrête son nœud et une nouvelle clé est distribuée. Avec une seule clé par nœud, ce changement invalide tous les blocs et messages que `noeud-b` a signés, donc la chaîne à partir du premier bloc qui en contient un. Les six décident ensemble du redémarrage de la chaîne, qui se fait comme en 2.3.1 : la nouvelle clé change l'empreinte des clés, donc le bloc zéro réel, et les six notent la nouvelle ouverture dans le tableau de 2.3.1. L'ancienne chaîne ne peut plus revenir. **[I2]**
 
 **Pourquoi.** Une signature valide ne dit rien des intentions. **Écarté :** la rotation automatique des clés, trop complexe pour trois nœuds.
 
@@ -546,14 +641,19 @@ Les valeurs tirées par l'IA **ne sont pas écrites dans la chaîne**. Chaque bi
 
 **Pourquoi.** Chaque binôme a sa charte, ses valeurs, son prompt : ce sont les « trois regards ». Deux appels au même modèle ne donnent pas la même réponse et les modèles gratuits tombent en panne : si les valeurs étaient dans les blocs, les nœuds devraient s'accorder sur une réponse qui change, et une panne d'IA bloquerait la chaîne. **Écarté :** un champ `values` dans le message ou un bloc de valeurs communes.
 
-- **Quand :** un nœud lance l'IA sur un message **quand son bloc est dans sa chaîne**. Chaque binôme traite donc les messages de sa chaîne locale ; une fois les chaînes d'accord, tous traitent les mêmes messages dans le même ordre.
+- **Quand :** un nœud **peut** lancer l'IA sur un message **dès que son bloc est dans sa chaîne**, sans attendre la confirmation (5.3) : la valeur est rattachée à l'`id`, pas au bloc, donc une fourche ne la rend pas fausse. Chaque binôme traite les messages de sa chaîne **réelle** locale (jamais ceux de la chaîne d'essai, 2.3.1) ; une fois les chaînes d'accord, tous traitent les mêmes messages. L'ordre et le rythme de traitement sont libres (par lots, voir plus bas). **[I1]**
 - **Clé de rattachement :** l'`id` du message (pas le hash du bloc). Un message ne passe qu'une fois par l'IA, même si son bloc est abandonné après une fourche puis recréé ailleurs.
+- **Position d'un message [I1] :** la position dans la chaîne (index de bloc, rang dans le bloc) se lit **toujours dans la chaîne actuelle**, jamais dans `block_index` enregistré. Quand un message change de bloc après une fourche, le binôme met `block_index` à jour ; quand il retourne en file, il garde ses valeurs mais l'œuvre ne le montre plus comme « dans la chaîne » jusqu'à son retour dans un bloc.
+- **Quotas d'OpenRouter [I5] :** les modèles gratuits sont limités à **20 requêtes par minute** et **50 requêtes par jour** pour un compte qui a acheté moins de 10 crédits (1000 par jour au-delà). Source : `openrouter.ai/docs/api/reference/limits`, consultée le 26/11/2026 ; la page ne dit rien de particulier pour `openrouter/free`. Or **chaque message de la chaîne passe par l'IA de chaque binôme** et la chaîne peut recevoir jusqu'à 150 messages par minute (8.2). Une requête par message ne tient donc pas. Conséquences communes :
+  - chaque binôme **doit** dire dans son dossier combien de messages par jour son IA peut lire (par exemple par lots de plusieurs messages par requête) et **ce que son œuvre fait des messages qui n'ont pas de valeurs de l'IA** (valeurs de repli, attente, rien) ;
+  - les messages de la chaîne d'essai ne consomment **aucun** quota (ils ne passent pas par l'IA) ;
+  - une panne ou un quota épuisé n'a **aucun effet** sur la chaîne (comme une IA qui ne répond pas).
 - **À enregistrer (obligatoire, dans la base du binôme, format libre) :**
 
 | Champ | Contenu |
 | --- | --- |
 | `message_id` | `id` du message. |
-| `block_index` | Index du bloc où il a été trouvé. |
+| `block_index` | Index du bloc où il se trouve, **mis à jour** s'il change de bloc après une fourche. |
 | `model_requested` | Modèle demandé, par exemple `openrouter/free`. |
 | `model_used` | **Modèle qui a réellement répondu** (champ `model` de la réponse OpenRouter), exigé par le sujet. |
 | `values` | Valeurs obtenues, au format de la charte du binôme. |
@@ -575,13 +675,28 @@ Les valeurs tirées par l'IA **ne sont pas écrites dans la chaîne**. Chaque bi
 
 | Palier | Quand | Ce qu'on vérifie |
 | --- | --- | --- |
-| 1. Seul | S49 et début de S50 (lundi 07/12) | Le nœud passe les vecteurs de test, sans réseau. |
-| 2. Par deux | Mercredi 09/12 | Deux nœuds s'échangent messages et blocs sur Tailscale (A-B, B-C, A-C). |
-| 3. À trois | Jeudi 10/12 | Les 26 cas ci-dessous, puis une heure d'usage réel avec les trois applications. |
+| 1. Seul | Début de S50 (lundi 07/12) ; dès la S49 seulement si l'équipe enseignante accepte du code cette semaine-là (O6) | Le nœud passe les vecteurs de test, sans réseau, sur la chaîne d'essai. |
+| 2. Par deux | Dès qu'un couple est prêt (mardi 08/12 après-midi si possible), mercredi 09/12 **matin** au plus tard | Deux nœuds s'échangent messages et blocs sur Tailscale (A-B, B-C, A-C), sur la chaîne d'essai. **[I4]** Un essai à deux le mercredi soir ne laisserait aucune marge pour corriger avant le jalon ; un premier échange réduit au `GET /status` et au cas 9 suffit pour commencer. |
+| 3. À trois | Jeudi 10/12 | Les cas ci-dessous sur la chaîne d'essai, puis ouverture de la chaîne réelle et une heure d'usage réel avec les trois applications. |
+
+#### 10.0 Le socle du 10/12 **[faisabilité]**
+
+Tout ce qui est dans la spec ne doit pas marcher le 10/12. **Le socle** est ce qu'il faut pour que trois nœuds tiennent une même chaîne sans la casser ; le reste peut attendre la S2, car il ne change aucun format et un nœud qui ne l'a pas encore reste compatible.
+
+| Le 10/12 (socle) | Peut attendre la S2 |
+| --- | --- |
+| Formats, empreintes, signatures (2) ; chaînes d'essai et réelle (2.3.1) | Limites de débit `429` et `Retry-After` (8.2), cas 17 |
+| Validité complète des messages et des blocs, dans l'ordre (3), auto-vérification (4.2) | `413 TOO_LARGE` (8.2) : un corps trop gros finit de toute façon en `400` ou `422` |
+| Production par créneaux, conditions 1 à 8 de 4.2, persistance du dernier créneau signé | Journal des doubles signatures (8.3) |
+| Les cinq routes (6.3), erreurs `400`, `409`, `422`, `503` | Rattrapage à partir du dernier bloc commun (7, étape 3 : on garde N = 1) |
+| Sondage de 10 s avec écart d'horloge (6.4) | Têtes ignorées 5 minutes (7, étape 4) : sans elles, le nœud réessaie seulement plus souvent |
+| Rattrapage simple (7), remise en file après fourche (5.2), chaîne et file sur disque | Ordre exact des refus entre `413`, `429` et `503` (6.2) |
+
+**Pourquoi.** Le nœud compte pour 25 % de la note, l'application et la direction artistique pour 40 % à elles deux. Un nœud complet mais incompris serait impossible à déboguer le 09/12 et à expliquer à l'oral. **Écarté :** tout exiger le 10/12 (le nœud mangerait le temps de l'application et de l'œuvre).
 
 ### 10.1 Les clés de test
 
-Ces paires ne servent **qu'aux tests** (elles sont publiques : ne jamais les utiliser en vrai). La clé privée est donnée par sa graine de 32 octets en hexadécimal.
+Ces paires ne servent **qu'aux tests** (elles sont publiques : ne jamais les utiliser en vrai). Elles sont **les clés de la chaîne d'essai** (2.3.1) : tous les cas se rejouent sur la chaîne d'essai avec ces clés, y compris le jour J. Les vecteurs restent donc justes ; rejoués avec les clés réelles, les cas 1 et 9 donneraient `BAD_SIGNATURE` au lieu de `201`. **[I2]** La clé privée est donnée par sa graine de 32 octets en hexadécimal.
 
 | Nœud | Graine (privée, test) | Clé publique (Base64) |
 | --- | --- | --- |
@@ -593,7 +708,7 @@ Les exemples de la section 2 (message, bloc zéro, bloc 1) sont les premiers vec
 
 ### 10.2 Les cas de test partagés
 
-**Heure simulée :** `1796889615000` (10/12/2026, 08:00:15 UTC), sauf pour les essais en direct sur le réseau (cas 15, 16, 20, 21, 23 à 26). Le cas 18 utilise `1796889619000`. « Recalculé » veut dire que `id` ou `hash`, puis la signature, sont refaits avec la bonne clé. Chaque cas part d'une chaîne vide (bloc zéro) sauf indication, limites de débit remises à zéro.
+**Heure simulée :** `1796889615000` (10/12/2026, 08:00:15 UTC), sauf pour les essais en direct sur le réseau (cas 15, 16, 20, 21, 24 à 26). Le cas 14 utilise `1796889625000`, le cas 18 `1796889619000` et **le cas 23 `1796889672000`** (2 s après son bloc, au créneau 89844483). **[I4]** Le cas 23 est un vecteur, pas un essai en direct : un nœud honnête ne produit jamais ce bloc, il faut le lui envoyer. À l'heure simulée par défaut, il donnerait `BAD_TIMESTAMP` (règle 9) et non `SAME_PRODUCER` (règle 10). « Recalculé » veut dire que `id` ou `hash`, puis la signature, sont refaits avec la bonne clé. Chaque cas part d'une chaîne vide (bloc zéro) sauf indication, limites de débit remises à zéro.
 
 | N° | Entrée | Résultat attendu |
 | --- | --- | --- |
@@ -616,7 +731,7 @@ Les exemples de la section 2 (message, bloc zéro, bloc 1) sont les premiers vec
 | 17 | 41 messages valides et différents en une minute depuis un même pair | Le 41e reçoit `429 RATE_LIMIT` |
 | 18 | Après le bloc 1, bloc 2 de `noeud-a` avec `timestamp` `1796889619000`, recalculé, contenant un autre message | `422 BAD_TIMESTAMP` |
 | 19 | `Café à Béziers 🎨`, `node` = `noeud-a`, `timestamp` = `1796889604000` | `id` = `cd52fdfe602e662dd141a704350ccdcf605089af37fc7c48f8768fcd4db7bd1d` |
-| 20 | Les trois nœuds redémarrent en même temps, d'abord avec une chaîne déjà enregistrée, puis avec le seul bloc zéro | Tous sortent de `SYNCING` en moins de 40 s et ont le même `hash` de tête après une minute |
+| 20 | Les trois nœuds redémarrent à moins de 2 s d'intervalle, d'abord avec une chaîne déjà enregistrée, puis avec le seul bloc zéro | Tous sortent de `SYNCING` en **60 s au plus** (règle de sortie de 7.2 : immédiate dès qu'un pair répond sans être meilleur, environ 60 s si aucun ne répond) et ont le même `hash` de tête après une minute **[M8]** |
 | 21 | Nœud sans chaîne sur disque dont aucun pair ne répond | Il quitte `SYNCING` après 10 essais mais **ne produit pas**, même avec des messages en attente |
 | 22 | Message en attente depuis plus de 60 s, récupéré par `GET /messages/pending` | Accepté dans la file, sans `BAD_TIMESTAMP` |
 | 23 | Bloc valide sauf que son producteur est aussi celui du bloc précédent, trois créneaux plus tard | `422 SAME_PRODUCER` |
@@ -624,16 +739,65 @@ Les exemples de la section 2 (message, bloc zéro, bloc 1) sont les premiers vec
 | 25 | Envoi initial d'un message raté vers un pair joignable ensuite | Le pair l'a dans sa file ou sa chaîne au sondage suivant |
 | 26 | Fourche de même hauteur, mon `hash` de tête est le plus petit | Je garde ma chaîne sans entrer en `SYNCING` |
 
-Les entrées des cas 3 à 14 et 17 à 26 sont à produire à partir des exemples de la section 2 par chaque binôme, puis à déposer dans le dépôt commun (`tests/vectors/`). Cela fait 22 cas (12 + 10). **Répartition :** binôme 1, cas 3 à 10 ; binôme 2, cas 11 à 14 et 17 à 19 ; binôme 3, cas 20 à 26. À déposer avant le lundi 07/12 au soir.
+**Cas ajoutés en v1.1 [I4]** (ce qu'aucun des 26 cas ne couvrait, et les nouvelles règles) :
+
+| N° | Entrée | Résultat attendu |
+| --- | --- | --- |
+| 27 | JSON illisible sur `POST /messages`, puis message sans le champ `signature` | `400 MESSAGE_FORMAT` deux fois |
+| 28 | Bloc 1 valide (3 messages, dont deux à la **même milliseconde**, triés par `id`) | `201 accepted`, même `messages_hash` et même `hash` chez les trois |
+| 29 | Le même bloc avec les deux messages de même milliseconde inversés, recalculé | `422 BAD_MESSAGES` |
+| 30 | `content` de 280 emojis simples (560 unités en UTF-16), recalculé | `201 accepted` (et 281 emojis : `422 MESSAGE_LIMITS`) |
+| 31 | `content` qui n'est pas en NFC (`e` + U+0301), recalculé et signé | `201 accepted` (la NFC n'est pas vérifiée à la réception, 2.1) |
+| 32 | Bloc 1 valide reçu par `POST /blocks`, heure du nœud 6 s **avant** le bloc ; puis 31 s **après** | `422 BAD_TIMESTAMP` deux fois (règles 9a et 9b) |
+| 33 | Pair à la hauteur 2 dont le bloc 2 est daté 1 heure dans le futur, récupéré par rattrapage | Chaîne refusée, le nœud reste à sa hauteur et ignore ce `tip_hash` 5 minutes (3.2.9a, 7) |
+| 34 | Nœud dont l'horloge a 10 s d'écart avec les deux pairs, messages en file, son créneau arrive | Aucun bloc et aucun message signé ; reprise quand l'écart repasse sous 2 s (4.2, condition 8) |
+| 35 | Tête de la chaîne au créneau 89844484, heure du producteur au créneau 89844483 (son créneau), messages en file | Aucun bloc signé ni ajouté : sa hauteur ne change pas (4.2, conditions 7 et auto-vérification) |
+| 36 | Nœud en `SYNCING` qui reçoit un bloc invalide | `503 SYNCING` (6.2, ordre des refus) |
+
+**Répartition [I4].** Chaque binôme a des vecteurs (rejouables seul) et des scénarios réseau.
+
+| Binôme | Vecteurs | Scénarios réseau | Total |
+| --- | --- | --- | --- |
+| Binôme 1 | 3 à 10, 27 (9) | 15, 33, 35 (3) | 12 |
+| Binôme 2 | 11 à 14, 17 à 19, 28, 29, 31 (10) | 16, 34 (2) | 12 |
+| Binôme 3 | 22, 23, 30, 32, 36 (5) | 20, 21, 24 à 26 (5) | 10 |
+
+Les cas 15 et 16, sans responsable en v1.0, sont attribués. Les cas 1 et 2 utilisent le message de 2.1 (rien à produire). **Dépôt** dans le dépôt commun (`tests/vectors/`) : le **lundi 07/12**. Calculer les `id`, `hash` et signatures d'un vecteur demande un petit script ; un dépôt le vendredi 04/12 obligerait à l'écrire en S49, alors que la S49 sert à préparer l'environnement et que le code commence en S50. La question est posée à l'équipe enseignante (O6) : si un script de calcul des vecteurs est accepté en S49, le dépôt est avancé au vendredi 04/12 au soir et le lundi 07/12 sert aux corrections.
+
+**Format commun d'un vecteur [I4]** (un fichier JSON par cas, `cas-NN.json`) :
+
+```json
+{
+  "version_spec": "1.1",
+  "numero": 23,
+  "type": "requete",
+  "etat_initial": { "chaine": "genese+bloc1", "file_d_attente": [], "heure_du_noeud": 1796889672000 },
+  "etapes": [ { "requete": { "methode": "POST", "chemin": "/api/v1/blocks", "corps": { } },
+                "attendu": { "statut": 422, "error": "SAME_PRODUCER" } } ]
+}
+```
+
+- `type` : `requete` (rejouable seul) ou `scenario` (`etapes` est alors une liste de phrases à suivre sur le réseau).
+- `etat_initial.chaine` : nom d'une chaîne de `tests/vectors/chaines.json` (toutes partent du bloc zéro d'essai) ; `genese` = chaîne vide.
+- `etat_initial.heure_du_noeud` : l'heure simulée. Chaque nœud **doit** pouvoir démarrer avec une horloge injectée et une chaîne chargée depuis ce fichier (mode test, réglage `essai`) ; la façon de le faire est libre.
+- Seuls `statut` et `error` sont contractuels (6.2).
 
 ### 10.3 Le jour J
 
-1. Les trois machines sont dans le tailnet et répondent à `GET /status`.
-2. Chaque nœud a le même bloc zéro et la même hauteur, et les trois clés publiques réelles sont comparées caractère par caractère : le bloc zéro ne les contient pas, donc `genesis_hash` ne détecte pas une mauvaise clé.
+**Sur la chaîne d'essai** (réglage `essai`, clés de test) **[I2]** :
+
+1. Les trois machines sont dans le tailnet et répondent à `GET /status`, avec le `genesis_hash` d'essai `9af1db54…652b08`.
+2. **Horloges [B1].** Chaque binôme compare l'heure de son poste à une référence extérieure joignable par le port 443 (l'en-tête `Date` d'une réponse HTTPS, précis à la seconde), puis note l'écart que son nœud mesure avec chaque pair (6.4.3). Tout écart de plus d'1 s avec la référence est corrigé à la main avant de lancer le nœud. Ce réglage se fait **au début de chaque séance**, pas seulement le jour J : on ne compte pas sur la synchronisation automatique, qui peut échouer sur eduroam, et trois horloges fausses deux à deux arrêtent la chaîne (5.3).
 3. On rejoue les cas de test et on note ceux qui échouent, avec l'écart observé.
 4. Chaque binôme écrit trois messages depuis son application : les trois chaînes ont le même `hash` de tête après une minute.
 5. On coupe un nœud 2 minutes, on le rallume, on vérifie son rattrapage.
 6. On redémarre les trois nœuds en même temps : ils sortent de `SYNCING` et ont le même `hash` de tête après une minute.
+
+**Ouverture de la chaîne réelle** (réglage `reelle`, clés réelles) :
+
+7. Les trois clés publiques réelles (O3) sont copiées dans les trois nœuds, puis comparées caractère par caractère. Chaque nœud calcule le bloc zéro réel (2.3.1) : les trois `genesis_hash` doivent être **identiques**. S'ils diffèrent, une clé est mal copiée.
+8. Les trois nœuds passent au réglage `reelle` et redémarrent. Ils partent du bloc zéro réel ; la chaîne d'essai reste sur le disque, à part, et n'entre jamais dans les œuvres.
+9. Une heure d'usage réel avec les trois applications. Seuls ces messages passent par les IA (9).
 
 **Si deux binômes lisent la spec et n'obtiennent pas le même résultat, la spec est en cause, pas le code : on corrige la spec avant le code.**
 
@@ -651,7 +815,7 @@ Les entrées des cas 3 à 14 et 17 à 26 sont à produire à partir des exemples
 - **Qui décide :** un membre de **chacun des trois binômes** approuve. Sans les trois accords, rien n'est fusionné.
 - **Comment les six sont prévenus :** notification, message dans le groupe de discussion des six (Discord), mention au daily suivant.
 - **Gel :** à partir du lundi 07/12, un changement qui casse la compatibilité exige l'accord écrit des six ; seules les précisions passent avec la règle ordinaire.
-- **Historique :** 0.1 à 0.6 (23/11) brouillons, fusion et relectures · **1.0 (23/11) décisions actées par les six, exemples et justifications complétés.**
+- **Historique :** 0.1 à 0.6 (23/11) brouillons, fusion et relectures · **1.0 (23/11) décisions actées par les six, exemples et justifications complétés.** · **1.1 (proposition du binôme 3, 26/11)** : corrections après la relecture critique de l'équipe enseignante (B1, B2, I1 à I5, M1 à M8), puis relue par le binôme 3 (tests sur un seul PC, limite des horloges décalées deux à deux, date de dépôt des vecteurs), **validée par les trois binômes le 26/11**.
 
 **Exemple.** Passer de 280 à 300 points de code : une personne ouvre une pull request avec la raison et les cas de test, un membre de chaque binôme approuve, le message est annoncé sur Discord, et la version devient 1.1 avant le gel. Après le lundi 07/12, il faut l'accord écrit des six.
 
@@ -661,7 +825,7 @@ Les entrées des cas 3 à 14 et 17 à 26 sont à produire à partir des exemples
 
 ## Décisions des six (23/11/2026)
 
-Les 20 propositions ont été acceptées par les six. La colonne « Écarté » garde l'autre option.
+Les 20 propositions ont été acceptées par les six. La colonne « Écarté » garde l'autre option. **En v1.1**, les options écartées des décisions 7, 10, 11, 13, 16 et 18, restées vagues en v1.0 (« Autre ordre », « Plus larges »…), sont remplacées par une option précise et sa raison.
 
 | N° | Point | Décision | Écarté | Section |
 | --- | --- | --- | --- | --- |
@@ -671,20 +835,35 @@ Les 20 propositions ont été acceptées par les six. La colonne « Écarté » 
 | 4 | **Nœud isolé** | Un pair joignable pour produire, et jamais deux blocs de suite | Simple conseil (un nœud seul peut remplacer l'historique) | 3.2, 4.2, 7 |
 | 5 | **Taille d'un bloc** | 50 messages | 20 messages | 2.2 |
 | 6 | **Durée du créneau** | 20 s | 10 s | 4.2 |
-| 7 | **Association nœuds / binômes** | a = binôme 1, b = binôme 2, c = binôme 3 | Autre ordre | En-tête |
+| 7 | **Association nœuds / binômes** | a = binôme 1, b = binôme 2, c = binôme 3 | Ordre tiré au sort (aucun avantage technique ; le numéro du binôme est plus facile à retenir) | En-tête |
 | 8 | **Un bloc par créneau** | Règle 3.2.5 ajoutée, règle « message ≤ bloc » retirée | Plusieurs blocs par créneau | 3.2 |
 | 9 | **Choix entre deux chaînes** | Plus haute, puis plus petit `hash` | Premier reçu | 5 |
-| 10 | **Fenêtres d'horloge** | 60 s (message), 5 s (bloc) | Plus larges | 3 |
-| 11 | **Limites d'abus** | 40 messages/min, 10 blocs/min par pair | Autres seuils | 8.2 |
+| 10 | **Fenêtres d'horloge** | 60 s (message), 5 s (bloc) | 120 s et 30 s (plus tolérant aux horloges fausses, mais une erreur d'horloge passerait inaperçue plus longtemps) | 3 |
+| 11 | **Limites d'abus** | 40 messages/min, 10 blocs/min par pair | Aucune limite par pair (un nœud bogué remplirait la file des autres) ; 10 messages/min (sous le débit d'une démo à trois applications) | 8.2 |
 | 12 | **Stockage obligatoire** de la chaîne et de la file | Oui, format libre | Tout en mémoire | 7 |
-| 13 | **Port et noms Tailscale** | 8080, nom = identifiant (IP en secours) | Autre port | 6.1 |
+| 13 | **Port et noms Tailscale** | 8080, nom = identifiant (IP en secours) | Port 80 (droits d'administrateur) ; un port par nœud (une valeur de plus à configurer) | 6.1, 6.2 |
 | 14 | **Endroit de référence** de la spec | Un dépôt GitHub privé commun | Google Doc + export | 11 |
 | 15 | **Répartition des cas de test** | 8, 7 et 7 cas (22 au total) | Un seul binôme | 10.2 |
-| 16 | **Canal de discussion commun** | Discord à six | Autre | 11 |
+| 16 | **Canal de discussion commun** | Discord à six | Issues GitHub seules (trop lent pour une question le jour J) | 11 |
 | 17 | **Dépôt public ou privé** | Privé (le sujet demande seulement d'y inviter l'équipe enseignante) | Public | 11 |
-| 18 | **Règle de sortie de `SYNCING`** | Immédiate si un pair répond sans être meilleur, sinon 10 essais de 3 s | Autres valeurs | 7 |
+| 18 | **Règle de sortie de `SYNCING`** | Immédiate si un pair répond sans être meilleur, sinon 10 essais de 3 s | 5 essais de 2 s (sortie trop tôt si un pair démarre lentement) ; attente sans fin (un nœud seul ne sortirait jamais) | 7 |
 | 19 | **Tailles maximales** | 8 Ko par message, 512 Ko par bloc | Un plafond unique | 8.2 |
 | 20 | **Fenêtre d'horloge d'un bloc nouveau** | 5 s dans le futur, 30 s dans le passé | Seulement le futur | 3.2 |
+
+### Décisions de la v1.1 (validées par les trois binômes le 26/11/2026)
+
+| N° | Point | Proposition | Écarté | Section | Repère |
+| --- | --- | --- | --- | --- | --- |
+| 21 | **Borne future partout** | 5 s dans le futur pour tout bloc, rattrapage compris ; borne passée au seul `POST` | Fenêtre au seul `POST` (contournée par le sondage) | 3.2.9, 3.3, 7 | B1 |
+| 22 | **Horloge fausse** | Plus de 2 s d'écart avec tous les pairs : ni bloc ni message. Trois horloges fausses deux à deux arrêtent la chaîne (limite acceptée) ; horloges réglées à la main à chaque séance | Un simple avertissement ; un seuil plus large | 4.2, 5.3, 6.4, 10.3 | B1 |
+| 23 | **Auto-vérification** | Le producteur valide son bloc (3.2, règles 1 à 10) avant de l'ajouter | Ajouter seulement la règle 3.2.5 à 4.2 | 3, 4.2 | B2 |
+| 24 | **Bloc confirmé** | 3 blocs au-dessus, ou 60 s sans changement avec la même tête chez les pairs | « Quelques blocs » sans chiffre | 1, 5.3, 9 | I1 |
+| 25 | **Chaîne d'essai et chaîne réelle** | Deux blocs zéro ; le réel porte l'empreinte des clés ; redémarrage = nouvelle ouverture | Effacer les fichiers à la main | 2.3.1, 8.4, 10 | I2 |
+| 26 | **Expéditeur** | Reconnu par l'adresse IP Tailscale source ; en mode test, table « adresse:port → identifiant » et une adresse de boucle locale par nœud | En-tête `X-Node` (même en test), port source, jeton | 6.1 | I3 |
+| 27 | **Cas de test** | Cas 23 avec son heure, cas 27 à 36, format commun, 15 et 16 attribués, dépôt le 07/12 (le 04/12 si O6 l'accepte) | Garder la v1.0 ; dépôt le 04/12 d'office | 10.2 | I4 |
+| 28 | **Quotas de l'IA** | Chaque dossier chiffre ce que son IA lit par jour ; pas d'IA sur la chaîne d'essai | Ne rien dire | 9 | I5 |
+| 29 | **NFC** | Faite par le nœud d'origine, pas vérifiée à la réception | Règle de validité (dépend de la version d'Unicode) | 2.1, 3.1 | M1 |
+| 30 | **Socle du 10/12** | Liste de ce qui doit marcher le 10/12, le reste en S2 | Tout le 10/12 | 10.0 | Faisabilité |
 
 ### Points ouverts
 
@@ -693,6 +872,8 @@ Les 20 propositions ont été acceptées par les six. La colonne « Écarté » 
 | O1 | Création du dépôt privé commun et accès de l'équipe enseignante | Les six | Vendredi 27/11 |
 | O2 | Résolution des noms Tailscale testée, sinon IP | Un membre par binôme | Lundi 07/12 |
 | O3 | Publication des trois clés publiques réelles | Un membre par binôme | Avant le lundi 07/12 |
+| O4 | Écart réel des trois postes sur eduroam, et la synchronisation automatique y fonctionne-t-elle ? (mesure de 10.3, étape 2, faite une première fois en S50) | Un membre par binôme | Lundi 07/12 |
+| O6 | Un script qui calcule les vecteurs de test est-il accepté en S49 ? Si oui, dépôt des cas le vendredi 04/12 ; sinon le lundi 07/12 | Équipe enseignante (question posée par le binôme 3) | Avant le lundi 30/11 |
 
 ### Ce qui n'est pas à décider
 

@@ -13,6 +13,22 @@ Plus récent en haut. Un daily par matin : **hier / aujourd'hui / blocages**.
 
 ---
 
+### 2026-11-27 · S48 · Spec v1.1 validée, refonte symbole/moodboard, cohérence complète avant rendu (Dylan)
+**Hier :** proposition de spec v1.1 validée par les trois binômes le 26/11/2026 (remplace la v1.0) ; moodboard et premier symbole produits par Nicolas.
+**Aujourd'hui :**
+- **Symbole (`D-026`) :** refonte du cristal-île en un seul massif low-poly continu (crête asymétrique + quille cristalline), **sans trait bleu horizontal** et d'une **teinte unie selon l'émotion majoritaire** des 6 derniers messages (plus de patchwork ni d'effet « cornet de glace »). Planche et 4 SVG regénérés (`docs/symbole/`).
+- **Typographie (`D-028`) :** adoption du duo **Bricolage Grotesque** (titres, consigne, repères) + **Recursive** (Linear pour l'interface, Mono pour les données) sur **tous** les supports (application, planche symbole, moodboard Figma, bible DA §4).
+- **Moodboard Figma (`C4`) :** mis à jour directement dans Figma (nouvelle typo, carte spécimen typographique ajoutée, notes fonctionnelles remplacées par des notes d'ambiance, 11 pastilles alignées sur la palette §3.1) et ré-exporté en PNG (`docs/moodboard-terre/moodboard-planche.png`) ; liens Commons CC BY complets ajoutés dans `docs/moodboard-sources.md`.
+- **Synchronisation complète sur la spec v1.1 validée (`D-027`) :** `docs/spec-commune.md`, `docs/02-spec-commune.md`, `docs/spec-commune/v1.1-proposition.md`, `docs/spec-commune/propositions-v1.1.md` et `tests/vectors/README.md` alignés (O5 clos, 36 cas, notre part = 10 cas).
+- **Corrections croisées des documents :**
+  - `docs/03-dossier-binome.md` v0.14 : quotas IA chiffrés (500/j au mieux, 250/j au pire, 20 msg/min, 20 req/min OpenRouter), chaîne d'essai exclue de l'IA, mise à jour de `block_index` après fourche, retraitement limité aux échecs (`D-006`), palier 2 avancé au mercredi 09/12 matin au plus tard, suppression des espaces clarifiée (application puis contrôle strict du nœud).
+  - `docs/04-charte-editoriale.md` v1.4 : normalisation exacte des accents (NFD) et des emojis composés (retrait `U+FE0F`), effets pluie/brouillard alignés sur bible §6.3, messages de refus ajoutés pour l'horloge désynchronisée/reculée (§4.1).
+  - `docs/05-bible-da.md` v1.5 : §2, §4, §5 et §8 synchronisés ; messages masqués explicitement exclus de la fenêtre d'atmosphère des 5 derniers (§6.3).
+  - `docs/06-backlog.md` v2.0, `docs/07-evaluation.md`, `docs/a-faire.md` : socle du 10/12 (§10.0) distingué en N5, `chaines.json` ajouté en N1, palier 2 avancé, S49 mise à jour (polices locales + réglage manuel d'horloge HTTPS).
+
+**Blocages / Reste avant 17h :** produire les 3 esquisses 16:9 dans Figma (C6), faire passer le test de la charte à 3 personnes (C7), co-validation de D-023 à D-025 et relectures C3/C9 par Nicolas, création du dépôt commun (C11), export et dépôt des 4 PDF (C10).
+**Décisions :** D-026 (affinée), D-027 (validée), D-028, D-006 et D-009 (précisées) dans `decisions.md`.
+
 ### 2026-11-26 · S48 · Réponse à la relecture de la spec (Dylan, avec Claude Code)
 **Aujourd'hui :**
 - L'équipe enseignante a relu la spec v1.0 : formats et cryptographie justes, mais deux points bloquants (horloge contournée et chaîne qui peut geler ; bloc invalide produit par un nœud qui suit 4.2), cinq points importants et huit mineurs.

@@ -11,7 +11,10 @@
 
 **Lecture des licences.**
 - **Domaine public** et **CC0** : libre, on cite quand même la source.
-- **CC BY 2.5, 3.0 et 2.0** : libre, à condition de citer l'auteur ; **à faire dans le PDF : ajouter le lien vers la page Commons** pour les n° 03, 02 et 12.
+- **CC BY 2.5, 3.0 et 2.0** : libre, à condition de citer l'auteur et le lien vers la page source :
+  - n° 02 (`CC BY 2.0`) : https://commons.wikimedia.org/wiki/File:Bora_Bora_(16542797633).jpg
+  - n° 03 (`CC BY 3.0`) : https://commons.wikimedia.org/wiki/File:Aerial_View_of_Hill_Inlet_-_2013.04_-_panoramio.jpg
+  - n° 12 (`CC BY 2.5`) : https://commons.wikimedia.org/wiki/File:Aitutaki_from_top_2006.jpg
 - **Jeux vidéo** (*Wind Waker*, *Dorfromantik*, *Townscaper*, *Dredge*, *Firewatch*) : cités comme références culturelles, sans reprendre leurs captures (bible §2).
 
 ## Les 12 images de la planche
@@ -35,8 +38,8 @@
 
 - **Dominante bleu-turquoise** (le *Lagon* `#36B5BC`, couleur dominante demandée par l'équipe), avec des accents chauds répartis : soleil d'Aïvazovski (en haut à gauche), cratère de magma (au centre en bas), carte des fonds marins (en haut à droite).
 - **Fond crème** `#F4F1E8`, halo aqua et courbes de niveau.
-- **Polices de la planche :** Fraunces (titre), Quicksand (mots-clés, notes, étiquettes), IBM Plex Mono (crédits, codes hex), comme la v5. Recursive reste la police de l'application (D-009).
-- **Palette (11 couleurs)** en alternance froid / chaud : Abysse `#133C59`, Soleil `#F5C84B`, Lagon `#36B5BC`, Aube `#F4A6A0`, Écume `#BFE6E8`, Magma `#FF7626`, Mousse `#607A70`, Sable `#E4CA94`, Prairie `#56A85C`, Violet `#A78BFA`, Basalte `#30242C`. **Soleil, Aube et Écume sont des propositions nouvelles**, non ajoutées à la bible §3.1 : à valider avant de les utiliser dans l'œuvre.
+- **Polices de la planche :** **Bricolage Grotesque** (titre, mots-clés, étiquettes) et **Recursive** (Linear pour les notes, Mono pour les crédits et codes hex), alignées avec la bible DA §4.
+- **Palette (11 couleurs)** alignée sur la bible DA §3.1 : Abysse `#133C59`, Lagon `#36B5BC`, Cours d'eau `#3B82A6`, Sable doré `#E4CA94`, Sable noir `#3E363A`, Prairie `#56A85C`, Mousse `#607A70`, Falaise `#7A808A`, Neige `#ECF2F8`, Magma `#FF7626`, Brume `#7B8798`.
 - **Contraste.** Les normes WCAG (A, AA, AAA) s'appliquent au texte et aux éléments d'interface, pas aux couleurs d'une œuvre ni aux pastilles d'une palette. Sur la planche, le texte est en `#133C59` sur `#F4F1E8` (10,2:1, niveau AAA) et les codes hex en `#3F5B6B` (6,4:1, niveau AA). Le turquoise et l'orange (2,2:1 et 2,4:1) ne servent jamais de couleur de texte.
 
 ## Écartées
