@@ -23,7 +23,7 @@ Nouvelle page du fichier Figma : [Moodboard v8 · Terre commune (culture)](https
 
 | Emplacement v8 | Domaine | Fichier | Titre exact sur Commons / Source | Auteur, date | Licence |
 | --- | --- | --- | --- | --- | --- |
-| *Lava* (affiche) | Cinéma | `images-v7/A1-lava-pixar.jpg` | Affiche officielle *Lava* (court-métrage Pixar) | Pixar / J. F. Murphy, 2014 | © Disney/Pixar — citation pédagogique (hors redistribution) |
+| *Lava* (affiche) | Cinéma | `images-v7/A1-lava-pixar.jpg` (en local, hors dépôt) | Affiche officielle *Lava* (court-métrage Pixar) | Pixar / J. F. Murphy, 2014 | © Disney/Pixar — citation pédagogique (hors redistribution) |
 | Surtsey 1963 | Photographie | `images/05-surtsey-1963.jpg` | `Surtsey eruption 1963.jpg` | H. Williams, NOAA, 1963 | Domaine public |
 | Jameos del Agua | Architecture | `images-v7/A4-jameos-del-agua.jpg` | `Jameos del Agua - Lanzarote -05.jpg` | César Manrique (1966) ; photo H. Zell | CC BY-SA 3.0 |
 | *Le Rêve* | Peinture | `images-v7/B1-reve-rousseau.jpg` | `Henri Rousseau - Le Rêve - Google Art Project.jpg` | Henri Rousseau, 1910 | Domaine public |
@@ -33,7 +33,7 @@ Nouvelle page du fichier Figma : [Moodboard v8 · Terre commune (culture)](https
 | *Les Quatre Saisons* | Peinture | `images-v7/C1-quatre-saisons-arcimboldo.jpg` | `Giuseppe Arcimboldo, Four Seasons in One Head, c. 1590, NGA 142008.jpg` | Arcimboldo, v. 1590 (NGA) | CC0 |
 | *Warming stripes* | Data / Média | `images-v7/C2-warming-stripes.png` | `20181204 Warming stripes (global, WMO, 1850-2018) - Climate Lab Book (Ed Hawkins).png` | Ed Hawkins, 2018 | CC BY-SA 4.0 |
 | *Mer de brouillard* | Peinture | `images/07-brouillard-friedrich.jpg` | `Caspar David Friedrich - Wanderer above the Sea of Fog.jpeg` | C. D. Friedrich, 1817 | Domaine public |
-| *Super Mario Bros. 3* (Monde 3) | Jeu vidéo | `images-v7/D1-mario3-world3.png` | Carte du Monde 3 (*Water Land*, NES) | Nintendo, 1988 | © Nintendo — citation pédagogique (hors redistribution) |
+| *Super Mario Bros. 3* (Monde 3) | Jeu vidéo | `images-v7/D1-mario3-world3.png` (en local, hors dépôt) | Carte du Monde 3 (*Water Land*, NES) | Nintendo, 1988 | © Nintendo — citation pédagogique (hors redistribution) |
 | *Catan* (plateau) | Jeu de société | `images-v7/D2-plateau-catan.jpg` | `PXL 20230226 231727215 Catan Legend of the Conquerors board game.jpg` | WalkingRadiance, 2023 (jeu © K. Teuber) | CC BY-SA 4.0 |
 | Spécimen typo | Typographie | Composant natif Figma | Bricolage Grotesque + Recursive | Atelier Triay / Arrow Type | SIL Open Font License |
 

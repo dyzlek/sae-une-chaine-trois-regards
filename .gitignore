@@ -33,3 +33,13 @@ Thumbs.db
 
 # Exports PDF de test (le rendu final se dépose sur Moodle)
 rendus/
+
+# Images sous droits (citation pédagogique) : gardées en local pour Figma et le PDF Moodle,
+# jamais dans le dépôt public (issue #7)
+docs/moodboard-terre/images-v7/A1-lava-pixar.jpg
+docs/moodboard-terre/images-v7/D1-mario3-world3.*
+docs/moodboard-terre/images/26-affiche-lava.jpg
+docs/moodboard-terre/images/27-affiche-vice-versa.jpg
+docs/moodboard-terre/images/28-jaquette-super-mario-world.png
+docs/moodboard-terre/images/29-jaquette-wind-waker.jpg
+docs/moodboard-terre/moodboard-planche.pdf
