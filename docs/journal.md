@@ -13,6 +13,10 @@ Plus récent en haut. Un daily par matin : **hier / aujourd'hui / blocages**.
 
 ---
 
+### 2026-11-27 · S48 · Réponse des enseignants sur le point O6 (Dylan)
+**Aujourd'hui :** question C14 posée : l'équipe enseignante **accepte** qu'on écrive en S49 le script qui calcule nos vecteurs de test (empreintes SHA-256, signatures Ed25519).
+**Décisions :** nos cas (vecteurs 30, 32, 36, cas 20 et 23 mis à jour, C13) sont déposés aux six le **vendredi 04/12**, comme le prévoit la spec v1.1, au lieu du lundi 07/12. C14 fermée (#22), échéance de C13 avancée (#21).
+
 ### 2026-11-27 · S48 · Dernières corrections avant l'export (Dylan)
 **Aujourd'hui :** README : le dépôt est public (la phrase « enseignants invités » était fausse) et renvoie au tableau du backlog ; `a-faire.md` : T7 aligné sur le backlog (notation à l'aveugle) et renvoi aux issues S49 ; moodboard v8 : étiquette « saisons » déplacée près de l'Arcimboldo, PNG réexporté (issue #8).
 **Reste avant 17h :** C10, export et dépôt des 4 PDF sur Moodle ; C14, question aux enseignants.

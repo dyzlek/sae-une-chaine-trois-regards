@@ -1,6 +1,6 @@
 # Vecteurs de test · spec commune v1.1 · part du binôme 3
 
-Cas **20 à 26** (déjà générés) et **30, 32, 36** (à ajouter, backlog C13) de la section 10.2 de [la spec v1.1](../../docs/spec-commune.md). Répartition v1.1 (36 cas au total) : binôme 1, vecteurs 3 à 10, 27 + scénarios 15, 33, 35 (12) ; binôme 2, vecteurs 11 à 14, 17 à 19, 28, 29, 31 + scénarios 16, 34 (12) ; **binôme 3, vecteurs 22, 23, 30, 32, 36 + scénarios 20, 21, 24 à 26 (10)**. Partage aux six (Discord, pas de dépôt commun) le lundi 07/12 (ou vendredi 04/12 si O6 accepté).
+Cas **20 à 26** (déjà générés) et **30, 32, 36** (à ajouter, backlog C13, dépôt aux six le **ven. 04/12** : script de calcul accepté en S49, point O6) de la section 10.2 de [la spec v1.1](../../docs/spec-commune.md). Répartition v1.1 (36 cas au total) : binôme 1, vecteurs 3 à 10, 27 + scénarios 15, 33, 35 (12) ; binôme 2, vecteurs 11 à 14, 17 à 19, 28, 29, 31 + scénarios 16, 34 (12) ; **binôme 3, vecteurs 22, 23, 30, 32, 36 + scénarios 20, 21, 24 à 26 (10)**. Partage aux six (Discord, pas de dépôt commun) le lundi 07/12 (ou vendredi 04/12 si O6 accepté).
 
 > Les clés de ce dossier sont les **clés de test publiques** de la spec (10.1). Ne jamais les utiliser en vrai.
 

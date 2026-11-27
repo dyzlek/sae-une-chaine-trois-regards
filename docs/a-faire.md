@@ -52,7 +52,7 @@ Les textes de la bible DA v1.6, de la charte v1.5, du dossier v0.15 et du backlo
 ## 4. Questions à poser aux enseignants (daily)
 
 - ☐ Peut-on alterner les clés de signature (une par personne) ou une seule clé par nœud ?
-- ☐ A-t-on le droit d'écrire du code pendant la S49 (sans SAÉ) ou seulement d'installer ?
+- ◐ A-t-on le droit d'écrire du code pendant la S49 (sans SAÉ) ou seulement d'installer ? **Oui pour le script de calcul des vecteurs** (O6, C14, réponse du 27/11) : nos cas sont déposés le ven. 04/12. Pour le reste, à préciser.
 - ☐ Le backlog peut-il être rendu sous forme de lien vers GitHub ?
 
 ## 5. La S49 (30/11 au 04/12) : préparer l'environnement

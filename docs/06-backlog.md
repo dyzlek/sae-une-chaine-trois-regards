@@ -37,8 +37,8 @@
 | C10 | Export PDF des 4 rendus (schéma `architecture.svg`, polices intégrées) | Dylan | 2 h | I | ven. 27/11, avant 17h | ☐ |
 | C11 | Partage de la spec commune aux six (PDF, pas de dépôt commun) | les six | — | I | ven. 27/11 | ☑ |
 | C12 | Proposer la spec v1.1 aux six ([réponses à la relecture](spec-commune/propositions-v1.1.md)) | Dylan | 3 h | **I** | ven. 27/11 | ☑ validée le 26/11 |
-| C13 | Nos nouveaux vecteurs v1.1 : 30, 32 et 36, cas 20 et 23 mis à jour (`version_spec` 1.1) | Dylan | 2 h | I | lun. 07/12 (ven. 04/12 si O6 est accepté) | ☐ |
-| C14 | Demander à l'équipe enseignante si un script de calcul des vecteurs est accepté en S49 (spec v1.1, point ouvert O6) ; sans accord, dépôt des cas le lun. 07/12 | Dylan | ¼ h | I | ven. 27/11 | ☐ |
+| C13 | Nos nouveaux vecteurs v1.1 : 30, 32 et 36, cas 20 et 23 mis à jour (`version_spec` 1.1) | Dylan | 2 h | I | **ven. 04/12** (O6 accepté le 27/11) | ☐ |
+| C14 | Demander à l'équipe enseignante si un script de calcul des vecteurs est accepté en S49 (spec v1.1, point ouvert O6) ; sans accord, dépôt des cas le lun. 07/12 | Dylan | ¼ h | I | ven. 27/11 | ☑ oui : script de calcul des vecteurs accepté en S49, dépôt des cas le ven. 04/12 |
 
 ### Nœud (spec)
 
@@ -163,7 +163,7 @@ Voir dossier §10 ; la colonne « Qui » du backlog l'applique tâche par tâche
 | Nicolas | Tailscale installé (`sae-nicolas`), compte et clé OpenRouter ; Node.js 24, `better-sqlite3` et `three` installés en local ; polices variables **Bricolage Grotesque** et **Recursive** chargées en local (`app/fonts/`, D-028) ; relecture des sections 2, 3 et 6 de la spec v1.1 (pour relire le nœud dès le lundi) | même vérification ; une scène Three.js vide et les deux polices s'affichent hors ligne |
 | À deux | Veille et mises à jour Windows désactivées sur la machine du nœud ; **horloge :** tester la vérification manuelle (NTP bloqué sur eduroam, spec §10.3) | un message échangé sur le groupe du binôme |
 
-Écrire du code en S49 n'est prévu que si l'équipe enseignante l'accepte (question posée) ; le plan de la S50 ne compte pas dessus.
+En S49, l'équipe enseignante accepte le **script de calcul de nos vecteurs** (point ouvert O6, réponse du 27/11) : Dylan produit C13 et dépose nos cas aux six le **ven. 04/12**. Le reste du code attend la S50 ; le plan de la S50 ne compte sur rien d'autre.
 
 ---
 
