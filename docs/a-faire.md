@@ -9,7 +9,7 @@ Légende : ☐ à faire · ◐ commencé · ☑ fait. **D** = Dylan, **N** = Nic
 | Quand | Quoi | Où |
 | --- | --- | --- |
 | **jeu. 26/11, 12h30** | Spec commune (les six) — v1.1 validée le 26/11 | Moodle |
-| **ven. 27/11, 17h** | Dossier de binôme (v0.15), charte éditoriale (v1.5), bible DA (v1.6) (3 PDF) + backlog et plan S50 / S2 (v2.0, PDF ou lien) | Moodle |
+| **ven. 27/11, 17h** | Dossier de binôme (v0.15), charte éditoriale (v1.5), bible DA (v1.6) (3 PDF) + backlog et plan S50 / S2 (v2.1, PDF ou lien) | Moodle |
 | avant le lun. 07/12 | S49 : environnement prêt sur nos postes (section 5) | chez soi |
 | jeu. 10/12 | Les trois nœuds rejoignent la chaîne | en salle |
 
