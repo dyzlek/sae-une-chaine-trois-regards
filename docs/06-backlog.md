@@ -21,15 +21,15 @@
 
 | # | Tâche | Qui | Est. | Prio. | Échéance | Statut |
 | --- | --- | --- | --- | --- | --- | --- |
-| C1 | Spec commune v1.0, déposée sur Moodle | les six | — | I | jeu. 26/11, 12h30 | ◐ (validée, à déposer) |
+| C1 | Spec commune v1.0/v1.1, déposée sur Moodle | les six | — | I | jeu. 26/11, 12h30 | ☑ déposée sur Moodle (v1.1 validée le 26/11) |
 | C2 | Nos vecteurs de test 20 à 26 (spec v1.0) | Dylan | 3 h | I | 23/11 | ☑ ([tests/vectors/](../tests/vectors/README.md)) |
-| C3 | Relire la bible DA v1.5 (*Terre commune*) et valider à deux avant l'export PDF | à deux | 1 h | I | ven. 27/11 | ☐ |
+| C3 | Relire la bible DA v1.5 (*Terre commune*) et valider à deux avant l'export PDF | à deux | 1 h | I | ven. 27/11 | ☑ validée à l'oral par Nicolas le 27/11 |
 | C4 | Nouveau moodboard *Terre commune* dans Figma (références 3D/archipel, licences exactes, palette §3.1, spécimen typo) | D + N | 2 h | I | jeu. 26/11 | ☑ fait dans Figma et exporté ([moodboard-planche.png](moodboard-terre/moodboard-planche.png)) |
 | C5 | Nouveau symbole *Terre commune* : le cristal-île unifié, règles exactes, déclinaisons (bible §5, D-026) | D + N | 2 h | I | jeu. 26/11 | ☑ planche et SVG dans [symbole/](symbole/planche-symbole.png) |
 | C6 | Trois esquisses 16:9 (océan vide, 10 messages, 300 messages) | D + N | 3 h | I | ven. 27/11 | ☑ produites en HTML et exportées ([esquisses/](esquisses/1-vide.png)) |
 | C7 | Test de la charte v1.3 auprès de 3 personnes (charte §3) | à deux | 1 h | I | jeu. 26/11 | ◐ fiche prête ([test-charte.md](test-charte.md)), test à faire passer |
 | C8 | Vérifier le réglage de confidentialité d'OpenRouter et l'écrire (charte §4.3) | Dylan | ½ h | I | mer. 25/11 | ☑ réglages relevés et désactivés, essai réussi avec `data_collection: "deny"` (charte §4.3, D-019) |
-| C9 | Relire dossier v0.14 et charte v1.4 | Nicolas | 1 h | I | ven. 27/11 | ☐ |
+| C9 | Relire dossier v0.14 et charte v1.4 | Nicolas | 1 h | I | ven. 27/11 | ☑ validés à l'oral par Nicolas le 27/11 |
 | C10 | Export PDF des 4 rendus (schéma Mermaid en image, polices intégrées) | Dylan | 2 h | I | jeu. 26/11 (test), ven. 27/11 (dépôt) | ☐ (à faire après les 3 livrables Figma C4/C5/C6) |
 | C11 | Créer le dépôt commun des six et y déposer nos vecteurs (point ouvert O1) | Dylan + un membre par binôme | 1 h | I | ven. 27/11 | ☐ |
 | C12 | Proposer la spec v1.1 aux six : réponses à la relecture de l'équipe enseignante ([réponses](spec-commune/propositions-v1.1.md), [texte complet](spec-commune/v1.1-proposition.md)) | Dylan | 3 h | **I** | ven. 27/11 | ☑ **validée par les trois binômes le 26/11/2026** (remplace la v1.0) |

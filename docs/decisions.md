@@ -14,7 +14,7 @@ Un choix = un bloc court : contexte, décision, pourquoi, ce qui est écarté. P
 
 ---
 
-### D-028 · Duo typographique unifié : Bricolage Grotesque + Recursive (planches et application)
+### D-028 · Duo typographique unifié : Bricolage Grotesque + Recursive (planches et application — validée à l'oral par Nicolas le 27/11/2026)
 - **Date :** 2026-11-27
 - **Contexte :** les planches de présentation utilisaient Fraunces / Quicksand / IBM Plex Mono (héritage de `D-020` écartée) alors que l'application utilisait Recursive (`D-009`), créant un décalage visuel.
 - **Décision :** adopter **Bricolage Grotesque** (titres, nom *Terre commune*, consigne, repères) associé à **Recursive** (Linear pour l'interface et les textes, Mono pour les données techniques et crédits) sur **tous** les supports : application, moodboard Figma, planche symbole et bible DA (§4).
@@ -37,7 +37,7 @@ Un choix = un bloc court : contexte, décision, pourquoi, ce qui est écarté. P
 - **Écarté :** courbes de niveau ; phare ; double pyramide symétrique (confondue avec `noeud-c`) ; patchwork 6 couleurs + trait Lagon horizontal (peu lisible et cassait la silhouette) ; trois pics séparés (effet « cornet de glace »).
 - **Remplace :** le brief de la bible v1.3 §5.
 
-### D-025 · Relief recalibré par simulation, enrichissements séparés du socle (à co-valider par Nicolas)
+### D-025 · Relief recalibré par simulation, enrichissements séparés du socle (validée à l'oral par Nicolas le 27/11/2026)
 - **Date :** 2026-11-25
 - **Contexte :** une simulation des formules de la bible v1.1 (script jetable, hors dépôt) montre qu'aucune terre n'émerge avant une trentaine de messages (0 % à 10 messages), que le magma et la neige n'apparaissent jamais à 300, et qu'un message de tristesse en pleine mer ne laisse aucune trace. Cela contredit l'intention (« l'impact immédiat ») et l'esquisse à 10 messages.
 - **Décision :** fond initial à `−0,4` au centre (`−0,9` au bord) ; élévations plus fortes (`joie` `1,00 + 0,80 × densite`, `calme` `0,70 + 0,50 × densite`, volcan `1,60 + 1,60 × densite`) ; amortissement seulement après 3 passages (`0,30` par passage) et compression vers `3,2` ; tristesse en pleine mer = haut-fond qui reste sous l'eau ; magma lié au cratère (`h ≥ 0,9`, `volc ≥ 0,80`) ; bandes de couleur décalées (prairie jusqu'à `2,0`, neige dès `2,9`) ; ordre des tirages du PRNG fixé ; balises limitées aux 60 derniers messages. Rivière, météorite, champignons et animaux passent en enrichissements (bible §6.5, O8), avec une règle d'arrêt pour la rivière. Résultat simulé : une île dès le premier message, ≈ 9 % de terre à 10 messages, ≈ 45 % à 300 avec des biomes variés (bible §6.2).
@@ -45,7 +45,7 @@ Un choix = un bloc court : contexte, décision, pourquoi, ce qui est écarté. P
 - **Écarté :** passer la grille à `64 × 64` (plus de détail, mais toutes les références et le budget à revoir) ; garder la rivière dans les règles de base (une boucle sans arrêt et une tâche « en plus » dont dépendrait la règle principale) ; une balise par message (à 300, la carte redeviendrait un graphique de points).
 - **Remplace :** les valeurs numériques de la bible v1.1 §6.1 à §6.4.
 
-### D-024 · Rendu de l'œuvre : Three.js (WebGL) en low-poly à la place de Canvas 2D (à co-valider par Nicolas)
+### D-024 · Rendu de l'œuvre : Three.js (WebGL) en low-poly à la place de Canvas 2D (validée à l'oral par Nicolas le 27/11/2026)
 - **Date :** 2026-11-25
 - **Contexte :** avec le pivot vers *Terre commune* (D-023), l'œuvre devient une carte marine 3D procédurale (heightmap vivante, reliefs, océan animé, caméra orbitale).
 - **Décision :** utiliser **Three.js (WebGL)** en esthétique *low-poly / flat-shading*, servi localement via `<script type="importmap">` (ES modules natifs : `three`, `OrbitControls`, `ImprovedNoise`, sans bundler ni CDN externe), avec un budget géométrique borné (`48 × 48` sommets, éléments instanciés via `InstancedMesh`).
@@ -53,7 +53,7 @@ Un choix = un bloc court : contexte, décision, pourquoi, ce qui est écarté. P
 - **Écarté :** Canvas 2D (insuffisant et peu esthétique pour un terrain 3D) ; WebGL brut (trop verbeux pour S50) ; Unity ou Babylon.js (trop lourds).
 - **Remplace :** la ligne « Canvas 2D » de D-004 (tout le reste de D-004 — Node.js 24, Express 5, `better-sqlite3`, SSE — reste inchangé).
 
-### D-023 · Pivot artistique : *Terre commune*, carte marine 3D procédurale vivante (à co-valider par Nicolas)
+### D-023 · Pivot artistique : *Terre commune*, carte marine 3D procédurale vivante (validée à l'oral par Nicolas le 27/11/2026)
 - **Date :** 2026-11-25
 - **Contexte :** après plusieurs essais de la piste météo 2D (*Front commun* : spirale, 4 polices, ciel à l'encre), nous constatons que le rendu reste trop proche d'un graphique de données et manque d'impact visuel.
 - **Décision :** l'œuvre devient ***Terre commune*** : un océan vierge en 3D dont le fond marin (heightmap procédurale `48 × 48` avec saturation et masque côtier) se sculpte durablement à chaque message. La joie fait grandir l'île (forêts, champignons, animaux, voiliers, soleil) ; le calme façonne des criques et phares ; la tristesse déclenche la pluie et creuse rivières ou lagons ; la colère déclenche l'orage, la houle, des volcans ou des impacts de météorite. La charte passe à `emotion` (`joie`, `calme`, `tristesse`, `colere`, lexique `l2` émotionnel, prompt `p2`). Chaque message laisse une balise forme + couleur de son nœud (pyramide Cyan, cube Ambre, losange Violet). Retour à **Recursive** (D-009).

@@ -79,13 +79,13 @@ La planche précédente (météo satellite) est archivée et remplacée. La nouv
 
 Pour respecter l'accessibilité (**jamais la couleur seule**) et éviter toute confusion avec la couleur d'erreur (`#F47280`), chaque nœud possède une **couleur dédiée** et une **forme géométrique propre**, utilisées sur ses **balises/bouées**, **phares** et **fanions de voiliers** :
 
-| Nœud | Couleur | Code | Forme de balise 3D | Rôle |
-| --- | --- | --- | --- | --- |
-| `noeud-a` (Binôme 1) | Cyan | `#38BDF8` | **Pyramide** (tétraèdre) | Balises, phares et fanions du binôme 1 |
-| `noeud-b` (Binôme 2) | Ambre | `#FBBF24` | **Cube** | Balises, phares et fanions du binôme 2 |
-| `noeud-c` (Binôme 3, nous) | Violet | `#A78BFA` | **Losange** (octaèdre) | Balises, phares et fanions de notre nœud |
+| Nœud | Couleur | Code | Contraste sur Encre | Forme de balise 3D | Rôle |
+| --- | --- | --- | --- | --- | --- |
+| `noeud-a` (Binôme 1) | Cyan | `#38BDF8` | 8,8:1 (AAA) | **Pyramide** (tétraèdre) | Balises, phares et fanions du binôme 1 |
+| `noeud-b` (Binôme 2) | Ambre | `#FBBF24` | 11,4:1 (AAA) | **Cube** | Balises, phares et fanions du binôme 2 |
+| `noeud-c` (Binôme 3, nous) | Violet | `#A78BFA` | 7,0:1 (AAA) | **Losange** (octaèdre) | Balises, phares et fanions de notre nœud |
 
-**Pourquoi Violet `#A78BFA` pour `noeud-c`.** L'ancien Corail `#FB7185` était presque identique à la couleur d'erreur (`#F47280`). Le Violet se distingue nettement de l'erreur, de l'océan bleu, des prairies vertes et du magma orange.
+**Pourquoi Violet `#A78BFA` pour `noeud-c` et double encodage daltonisme.** L'ancien Corail `#FB7185` était presque identique à la couleur d'erreur (`#F47280`). Les trois couleurs de nœuds atteignent toutes le niveau **WCAG AAA** sur Encre (`#08111D`) et sont toujours doublées par une forme 3D distincte. De même, les 4 émotions de l'œuvre ne reposent jamais sur la couleur seule : chacune porte un relief et des objets propres (`joie` = forêts et voiliers, `calme` = plages douces et phares, `tristesse` = baies, pluie et brouillard, `colere` = cône volcanique, cratère et orage), rendant la carte lisible quel que soit le type de daltonisme.
 
 ### 3.3 Couleurs de l'interface
 
@@ -253,7 +253,7 @@ Une chaîne très sombre (30 % de colère) donne une île nettement plus volcani
   - **Pluie :** active dès que **2 messages au moins sur les 5 derniers** sont en `tristesse`, ou en `colere` avec `energie ≥ 0,6` (les deux cas s'additionnent).
   - **Orage et éclairs :** actifs dès que **2 messages au moins sur les 5 derniers** sont en `colere`, ou si le **dernier message** a `emotion = colere` et `energie ≥ 0,75`.
 - **Trace d'origine (`node`) :** en plus des phares et des fanions de voiliers (et des lanternes de ruines si O7b est fait), **les 60 messages les plus récents** posent une **petite balise** (`0,35` unité, `0,6` au-dessus du sol ou de l'eau) à leur point d'impact `(cx, cz)`, dans la **forme et la couleur de leur nœud** (pyramide Cyan / cube Ambre / losange Violet, §3.2), en un seul `InstancedMesh` par forme. Les plus anciens se retrouvent dans « Historique » (§8.1). **Pourquoi 60 et pas toutes :** au-delà, les balises couvriraient l'île de points de couleur et la carte redeviendrait un graphique de données, ce que le pivot voulait quitter.
-- **Prévision (`local`) → Observation (`ia`) — technique retenue :** on ne découpe pas le maillage principal. Pour chaque message encore en `values_source = local`, un **petit maillage filaire indépendant** (`PlaneGeometry(2R, 2R, 8, 8)` en `MeshBasicMaterial({ wireframe: true, transparent: true, opacity: 0,75 })`) épouse la heightmap `0,05` unité au-dessus de sa zone `(cx, cz)`. Quand l'IA répond (`values_ready`), la heightmap s'interpole vers les vraies valeurs et ce patch filaire disparaît en fondu en `1,5 s`.
+- **Prévision (`local`) → Observation (`ia`) — technique retenue :** on ne découpe pas le maillage principal. Pour chaque message encore en `values_source = local`, un **petit maillage filaire circulaire indépendant** (`RingGeometry` en `MeshBasicMaterial({ wireframe: true, transparent: true, opacity: 0,72 })`) épouse la heightmap `0,10` unité au-dessus de sa zone `(cx, cz)` (sans coins carrés dépassant sur l'eau). Quand l'IA répond (`values_ready`), la heightmap s'interpole vers les vraies valeurs et ce patch filaire disparaît en fondu en `1,5 s`.
 - **Quand l'IA répond pour un message ancien.** Le relief dépend de l'ordre des messages (`touches`, altitude déjà atteinte) : remplacer les valeurs d'un message de rang `n` recalcule **toute la carte à partir du rang `n`**, puis la scène s'interpole vers le nouvel état en `1,5 s`. Des zones voisines peuvent donc bouger un peu. **Assumé :** c'est la chaîne qui est permanente ; la carte en est une lecture qui **s'affine** quand l'IA remplace une prévision. Le retraitement (dossier §5) va du plus récent au plus ancien, donc ce sont surtout les zones récentes qui bougent. La caméra ne suit pas ces corrections, pour ne pas distraire.
 - **Message masqué (`masquer = true`) :** ne modifie pas `h`, `warm` ni `volc` ; pose une **nappe de brume grise** translucide à `(cx, cz)` avec la balise de son nœud et la mention « Message masqué (charte §4) ».
 
@@ -292,27 +292,27 @@ Trois vues 16:9 (1920 × 1080) de l'application complète *Terre commune* (sourc
 
 ## 8. Design system
 
-**Jetons (tokens) :** couleurs §3.3, **Bricolage Grotesque + Recursive** (§4), espacements 4 / 8 / 16 / 24 px, rayons 16 px (panneaux flottants) et 999 px (boutons, pastilles), `backdrop-filter: blur(12px)`.
+**Direction UI : cartel d'exposition / carnet cartographique.** L'interface reste sobre, anguleuse et discrète pour laisser toute la place à la scène 3D (aucune boîte « SaaS » bombée). **Jetons (tokens) :** couleurs §3.3 (Encre `#08111D` 84 %, Sel `#F1F5F9` contraste 17,3:1, Embruns `#94A3B8` 7,4:1, Corail `#F47280` 6,8:1), **Bricolage Grotesque + Recursive** (§4), espacements 4 / 8 / 16 / 24 px, angles nets (`0–2 px`), filets fins (`1 px` à 20 % Sel, bordure d'accent `2 px` Sel), `backdrop-filter: blur(12px)`.
 
 ### 8.1 Grille de l'écran
 
 | Largeur | Disposition |
 | --- | --- |
-| **Écran large** (≥ 1024 px) | **Scène 3D en plein écran (100 % × 100 %)**. En haut à gauche : badge titre, symbole, compteur de blocs, **`% de terre`** et indicateur des 3 nœuds. En bas au centre : barre de saisie compacte + toast du dernier message. Bouton « Légende / Historique » dépliable à droite |
-| **Tablette** (640 à 1023 px) | Même plein écran 3D, panneaux réduits en largeur |
-| **Téléphone** (< 640 px) | Champ de saisie accessible en bas (zone du pouce), scène 3D sur tout le reste de l'écran |
+| **Écran large** (≥ 1024 px) | **Scène 3D en plein écran (100 % × 100 %)** encadrée de repères d'angle fins. En haut à gauche : cartouche éditorial (symbole 56 px, titre, compteur de messages/blocs, **`% de terre`** et indicateur des 3 nœuds). En haut à droite : bouton cartel `LÉGENDE · HISTORIQUE [ + ]` replié. En bas au centre : console d'écriture « carnet de bord » + ligne de journal du dernier message intégrée au-dessus |
+| **Tablette** (640 à 1023 px) | Même plein écran 3D, console centrée réduite en largeur |
+| **Téléphone** (< 640 px) | Console d'écriture accessible en bas (zone du pouce), scène 3D sur tout le reste de l'écran |
 
 ### 8.2 Composants
 
 | Composant | Description | États |
 | --- | --- | --- |
-| Barre de saisie | Panneau Encre marine bordé Écume fine, Recursive Linear 15 px, compteur `120 / 280` en Mono 12 px, phrase d'exemple | vide, en saisie (bordure Sel), limite proche (≥ 260), refusé (Corail vif + raison) |
-| Bouton « Envoyer » | Pastille Sel sur Encre marine, Recursive 600, hauteur ≥ 44 px | normal, survol, désactivé, envoi en cours |
-| Avertissement | Ligne courte « Message définitif, sans donnée personnelle », détail dépliable | replié, déplié |
-| Toast du dernier message | Carte flottante au-dessus de la barre : forme + couleur du nœud, texte, effet sur la carte, état (`prévision` → `observation`) | normal, masqué (« Message masqué », sans texte) |
-| Pastille d'état | Pictogramme + texte : ○ en attente · ◐ dans un bloc · ● confirmé · ↺ remis en attente | 4 états |
-| Légende dépliable | 4 émotions → reliefs/biomes, 3 nœuds (pyramide Cyan / cube Ambre / losange Violet), filaire = prévision, nappe de brume posée sur l'eau = message masqué, brouillard sur tout l'horizon = tristesse récente | repliée, dépliée |
-| Indicateur des 3 nœuds | Trois pastilles `a`, `b`, `c` en Mono 12 px (● joignable, ○ injoignable) | normal, pair coupé |
-| Symbole (en-tête) | Cristal-île 64 px (§5) à gauche du titre ; logo vivant si O10 est fait, sinon symbole de référence | référence, vivant (change à chaque bloc) |
+| Console d'écriture | Cartouche Encre marine bordé filet fin, champ souligné Recursive Linear 15,5 px, compteur `0 / 280` en Mono 11,5 px, phrase d'exemple | vide, en saisie (filet Sel), limite proche (≥ 260), refusé (Corail vif + raison) |
+| Bouton `INSCRIRE →` | Bloc net Sel sur Encre marine, Recursive Mono 600, zone tactile ≥ 44 px | normal, survol, désactivé, envoi en cours |
+| Avertissement & aide | Ligne courte « Message définitif · sans donnée personnelle », détail dépliable avec numéros d'aide (`3114`, `15`, `112`) | replié, déplié |
+| Ligne de journal (toast) | Bandeau intégré juste au-dessus de la console (`aria-live="polite"`) : forme + couleur du nœud, texte, effet sur la carte, état (`◐ PRÉVISION` → `● CONFIRMÉ`) | normal, masqué (« Message masqué », sans texte) |
+| Pastille d'état | Pictogramme + texte : ○ en attente · ◐ prévision / dans un bloc · ● confirmé · ↺ remis en attente | 4 états |
+| Panneau `LÉGENDE · HISTORIQUE [ + ]` | Replié par défaut. Déplié : légende des 4 émotions (couleurs + reliefs/objets), 3 nœuds (formes + couleurs) et **liste accessible des messages** (navigable au clavier et lecteur d'écran, doublant la scène 3D) | replié, déplié |
+| Indicateur des 3 nœuds | Trois repères `▲ a`, `■ b`, `◆ c` en Mono 11,5 px (actif / coupé) | normal, pair coupé |
+| Symbole (en-tête) | Cristal-île 56 px (§5) à gauche du titre ; logo vivant si O10 est fait, sinon symbole de référence | référence, vivant (change à chaque bloc) |
 
-**Accessibilité :** contraste ≥ 4,5:1 sur tous les textes ; anneau de focus visible de 2 px en Sel ; **aucune information portée par la seule couleur** (chaque nœud a sa forme 3D + couleur, chaque état a son pictogramme + texte) ; respect de `prefers-reduced-motion`.
+**Accessibilité (WCAG 2.2 AA).** Contraste ≥ 6,8:1 sur tous les textes et repères ; anneau de focus visible de `2 px` en Sel ; **aucune information portée par la seule couleur** (double encodage forme/relief + texte) ; **liste clavier / lecteur d'écran** dans `Historique` doublant entièrement la scène WebGL ; `aria-live="polite"` sur la ligne de journal ; respect strict de `prefers-reduced-motion`.

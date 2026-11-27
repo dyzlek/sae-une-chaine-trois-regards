@@ -20,7 +20,7 @@
 
 > **Qu'est-ce que vous traversez, là, maintenant ?**
 > Une phrase suffit. Votre message va sculpter un bout de notre monde en 3D : joie, calme, fatigue, colère… écrivez simplement ce que vous ressentez ou ce que vous voulez laisser derrière vous.
-> ⚠️ **Message définitif, sans donnée personnelle.** *(détail sous le champ :)* 280 caractères au plus. Votre message ne pourra jamais être effacé : il est partagé entre trois groupes et envoyé à un service d'IA extérieur. N'y mettez ni nom, ni adresse, ni rien qui permette de vous reconnaître.
+> ⚠️ **Message définitif, sans donnée personnelle.** *(détail dépliable sous le champ :)* 280 caractères au plus. Votre message ne pourra jamais être effacé : il est partagé entre trois groupes et envoyé à un service d'IA extérieur. N'y mettez ni nom, ni adresse, ni rien qui permette de vous reconnaître. *En cas de détresse ou d'urgence : **3114** (écoute 24h/24), **15** (SAMU), **112** (urgences).*
 
 **Dans le champ, une phrase d'exemple qui change** à chaque visite, pour éviter la page blanche : « Super fier de ce qu'on vient de finir ensemble », « Un peu fatigué ce soir, envie de silence », « Journée électrique, tout m'agace aujourd'hui ».
 

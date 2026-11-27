@@ -30,12 +30,12 @@ Les textes de la bible DA v1.5, de la charte v1.4, du dossier v0.14 et du backlo
 
 ## 2. Validations et tests restants avant vendredi 17h
 
-- ☐ **Conduite de projet :** **Nicolas** relit la bible DA v1.5 (C3), la charte v1.4 et le dossier v0.14 (C9), et **co-valide D-023, D-024 et D-025**.
-- ☑ **Archiver les anciens visuels *Front commun*** : déplacés dans [archives-front-commun/](archives-front-commun/README.md) le 25/11/2026.
-- ☑ **Spec commune v1.1 (C12) :** validée par les trois binômes le 26/11/2026 ; vérifier la trace du dépôt Moodle (C1).
+- ☑ **Conduite de projet :** **Nicolas** a validé à l'oral le 27/11 la bible DA v1.5 (C3), la charte v1.4, le dossier v0.14 (C9) et les décisions `D-023` à `D-028`.
+- ☑ **Archiver les anciens visuels *Front commun*** : déplacés dans [archives-front-commun/](archives-front-commun/README.md) le 25/11/2026 ; fichiers hors-sujet (`art-generatif.pdf`, `LAST_CLICK*`) retirés le 27/11.
+- ☑ **Spec commune v1.1 (C1, C12) :** validée par les trois binômes le 26/11/2026 et déposée sur Moodle.
 - ☐ **Dépôt commun aux six (C11) :** créer le repo commun (O1) et y pousser la spec v1.1 + nos vecteurs.
 - ☐ **Test de la charte (C7) :** faire passer [test-charte.md](test-charte.md) à 3 personnes extérieures et remplir le tableau.
-- ☐ **Export PDF Mermaid :** tester que le schéma Mermaid du dossier s'affiche bien en image dans le PDF.
+- ☑ **Schéma d'architecture PDF :** [architecture.svg](architecture.svg) généré et intégré dans le dossier §2 (plus de risque Mermaid à l'export PDF).
 
 ## 3. Le vendredi 27/11, avant 17h
 

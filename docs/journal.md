@@ -26,7 +26,11 @@ Plus récent en haut. Un daily par matin : **hier / aujourd'hui / blocages**.
   - `docs/05-bible-da.md` v1.5 : §2, §4, §5 et §8 synchronisés ; messages masqués explicitement exclus de la fenêtre d'atmosphère des 5 derniers (§6.3).
   - `docs/06-backlog.md` v2.0, `docs/07-evaluation.md`, `docs/a-faire.md` : socle du 10/12 (§10.0) distingué en N5, `chaines.json` ajouté en N1, palier 2 avancé, S49 mise à jour (polices locales + réglage manuel d'horloge HTTPS).
 
-**Blocages / Reste avant 17h :** produire les 3 esquisses 16:9 dans Figma (C6), faire passer le test de la charte à 3 personnes (C7), co-validation de D-023 à D-025 et relectures C3/C9 par Nicolas, création du dépôt commun (C11), export et dépôt des 4 PDF (C10).
+- **Esquisses 16:9 Three.js (`C6`) :** 3 vues 1920 × 1080 générées en vrai WebGL Three.js (`docs/esquisses/index.html` → `1-vide.png`, `2-quelques.png`, `3-beaucoup.png`) avec plages de sable doré continues (`96 × 96`), vrai cône volcanique en basalte + cratère lumineux, patch filaire circulaire en prévision, et UI cartel d'exposition / carnet cartographique (§8).
+- **Accessibilité, schéma PDF & nettoyage :** contrastes vérifiés par calcul (tous AAA : Sel 17,3:1, Embruns 7,4:1, nœuds 7,0 à 11,4:1), double encodage daltonisme + liste accessible clavier/lecteur d'écran ajoutés en bible §3.2 et §8, numéros d'aide (`3114`, `15`, `112`) ajoutés dans la charte §1, schéma vectoriel `docs/architecture.svg` intégré dans le dossier §2, et fichiers hors-sujet (`art-generatif.pdf`, `LAST_CLICK_Presentation.pptx`) retirés du dépôt.
+- **Validation à deux :** Nicolas a validé à l'oral le 27/11 l'ensemble des livrables (`C3`, `C9`, `D-023` à `D-028`).
+
+**Blocages / Reste avant 17h :** faire passer le test de la charte à 3 personnes extérieures (C7), créer le dépôt commun aux six (C11), exporter et déposer les 4 PDF (C10).
 **Décisions :** D-026 (affinée), D-027 (validée), D-028, D-006 et D-009 (précisées) dans `decisions.md`.
 
 ### 2026-11-26 · S48 · Réponse à la relecture de la spec (Dylan, avec Claude Code)

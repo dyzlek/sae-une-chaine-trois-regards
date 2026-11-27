@@ -24,6 +24,8 @@
 
 Trois processus sur la même machine, qui ne se partagent que le fichier SQLite et une petite API locale :
 
+![Schéma d'architecture technique de noeud-c : trois processus isolés (serveur d'application, nœud blockchain, worker IA), SQLite en mode WAL, pairs Tailscale et OpenRouter.](architecture.svg)
+
 ```mermaid
 flowchart LR
     V[Visiteur] --> WEB[Application web<br/>HTML, CSS, JavaScript]
@@ -259,7 +261,7 @@ Critère de fin : tous les cas de la spec passent, trois chaînes ont le même h
 
 **Git :**
 - Dépôt GitHub privé, accès donné **aux deux membres du binôme et à l'équipe enseignante**.
-- Personne ne pousse directement sur `main` : une branche par tâche (`feat/...`, `fix/...`), fusion par pull request relue par l'autre. Si l'offre GitHub gratuite ne permet pas de verrouiller la branche sur un dépôt privé, c'est une règle d'équipe, pas un blocage technique.
+- En S48 (conception documentaire), les ajustements se font sur `main` avec relectures croisées à deux ; dès la S50 (code), personne ne pousse directement sur `main` : une branche par tâche (`feat/...`, `fix/...`), fusion par pull request relue par l'autre. Si l'offre GitHub gratuite ne permet pas de verrouiller la branche sur un dépôt privé, c'est une règle d'équipe, pas un blocage technique.
 - Messages de commit courts et clairs, un sujet par commit.
 - Jamais de secret dans Git (`.env`, clés).
 - **La spec :** la référence est la spec des six, dans un dépôt GitHub privé commun (décision 14 ; création prévue le 27/11, point ouvert O1). Pour notre binôme, la version en vigueur est la **spec commune v1.1** (validée par les trois binômes le 26/11/2026 ; copie de travail dans `docs/spec-commune.md`, archive v1.0 dans [spec-commune/v1.0.pdf](spec-commune/v1.0.pdf)). Elle ne se modifie jamais seule : tout changement passe par une pull request approuvée par les trois binômes (spec §11).
