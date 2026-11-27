@@ -57,9 +57,11 @@ Les textes de la bible DA v1.6, de la charte v1.5, du dossier v0.15 et du backlo
 
 ## 5. La S49 (30/11 au 04/12) : préparer l'environnement
 
+> Le suivi détaillé est sur GitHub (`D-032`) : [issues du jalon S49](https://github.com/dyzlek/sae-une-chaine-trois-regards/issues?q=milestone%3A%22S49+%C2%B7+Pr%C3%A9paration%22) (#61, #66 à #69) et [tableau du backlog](https://github.com/users/dyzlek/projects/5). Cette liste n'en est que le résumé.
+
 - ☐ Tailscale installé, poste nommé `noeud-c`, connexion vérifiée avec un autre binôme.
 - ☐ Node.js 24 installé ; `better-sqlite3` qui compile sous Windows ; `three` installé en local.
 - ☐ Polices variables **Bricolage Grotesque** et **Recursive** téléchargées en local (`app/fonts/`, D-028).
 - ☐ Fichier `.env` local (clé OpenRouter, jamais dans Git).
-- ☐ T7, test du prompt `p2` : le lot des six exemples de la charte §3 envoyé 10 fois ; noter `model_used` et l'heure de remise à zéro du quota (50 req/jour).
+- ☐ T7, test du prompt, seconde partie : Dylan et Nicolas notent chacun 10 nouveaux messages **avant** de voir l'IA, puis on compare (objectif : 80 % d'`emotion` justes) ; vérifier qu'ernie est toujours gratuit.
 - ☐ **Point ouvert O3 de la spec :** publier notre clé publique Ed25519 avant le lun. 07/12.

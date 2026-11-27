@@ -88,4 +88,6 @@ Nœud 25 % · Application 20 % · Direction artistique 20 % · Conception (S48) 
 | Binôme 2 | Maxens Sevilla, Rahim Tamhaev | `noeud-b` |
 | Binôme 1 | Mouhamed Al Amine Bah, Hugo Delpuech | `noeud-a` |
 
-Accès GitHub : Nicolas et l'équipe enseignante sont invités sur ce dépôt.
+Accès GitHub : le dépôt est public, l'équipe enseignante peut le consulter directement ; Nicolas en est collaborateur.
+
+Backlog et suivi des tâches : [tableau GitHub Project](https://github.com/users/dyzlek/projects/5) (une issue par tâche, `D-032`).

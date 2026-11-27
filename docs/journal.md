@@ -13,6 +13,10 @@ Plus récent en haut. Un daily par matin : **hier / aujourd'hui / blocages**.
 
 ---
 
+### 2026-11-27 · S48 · Dernières corrections avant l'export (Dylan)
+**Aujourd'hui :** README : le dépôt est public (la phrase « enseignants invités » était fausse) et renvoie au tableau du backlog ; `a-faire.md` : T7 aligné sur le backlog (notation à l'aveugle) et renvoi aux issues S49 ; moodboard v8 : étiquette « saisons » déplacée près de l'Arcimboldo, PNG réexporté (issue #8).
+**Reste avant 17h :** C10, export et dépôt des 4 PDF sur Moodle ; C14, question aux enseignants.
+
 ### 2026-11-27 · S48 · Backlog sur GitHub (Dylan)
 **Aujourd'hui :** le backlog v2.1 est passé dans GitHub (`D-032`) : 57 tâches en issues (#9 à #65, plus C15 = #4 et C10 = #6), 4 tâches de préparation S49 (#66 à #69), jalons S48 / S49 / S50 / S2, labels par domaine et priorité, et un [tableau Project](https://github.com/users/dyzlek/projects/5) avec estimation et échéance. Les 12 tâches S48 déjà faites sont fermées. `06-backlog.md` renvoie au tableau.
 **Décisions :** `D-032`.
