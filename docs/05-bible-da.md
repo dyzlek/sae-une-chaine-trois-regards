@@ -4,7 +4,7 @@
 | --- | --- |
 | Binôme | n°3 · Dylan Belledent, Nicolas Rapuzzi--Pisarczyk · `noeud-c` |
 | Responsable | Nicolas (relecture : Dylan) |
-| Version | **1.6** · 27/11/2026 · moodboard v7 (§2) (historique des versions : [journal.md](journal.md)) |
+| Version | **1.6** · 27/11/2026 · moodboard v8 (§2) (historique des versions : [journal.md](journal.md)) |
 | Rendu | PDF, vendredi 27/11/2026, 17h · pas de nombre de pages imposé |
 | S'appuie sur | [charte éditoriale](04-charte-editoriale.md) v1.5 (valeurs, lexique `l2`), [dossier de binôme](03-dossier-binome.md) v0.15 §6 et §7 (technique) |
 

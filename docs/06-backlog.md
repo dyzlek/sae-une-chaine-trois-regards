@@ -24,7 +24,7 @@
 | C1 | Spec commune v1.0/v1.1, déposée sur Moodle | les six | — | I | jeu. 26/11, 12h30 | ☑ |
 | C2 | Nos vecteurs de test 20 à 26 (spec v1.0) | Dylan | 3 h | I | 23/11 | ☑ ([tests/vectors/](../tests/vectors/README.md)) |
 | C3 | Relire la bible DA v1.5 (*Terre commune*) et valider à deux avant l'export PDF | à deux | 1 h | I | ven. 27/11 | ☑ validée à l'oral par Nicolas le 27/11 |
-| C4 | Moodboard *Terre commune* (bible §2) | D + N | 2 h | I | jeu. 26/11 | ☑ v7 : [moodboard-planche.png](moodboard-terre/moodboard-planche.png) |
+| C4 | Moodboard *Terre commune* (bible §2) | D + N | 2 h | I | jeu. 26/11 | ☑ v8 : [moodboard-planche.png](moodboard-terre/moodboard-planche.png) |
 | C5 | Symbole cristal-île (bible §5, D-026) | D + N | 2 h | I | jeu. 26/11 | ☑ [symbole/](symbole/planche-symbole.png) |
 | C6 | Trois esquisses 16:9 (vide, 10, 300 messages) | D + N | 3 h | I | ven. 27/11 | ☑ [esquisses/](esquisses/1-vide.png) |
 | C7 | Test de la charte auprès de 3 personnes (charte §3) | à deux | 1 h | I | jeu. 26/11 | ☑ 3/3 réussis ([test-charte.md](test-charte.md)) |
