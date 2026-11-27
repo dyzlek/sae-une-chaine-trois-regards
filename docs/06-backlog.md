@@ -27,7 +27,7 @@
 | C4 | Nouveau moodboard *Terre commune* dans Figma (références 3D/archipel, licences exactes, palette §3.1, spécimen typo) | D + N | 2 h | I | jeu. 26/11 | ☑ fait dans Figma et exporté ([moodboard-planche.png](moodboard-terre/moodboard-planche.png)) |
 | C5 | Nouveau symbole *Terre commune* : le cristal-île unifié, règles exactes, déclinaisons (bible §5, D-026) | D + N | 2 h | I | jeu. 26/11 | ☑ planche et SVG dans [symbole/](symbole/planche-symbole.png) |
 | C6 | Trois esquisses 16:9 (océan vide, 10 messages, 300 messages) | D + N | 3 h | I | ven. 27/11 | ☑ produites en HTML et exportées ([esquisses/](esquisses/1-vide.png)) |
-| C7 | Test de la charte v1.5 auprès de 3 personnes (charte §3) | à deux | 1 h | I | jeu. 26/11 | ◐ fiche prête ([test-charte.md](test-charte.md)), test à faire passer |
+| C7 | Test de la charte v1.5 auprès de 3 personnes (charte §3) | à deux | 1 h | I | jeu. 26/11 | ✓ fait le 27/11 : 3/3 réussis, rien à changer ([test-charte.md](test-charte.md)) ; caractère définitif à confirmer |
 | C8 | Vérifier le réglage de confidentialité d'OpenRouter et l'écrire (charte §4.3) | Dylan | ½ h | I | mer. 25/11 | ☑ réglages relevés et désactivés, essai réussi avec `data_collection: "deny"` (charte §4.3, D-019) |
 | C9 | Relire dossier v0.14 et charte v1.4 | Nicolas | 1 h | I | ven. 27/11 | ☑ validés à l'oral par Nicolas le 27/11 |
 | C16 | Test mesuré du prompt `p2` : un lot de 10 messages, 17 envois, choix du modèle (D-029) | Dylan | 1 h | I | ven. 27/11 | ☑ [test-prompt/](test-prompt/README.md) |
