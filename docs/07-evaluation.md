@@ -1,4 +1,4 @@
-# Évaluation et auto-suivi
+﻿# Évaluation et auto-suivi
 
 | Critère | Poids | Notation |
 | --- | --- | --- |
@@ -19,7 +19,7 @@
 | Critère | État actuel | Point fort | Point de vigilance / action |
 | --- | --- | --- | --- |
 | **Conception (S48)** | ◐ En cours | Spec commune v1.0 + vecteurs 20–26 vérifiés ; dossier solide | Déposer la spec demain 12h30 ; faire le test charte (C7) ; tester l'export PDF Mermaid |
-| **Direction artistique** | ◐ En cours | Concept *Terre commune* (heightmap 3D + saturation) très fort et documenté | Produire les 3 visuels Figma (moodboard, symbole, 3 esquisses) avant vendredi 17h |
+| **Direction artistique** | ◐ En cours | Concept *Terre commune* (heightmap 3D + saturation) très fort et documenté ; symbole fait (cristal-île génératif, bible §5, D-026) | Exporter le moodboard en PNG et l'intégrer à la bible §2 ; produire les 3 esquisses (§7) avant vendredi 17h |
 | **Conduite de projet** | 🟠 Vigilance | Journal et décisions très tracés (D-001 à D-024) | **Ajouter des entrées signées de Nicolas** dans `journal.md` et co-valider D-023/D-024 |
 | **Nœud (S50)** | ☐ À venir | Architecture 3 processus + SQLite WAL + paliers bien cadrés | Rattrapage `SYNCING` (N7) : garder la jonction du 10/12 prioritaire |
 | **Application & Œuvre (S50)** | ☐ À venir | Socle Three.js low-poly borné, fallback local déterministe | Valider `three` + `importmap` dès S49 pour lever le risque de prise en main |

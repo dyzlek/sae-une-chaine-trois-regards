@@ -21,10 +21,34 @@ Plus récent en haut. Un daily par matin : **hier / aujourd'hui / blocages**.
 - Relecture de la proposition par Dylan, trois ajustements : tests sur un seul PC (table « adresse:port » en mode test, une adresse de boucle locale par nœud, car tout viendrait sinon de `127.0.0.1`) ; arrêt de la chaîne si les trois horloges sont fausses deux à deux, écrit dans les limites acceptées, horloges réglées à la main à chaque séance ; dépôt des vecteurs le lundi 07/12 sauf accord des enseignants pour un script en S49 (O6, tâche C14).
 
 **Blocages :** la v1.1 doit être relue par Nicolas puis validée par un membre de chaque binôme (pull request, spec §11) ; B1 et B2 avant tout code. Écart réel des horloges sur eduroam à mesurer (O4). Le dépôt commun (O1) n'existe pas encore. Réponse des enseignants sur le code en S49 attendue (O6).
+**Décisions :** D-027 (`decisions.md`).
+
+### 2026-11-26 · S48 · Symbole : le cristal-île (Nicolas, avec Claude Code)
+**Aujourd'hui :**
+- Symbole fait (C5), à partir du cours d'art génératif (« le logo algorithmique » : *Visit Nordkyn*, *MIT Media Lab*) et des règles de la bible : une île low-poly coupée par la mer, la terre au-dessus (hauteur = part de terre), la racine en dessous (profondeur = nombre de messages), six secteurs colorés par l'`emotion` des six derniers messages. Même PRNG et même lumière que l'œuvre (`D-026`).
+- Deux essais écartés en route : une double pyramide symétrique (lue comme le losange de `noeud-c`) et une île à 15 facettes (illisible en petit).
+- Planche [symbole/planche-symbole.png](symbole/planche-symbole.png) (référence annotée, logo vivant de 0 à 300 messages, états prévision et masqué, déclinaisons, interdits) ; SVG de référence, favicon, mono Sel, mono Encre.
+- Bible DA v1.4 (§5 complet, composant « Symbole » en §8.2), backlog v1.8 (C5 fait, O10 logo vivant en plus), `a-faire.md`, `07-evaluation.md`.
+- Vérification des 8 éléments de la bible : 1, 3, 4, 5, 6 complets ; 2 (moodboard) texte fait mais planche pas encore exportée en PNG ni liée ; 7 (esquisses) pas produites ; 8 (design system) en texte seulement.
+
+- Relecture à deux : le cristal-île est réussi techniquement mais « n'évoque rien » (il traduit des données, pas une idée). Trois nouvelles pistes, chacune sur un double sens, dessinées sur une planche de comparaison (retirée ensuite du dépôt) : **A · La chaîne** (chaîne de blocs = chaîne de montagnes, trois sommets sur une seule terre, strates = blocs), **B · L'empreinte** (empreinte digitale = courbes de niveau), **C · La bulle-île** (bulle de message = île vue du ciel).
+
+- Après comparaison, **on garde le cristal-île** : c'est le seul symbole calculé comme l'œuvre ; les trois pistes sont notées comme écartées (bible §5.1, `D-026`).
+- Moodboard : retrouvé et rangé le même jour dans `docs/moodboard-terre/` (voir l'entrée suivante).
+- Planche du symbole refaite dans la DA de la planche du moodboard (fond crème, halo aqua, courbes de niveau, cartes blanches scotchées, étiquettes en pastille, Fraunces / Quicksand / IBM Plex Mono) ; les symboles eux-mêmes ne changent pas, et le bloc-marque reste en Recursive, police de l'application.
+- Journal de prompts complété : les 32 tout premiers prompts de Nicolas (23 au 26/11), faits dans une conversation ouverte hors du dépôt et donc jamais vus par le hook, sont archivés dans [prompts/00-avant-projet-sae-blockchain-specification.md](prompts/00-avant-projet-sae-blockchain-specification.md) (messages techniques de l'application retirés, aucun secret).
+
+**Blocages :** esquisses (C6) à faire avant vendredi 17h ; planche visuelle du design system (§8) conseillée ; Dylan doit co-valider `D-026`.
 **Décisions :** D-026 (`decisions.md`).
 
----
+### 2026-11-26 · S48 · Moodboard de *Terre commune* terminé (Nicolas, avec Claude Code)
+**Aujourd'hui :**
+- Moodboard de la piste *Terre commune* fait dans Figma ([planche v6](https://www.figma.com/design/3kuh5BiZHfMOCHNWPh9dXD/?node-id=51-2), même fichier que les v1 à v5) et exporté : [moodboard-terre/moodboard-planche.png](moodboard-terre/moodboard-planche.png). Même niveau de texte que la v5 (titre, quatre mots-clés, trois notes, deux étiquettes, crédits, palette).
+- 12 images repérées sur Wikimedia Commons (licences lues dans les métadonnées), téléchargées à 1600 px et rangées dans [moodboard-terre/images/](moodboard-terre/images/) (numérotées 01 à 12). Liste, titres exacts et licences : [moodboard-sources.md](moodboard-sources.md).
+- Retours de l'équipe pris en compte : fond clair crème, dominante bleu-turquoise dans les images, accents chauds répartis, palette de 11 couleurs en alternance froid / chaud (Soleil, Aube et Écume proposées, pas encore dans la bible), polices Fraunces / Quicksand / IBM Plex Mono pour la planche.
+- Dossier `moodboard-terre/` vidé puis reconstruit : le brouillon HTML et les images écartées sont supprimés.
 
+**Blocages :** trouver une image low-poly libre (ou notre prototype) pour la référence « facettes » ; ajouter le lien Commons pour les images CC BY dans le PDF ; valider les trois nouvelles couleurs avant de les mettre dans la bible §3.1.
 ### 2026-11-25 · S48 · Relief recalibré par simulation (Dylan, avec Claude Code)
 **Aujourd'hui :**
 - Une simulation des formules de la bible v1.1 (script jetable, hors dépôt) montrait qu'aucune île n'apparaissait avant une trentaine de messages et qu'il n'y avait ni magma ni neige à 300. Règles recalibrées et revérifiées (`D-025`) : une île dès le premier message, environ 9 % de terre à 10 messages, environ 45 % à 300 avec des biomes variés.

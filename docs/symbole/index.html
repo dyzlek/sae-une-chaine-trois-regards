@@ -1,0 +1,196 @@
+﻿<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Symbole · Terre commune</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--
+  Planche du symbole (bible DA §5), 1920 × 1200, dans la DA de la planche du moodboard
+  (fond crème, halo aqua, courbes de niveau, cartes blanches scotchées, Fraunces / Quicksand / IBM Plex Mono).
+  Les symboles sont calculés par symbole.js : même état de chaîne -> même symbole. Export : planche-symbole.png.
+  Recursive n'apparaît que dans le bloc-marque, parce que c'est la police de l'application (bible §4).
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Quicksand:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Recursive:wght,CASL@400..700,0..1&display=swap" rel="stylesheet">
+<script src="symbole.js"></script>
+<style>
+  :root{
+    --creme:#F4F1E8; --encre:#08111D; --abysse:#133C59; --lagon:#36B5BC; --ecume:#BFE6E8;
+    --sable:#E4CA94; --soleil:#F5C84B; --magma:#FF7626; --mousse:#607A70; --neige:#ECF2F8;
+    --texte:#133C59; --doux:#4F6475; --corail:#F47280;
+  }
+  *{box-sizing:border-box;margin:0}
+  html,body{background:#e9e5da;height:100%;overflow:hidden}
+  body{font-family:"Quicksand",system-ui,sans-serif;color:var(--texte)}
+  #stage{width:1920px;height:1200px;position:absolute;left:0;top:0;transform-origin:0 0;overflow:hidden;background:var(--creme)}
+  #fond{position:absolute;inset:0;pointer-events:none}
+
+  h1{position:absolute;left:58px;top:40px;font-family:"Fraunces",serif;font-weight:600;font-size:104px;letter-spacing:-3px;line-height:1;color:var(--abysse)}
+  .sous{position:absolute;left:62px;top:160px;width:860px;font-size:22px;line-height:1.4;color:var(--doux);font-weight:500}
+  .sous b{color:var(--abysse);font-weight:700}
+
+  /* cartes blanches scotchées, comme les photos du moodboard */
+  .carte{position:absolute;background:#fff;padding:14px;box-shadow:0 14px 28px #13253a26, 0 2px 4px #13253a1f}
+  .carte::before{content:"";position:absolute;left:50%;top:-13px;width:96px;height:26px;margin-left:-48px;background:#e9e0c4cc;transform:rotate(-3deg)}
+  .credit{display:inline-block;background:#1b2733e6;color:#fff;font-family:"IBM Plex Mono",monospace;font-size:12px;padding:3px 8px;border-radius:3px;white-space:nowrap}
+  .tag{position:absolute;z-index:5;font-weight:700;font-size:22px;padding:4px 16px 6px;border-radius:999px;color:var(--abysse)}
+  .note{position:absolute;font-size:24px;font-weight:600;color:var(--abysse);line-height:1.15;white-space:nowrap;z-index:6}
+  .note small{display:block;font-family:"IBM Plex Mono",monospace;font-size:14px;font-weight:400;color:var(--doux);margin-top:3px}
+  .fleches{position:absolute;left:0;top:0;overflow:visible;pointer-events:none;z-index:6}
+
+  /* 1. référence */
+  #big{position:absolute;left:250px;top:250px;z-index:3}
+
+  /* 2. logo vivant */
+  #vivant{left:968px;top:96px;width:900px;padding:22px 22px 16px;transform:rotate(.6deg)}
+  .grille{display:grid;grid-template-columns:repeat(6,1fr);gap:6px 4px}
+  .cell{text-align:center}
+  .cell .t{font-weight:700;font-size:15px;color:var(--abysse);margin-top:-6px}
+  .cell .s{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--doux)}
+  .legende{margin-top:12px;font-size:15px;line-height:1.45;color:var(--doux);font-weight:500}
+  .legende b{color:var(--abysse);font-weight:700}
+
+  /* 3. déclinaisons */
+  .titre-zone{position:absolute;font-family:"Fraunces",serif;font-weight:600;font-size:34px;color:var(--abysse);letter-spacing:-.5px}
+  .lockup{display:flex;align-items:center;gap:12px}
+  .lockup .w{font-family:"Recursive",sans-serif;font-variation-settings:"CASL" 1;font-weight:600;font-size:38px;color:var(--abysse);white-space:nowrap;letter-spacing:-.5px;line-height:1}
+  .nodes{display:flex;gap:7px;align-items:center;margin-top:7px;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--doux);white-space:nowrap}
+  .nodes svg{width:14px;height:14px}
+  .bas{margin-top:10px;text-align:center}
+
+  /* 4. origine et interdits */
+  #insp{position:absolute;left:1230px;top:780px;width:640px;font-size:18px;line-height:1.45;font-weight:500;color:var(--texte)}
+  #insp p{margin-bottom:12px}
+  #insp i{font-style:normal;font-weight:700;color:var(--abysse);border-bottom:3px solid var(--ecume)}
+  .no{display:flex;gap:10px;margin-top:8px}
+  .no div{width:118px;text-align:center}
+  .no svg{display:block;margin:0 auto}
+  .no .x{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--doux);margin-top:2px}
+  .no .x b{color:var(--corail);font-weight:500}
+  .contour polygon{stroke:#133C59 !important;stroke-width:1.4 !important;stroke-opacity:1 !important}
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- halo aqua et courbes de niveau, comme le moodboard -->
+  <svg id="fond" viewBox="0 0 1920 1200" aria-hidden="true">
+    <defs><radialGradient id="halo" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#BFE6E8" stop-opacity=".85"/><stop offset=".7" stop-color="#BFE6E8" stop-opacity=".25"/><stop offset="1" stop-color="#BFE6E8" stop-opacity="0"/></radialGradient></defs>
+    <ellipse cx="520" cy="540" rx="620" ry="470" fill="url(#halo)"/>
+    <g fill="none" stroke="#36B5BC" stroke-opacity=".28" stroke-width="1.4" id="courbes"></g>
+  </svg>
+
+  <h1>Le cristal-île</h1>
+  <p class="sous">Le symbole de <b>Terre commune</b>. Une île low-poly coupée par la mer : <b>au-dessus</b>, la terre que les messages ont fait émerger ; <b>en dessous</b>, la racine, ce que la chaîne garde sans le montrer. Il est <b>calculé</b> depuis la chaîne, comme l'œuvre.</p>
+
+  <!-- 1. Référence annotée -->
+  <div id="big"></div>
+  <div class="tag" style="left:96px;top:268px;background:var(--soleil);transform:rotate(-3deg)">référence</div>
+  <div class="note" style="left:70px;top:352px;transform:rotate(-2deg)">le sommet<small>monte avec la part de terre</small></div>
+  <div class="note" style="left:716px;top:318px;transform:rotate(2deg)">6 messages récents<small>un secteur chacun<br>couleur = émotion<br>le plus récent de face</small></div>
+  <div class="note" style="left:796px;top:568px;transform:rotate(1deg)">la surface<small>trait Lagon</small></div>
+  <div class="note" style="left:62px;top:712px;transform:rotate(-1deg)">la racine<small>s'allonge avec le nombre de messages</small></div>
+  <svg class="fleches" width="1920" height="1200" fill="none" stroke="#133C59" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M232 400 C 300 410, 380 420, 470 452"/><path d="M455 440 l16 12 -18 7"/>
+    <path d="M708 380 C 670 390, 636 420, 612 470"/><path d="M606 452 l5 19 13 -15"/>
+    <path d="M790 590 C 760 590, 740 590, 722 585"/><path d="M736 576 l-15 9 16 6"/>
+    <path d="M250 740 C 320 735, 400 712, 470 670"/><path d="M452 670 l18 0 -8 15"/>
+  </svg>
+  <div class="credit" style="position:absolute;left:250px;top:812px;z-index:4">graine 0x20264F04 · 120 messages · 38 % de terre · tristesse, joie, calme, colère, calme, joie</div>
+
+  <!-- 2. Le logo vivant -->
+  <div class="carte" id="vivant">
+    <div class="tag" style="left:-14px;top:-20px;background:var(--lagon);color:#fff;transform:rotate(-3deg)">logo vivant</div>
+    <div class="grille" id="grille"></div>
+    <p class="legende">Dans l'en-tête de l'application, le symbole est <b>recalculé à chaque bloc</b>. Graine = 8 premiers caractères de l'<b>id</b> du dernier message (Mulberry32, comme l'œuvre). Secteur filaire = message en <b>prévision</b> ; secteur Brume = message <b>masqué</b>.</p>
+  </div>
+
+  <!-- 3. Déclinaisons -->
+  <div class="titre-zone" style="left:62px;top:880px">Déclinaisons</div>
+  <div class="carte" style="left:62px;top:950px;transform:rotate(-1deg)">
+    <div class="lockup"><span id="lk"></span><div><div class="w">Terre commune</div>
+      <div class="nodes"><svg viewBox="0 0 16 16"><path d="M8 1.5L15 14.5H1z" fill="#38BDF8"/></svg>a
+        <svg viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" fill="#FBBF24"/></svg>b
+        <svg viewBox="0 0 16 16"><path d="M8 0.8l7 7.2-7 7.2L1 8z" fill="#A78BFA"/></svg>c · trois regards</div></div></div>
+    <div class="bas"><span class="credit">bloc-marque · Recursive, police de l'app</span></div>
+  </div>
+  <div class="carte" style="left:505px;top:944px;transform:rotate(1.2deg)">
+    <div id="sz" style="display:flex;gap:12px;align-items:flex-end"></div>
+    <div class="bas"><span class="credit">128 · 64 · 32 · 16 px</span></div>
+  </div>
+  <div class="carte" style="left:860px;top:956px;background:#08111D;transform:rotate(-1.5deg)">
+    <span id="mono"></span><div class="bas"><span class="credit" style="background:#ffffff26">Sel sur Encre</span></div>
+  </div>
+  <div class="carte" style="left:1030px;top:948px;transform:rotate(1.8deg)">
+    <span id="monoE"></span><div class="bas"><span class="credit">Encre sur clair</span></div>
+  </div>
+
+  <!-- 4. Origine et interdits -->
+  <div class="titre-zone" style="left:1230px;top:720px">D'où il vient</div>
+  <div id="insp">
+    <p><i>Visit Nordkyn</i> (Neue, 2010) : un cristal que la météo déforme chaque jour. <b>Nous</b> : un cristal que les messages déforment à chaque bloc. On garde les facettes et la lumière.</p>
+    <p><i>MIT Media Lab</i> (TheGreenEyl, 2011) : une règle, des milliers de variantes. On garde l'idée, pas les aplats superposés.</p>
+    <div class="no" id="no"></div>
+  </div>
+  <div class="tag" style="left:1680px;top:1080px;background:var(--magma);color:#fff;transform:rotate(3deg)">interdits</div>
+
+</div>
+
+<script>
+  var S = Symbole, R = S.reference;
+  function rec(list){ return list.map(function(e){ return typeof e === 'string' ? { emotion: e } : e; }); }
+
+  // courbes de niveau du fond : ellipses irrégulières centrées sur le symbole
+  (function(){
+    var g = document.getElementById('courbes'), d = '';
+    for (var k = 1; k <= 16; k++) {
+      var r = 70 + k * 62, pts = [];
+      for (var a = 0; a < 360; a += 3) {
+        var t = a * Math.PI / 180, w = 1 + 0.035 * Math.sin(2 * t + k * 0.6) + 0.02 * Math.cos(3 * t - k * 0.4);
+        pts.push([520 + r * 1.32 * w * Math.cos(t), 520 + r * 0.92 * w * Math.sin(t)]);
+      }
+      d += '<path d="M' + pts.map(function(p){ return p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join(' L') + 'Z"/>';
+    }
+    g.innerHTML = d;
+  })();
+
+  document.getElementById('big').innerHTML = S.svg(R, { taille: 500 });
+
+  var vivant = [
+    ['0 message', 'océan vierge', { n:0, terre:0, seed:0x00000000, recents:[] }],
+    ['1 message', 'une île dès le 1er', { n:1, terre:0.004, seed:0x3fa2c901, recents:rec(['joie']) }],
+    ['10 messages', '≈ 9 % de terre', { n:10, terre:0.09, seed:0x9b14e27a, recents:rec(['calme','joie','tristesse','joie','calme','joie']) }],
+    ['30 messages', '≈ 20 %', { n:30, terre:0.20, seed:0x5d07aa13, recents:rec(['joie','calme','colere','joie','tristesse','calme']) }],
+    ['100 messages', '≈ 35 %', { n:100, terre:0.35, seed:0xc8e1047d, recents:rec(['tristesse','joie','calme','joie','colere','joie']) }],
+    ['300 messages', '≈ 45 %', { n:300, terre:0.45, seed:0x71ab3e90, recents:rec(['calme','colere','joie','calme','joie','tristesse']) }],
+    ['en colère', '4 colères sur 6', { n:180, terre:0.41, seed:0x2e9d5b06, recents:rec(['colere','colere','tristesse','colere','joie','colere']) }],
+    ['triste', 'pluie, brouillard', { n:180, terre:0.33, seed:0x84c3f1d2, recents:rec(['tristesse','tristesse','calme','tristesse','tristesse','joie']) }],
+    ['joyeuse', 'prairie, plages', { n:180, terre:0.44, seed:0xb7720e45, recents:rec(['joie','joie','calme','joie','calme','joie']) }],
+    ['en prévision', 'l’IA n’a pas répondu', { n:121, terre:0.38, seed:0x20264F04, recents:rec(['tristesse','joie','calme','colere','calme',{emotion:'joie',source:'local'}]) }],
+    ['message masqué', 'secteur Brume', { n:121, terre:0.38, seed:0x20264F04, recents:rec(['tristesse','joie','calme',{emotion:'colere',masquer:true},'calme','joie']) }],
+    ['référence', 'figée, 120 messages', R]
+  ];
+  document.getElementById('grille').innerHTML = vivant.map(function(v){
+    return '<div class="cell">' + S.svg(v[2], { taille: 142 }) + '<div class="t">' + v[0] + '</div><div class="s">' + v[1] + '</div></div>';
+  }).join('');
+
+  document.getElementById('lk').innerHTML = S.svg(R, { taille: 92 });
+  document.getElementById('sz').innerHTML = S.svg(R, { taille: 128 }) + S.svg(R, { taille: 64 }) + S.svg(R, { taille: 32, horizon: false }) + S.svg(R, { taille: 16, horizon: false });
+  document.getElementById('mono').innerHTML = S.svg(R, { taille: 118, mode: 'mono' });
+  document.getElementById('monoE').innerHTML = S.svg(R, { taille: 118, mode: 'mono-encre' });
+
+  var base = S.svg(R, { taille: 92 });
+  var no = [
+    ['contour', base.replace('<svg ', '<svg class="contour" ')],
+    ['penché', base.replace('<svg ', '<svg style="transform:rotate(-24deg)" ')],
+    ['déformé', base.replace('<svg ', '<svg style="transform:scaleX(1.45) scaleY(.75)" ')],
+    ['autre couleur', base.replace(/#[0-9A-F]{6}/g, function(c){ return '#' + c.slice(5,7) + c.slice(1,3) + c.slice(3,5); })],
+    ['ombre portée', base.replace('<svg ', '<svg style="filter:drop-shadow(8px 10px 4px #0006)" ')]
+  ];
+  document.getElementById('no').innerHTML = no.map(function(v){ return '<div>' + v[1] + '<div class="x"><b>✕</b> ' + v[0] + '</div></div>'; }).join('');
+
+  function fit(){ var k = Math.min(innerWidth/1920, innerHeight/1200); var s = document.getElementById('stage'); s.style.transform = 'translate(' + (innerWidth-1920*k)/2 + 'px,' + (innerHeight-1200*k)/2 + 'px) scale(' + k + ')'; }
+  addEventListener('resize', fit); fit();
+</script>
+</body>
+</html>
