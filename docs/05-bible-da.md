@@ -42,18 +42,33 @@ Chaque émotion façonne durablement le monde et module l'atmosphère :
 
 ## 2. Moodboard
 
-La planche précédente (météo satellite) est archivée et remplacée. La nouvelle planche est dans Figma : [planche v6 dans Figma](https://www.figma.com/design/3kuh5BiZHfMOCHNWPh9dXD/?node-id=51-2) et son export [moodboard-terre/moodboard-planche.png](moodboard-terre/moodboard-planche.png) (sources et licences dans [moodboard-sources.md](moodboard-sources.md)). Elle suit ces références :
+**Planche v8 en vigueur (27/11/2026, après le retour de l'enseignante) :** sur une nouvelle page du fichier Figma, [Moodboard v8 · Terre commune (culture)](https://www.figma.com/design/3kuh5BiZHfMOCHNWPh9dXD/?node-id=93-3), export 1920 × 1200 [moodboard-terre/moodboard-planche.png](moodboard-terre/moodboard-planche.png). Elle conserve la mise en page collée validée de la v6 (halo aqua, fond crème `#F4F1E8`, palette §3.1, carte typo **Bricolage Grotesque + Recursive**), mais remplace les vues répétitives de côtes par **12 références issues de 10 domaines culturels** qui racontent tout le cheminement de l'œuvre (« émotion → naissance volcanique → végétation & vivant → saisons/climat → voyage d'île en île ») :
+
+| Domaine culturel | Référence retenue | Ce qu'elle apporte à *Terre commune* |
+| --- | --- | --- |
+| Cinéma | *Lava* (Pixar, 2014) *(citation pédagogique)* | Le volcan qui entre en éruption selon son émotion |
+| Photographie (documentaire) | Éruption de Surtsey (NOAA, 1963) · Fougères sur la lave à Hawaï (Famartin, 2021) | Une île qui naît de l'océan, puis la végétation qui colonise le basalte |
+| Architecture | *Jameos del Agua* (César Manrique, Lanzarote, 1966) | Dialogue minéral entre roche volcanique sombre et lagon turquoise |
+| Peinture | *Le Rêve* (H. Rousseau, 1910) · *Les Quatre Saisons* (Arcimboldo, v. 1590) · *Le Voyageur contemplant une mer de nuages* (C. D. Friedrich, 1817) | Végétation luxuriante (joie), cycle des saisons, brume et mélancolie (tristesse) |
+| Mode | Robe *Physalia* (Iris van Herpen) | Organique, nervures fluides et relief sculptural |
+| Estampe / Illustration | *Voiliers rentrant à Yabase* (Hiroshige, v. 1835) | Voiliers sur l'eau calme, aplats stylisés |
+| Data / Média | *Warming Stripes* (Ed Hawkins, 2018) | Variation climatique traduite par une gamme chromatique lisible |
+| Jeu vidéo | *Super Mario Bros. 3* — carte du Monde 3 (Nintendo, 1988) *(citation pédagogique)* | La carte d'îles où l'on circule de territoire en territoire |
+| Jeu de société | Plateau *Catan* (K. Teuber) | Biomes lisibles sur tuiles (forêt, littoral, reliefs) |
+| Typographie | Carte spécimen **Bricolage Grotesque + Recursive** | Voix éditoriale expressive + précision cartographique |
+
+La planche v6 initiale ([planche v6](https://www.figma.com/design/3kuh5BiZHfMOCHNWPh9dXD/?node-id=51-2)) et le brouillon intermédiaire v7 ([moodboard v7](https://www.figma.com/design/3kuh5BiZHfMOCHNWPh9dXD/?node-id=88-3)) restent archivés dans le même fichier Figma. Sources et licences complètes : [moodboard-sources.md](moodboard-sources.md).
+
+Références complémentaires de direction artistique 3D (non collées sur la planche) :
 
 | Référence | Ce que nous en retenons | Ce que nous laissons |
 | --- | --- | --- |
-| Photographies aériennes d'archipels volcaniques (Açores, Islande, Hawaï — Wikimedia Commons, licences libres) | Le contraste naturel entre **sable noir / basalte / lave** et **prairies vertes / lagons turquoise** | La surcharge de détails micro-topographiques |
-| Cartes topographiques et bathymétriques (domaine public, Wikimedia Commons / NOAA) | La lecture immédiate des **altitudes** (profondeurs → rivage → plaine → sommet) | Les textes et légendes cartographiques chargés |
 | *The Legend of Zelda: The Wind Waker* *(référence culturelle)* | La **mer stylisée**, les teintes turquoise/azur, la lisibilité des îles et voiliers | Les personnages et l'interface de jeu |
 | *Dorfromantik* & *Townscaper* *(références culturelles)* | L'esthétique **maquette vivante** qui grandit pièce par pièce (arbres, phares, relief) | La grille hexagonale rigide |
 | *Dredge* *(référence culturelle)* | La **brume marine**, les phares dans le brouillard, le passage du calme à l'inquiétant | L'horreur lovecraftienne |
 | Esthétique *low-poly / flat-shading* (Three.js, *Firewatch*) | Les **facettes géométriques propres**, les dégradés atmosphériques du ciel, la fluidité GPU | Les textures photo réalistes |
 
-**Règle sur les droits d'images.** Les images collées dans le moodboard PDF proviennent exclusivement de **sources libres de droits ou sous licence Creative Commons compatible** (photographies aériennes, cartes topographiques, rendus low-poly libres, tous listés avec leur licence exacte dans [moodboard-sources.md](moodboard-sources.md)). Les jeux vidéo (*Wind Waker*, *Dorfromantik*, *Dredge*, *Firewatch*) sont **cités comme références culturelles sans reprendre leurs captures protégées** (ou, si une miniature est ajoutée à titre de citation pédagogique, avec mention explicite « © Éditeur — citation pédagogique, hors redistribution »).
+**Règle sur les droits d'images.** Les photographies, peintures, estampes et visualisations proviennent de **Wikimedia Commons** (domaine public, CC0 ou CC BY-SA, toutes tracées dans [moodboard-sources.md](moodboard-sources.md)). Les deux œuvres protégées (*Lava* © Disney/Pixar et *Super Mario Bros. 3* © Nintendo) sont incluses **strictement à titre de citation pédagogique** (usage académique non commercial, hors redistribution, avec mention © explicite).
 
 ---
 

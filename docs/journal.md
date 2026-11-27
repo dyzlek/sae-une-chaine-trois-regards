@@ -13,6 +13,13 @@ Plus récent en haut. Un daily par matin : **hier / aujourd'hui / blocages**.
 
 ---
 
+### 2026-11-27 · S48 · Moodboard v7 après le retour de l'enseignante (Dylan)
+**Aujourd'hui :**
+- **Retour reçu :** la v6 ne parlait que d'îles et de bords de mer, sans diversité culturelle. Il faut montrer le cheminement (végétation, êtres vivants, émotions, saisons, climat) avec une illustration, une photo, une photo de mode, une photo de presse, une typographie, de l'architecture, une affiche de film (*Lava*, Pixar) et un jeu vidéo ou de société (carte d'îles de *Super Mario Bros. 3*).
+- **Moodboard v7** sur une nouvelle page du fichier Figma ([moodboard v7](https://www.figma.com/design/3kuh5BiZHfMOCHNWPh9dXD/?node-id=88-3), export `moodboard-terre/moodboard-v7-planche.png`) : 16 références, 9 domaines, en quatre colonnes qui suivent l'œuvre (Naître, Vivre, Changer, Voyager). 11 nouvelles images libres (Commons) dans `moodboard-terre/images-v7/`, sources dans `moodboard-sources.md`, bible DA §2 mise à jour.
+**Blocages :** *Lava* et *Super Mario Bros. 3* sont protégés : coller à la main une miniature (citation pédagogique, © mentionné) dans les deux cartes prévues.
+**Décisions :** la v7 est jugée insuffisante par Dylan : elle reste un **brouillon** et Nicolas refait le moodboard à partir de cette base ; la v6 reste en vigueur d'ici là.
+
 ### 2026-11-27 · S48 · Après-midi : test mesuré du prompt, corrections après comparaison avec le binôme 2 (Dylan)
 **Aujourd'hui :**
 - **Test mesuré du prompt `p2` (C16) :** un lot de 10 messages (les 6 exemples de la charte, une injection, un téléphone, un message neutre, des emojis), 17 envois sur 4 modèles gratuits et `openrouter/free`, 9 réponses valides. Résultats : JSON 9 sur 9, `emotion` 54 sur 54 avec la référence corrigée, nombres à 0,20 près 91 %, `masquer` 90 sur 90, injection résistée 9 fois sur 9 ([test-prompt/](test-prompt/README.md)).
