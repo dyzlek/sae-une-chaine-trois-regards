@@ -9,6 +9,8 @@
 
 > **Test :** en lisant ce plan, on sait ce qui doit fonctionner chaque soir, et qui s'en occupe.
 
+**Le suivi vivant est sur GitHub (D-032).** Chaque tâche de ce backlog est une issue au même code dans son titre (« N3 · … »), assignée, avec son label de domaine, sa priorité et son jalon de semaine : [tableau du backlog](https://github.com/users/dyzlek/projects/5) (champs Estimation, Échéance, Priorité, Statut) · [issues](https://github.com/dyzlek/sae-une-chaine-trois-regards/issues) · [jalons S48, S49, S50, S2](https://github.com/dyzlek/sae-une-chaine-trois-regards/milestones). Les tâches faites en S48 y sont fermées. Ce fichier reste la version figée remise au jury ; en cas d'écart, le tableau GitHub fait foi pour l'état du jour.
+
 **Estimations** en heures de travail (une journée de SAÉ ≈ 7 h par personne). **Priorité :** **I** = indispensable (sans elle, la démo ou la jonction échoue) · **+** = en plus si le temps le permet. **Statut :** ☐ à faire · ◐ en cours · ☑ fait.
 
 **Capacité.** S50 : 5 jours × 7 h = 35 h chacun. S2 : 4 jours de travail + l'oral, soit environ 28 h chacun. Le backlog indispensable de S50 remplit **33 h pour Dylan (2 h de marge) et 35 h pour Nicolas (pas de marge)** , car le rattrapage (N7) est estimé à 5 h et l'appel réel à l'IA (A2b) est en S2, avec une IA simulée en S50 (A2a). N7 est coupé en deux : 3 h le mercredi (7 h de tâches ce jour-là pour Dylan) et les 2 dernières heures le jeudi matin, avant la jonction. La règle « si le jeudi échoue » (section 3) couvre le reste. Tout le « en plus » attend la S2.

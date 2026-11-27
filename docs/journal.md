@@ -13,6 +13,10 @@ Plus récent en haut. Un daily par matin : **hier / aujourd'hui / blocages**.
 
 ---
 
+### 2026-11-27 · S48 · Backlog sur GitHub (Dylan)
+**Aujourd'hui :** le backlog v2.1 est passé dans GitHub (`D-032`) : 57 tâches en issues (#9 à #65, plus C15 = #4 et C10 = #6), 4 tâches de préparation S49 (#66 à #69), jalons S48 / S49 / S50 / S2, labels par domaine et priorité, et un [tableau Project](https://github.com/users/dyzlek/projects/5) avec estimation et échéance. Les 12 tâches S48 déjà faites sont fermées. `06-backlog.md` renvoie au tableau.
+**Décisions :** `D-032`.
+
 ### 2026-11-27 · S48 · Issues #4, #5, #8 : versions, C15, rangement moodboard (Nicolas, avec Claude Code)
 **Aujourd'hui :** bible DA citée en **v1.6** dans le dossier, la charte, le backlog et `a-faire.md` (#5). `D-029` et `D-030` marquées « validée par Dylan et Nicolas le 27/11 », `D-001 à D-030` dans `07-evaluation.md`, C15 ☑ (#4). Rangement du moodboard (#8) : `images-v7/` → `images-v8/` (liens de `moodboard-sources.md` et du journal mis à jour), doublon `D1-mario3-world3.gif` supprimé (le `.png` est gardé), `moodboard-v7-planche.png` → `archive-v7-dylan.png`.
 **Reste :** C10 (#6) : export des 4 PDF, relecture à deux et dépôt Moodle avant 17h, à faire par nous ; la ligne « 4 PDF déposés à HHhMM » sera ajoutée après. Étiquettes « voyage d'île en île » / « saisons » à déplacer dans Figma puis réexporter le PNG (#8, dernier point, Dylan ou Nicolas).

@@ -14,6 +14,13 @@ Un choix = un bloc court : contexte, décision, pourquoi, ce qui est écarté. P
 
 ---
 
+### D-032 · Le backlog est suivi dans GitHub (issues, jalons et tableau Project)
+- **Date :** 2026-11-27
+- **Contexte :** le backlog (`06-backlog.md`) est un tableau Markdown : les statuts s'y désynchronisent (C7 resté ☐ alors que fait) et rien ne relie une tâche au commit qui la termine.
+- **Décision :** une issue par tâche (code dans le titre), assignée à son responsable, avec un label de domaine (`nœud`, `ia`, `application`, `œuvre`, `tests`, `documentation`, `conception`, `préparation`), un label de priorité (`indispensable`, `en plus`) et un jalon par semaine (S48, S49, S50, S2). Le [tableau GitHub Project](https://github.com/users/dyzlek/projects/5) ajoute l'estimation et l'échéance. Un commit qui termine une tâche ferme son issue (`fixes #N`). `06-backlog.md` reste la version figée du rendu.
+- **Pourquoi :** le suivi est au même endroit que le code, chaque tâche a un responsable visible (conduite de projet notée individuellement), et l'équipe enseignante peut suivre l'avancement par un simple lien.
+- **Écarté :** le Markdown seul (pas de lien tâche → commit, statuts oubliés) ; Trello ou Notion (outil de plus, hors du dépôt que les enseignants consultent).
+
 ### D-031 · Les scripts des visuels de la bible DA sont des outils de dessin, pas du code du projet
 - **Date :** 2026-11-27
 - **Contexte :** la S48 est « sans code », mais deux fichiers du dépôt contiennent du JavaScript : `docs/esquisses/index.html` (les trois esquisses Three.js de la bible §7) et `docs/symbole/symbole.js` (la planche et les SVG du symbole, bible §5).
