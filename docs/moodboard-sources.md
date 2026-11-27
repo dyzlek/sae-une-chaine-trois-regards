@@ -5,7 +5,7 @@
 | Pour | [Bible DA](05-bible-da.md) §2 (tâche C4 du backlog) |
 | État | **Planche v8 terminée (27/11/2026), 12 images posées sur la mise en page collée validée de la v6.** Références diversifiées sur 10 domaines culturels suite au retour de l'enseignante. L'ancienne liste (piste météo *Front commun*) est archivée : [archives-front-commun/moodboard-sources.md](archives-front-commun/moodboard-sources.md). |
 | Planche | **Figma :** [planche v8 (en vigueur)](https://www.figma.com/design/3kuh5BiZHfMOCHNWPh9dXD/?node-id=93-3) · [archive v6](https://www.figma.com/design/3kuh5BiZHfMOCHNWPh9dXD/?node-id=51-2) · [brouillon v7](https://www.figma.com/design/3kuh5BiZHfMOCHNWPh9dXD/?node-id=88-3) · **export PNG** 1920 × 1200 : [moodboard-terre/moodboard-planche.png](moodboard-terre/moodboard-planche.png) |
-| Fichiers | Les images sources v8 sont dans [moodboard-terre/images-v7/](moodboard-terre/images-v7/) (et [moodboard-terre/images/](moodboard-terre/images/) pour Surtsey n° 05 et Friedrich n° 07) |
+| Fichiers | Les images sources v8 sont dans [moodboard-terre/images-v8/](moodboard-terre/images-v8/) (et [moodboard-terre/images/](moodboard-terre/images/) pour Surtsey n° 05 et Friedrich n° 07) |
 
 **Règle.** Une image n'entre dans le PDF que si l'on a son titre, son auteur, sa date, son adresse et sa licence. Les miniatures Google, les articles de blog et les posts de réseaux sociaux ne sont pas des sources : on remonte toujours à l'image d'origine. Les pages Commons s'ouvrent avec `https://commons.wikimedia.org/wiki/File:` suivi du titre exact.
 
@@ -19,22 +19,22 @@
 
 ## Planche v8 en vigueur (27/11/2026) · 12 références sur 10 domaines culturels
 
-Nouvelle page du fichier Figma : [Moodboard v8 · Terre commune (culture)](https://www.figma.com/design/3kuh5BiZHfMOCHNWPh9dXD/?node-id=93-3) · export 1920 × 1200 : [moodboard-terre/moodboard-planche.png](moodboard-terre/moodboard-planche.png). Elle reprend la **mise en page collée validée de la v6** en remplaçant les vues répétitives de côtes par 12 références culturelles variées (plus la carte typographique **Bricolage Grotesque + Recursive** et la palette §3.1). Les sources ajoutées sont dans [moodboard-terre/images-v7/](moodboard-terre/images-v7/) ; Surtsey (05) et Friedrich (07) sont reprises de [moodboard-terre/images/](moodboard-terre/images/).
+Nouvelle page du fichier Figma : [Moodboard v8 · Terre commune (culture)](https://www.figma.com/design/3kuh5BiZHfMOCHNWPh9dXD/?node-id=93-3) · export 1920 × 1200 : [moodboard-terre/moodboard-planche.png](moodboard-terre/moodboard-planche.png). Elle reprend la **mise en page collée validée de la v6** en remplaçant les vues répétitives de côtes par 12 références culturelles variées (plus la carte typographique **Bricolage Grotesque + Recursive** et la palette §3.1). Les sources ajoutées sont dans [moodboard-terre/images-v8/](moodboard-terre/images-v8/) ; Surtsey (05) et Friedrich (07) sont reprises de [moodboard-terre/images/](moodboard-terre/images/).
 
 | Emplacement v8 | Domaine | Fichier | Titre exact sur Commons / Source | Auteur, date | Licence |
 | --- | --- | --- | --- | --- | --- |
-| *Lava* (affiche) | Cinéma | `images-v7/A1-lava-pixar.jpg` (en local, hors dépôt) | Affiche officielle *Lava* (court-métrage Pixar) | Pixar / J. F. Murphy, 2014 | © Disney/Pixar — citation pédagogique (hors redistribution) |
+| *Lava* (affiche) | Cinéma | `images-v8/A1-lava-pixar.jpg` (en local, hors dépôt) | Affiche officielle *Lava* (court-métrage Pixar) | Pixar / J. F. Murphy, 2014 | © Disney/Pixar — citation pédagogique (hors redistribution) |
 | Surtsey 1963 | Photographie | `images/05-surtsey-1963.jpg` | `Surtsey eruption 1963.jpg` | H. Williams, NOAA, 1963 | Domaine public |
-| Jameos del Agua | Architecture | `images-v7/A4-jameos-del-agua.jpg` | `Jameos del Agua - Lanzarote -05.jpg` | César Manrique (1966) ; photo H. Zell | CC BY-SA 3.0 |
-| *Le Rêve* | Peinture | `images-v7/B1-reve-rousseau.jpg` | `Henri Rousseau - Le Rêve - Google Art Project.jpg` | Henri Rousseau, 1910 | Domaine public |
-| Fougères sur la lave | Photographie | `images-v7/B2-fougeres-sur-lave.jpg` | `2021-10-09 11 06 10 A lava tree mold covered in ferns within Lava Tree State Park in Hawaii County, Hawaii.jpg` | Famartin, 2021 | CC BY-SA 4.0 |
-| Robe *Physalia* | Mode | `images-v7/B3-robe-physalia.jpg` | `Physalia dress by Iris van Herpen (51567).jpg` | Iris van Herpen ; photo Rhododendrites | CC BY-SA 4.0 |
-| Voiliers à Yabase | Estampe / Illustration | `images-v7/B4-voiliers-hiroshige.jpg` | `近江八景 矢橋帰帆-Fishing Boats Sailing Back to Yabase MET DP122149.jpg` | Utagawa Hiroshige, v. 1835 (The Met) | CC0 |
-| *Les Quatre Saisons* | Peinture | `images-v7/C1-quatre-saisons-arcimboldo.jpg` | `Giuseppe Arcimboldo, Four Seasons in One Head, c. 1590, NGA 142008.jpg` | Arcimboldo, v. 1590 (NGA) | CC0 |
-| *Warming stripes* | Data / Média | `images-v7/C2-warming-stripes.png` | `20181204 Warming stripes (global, WMO, 1850-2018) - Climate Lab Book (Ed Hawkins).png` | Ed Hawkins, 2018 | CC BY-SA 4.0 |
+| Jameos del Agua | Architecture | `images-v8/A4-jameos-del-agua.jpg` | `Jameos del Agua - Lanzarote -05.jpg` | César Manrique (1966) ; photo H. Zell | CC BY-SA 3.0 |
+| *Le Rêve* | Peinture | `images-v8/B1-reve-rousseau.jpg` | `Henri Rousseau - Le Rêve - Google Art Project.jpg` | Henri Rousseau, 1910 | Domaine public |
+| Fougères sur la lave | Photographie | `images-v8/B2-fougeres-sur-lave.jpg` | `2021-10-09 11 06 10 A lava tree mold covered in ferns within Lava Tree State Park in Hawaii County, Hawaii.jpg` | Famartin, 2021 | CC BY-SA 4.0 |
+| Robe *Physalia* | Mode | `images-v8/B3-robe-physalia.jpg` | `Physalia dress by Iris van Herpen (51567).jpg` | Iris van Herpen ; photo Rhododendrites | CC BY-SA 4.0 |
+| Voiliers à Yabase | Estampe / Illustration | `images-v8/B4-voiliers-hiroshige.jpg` | `近江八景 矢橋帰帆-Fishing Boats Sailing Back to Yabase MET DP122149.jpg` | Utagawa Hiroshige, v. 1835 (The Met) | CC0 |
+| *Les Quatre Saisons* | Peinture | `images-v8/C1-quatre-saisons-arcimboldo.jpg` | `Giuseppe Arcimboldo, Four Seasons in One Head, c. 1590, NGA 142008.jpg` | Arcimboldo, v. 1590 (NGA) | CC0 |
+| *Warming stripes* | Data / Média | `images-v8/C2-warming-stripes.png` | `20181204 Warming stripes (global, WMO, 1850-2018) - Climate Lab Book (Ed Hawkins).png` | Ed Hawkins, 2018 | CC BY-SA 4.0 |
 | *Mer de brouillard* | Peinture | `images/07-brouillard-friedrich.jpg` | `Caspar David Friedrich - Wanderer above the Sea of Fog.jpeg` | C. D. Friedrich, 1817 | Domaine public |
-| *Super Mario Bros. 3* (Monde 3) | Jeu vidéo | `images-v7/D1-mario3-world3.png` (en local, hors dépôt) | Carte du Monde 3 (*Water Land*, NES) | Nintendo, 1988 | © Nintendo — citation pédagogique (hors redistribution) |
-| *Catan* (plateau) | Jeu de société | `images-v7/D2-plateau-catan.jpg` | `PXL 20230226 231727215 Catan Legend of the Conquerors board game.jpg` | WalkingRadiance, 2023 (jeu © K. Teuber) | CC BY-SA 4.0 |
+| *Super Mario Bros. 3* (Monde 3) | Jeu vidéo | `images-v8/D1-mario3-world3.png` (en local, hors dépôt) | Carte du Monde 3 (*Water Land*, NES) | Nintendo, 1988 | © Nintendo — citation pédagogique (hors redistribution) |
+| *Catan* (plateau) | Jeu de société | `images-v8/D2-plateau-catan.jpg` | `PXL 20230226 231727215 Catan Legend of the Conquerors board game.jpg` | WalkingRadiance, 2023 (jeu © K. Teuber) | CC BY-SA 4.0 |
 | Spécimen typo | Typographie | Composant natif Figma | Bricolage Grotesque + Recursive | Atelier Triay / Arrow Type | SIL Open Font License |
 
 **Références complémentaires du brouillon v7 ([node 88-3](https://www.figma.com/design/3kuh5BiZHfMOCHNWPh9dXD/?node-id=88-3), archivé) :** Krakatoa 1883 (`A2-krakatoa-1883.jpg`, Domaine public), Corail blanchi NOAA 2023 (`C3-corail-blanchi.jpg`, Domaine public), *Carta Marina* 1539 (`D3-carta-marina.jpg`, Domaine public).

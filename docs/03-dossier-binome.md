@@ -6,7 +6,7 @@
 | Nœud | `noeud-c` (spec commune, décision 7) |
 | Version du dossier | **0.15** · 27/11/2026 (historique des versions : [journal.md](journal.md)) |
 | Rendu | PDF, vendredi 27/11/2026, 17h |
-| S'appuie sur | **spec commune v1.1** (validée le 26/11/2026), [04-charte-editoriale.md](04-charte-editoriale.md) v1.5, [05-bible-da.md](05-bible-da.md) v1.5 |
+| S'appuie sur | **spec commune v1.1** (validée le 26/11/2026), [04-charte-editoriale.md](04-charte-editoriale.md) v1.5, [05-bible-da.md](05-bible-da.md) v1.6 |
 
 > Plan de construction de notre projet. Il renvoie à la spec (« voir spec §x ») sans la recopier ; un autre binôme doit pouvoir reprendre le projet avec ce seul document.
 

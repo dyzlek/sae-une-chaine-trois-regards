@@ -5,7 +5,7 @@
 | Binôme | n°3 · Dylan Belledent, Nicolas Rapuzzi--Pisarczyk · `noeud-c` |
 | Version | **2.1** · 27/11/2026 (historique des versions : [journal.md](journal.md)) |
 | Rendu | PDF ou lien, vendredi 27/11/2026, 17h |
-| S'appuie sur | [dossier](03-dossier-binome.md) v0.15 (§10 : répartition), **spec commune v1.1** (validée le 26/11/2026, §10 : paliers), [bible DA](05-bible-da.md) v1.5, [charte](04-charte-editoriale.md) v1.5 |
+| S'appuie sur | [dossier](03-dossier-binome.md) v0.15 (§10 : répartition), **spec commune v1.1** (validée le 26/11/2026, §10 : paliers), [bible DA](05-bible-da.md) v1.6, [charte](04-charte-editoriale.md) v1.5 |
 
 > **Test :** en lisant ce plan, on sait ce qui doit fonctionner chaque soir, et qui s'en occupe.
 
@@ -23,7 +23,7 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | C1 | Spec commune v1.0/v1.1, déposée sur Moodle | les six | — | I | jeu. 26/11, 12h30 | ☑ |
 | C2 | Nos vecteurs de test 20 à 26 (spec v1.0) | Dylan | 3 h | I | 23/11 | ☑ ([tests/vectors/](../tests/vectors/README.md)) |
-| C3 | Relire la bible DA v1.5 (*Terre commune*) et valider à deux avant l'export PDF | à deux | 1 h | I | ven. 27/11 | ☑ validée à l'oral par Nicolas le 27/11 |
+| C3 | Relire la bible DA v1.6 (*Terre commune*) et valider à deux avant l'export PDF | à deux | 1 h | I | ven. 27/11 | ☑ validée à l'oral par Nicolas le 27/11 |
 | C4 | Moodboard *Terre commune* (bible §2) | D + N | 2 h | I | jeu. 26/11 | ☑ v8 : [moodboard-planche.png](moodboard-terre/moodboard-planche.png) |
 | C5 | Symbole cristal-île (bible §5, D-026) | D + N | 2 h | I | jeu. 26/11 | ☑ [symbole/](symbole/planche-symbole.png) |
 | C6 | Trois esquisses 16:9 (vide, 10, 300 messages) | D + N | 3 h | I | ven. 27/11 | ☑ [esquisses/](esquisses/1-vide.png) |
@@ -31,7 +31,7 @@
 | C8 | Réglage de confidentialité d'OpenRouter (charte §4.3, D-019) | Dylan | ½ h | I | mer. 25/11 | ☑ |
 | C9 | Relire dossier v0.14 et charte v1.4 | Nicolas | 1 h | I | ven. 27/11 | ☑ validés à l'oral par Nicolas le 27/11 |
 | C16 | Test mesuré du prompt `p2` : un lot de 10 messages, 17 envois, choix du modèle (D-029) | Dylan | 1 h | I | ven. 27/11 | ☑ [test-prompt/](test-prompt/README.md) |
-| C15 | Relire les ajouts du 27/11 : dossier v0.15 et charte v1.5 (`D-029`, `D-030`) | Nicolas | ½ h | I | ven. 27/11, avant 17h | ☐ |
+| C15 | Relire les ajouts du 27/11 : dossier v0.15 et charte v1.5 (`D-029`, `D-030`) | Nicolas | ½ h | I | ven. 27/11, avant 17h | ☑ relu et validé le 27/11 (Dylan et Nicolas) |
 | C10 | Export PDF des 4 rendus (schéma `architecture.svg`, polices intégrées) | Dylan | 2 h | I | ven. 27/11, avant 17h | ☐ |
 | C11 | Partage de la spec commune aux six (PDF, pas de dépôt commun) | les six | — | I | ven. 27/11 | ☑ |
 | C12 | Proposer la spec v1.1 aux six ([réponses à la relecture](spec-commune/propositions-v1.1.md)) | Dylan | 3 h | **I** | ven. 27/11 | ☑ validée le 26/11 |

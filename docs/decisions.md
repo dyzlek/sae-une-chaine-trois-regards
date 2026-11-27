@@ -21,14 +21,14 @@ Un choix = un bloc court : contexte, décision, pourquoi, ce qui est écarté. P
 - **Pourquoi :** la bible exige des règles génératives exactes (§6) et un symbole calculé (§5). Les dessiner à la main aurait donné des images qui ne correspondent pas aux formules ; les calculer prouve que les règles produisent bien ce que les esquisses montrent (même logique que la simulation de D-025 sur les formules). Le livrable reste l'image (PNG, SVG), pas le script.
 - **Écarté :** dessiner les esquisses dans Figma (images non fidèles aux formules, impossible de vérifier 300 messages à la main) ; retirer les scripts du dépôt (on perdrait la preuve de la façon dont les images ont été faites).
 
-### D-030 · Le masquage proposé par l'IA reste soumis à une décision humaine (proposée le 27/11/2026, à valider par Nicolas)
+### D-030 · Le masquage proposé par l'IA reste soumis à une décision humaine (proposée le 27/11/2026, validée par Dylan et Nicolas le 27/11)
 - **Date :** 2026-11-27
 - **Contexte :** `masquer` est une valeur de l'IA. Un modèle peut masquer à tort, ou laisser passer une attaque sans mot interdit. Le binôme 2 prévoit un masquage manuel noté avec sa raison.
 - **Décision :** un `masquer = true` de l'IA s'applique tout de suite, mais reste une proposition. Un membre du binôme peut le lever, ou masquer à la main ce qui a échappé au filtre et à l'IA. Chaque geste est noté dans la table `moderation` (qui, quand, pourquoi), et l'œuvre se reconstruit avec. Repris aussi du binôme 2 : un message qui laisse penser à une détresse n'est pas refusé, mais l'application affiche le 3114 et demande une seconde confirmation (charte §4.1).
 - **Pourquoi :** la décision de cacher la parole de quelqu'un ne doit pas dépendre d'un modèle seul. Le test du 27/11 donne 90 masquages justes sur 90, mais sur un seul lot.
 - **Écarté :** suivre l'IA sans recours (faux masquages définitifs) ; ne jamais écouter l'IA (le filtre par mots est trop pauvre) ; bloquer les messages de détresse (on ferait taire la personne).
 
-### D-029 · Modèle fixe `baidu/ernie-5.5-flash-preview:free`, `openrouter/free` en secours (proposée le 27/11/2026, à valider par Nicolas)
+### D-029 · Modèle fixe `baidu/ernie-5.5-flash-preview:free`, `openrouter/free` en secours (proposée le 27/11/2026, validée par Dylan et Nicolas le 27/11)
 - **Date :** 2026-11-27
 - **Contexte :** `openrouter/free` choisit lui-même le modèle. Le test mesuré du prompt `p2` (17 envois, 9 réponses valides, [test-prompt/](test-prompt/README.md)) l'a vu répondre avec deux modèles différents, qui lisent différemment les messages ambigus, et dont l'un met 53 à 71 s, au-delà de notre délai de 20 s. Le binôme 2 avait écarté le routeur seul pour la même raison.
 - **Décision :** `OPENROUTER_MODEL = baidu/ernie-5.5-flash-preview:free` ; l'unique nouvel essai passe par `openrouter/free`, avec un délai de 90 s. `model_used` est toujours enregistré (spec §9).

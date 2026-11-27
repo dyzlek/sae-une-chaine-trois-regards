@@ -13,6 +13,10 @@ Plus récent en haut. Un daily par matin : **hier / aujourd'hui / blocages**.
 
 ---
 
+### 2026-11-27 · S48 · Issues #4, #5, #8 : versions, C15, rangement moodboard (Nicolas, avec Claude Code)
+**Aujourd'hui :** bible DA citée en **v1.6** dans le dossier, la charte, le backlog et `a-faire.md` (#5). `D-029` et `D-030` marquées « validée par Dylan et Nicolas le 27/11 », `D-001 à D-030` dans `07-evaluation.md`, C15 ☑ (#4). Rangement du moodboard (#8) : `images-v7/` → `images-v8/` (liens de `moodboard-sources.md` et du journal mis à jour), doublon `D1-mario3-world3.gif` supprimé (le `.png` est gardé), `moodboard-v7-planche.png` → `archive-v7-dylan.png`.
+**Reste :** C10 (#6) : export des 4 PDF, relecture à deux et dépôt Moodle avant 17h, à faire par nous ; la ligne « 4 PDF déposés à HHhMM » sera ajoutée après. Étiquettes « voyage d'île en île » / « saisons » à déplacer dans Figma puis réexporter le PNG (#8, dernier point, Dylan ou Nicolas).
+
 ### 2026-11-27 · S48 · Images sous droits retirées du dépôt public (Dylan)
 **Aujourd'hui :** le dépôt est public, alors que la bible réserve *Lava*, *Mario*, *Vice-Versa* et *Wind Waker* à la citation pédagogique « hors redistribution ». Les 7 images concernées et `moodboard-terre/moodboard-planche.pdf` (16 Mo, qui les contient) sont retirées de Git et ajoutées au `.gitignore` ; elles restent en local pour Figma et pour le PDF déposé sur Moodle (issue #7).
 **Décisions :** on garde le dépôt public (les enseignants y accèdent ainsi) plutôt que de le passer en privé. L'export `moodboard-planche.png` reste : les deux visuels sous droits y sont en vignettes, au milieu du collage et crédités.
@@ -25,7 +29,7 @@ Plus récent en haut. Un daily par matin : **hier / aujourd'hui / blocages**.
 ### 2026-11-27 · S48 · Moodboard v7 après le retour de l'enseignante (Dylan)
 **Aujourd'hui :**
 - **Retour reçu :** la v6 ne parlait que d'îles et de bords de mer, sans diversité culturelle. Il faut montrer le cheminement (végétation, êtres vivants, émotions, saisons, climat) avec une illustration, une photo, une photo de mode, une photo de presse, une typographie, de l'architecture, une affiche de film (*Lava*, Pixar) et un jeu vidéo ou de société (carte d'îles de *Super Mario Bros. 3*).
-- **Moodboard v7** sur une nouvelle page du fichier Figma ([moodboard v7](https://www.figma.com/design/3kuh5BiZHfMOCHNWPh9dXD/?node-id=88-3), export `moodboard-terre/moodboard-v7-planche.png`) : 16 références, 9 domaines, en quatre colonnes qui suivent l'œuvre (Naître, Vivre, Changer, Voyager). 11 nouvelles images libres (Commons) dans `moodboard-terre/images-v7/`, sources dans `moodboard-sources.md`, bible DA §2 mise à jour.
+- **Moodboard v7** sur une nouvelle page du fichier Figma ([moodboard v7](https://www.figma.com/design/3kuh5BiZHfMOCHNWPh9dXD/?node-id=88-3), export `moodboard-terre/archive-v7-dylan.png`) : 16 références, 9 domaines, en quatre colonnes qui suivent l'œuvre (Naître, Vivre, Changer, Voyager). 11 nouvelles images libres (Commons) dans `moodboard-terre/images-v8/`, sources dans `moodboard-sources.md`, bible DA §2 mise à jour.
 **Blocages :** *Lava* et *Super Mario Bros. 3* sont protégés : coller à la main une miniature (citation pédagogique, © mentionné) dans les deux cartes prévues.
 **Décisions :** la v7 est jugée insuffisante par Dylan : elle reste un **brouillon** et Nicolas refait le moodboard à partir de cette base ; la v6 reste en vigueur d'ici là.
 

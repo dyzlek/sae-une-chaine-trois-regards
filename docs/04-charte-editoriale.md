@@ -5,7 +5,7 @@
 | Binôme | n°3 · Dylan Belledent, Nicolas Rapuzzi--Pisarczyk · `noeud-c` |
 | Version | **1.5** · 27/11/2026 (historique des versions : [journal.md](journal.md)) |
 | Rendu | PDF, vendredi 27/11/2026, 17h |
-| S'appuie sur | [spec commune v1.1](spec-commune.md) (§2.1, §4.2, §8.1, §9), [03-dossier-binome.md](03-dossier-binome.md) v0.15, [05-bible-da.md](05-bible-da.md) v1.5 |
+| S'appuie sur | [spec commune v1.1](spec-commune.md) (§2.1, §4.2, §8.1, §9), [03-dossier-binome.md](03-dossier-binome.md) v0.15, [05-bible-da.md](05-bible-da.md) v1.6 |
 
 > Ce que nous demandons aux personnes qui écrivent, et ce que nous demandons à l'IA. Notre regard (*Terre commune*, une terre qui naît de nos mots) : bible DA §1.
 

@@ -9,13 +9,13 @@ Légende : ☐ à faire · ◐ commencé · ☑ fait. **D** = Dylan, **N** = Nic
 | Quand | Quoi | Où |
 | --- | --- | --- |
 | **jeu. 26/11, 12h30** | Spec commune (les six) — v1.1 validée le 26/11 | Moodle |
-| **ven. 27/11, 17h** | Dossier de binôme (v0.15), charte éditoriale (v1.5), bible DA (v1.5) (3 PDF) + backlog et plan S50 / S2 (v2.0, PDF ou lien) | Moodle |
+| **ven. 27/11, 17h** | Dossier de binôme (v0.15), charte éditoriale (v1.5), bible DA (v1.6) (3 PDF) + backlog et plan S50 / S2 (v2.0, PDF ou lien) | Moodle |
 | avant le lun. 07/12 | S49 : environnement prêt sur nos postes (section 5) | chez soi |
 | jeu. 10/12 | Les trois nœuds rejoignent la chaîne | en salle |
 
 ## 1. Visuels Figma pour *Terre commune*
 
-Les textes de la bible DA v1.5, de la charte v1.5, du dossier v0.15 et du backlog v2.1 sont synchronisés sur la **spec v1.1 validée**.
+Les textes de la bible DA v1.6, de la charte v1.5, du dossier v0.15 et du backlog v2.1 sont synchronisés sur la **spec v1.1 validée**.
 
 ### 1.1 Moodboard *Terre commune* (C4, bible §2) · D + N · ☑ (27/11)
 - ☑ v6 critiquée par l'enseignante le 27/11 (trop centrée sur les îles, pas assez de domaines culturels).
@@ -35,7 +35,7 @@ Les textes de la bible DA v1.5, de la charte v1.5, du dossier v0.15 et du backlo
 - ☑ **Spec commune v1.1 (C1, C12) :** validée par les trois binômes le 26/11/2026 et déposée sur Moodle.
 - ☑ **Partage de la spec aux six (C11) :** PDF v1.1 partagé directement (pas de dépôt commun créé ; nos vecteurs restent dans `tests/vectors/` de notre dépôt et se partagent sur Discord).
 - ☑ **Test mesuré du prompt (C16) :** fait le 27/11, [test-prompt/](test-prompt/README.md) ; modèle fixe ernie (D-029).
-- ☐ **Relecture par Nicolas (C15) :** dossier v0.15 et charte v1.5 (D-029, D-030, message de détresse).
+- ☑ **Relecture par Nicolas (C15) :** dossier v0.15 et charte v1.5 (D-029, D-030, message de détresse).
 - ☑ **Test de la charte (C7) :** fait le 27/11, 3/3 réussis ([test-charte.md](test-charte.md)).
 - ☑ **Allègement des rendus (~−10 %)** : fait le 27/11 (journal).
 - ☑ **Code des visuels en S48 justifié** (D-031).
