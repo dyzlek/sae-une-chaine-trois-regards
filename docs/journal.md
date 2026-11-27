@@ -13,12 +13,28 @@ Plus récent en haut. Un daily par matin : **hier / aujourd'hui / blocages**.
 
 ---
 
+### 2026-11-27 · S48 · Allègement des quatre rendus PDF (Nicolas, avec Claude Code)
+**Aujourd'hui :** à la demande de Dylan, environ −10 % sur chaque rendu, pour une lecture plus rapide par le jury : dossier 7 006 → 6 362 mots, bible DA 6 359 → 5 756, charte 4 926 → 4 456, backlog 4 102 → 3 756. Coupé : les répétitions entre documents (remplacées par des renvois, ex. « bible DA §6 »), les historiques de versions (« avant on avait fait X »), les intros vides. Gardé tel quel : les justifications et les « écarté », les chiffres du test du prompt, les règles émotion → effet, les numéros D-0xx.
+**Blocages :** Dylan et Nicolas ont refait le moodboard en parallèle (v8 Figma de Dylan, v7 HTML de Nicolas), d'où un conflit Git. À relire par Dylan avant l'export PDF (C10).
+**Décisions :** la **v8 de Dylan** est retenue pour le PDF (bible DA §2 et `moodboard-sources.md` dans sa version) ; la planche HTML/PDF de Nicolas reste dans `moodboard-terre/` comme archive.
+
 ### 2026-11-27 · S48 · Moodboard v7 après le retour de l'enseignante (Dylan)
 **Aujourd'hui :**
 - **Retour reçu :** la v6 ne parlait que d'îles et de bords de mer, sans diversité culturelle. Il faut montrer le cheminement (végétation, êtres vivants, émotions, saisons, climat) avec une illustration, une photo, une photo de mode, une photo de presse, une typographie, de l'architecture, une affiche de film (*Lava*, Pixar) et un jeu vidéo ou de société (carte d'îles de *Super Mario Bros. 3*).
 - **Moodboard v7** sur une nouvelle page du fichier Figma ([moodboard v7](https://www.figma.com/design/3kuh5BiZHfMOCHNWPh9dXD/?node-id=88-3), export `moodboard-terre/moodboard-v7-planche.png`) : 16 références, 9 domaines, en quatre colonnes qui suivent l'œuvre (Naître, Vivre, Changer, Voyager). 11 nouvelles images libres (Commons) dans `moodboard-terre/images-v7/`, sources dans `moodboard-sources.md`, bible DA §2 mise à jour.
 **Blocages :** *Lava* et *Super Mario Bros. 3* sont protégés : coller à la main une miniature (citation pédagogique, © mentionné) dans les deux cartes prévues.
 **Décisions :** la v7 est jugée insuffisante par Dylan : elle reste un **brouillon** et Nicolas refait le moodboard à partir de cette base ; la v6 reste en vigueur d'ici là.
+
+### 2026-11-27 · S48 · Moodboard v7 refait après le retour de l'enseignant (Nicolas, avec Claude Code)
+**Hier :** moodboard v6 dans Figma (12 images, surtout des îles, des volcans et des côtes).
+**Aujourd'hui :**
+- **Retour de l'équipe enseignante sur la v6 :** « pas un moodboard » ; toujours le même sujet, pas d'argument, pas assez de domaines culturels ; l'île est le résultat, il faut montrer le cheminement (émotions, végétation, bateaux, saisons, climat). Domaines attendus : illustration, photo, photo de mode, photo de presse, typographie, architecture, affiche de film, jeu de société ou jeu vidéo. Pistes données : *Lava* (Pixar) et un Mario à carte d'îles (*Super Mario World*).
+- **Planche v7** ([PNG 3840 × 2400](moodboard-terre/moodboard-planche.png), [PDF](moodboard-terre/moodboard-planche.pdf), source [index.html](moodboard-terre/index.html)) : 23 références, **11 domaines**, rangées en 5 étapes reliées par un chemin comme une carte de jeu (un message → une émotion → ce qui vit → le temps qu'il fait → une carte à explorer), puis l'arrivée (notre esquisse à 300 messages). Chaque image porte son domaine, son émotion éventuelle, sa source et une phrase « ce qu'on en garde ».
+- 17 nouvelles images (Commons, libres) dont 4 visuels sous droits (affiches *Lava* et *Vice-Versa*, jaquettes *Super Mario World* et *Wind Waker*) en citation pédagogique ; 5 images de la v6 gardées, 7 retirées. Trois photos remplacées après vérification (Bosco Verticale, Harpa et Eldhraun ne montraient pas le bon sujet).
+- [moodboard-sources.md](moodboard-sources.md) réécrit (critique de la v6, tableau complet des 23 références, retirées) ; bible DA v1.6 §2 réécrite (tableau du cheminement, ce qu'on laisse, règle des droits).
+
+**Blocages :** la v7 est en HTML/PNG, pas dans Figma (la v6 y reste) ; à relire à deux avant l'export du PDF de la bible.
+**Décisions :** aucune décision technique (choix de direction artistique, justifié dans la bible §2).
 
 ### 2026-11-27 · S48 · Après-midi : test mesuré du prompt, corrections après comparaison avec le binôme 2 (Dylan)
 **Aujourd'hui :**

@@ -1,4 +1,4 @@
-﻿# Backlog et plan S50 / S2
+# Backlog et plan S50 / S2
 
 | Champ | Valeur |
 | --- | --- |
@@ -11,7 +11,7 @@
 
 **Estimations** en heures de travail (une journée de SAÉ ≈ 7 h par personne). **Priorité :** **I** = indispensable (sans elle, la démo ou la jonction échoue) · **+** = en plus si le temps le permet. **Statut :** ☐ à faire · ◐ en cours · ☑ fait.
 
-**Capacité.** S50 : 5 jours × 7 h = 35 h chacun. S2 : 4 jours de travail + l'oral, soit environ 28 h chacun. Le backlog indispensable de S50 remplit **33 h pour Dylan (2 h de marge) et 35 h pour Nicolas (pas de marge)** : le rattrapage (N7) est passé de 3 h à 5 h, et l'appel réel à l'IA (A2b) est passé à la S2, avec une IA simulée en S50 (A2a). N7 est coupé en deux : 3 h le mercredi (7 h de tâches ce jour-là pour Dylan) et les 2 dernières heures le jeudi matin, avant la jonction. La règle « si le jeudi échoue » (section 3) couvre le reste. Tout le « en plus » attend la S2.
+**Capacité.** S50 : 5 jours × 7 h = 35 h chacun. S2 : 4 jours de travail + l'oral, soit environ 28 h chacun. Le backlog indispensable de S50 remplit **33 h pour Dylan (2 h de marge) et 35 h pour Nicolas (pas de marge)** , car le rattrapage (N7) est estimé à 5 h et l'appel réel à l'IA (A2b) est en S2, avec une IA simulée en S50 (A2a). N7 est coupé en deux : 3 h le mercredi (7 h de tâches ce jour-là pour Dylan) et les 2 dernières heures le jeudi matin, avant la jonction. La règle « si le jeudi échoue » (section 3) couvre le reste. Tout le « en plus » attend la S2.
 
 ---
 
@@ -21,20 +21,20 @@
 
 | # | Tâche | Qui | Est. | Prio. | Échéance | Statut |
 | --- | --- | --- | --- | --- | --- | --- |
-| C1 | Spec commune v1.0/v1.1, déposée sur Moodle | les six | — | I | jeu. 26/11, 12h30 | ☑ déposée sur Moodle (v1.1 validée le 26/11) |
+| C1 | Spec commune v1.0/v1.1, déposée sur Moodle | les six | — | I | jeu. 26/11, 12h30 | ☑ |
 | C2 | Nos vecteurs de test 20 à 26 (spec v1.0) | Dylan | 3 h | I | 23/11 | ☑ ([tests/vectors/](../tests/vectors/README.md)) |
 | C3 | Relire la bible DA v1.5 (*Terre commune*) et valider à deux avant l'export PDF | à deux | 1 h | I | ven. 27/11 | ☑ validée à l'oral par Nicolas le 27/11 |
-| C4 | Nouveau moodboard *Terre commune* dans Figma (références 3D/archipel, licences exactes, palette §3.1, spécimen typo) | D + N | 2 h | I | jeu. 26/11 | ☑ fait dans Figma et exporté ([moodboard-planche.png](moodboard-terre/moodboard-planche.png)) |
-| C5 | Nouveau symbole *Terre commune* : le cristal-île unifié, règles exactes, déclinaisons (bible §5, D-026) | D + N | 2 h | I | jeu. 26/11 | ☑ planche et SVG dans [symbole/](symbole/planche-symbole.png) |
-| C6 | Trois esquisses 16:9 (océan vide, 10 messages, 300 messages) | D + N | 3 h | I | ven. 27/11 | ☑ produites en HTML et exportées ([esquisses/](esquisses/1-vide.png)) |
-| C7 | Test de la charte v1.5 auprès de 3 personnes (charte §3) | à deux | 1 h | I | jeu. 26/11 | ✓ fait le 27/11 : 3/3 réussis, rien à changer ([test-charte.md](test-charte.md)) ; caractère définitif à confirmer |
-| C8 | Vérifier le réglage de confidentialité d'OpenRouter et l'écrire (charte §4.3) | Dylan | ½ h | I | mer. 25/11 | ☑ réglages relevés et désactivés, essai réussi avec `data_collection: "deny"` (charte §4.3, D-019) |
+| C4 | Moodboard *Terre commune* (bible §2) | D + N | 2 h | I | jeu. 26/11 | ☑ v7 : [moodboard-planche.png](moodboard-terre/moodboard-planche.png) |
+| C5 | Symbole cristal-île (bible §5, D-026) | D + N | 2 h | I | jeu. 26/11 | ☑ [symbole/](symbole/planche-symbole.png) |
+| C6 | Trois esquisses 16:9 (vide, 10, 300 messages) | D + N | 3 h | I | ven. 27/11 | ☑ [esquisses/](esquisses/1-vide.png) |
+| C7 | Test de la charte auprès de 3 personnes (charte §3) | à deux | 1 h | I | jeu. 26/11 | ☑ 3/3 réussis ([test-charte.md](test-charte.md)) |
+| C8 | Réglage de confidentialité d'OpenRouter (charte §4.3, D-019) | Dylan | ½ h | I | mer. 25/11 | ☑ |
 | C9 | Relire dossier v0.14 et charte v1.4 | Nicolas | 1 h | I | ven. 27/11 | ☑ validés à l'oral par Nicolas le 27/11 |
 | C16 | Test mesuré du prompt `p2` : un lot de 10 messages, 17 envois, choix du modèle (D-029) | Dylan | 1 h | I | ven. 27/11 | ☑ [test-prompt/](test-prompt/README.md) |
-| C15 | Relire les ajouts du 27/11 après-midi : dossier v0.15 et charte v1.5 (modèle fixe `D-029`, contrôle humain du masquage `D-030`, message de détresse, test du prompt) | Nicolas | ½ h | I | ven. 27/11, avant 17h | ☐ |
+| C15 | Relire les ajouts du 27/11 : dossier v0.15 et charte v1.5 (`D-029`, `D-030`) | Nicolas | ½ h | I | ven. 27/11, avant 17h | ☐ |
 | C10 | Export PDF des 4 rendus (schéma `architecture.svg`, polices intégrées) | Dylan | 2 h | I | ven. 27/11, avant 17h | ☐ |
-| C11 | Partage de la spec commune aux six (finalement en PDF sur Moodle / Discord, pas de dépôt commun créé) | les six | — | I | ven. 27/11 | ☑ fait (PDF v1.1 partagé, pas de dépôt commun) |
-| C12 | Proposer la spec v1.1 aux six : réponses à la relecture de l'équipe enseignante ([réponses](spec-commune/propositions-v1.1.md), [texte complet](spec-commune/v1.1-proposition.md)) | Dylan | 3 h | **I** | ven. 27/11 | ☑ **validée par les trois binômes le 26/11/2026** (remplace la v1.0) |
+| C11 | Partage de la spec commune aux six (PDF, pas de dépôt commun) | les six | — | I | ven. 27/11 | ☑ |
+| C12 | Proposer la spec v1.1 aux six ([réponses à la relecture](spec-commune/propositions-v1.1.md)) | Dylan | 3 h | **I** | ven. 27/11 | ☑ validée le 26/11 |
 | C13 | Nos nouveaux vecteurs v1.1 : 30, 32 et 36, cas 20 et 23 mis à jour (`version_spec` 1.1) | Dylan | 2 h | I | lun. 07/12 (ven. 04/12 si O6 est accepté) | ☐ |
 | C14 | Demander à l'équipe enseignante si un script de calcul des vecteurs est accepté en S49 (spec v1.1, point ouvert O6) ; sans accord, dépôt des cas le lun. 07/12 | Dylan | ¼ h | I | ven. 27/11 | ☐ |
 
@@ -48,7 +48,7 @@
 | N4 | Stockage SQLite en mode WAL : `blocks`, `messages`, `node_state` | Dylan | 3 h | I | mar. 08/12 |
 | N5 | Les 5 routes de la spec §6, erreurs du **socle 10/12** (`400`, `409`, `422`, `503`, spec §10.0), écoute sur `HOST_NODE` (IP Tailscale donnée à la main dans `.env`). Les limites `429`/`413` et l'ordre exact des refus (§6.2, §8.2) peuvent glisser en S2 sans casser la compatibilité (spec §10.0) | Dylan | 4 h | I | mar. 08/12 |
 | N6 | Production par créneau (§4.2), file d'attente, envoi aux pairs (§6.4) ; v1.1 : conditions 7 et 8 (créneau après la tête, écart d'horloge) et validation de notre propre bloc par la fonction de N3 | Dylan | 3 h | I | mer. 09/12 |
-| N7 | Sondage toutes les 10 s, rattrapage et `SYNCING` (§7), choix entre chaînes (§5), remise en file. **Estimation relevée (3 h → 5 h) :** c'est la partie la plus risquée du nœud ; les 2 dernières heures (`SYNCING`, fourches) se font le jeudi matin | Dylan | 5 h | I | mer. 09/12 et jeu. 10/12 (matin) |
+| N7 | Sondage toutes les 10 s, rattrapage et `SYNCING` (§7), choix entre chaînes (§5), remise en file. **5 h :** la partie la plus risquée du nœud ; `SYNCING` et fourches le jeudi matin | Dylan | 5 h | I | mer. 09/12 et jeu. 10/12 (matin) |
 | N8 | API interne `127.0.0.1:8081` : filtre avant signature (charte §4.1), débit par visiteur, liste de mots | Nicolas | 3 h | I | mar. 08/12 |
 | N9 | Nouvelles tentatives toutes les 5 s si l'IP Tailscale n'est pas encore là (dossier §11) ; l'écoute elle-même est faite en N5 | Dylan | 1 h | I | ven. 11/12 |
 
@@ -86,7 +86,7 @@
 | O6 | Atmosphère dynamique (fenêtre des 5 derniers) : ciel selon `chaleur`, vagues selon `energie`, pluie 3D (`tristesse`), orage, éclairs et braises (`colere`) | Nicolas | 3 h | I | mar. 12/01 |
 | O7a | Post-processing léger (bloom sur la lave et les phares) | Nicolas | 1 h | + | mar. 12/01 |
 | O7b | Ruines solitaires avec lanterne du nœud (bible §6.5), tirées après les règles de base | Nicolas | 1 h | + | mar. 12/01 |
-| O8 | Enrichissements de la bible §6.5 (la carte est complète sans eux) : **rivières** avec arrêt garanti (`tristesse`), **impact de météorite** (`colere` intense), **champignons et petits animaux** (`joie`) | Dylan + Nicolas | 4 h | + | mer. 13/01 |
+| O8 | Enrichissements de la bible §6.5 : rivières, météorite, champignons et animaux | Dylan + Nicolas | 4 h | + | mer. 13/01 |
 | O9 | `prefers-reduced-motion` (caméra fixe, vagues figées, pas d'éclairs ni d'animation de météorite) | Nicolas | 1 h | I | mer. 13/01 |
 | O10 | Logo vivant dans l'en-tête : le cristal-île recalculé à chaque bloc (bible §5.3) ; sans lui, symbole de référence | Nicolas | 1 h | + | mer. 13/01 |
 
@@ -100,7 +100,7 @@
 | T4 | Bout en bout : un message de l'application jusqu'à l'œuvre, avec l'IA simulée (S50) puis avec de vraies valeurs de l'IA (lun. 11/01, après A2b) | à deux | 2 h | I | ven. 11/12 |
 | T5 | Fourche provoquée, arrêt du worker pendant un créneau, redémarrage des trois nœuds | à deux | 3 h | I | mer. 13/01 |
 | T6 | Déterminisme : même base, même **empreinte SHA-256 des tableaux `heightmap` + `warm` + `volc`** (indépendant du GPU) ; bases de test vide, 10 et 300 messages ; **fluidité mesurée** (30 images par seconde au moins, bible §6.4) | Nicolas | 2 h | I | mer. 13/01 |
-| T7 | Test du prompt, seconde partie : Dylan et Nicolas notent chacun 10 nouveaux messages **avant** de voir l'IA, puis comparaison avec ernie (objectif : 80 % d'`emotion` justes) ; revérifier que ernie est toujours gratuit (première partie faite le 27/11 : [test-prompt/](test-prompt/README.md)) | à deux | 1 h | I | S49 |
+| T7 | Test du prompt, seconde partie (charte §3) : chacun note 10 nouveaux messages **avant** de voir l'IA, puis comparaison (objectif : 80 % d'`emotion` justes) ; ernie toujours gratuit ? | à deux | 1 h | I | S49 |
 
 ### Documents et oral
 
@@ -115,23 +115,11 @@
 
 ## 2. La répartition
 
-Reprise du dossier §10 :
-
-| Domaine | Responsable | Relecteur |
-| --- | --- | --- |
-| Nœud (N2 à N7, N9) | Dylan | Nicolas, qui relit le code (chemin critique, 25 % de la note) |
-| Structure, lanceur de tests, API interne (N1, N8, T1) | Nicolas | Dylan |
-| IA : worker, quota, pannes (A2a, A2b, A3 à A5, T7) | Dylan | Nicolas |
-| Valeurs locales (A1, dossier §10 : elles vont avec l'œuvre) | Nicolas | Dylan |
-| Application (P1 à P3, P5, P6) | Nicolas | Dylan |
-| État `confirme` (P4) | Dylan | Nicolas |
-| Œuvre et bible DA (O1 à O9, C3 à C6) | Nicolas | Dylan |
-| Jonction et tests à trois (T2 à T5) | à deux | — |
-| Documents (C10, D2) | Dylan | Nicolas |
+Voir dossier §10 ; la colonne « Qui » du backlog l'applique tâche par tâche (l'autre membre relit). Les valeurs locales (A1) vont avec l'œuvre, donc à Nicolas ; l'état `confirme` (P4) va avec le nœud, donc à Dylan.
 
 **Pourquoi Nicolas prend N1, N8 et T1.** Ce sont les tâches où le nœud touche l'application et les tests : elles équilibrent la charge de la première semaine (Dylan a tout le cœur du nœud) et obligent Nicolas à lire le code du nœud dès le lundi, pour pouvoir l'expliquer à l'oral.
 
-**Charge :** S50, 33 h pour Dylan et 35 h pour Nicolas en tâches indispensables ; S2, environ 25 h pour Dylan (A2b passe en S2) et 27 h pour Nicolas (2 h de O3 passées au lundi 11/01), plus les tâches « en plus ».
+**Charge en S2 :** environ 25 h pour Dylan et 27 h pour Nicolas, plus les tâches « en plus ».
 
 ---
 
@@ -149,7 +137,7 @@ Reprise du dossier §10 :
 
 **Si le jeudi échoue :** le vendredi matin est réservé à la jonction (T3) ; A2a, N9 et O3 glissent à la S2, les valeurs locales suffisent pour montrer l'œuvre. La jonction passe avant tout le reste.
 
-**Si le jeudi réussit :** Dylan a 2 h libres le vendredi (sa marge) : il commence **A2b** (appel réel à OpenRouter) le vendredi après-midi, pour ne pas découvrir les vraies réponses de l'IA à quatre jours de l'oral. A2b reste prévue le lundi 11/01 si ce n'est pas le cas.
+**Si le jeudi réussit :** Dylan utilise ses 2 h de marge pour commencer **A2b** le vendredi, pour ne pas découvrir les vraies réponses de l'IA à quatre jours de l'oral.
 
 **Si Nicolas prend du retard** (il n'a pas de marge en S50) : O4 (brume des messages masqués, solidification douce) passe au lundi 11/01 ; la prévision en filaire reste prioritaire, car elle se voit pendant la démonstration.
 
@@ -171,7 +159,7 @@ Reprise du dossier §10 :
 | --- | --- | --- |
 | Dylan | Tailscale installé, la machine du nœud nommée **`noeud-c`** ; compte et clé OpenRouter dans `.env` ; Node.js 24 ; `npm install better-sqlite3` qui marche sous Windows ; test du prompt (T7, 10 requêtes) ; heure de remise à zéro du quota OpenRouter notée | la commande `tailscale status` liste les autres machines ; un modèle gratuit répond |
 | Nicolas | Tailscale installé (`sae-nicolas`), compte et clé OpenRouter ; Node.js 24, `better-sqlite3` et `three` installés en local ; polices variables **Bricolage Grotesque** et **Recursive** chargées en local (`app/fonts/`, D-028) ; relecture des sections 2, 3 et 6 de la spec v1.1 (pour relire le nœud dès le lundi) | même vérification ; une scène Three.js vide et les deux polices s'affichent hors ligne |
-| À deux | Veille et mises à jour Windows désactivées sur la machine du nœud pour la semaine du 07/12 ; **horloge :** ne pas compter sur la synchro automatique sur eduroam (NTP UDP 123 bloqué), tester la vérification manuelle contre l'en-tête `Date` d'une réponse HTTPS (spec v1.1 §10.3, étape 2) | un message échangé sur le groupe du binôme |
+| À deux | Veille et mises à jour Windows désactivées sur la machine du nœud ; **horloge :** tester la vérification manuelle (NTP bloqué sur eduroam, spec §10.3) | un message échangé sur le groupe du binôme |
 
 Écrire du code en S49 n'est prévu que si l'équipe enseignante l'accepte (question posée) ; le plan de la S50 ne compte pas dessus.
 

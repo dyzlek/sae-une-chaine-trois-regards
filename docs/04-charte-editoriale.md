@@ -7,10 +7,7 @@
 | Rendu | PDF, vendredi 27/11/2026, 17h |
 | S'appuie sur | [spec commune v1.1](spec-commune.md) (§2.1, §4.2, §8.1, §9), [03-dossier-binome.md](03-dossier-binome.md) v0.15, [05-bible-da.md](05-bible-da.md) v1.5 |
 
-> Ce que nous demandons aux personnes qui écrivent, et ce que nous demandons à l'IA.
-> **Test :** quelqu'un qui lit cette charte sait ce qu'il peut écrire, et ce que l'IA en tirera.
-
-**Notre regard : une terre qui naît de nos mots (*Terre commune*).** Au départ, il n'y a qu'un océan vierge en 3D. Chaque message sculpte durablement ce monde : les élans positifs font émerger des terres, des forêts et des bateaux ; la sérénité façonne des criques et des phares ; la tristesse creuse des baies et des lagons sous la pluie et le brouillard ; la colère fait jaillir des volcans sous l'orage.
+> Ce que nous demandons aux personnes qui écrivent, et ce que nous demandons à l'IA. Notre regard (*Terre commune*, une terre qui naît de nos mots) : bible DA §1.
 
 ---
 
@@ -32,9 +29,9 @@
 | Langue | Français conseillé ; toute langue est acceptée | L'IA lit plusieurs langues, et la spec impose d'accepter tous les messages valides venus des autres nœuds (§8.1) |
 | Ton | Libre, sincère ou poétique ; pas d'attaque contre une personne | Voir les limites (section 4) |
 
-**En quoi la consigne sert l'œuvre.** La consigne invite à exprimer une émotion ou une intention sincère, sans forcer un vocabulaire artificiel. L'IA en tire immédiatement quatre dimensions lisibles sur la carte : la nature du relief (`emotion`), son ampleur (`densite`), l'agitation de la mer et du ciel (`energie`) et la lumière (`chaleur`). Le visiteur voit littéralement sa trace modifier le continent commun.
+**En quoi la consigne sert l'œuvre.** Elle invite à exprimer une émotion sincère, sans vocabulaire forcé, d'où l'IA tire quatre dimensions lisibles sur la carte : relief (`emotion`), ampleur (`densite`), agitation (`energie`), lumière (`chaleur`).
 
-**Les messages des autres nœuds.** Les deux autres binômes ont leur propre consigne, et deux messages sur trois viendront probablement d'eux. Notre IA les lit avec la même grille et **lit leur ton quel que soit le sujet** : un message sur un examen, un repas ou une blague a lui aussi une émotion, une énergie et une densité. Seul un message **vide de sens** (« ok », « test ») reçoit des valeurs neutres (`calme`, faible densité). C'est voulu : notre carte accueille les trois regards, et les balises des 60 derniers messages (forme + couleur par nœud), les phares et les fanions de voiliers marquent discrètement le nœud d'origine (dossier §6).
+**Les messages des autres nœuds.** Les deux autres binômes ont leur propre consigne, et deux messages sur trois viendront probablement d'eux. Notre IA les lit avec la même grille et **lit leur ton quel que soit le sujet** : un message sur un examen, un repas ou une blague a lui aussi une émotion, une énergie et une densité. Seul un message **vide de sens** (« ok », « test ») reçoit des valeurs neutres (`calme`, faible densité). C'est voulu : notre carte accueille les trois regards, et des balises marquent discrètement le nœud d'origine (bible DA §6).
 
 ---
 
@@ -60,14 +57,14 @@ Elle en tire **quatre valeurs**, plus un indicateur de masquage :
 
 **Règles de validation** (faites par notre worker, pas par l'IA). D'abord, retirer les balises de code éventuelles (` ```json `) et extraire le premier objet JSON de la réponse, car les modèles gratuits l'entourent souvent de texte. Ensuite : un résultat par message du lot, avec son numéro `n` ; dans chaque résultat, les cinq clés sont présentes, et seulement elles ; les nombres sont entre 0 et 1 (arrondis à 2 décimales) ; `emotion` est l'une des quatre valeurs ; `masquer` est un booléen. Si toute la réponse est illisible ou si le lot est incomplet : `status = invalid_format` et un seul nouvel essai (dossier §5). Si un seul message du lot a une valeur fausse, il reçoit des valeurs locales, sans nouvel appel.
 
-**Si l'IA ne répond pas** (panne, délai, quota de 50 requêtes par jour atteint) : des **valeurs locales** sont calculées sans IA, de façon déterministe, par le serveur de l'application (dossier §5). Avec le quota de 50 requêtes par jour, elles porteront une bonne partie de la démo : elles doivent donc varier d'un message à l'autre.
+**Si l'IA ne répond pas** (panne, délai, quota atteint) : des **valeurs locales** déterministes prennent le relais (dossier §5). Elles porteront une bonne partie de la démo : elles doivent donc varier d'un message à l'autre.
 
 **Le calcul exact** (chaque binôme ou développeur doit trouver les mêmes valeurs) :
 
 - **Mots du message :** le texte est normalisé en retirant d'abord les accents par décomposition NFD (`texte.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()`) puis les sélecteurs de variation emoji `U+FE0F` (`replace(/\uFE0F/g, '')`, afin que `❤️`/`❤`, `☀️`/`☀` et `🌧️`/`🌧` soient reconnus à l'identique). Il est ensuite coupé en mots entiers (lettres, chiffres, apostrophe), plus chaque emoji pris seul (sans `U+FE0F`). Un mot du lexique compte **une fois** même s'il est répété.
 - `energie` = 0,25 + 0,10 × (nombre de `!`, 3 au plus) + 0,05 × (nombre de `?`, 2 au plus) + 0,30 × (part des lettres écrites en majuscules) + somme des effets `energie` des mots du lexique trouvés. Bornée entre 0 et 1.
 - `chaleur` = 0,50 + somme des effets `chaleur` des mots trouvés. Bornée entre 0 et 1.
-- `emotion` : l'émotion qui revient le plus souvent parmi les mots trouvés ; à égalité, dans l'ordre `colere`, `tristesse`, `joie`, `calme`. **Sans mot du lexique trouvé (règle anti-monotonie) :** l'octet 4 de l'`id` (`parseInt(id.slice(6, 8), 16)`) choisit de façon déterministe entre `calme` (octet pair) et `joie` douce (octet impair, `chaleur` ≥ 0,55). Ainsi, même lorsque le quota IA est épuisé ou pour des messages neutres venus des autres binômes, l'île continue de mêler terres vertes, forêts, criques et phares au lieu de devenir monotone.
+- `emotion` : l'émotion qui revient le plus souvent parmi les mots trouvés ; à égalité, dans l'ordre `colere`, `tristesse`, `joie`, `calme`. **Sans mot du lexique trouvé (règle anti-monotonie) :** l'octet 4 de l'`id` (`parseInt(id.slice(6, 8), 16)`) choisit de façon déterministe entre `calme` (octet pair) et `joie` douce (octet impair, `chaleur` ≥ 0,55). Ainsi, même sans IA, l'île ne devient pas monotone.
 - `densite` = 0,15 + 0,75 × (nombre de points de code / 280). Bornée entre 0 et 1.
 - **Variation légère :** les octets 1, 2 et 3 de l'`id` (caractères hexadécimaux 1-2, 3-4 et 5-6), notés `o`, ajoutent `(o / 255 − 0,5) × 0,10` à `energie`, `chaleur` et `densite`, puis on borne à nouveau et on arrondit à 2 décimales. Deux messages voisins ne sont donc pas identiques, et le même message donne toujours les mêmes valeurs.
 - `masquer` : `true` si le message contient un mot de la liste, un e-mail, un téléphone ou un lien (section 4.2).
@@ -94,7 +91,7 @@ Elle en tire **quatre valeurs**, plus un indicateur de masquage :
 
 **Pourquoi un lexique court et un calcul exact.** Les valeurs locales doivent être identiques à chaque reconstruction de la carte 3D, sans IA ni bibliothèque externe. Un lexique de 95 mots et emojis émotionnels courants couvre les ressentis les plus fréquents (y compris les messages des autres binômes) ; le reste alterne de façon déterministe entre `calme` et `joie` douce grâce à l'`id`. **Écarté :** une bibliothèque d'analyse de sentiment (dépendance lourde, souvent anglophone), un lexique de centaines de mots (long à maintenir).
 
-Elles sont envoyées à l'œuvre avec `values_source = local` (calculées à la volée par le serveur de l'application, sans écriture en base : dossier §5). L'œuvre les affiche d'abord en **prévision** (esquisse filaire translucide du relief qui émerge), qui se solidifie en **observation** (matière définitive du biome) quand les valeurs de l'IA arrivent (dossier §6).
+Elles sont envoyées à l'œuvre avec `values_source = local` et affichées en **prévision** filaire jusqu'à l'**observation** de l'IA (dossier §5 et §6).
 
 ---
 
@@ -198,7 +195,7 @@ Les **espaces au début et à la fin** ne sont pas un motif de refus : **l'appli
 
 ### 4.2 Après la signature : ce que notre œuvre ne montre pas
 
-Un message déjà dans la chaîne, venu de chez nous ou d'un autre nœud, **ne peut pas être refusé** : la spec impose de l'accepter (§8.1). Il est masqué si l'IA répond `masquer = true`, **ou** si notre serveur y trouve un mot de notre liste, un e-mail, un numéro de téléphone ou un lien. Ces règles sont les mêmes que celles du filtre 4.1 et s'appliquent à tous les messages, au moment de l'affichage : elles protègent aussi contre les messages des autres nœuds, même quand l'IA ne répond pas. Pour un message masqué :
+Un message déjà dans la chaîne, venu de chez nous ou d'un autre nœud, **ne peut pas être refusé** : la spec impose de l'accepter (§8.1). Il est masqué si l'IA répond `masquer = true`, **ou** si notre serveur y trouve ce que le filtre 4.1 aurait refusé (règles appliquées à tous les messages à l'affichage, même sans IA). Pour un message masqué :
 
 - le message **reste dans la chaîne** : nous ne la modifions jamais ;
 - son **texte n'est jamais affiché** dans notre application : le serveur le retire de ses réponses, il n'arrive donc jamais au navigateur ;
@@ -225,23 +222,9 @@ Le texte des messages part chez OpenRouter, puis chez le fournisseur du modèle 
 2. Nous refusons les fournisseurs qui entraînent sur nos données, **y compris pour les modèles gratuits**.
 3. Le worker envoie `"data_collection": "deny"` dans chaque requête.
 
-**Si les modèles gratuits ne répondent plus avec ce réglage** : nous gardons le refus de l'entraînement et nous choisissons un autre modèle gratuit précis dont le fournisseur ne collecte pas les données, en refaisant le test du §3. Si aucun modèle gratuit ne convient, nous autorisons la collecte pour les modèles gratuits seulement, nous l'écrivons ici, et nous le disons à l'oral.
+**Vérifié :** sur le compte de Dylan (*Settings → Data Policies*), tous les réglages de partage et d'entraînement sont désactivés, y compris *Allow free endpoints that train on request data* ; avec `data_collection: deny`, ernie et flint ont répondu (test du §3). Les modèles gratuits restent donc disponibles sans céder nos données. Le relevé du compte de Nicolas est à ajouter s'il sert au worker.
 
-**Réglages du compte de Dylan, relevés le 23/11/2026** (page *Settings → Data Policies* d'OpenRouter) :
-
-| Réglage (intitulé exact) | Valeur relevée | Ce qu'il fait |
-| --- | --- | --- |
-| *Zero Data Retention* : All other models, Anthropic, OpenAI, Google, SpaceXSI | désactivé (les 5) | S'il est activé, seules les offres qui ne gardent rien sont utilisées |
-| *Allow paid endpoints that train on request data* | désactivé | Sans effet pour nous (modèles gratuits seulement) |
-| **Allow free endpoints that train on request data** | activé au premier relevé, **désactivé** depuis | S'il était activé, il autoriserait les fournisseurs de modèles gratuits qui peuvent garder les messages ou s'en servir pour l'entraînement |
-| *Allow free endpoints that publish prompts* | désactivé | Refuse les fournisseurs qui publient les messages dans des jeux de données publics |
-| *Allow 1% data discount in workspaces* | désactivé | Refuse qu'OpenRouter utilise nos données contre une remise |
-
-**Essai du 23/11/2026 (compte de Dylan), avec les cinq réglages *Data Training* et *ZDR* désactivés :** requête à `openrouter/free` avec `"provider": { "data_collection": "deny" }` et le message « Réponds seulement : OK ». **Réponse reçue** (« OK »), donnée par le modèle **`recursive/flint-v1.0:free`**. Les modèles gratuits restent donc disponibles quand on refuse l'entraînement et la collecte : **tous les réglages de partage restent désactivés**.
-
-**Vérifié le 27/11 :** ernie et flint ont répondu avec `data_collection: deny` (test du §3). **À surveiller :** les fournisseurs gratuits peuvent être saturés (`429` pour Gemma et Ling le 27/11) ou disparaître. Si, un jour de démonstration, plus aucun fournisseur gratuit n'accepte ces conditions, le worker passe aux valeurs locales (dossier §5), sans changer les réglages.
-
-Le relevé de l'autre compte (Nicolas) est à ajouter s'il sert aussi au worker.
+**Si plus aucun fournisseur gratuit n'accepte ces conditions** (saturés ou disparus) : le worker passe aux valeurs locales, sans changer les réglages ; puis nous cherchons un autre modèle gratuit qui ne collecte pas, en refaisant le test du §3. En dernier recours seulement, nous autorisons la collecte pour les modèles gratuits, nous l'écrivons ici et le disons à l'oral.
 
 ### 4.4 Ce que nous ne faisons pas
 

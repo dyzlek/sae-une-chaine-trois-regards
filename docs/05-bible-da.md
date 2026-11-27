@@ -4,14 +4,11 @@
 | --- | --- |
 | Binôme | n°3 · Dylan Belledent, Nicolas Rapuzzi--Pisarczyk · `noeud-c` |
 | Responsable | Nicolas (relecture : Dylan) |
-| Version | **1.5** · 27/11/2026 (historique des versions : [journal.md](journal.md)) |
+| Version | **1.6** · 27/11/2026 · moodboard v7 (§2) (historique des versions : [journal.md](journal.md)) |
 | Rendu | PDF, vendredi 27/11/2026, 17h · pas de nombre de pages imposé |
 | S'appuie sur | [charte éditoriale](04-charte-editoriale.md) v1.5 (valeurs, lexique `l2`), [dossier de binôme](03-dossier-binome.md) v0.15 §6 et §7 (technique) |
 
-> La référence de notre direction artistique. Chaque choix est justifié.
-> **Test :** quelqu'un qui ne connaît pas le projet doit pouvoir, avec cette bible, dessiner un écran qui s'accorde avec notre œuvre et obtenir exactement la même carte à partir d'une même blockchain.
-
-**Légende.** Les trois livrables visuels de la bible DA sont produits : moodboard (§2), symbole (§5) et trois esquisses 16:9 (§7). Les anciens visuels de la piste *Front commun* sont archivés dans [archives-front-commun/](archives-front-commun/README.md).
+> **Test :** avec cette bible, quelqu'un qui ne connaît pas le projet doit pouvoir dessiner un écran qui s'accorde avec notre œuvre et obtenir exactement la même carte à partir d'une même blockchain. Livrables visuels : moodboard (§2), symbole (§5), trois esquisses (§7).
 
 ---
 
@@ -19,7 +16,7 @@
 
 **Nom de l'œuvre : *Terre commune*.** « Terre », parce que les messages font littéralement émerger et grandir une île hors de l'océan ; « commune », parce que trois binômes écrivent dans la même chaîne et façonnent le même monde. **Écarté :** *Front commun* (ancienne piste météo 2D jugée trop abstraite et déjà vue), *Archipel* (descriptif mais moins porteur de l'idée de collectif).
 
-**Une île vivante en 3D qui grandit avec la chaîne.** Au départ, l'écran montre un **océan vierge en 3D**, vu d'une caméra orbitale qui tourne lentement autour du bassin (le visiteur peut aussi tourner et zoomer librement). Il n'y a pas d'îles préfabriquées copiées-collées : **toute la mer repose sur une seule grille de terrain 3D (heightmap procédurale)** qui s'agrandit et se sculpte organiquement, message par message, comme une véritable carte générative contrôlée par les mots.
+**Une île vivante en 3D qui grandit avec la chaîne.** Au départ, un **océan vierge en 3D**, vu d'une caméra orbitale lente (le visiteur peut tourner et zoomer). Pas d'îles préfabriquées : **une seule grille de terrain (heightmap procédurale)** se sculpte message par message.
 
 Chaque émotion façonne durablement le monde et module l'atmosphère :
 - **Joie / positivité (`joie`) :** fait émerger et agrandit l'île (plages dorées, collines verdoyantes), fait pousser des **arbres** et lance des **voiliers** sur l'eau, ramène le soleil et la mer turquoise.
@@ -27,7 +24,7 @@ Chaque émotion façonne durablement le monde et module l'atmosphère :
 - **Tristesse / mélancolie (`tristesse`) :** déclenche la **pluie** et épaissit le **brouillard** du ciel ; en pleine mer, elle remonte un **haut-fond turquoise** qui reste sous l'eau ; sur une terre, elle **creuse une baie ou un lagon** et refroidit la végétation en mousse grise.
 - **Colère / tension (`colere`) :** fait jaillir un **volcan** (basalte, cratère de magma incandescent, braises) et déclenche **l'orage, les éclairs** et une **forte houle**.
 
-**Si le temps le permet (§6.5, backlog O8) :** rivières, impact de météorite, champignons et petits animaux. Ils enrichissent la carte mais n'en changent pas la lecture : l'œuvre est complète sans eux.
+Les enrichissements « en plus » (§6.5) ne changent pas cette lecture : l'œuvre est complète sans eux.
 
 **Ce que l'œuvre doit faire ressentir :**
 - **La genèse et l'immuabilité.** Comme la blockchain ne s'efface jamais, le terrain non plus : chaque bloc laisse une empreinte géologique permanente. Deux chaînes différentes engendrent deux cartes uniques.
@@ -100,11 +97,11 @@ Pour respecter l'accessibilité (**jamais la couleur seule**) et éviter toute c
 | `noeud-b` (Binôme 2) | Ambre | `#FBBF24` | 11,4:1 (AAA) | **Cube** | Balises, phares et fanions du binôme 2 |
 | `noeud-c` (Binôme 3, nous) | Violet | `#A78BFA` | 7,0:1 (AAA) | **Losange** (octaèdre) | Balises, phares et fanions de notre nœud |
 
-**Pourquoi Violet `#A78BFA` pour `noeud-c` et double encodage daltonisme.** L'ancien Corail `#FB7185` était presque identique à la couleur d'erreur (`#F47280`). Les trois couleurs de nœuds atteignent toutes le niveau **WCAG AAA** sur Encre (`#08111D`) et sont toujours doublées par une forme 3D distincte. De même, les 4 émotions de l'œuvre ne reposent jamais sur la couleur seule : chacune porte un relief et des objets propres (`joie` = forêts et voiliers, `calme` = plages douces et phares, `tristesse` = baies, pluie et brouillard, `colere` = cône volcanique, cratère et orage), rendant la carte lisible quel que soit le type de daltonisme.
+**Pourquoi Violet `#A78BFA` pour `noeud-c` et double encodage daltonisme.** L'ancien Corail `#FB7185` était presque identique à la couleur d'erreur (`#F47280`). Les trois couleurs de nœuds atteignent toutes le niveau **WCAG AAA** sur Encre (`#08111D`) et sont toujours doublées par une forme 3D distincte. De même, les 4 émotions ne reposent jamais sur la couleur seule : chacune porte un relief et des objets propres (§1), lisibles quel que soit le daltonisme.
 
 ### 3.3 Couleurs de l'interface
 
-Panneaux sombres translucides (*glassmorphism* sobre) par-dessus la scène 3D plein écran, garantissant un contraste ≥ 4,5:1 (WCAG AA) quelle que soit la couleur du ciel derrière :
+Panneaux sombres translucides par-dessus la scène, pour garder le contraste quel que soit le ciel derrière :
 
 | Rôle | Nom | Code | Contraste | Usage |
 | --- | --- | --- | --- | --- |
@@ -126,17 +123,17 @@ Nous retenons **un duo typographique cohérent et peu commun**, utilisé **parto
 | Interface & Messages | **Recursive** (`CASL 0`, `MONO 0`, graisse `400`–`600`, Linear) | 15–16 px | Champ de saisie, boutons, avertissement, légende, toast |
 | Données techniques | **Recursive** (`MONO 1`, graisse `400`, Mono) | 12–13 px | Numéro de bloc, `id`, valeurs IA, `% de terre`, 3 nœuds, crédits |
 
-**Pourquoi Bricolage Grotesque + Recursive.** *Bricolage Grotesque* apporte un dessin sculptural, chaleureux et singulier (loin des polices génériques comme Inter ou Fraunces) qui dialogue avec le relief low-poly de l'île. *Recursive* (`D-009`) assure une lisibilité irréprochable pour l'interface (Linear) et les données de la blockchain (Mono) dans un seul fichier variable. Utiliser ce même duo sur le moodboard, la planche symbole et l'application supprime tout décalage visuel.
+**Pourquoi Bricolage Grotesque + Recursive.** *Bricolage Grotesque* apporte un dessin sculptural, chaleureux et singulier (loin des polices génériques comme Inter ou Fraunces) qui dialogue avec le relief low-poly de l'île. *Recursive* (`D-009`) sert l'interface (Linear) et les données de la blockchain (Mono) dans un seul fichier variable. Le même duo partout supprime tout décalage visuel.
 
 ---
 
 ## 5. Symbole : le cristal-île
 
-**Planche :** [symbole/planche-symbole.png](symbole/planche-symbole.png) (source : [symbole/index.html](symbole/index.html), calculée par [symbole/symbole.js](symbole/symbole.js), outil de dessin de la planche et non code de l'application). **Fichiers :** [symbole.svg](symbole/symbole.svg) (référence), [favicon.svg](symbole/favicon.svg), [symbole-mono-sel.svg](symbole/symbole-mono-sel.svg), [symbole-mono-encre.svg](symbole/symbole-mono-encre.svg). Choix : `D-026`.
+**Planche :** [symbole/planche-symbole.png](symbole/planche-symbole.png) (calculée par [symbole/symbole.js](symbole/symbole.js)). **Fichiers :** [symbole.svg](symbole/symbole.svg) (référence), [favicon.svg](symbole/favicon.svg), [symbole-mono-sel.svg](symbole/symbole-mono-sel.svg), [symbole-mono-encre.svg](symbole/symbole-mono-encre.svg). Choix : `D-026`.
 
 ### 5.1 L'idée
 
-**Une île low-poly coupée par la surface de la mer.** Au-dessus de l'eau, **la terre** que les messages ont fait émerger ; en dessous, **la racine** : ce que la chaîne garde et que l'on ne voit pas. Comme un iceberg, l'œuvre ne montre que la partie émergée de la chaîne. Le symbole est un **résumé de l'œuvre** : mêmes facettes nettes (`flatShading`), même lumière en haut à gauche, mêmes couleurs (§3.1), même PRNG (§6.1). Et il est **calculé** à partir de l'état de la chaîne, comme l'œuvre.
+**Une île low-poly coupée par la surface de la mer.** Au-dessus, **la terre** que les messages ont fait émerger ; en dessous, **la racine** : ce que la chaîne garde sans le montrer, comme un iceberg. Le symbole **résume l'œuvre** (mêmes facettes, lumière, couleurs §3.1 et PRNG §6.1) et il est **calculé** à partir de la chaîne, comme elle.
 
 **D'où il vient** (cours d'art génératif, « le logo algorithmique ») :
 - ***Visit Nordkyn*** (Neue Design Studio, 2010) : un cristal à facettes que la météo du jour déforme. **Nous :** un cristal que les messages déforment à chaque bloc. On garde les facettes et le jeu clair / sombre ; on laisse le nom en capitales et les données écrites sous le logo.
@@ -151,14 +148,14 @@ Nous retenons **un duo typographique cohérent et peu commun**, utilisé **parto
 
 ### 5.2 Construction (règles exactes)
 
-Tout se calcule dans une boîte de `64 × 64`. La ligne de flottaison passe à `y = 33`, **sans trait horizontal** : la séparation mer/terre se lit directement par la rupture de couleur et de facettes entre le massif émergé et la quille sous-marine.
+Tout se calcule dans une boîte de `64 × 64`. Ligne de flottaison à `y = 33`, **sans trait** : la rupture de couleur suffit à séparer mer et terre.
 
 1. **Tirages.** PRNG **Mulberry32** (§6.1) initialisé par la graine (`seed`).
    - **Rivage** (5 points continus de gauche à droite, demi-largeur `w = 23 + 5 × √t` où `t = min(1 ; terre / 0,45)`), avec légère variation organique.
    - **Massif émergé (un seul bloc continu)** : un sommet principal de hauteur `hPeak = 7 + 16 × √t ± 1` et une épaule reliée (`0,52` à `0,70 × hPeak`), formant une crête asymétrique continue. **À 0 message**, `hPeak = 1,2` : simple haut-fond Lagon plat (« océan vierge »).
    - **Racine sous-marine (quille cristalline)** : profondeur `dRoot = 8 + 14 × ln(1 + n) / ln(301)`, `n` = nombre de messages ; trois points inférieurs asymétriques formant une quille large (et non un cône pointu).
 2. **Faces.** 10 polygones facettés au total : **5 de terre** (versant gauche, crête centrale, versant droit) et **5 d'eau** (quille sous-marine). Pas de contour (un filet de `0,25` de la couleur de la face bouche seulement les jours entre facettes).
-3. **Couleur unie par émotion majoritaire (les 6 derniers messages).** Pour éviter tout effet patchwork et garder un symbole lisible jusqu'à `16 px`, l'ensemble du massif émergé prend la **teinte unie de l'émotion majoritaire** parmi les 6 derniers messages (en cas d'égalité, la plus récente l'emporte), sculptée uniquement par la lumière et l'ombre :
+3. **Couleur unie par émotion majoritaire (6 derniers messages, égalité : la plus récente).** Pour rester lisible jusqu'à `16 px`, sans patchwork, le massif prend une seule teinte, sculptée par la lumière :
 
    | `emotion` majoritaire / état | Couleur unie | Pourquoi |
    | --- | --- | --- |
@@ -178,13 +175,13 @@ Tout se calcule dans une boîte de `64 × 64`. La ligne de flottaison passe à `
 | Déclinaison | Où | Règle |
 | --- | --- | --- |
 | **Symbole de référence** (figé) | PDF, README, favicon, partage | graine `0x20264F04`, `n = 120`, `terre = 0,38`, 6 derniers messages à majorité `joie` (`tristesse, joie, calme, colere, joie, joie`). Fichier [symbole.svg](symbole/symbole.svg) |
-| **Logo vivant** | en-tête de l'application (64 px), à côté du compteur et du `% de terre` (§8.1) | recalculé **à chaque nouveau bloc**, jamais en boucle : graine = `parseInt(id.slice(0, 8), 16)` du dernier message (comme l'œuvre), `n`, `terre` affichée, six derniers messages. Backlog O10 (« en plus ») ; sans O10, l'en-tête montre le symbole de référence |
-| **Bloc-marque** | page de titre, en-tête large | symbole à gauche, *Terre commune* en **Bricolage Grotesque 600** (§4), puis les trois formes des nœuds (pyramide Cyan, cube Ambre, losange Violet) en Recursive Mono 12 px : « trois regards » |
-| **Monochrome Sel** | sur la scène 3D ou une image | faces de terre en Sel à 42–100 % d'opacité selon l'éclairement, faces d'eau à 12–42 %. [symbole-mono-sel.svg](symbole/symbole-mono-sel.svg) |
-| **Monochrome Encre** | impression, fond clair (Neige) | même règle en Encre `#08111D`. [symbole-mono-encre.svg](symbole/symbole-mono-encre.svg) |
-| **Tailles** | — | Identique de `500 px` à `16 px` ([favicon.svg](symbole/favicon.svg)), sans détail superflu à retirer. Zone de protection : un huitième de la taille tout autour |
+| **Logo vivant** | en-tête de l'application (§8.1) | recalculé **à chaque nouveau bloc**, jamais en boucle : graine = `parseInt(id.slice(0, 8), 16)` du dernier message, `n`, `terre`, six derniers messages. Backlog O10 (« en plus ») ; sinon, symbole de référence |
+| **Bloc-marque** | page de titre, en-tête large | symbole, *Terre commune* en Bricolage Grotesque 600, puis les trois formes des nœuds en Recursive Mono : « trois regards » |
+| **Monochrome Sel** | sur la scène 3D ou une image | terre en Sel à 42–100 % d'opacité selon l'éclairement, eau à 12–42 %. [symbole-mono-sel.svg](symbole/symbole-mono-sel.svg) |
+| **Monochrome Encre** | impression, fond clair | même règle en Encre. [symbole-mono-encre.svg](symbole/symbole-mono-encre.svg) |
+| **Tailles** | — | Identique de `500 px` à `16 px` ([favicon.svg](symbole/favicon.svg)). Zone de protection : un huitième de la taille |
 
-**Accessibilité.** Le symbole porte `role="img"` et `aria-label="Terre commune"` ; le logo vivant ajoute le nombre de messages et le `% de terre` (« Terre commune, 120 messages, 38 % de terre »). Ses couleurs ne portent aucune information qui ne soit écrite ailleurs (compteur, légende). Avec `prefers-reduced-motion`, le changement de symbole se fait sans transition.
+**Accessibilité.** `role="img"` et `aria-label="Terre commune"` (le logo vivant ajoute « 120 messages, 38 % de terre ») ; ses couleurs ne portent rien qui ne soit écrit ailleurs ; pas de transition avec `prefers-reduced-motion`.
 
 ### 5.4 Ce qu'on ne fait pas
 
@@ -267,9 +264,9 @@ Une chaîne très sombre (30 % de colère) donne une île nettement plus volcani
   - **Brouillard du ciel (`FogExp2`) :** densité `0,012` par défaut, `0,012 + 0,006 × (nombre de messages `tristesse` parmi les 5 derniers)`, soit `0,042` au plus. Il voile **tout** l'horizon, jamais un point précis : on ne peut pas le confondre avec la nappe d'un message masqué.
   - **Pluie :** active dès que **2 messages au moins sur les 5 derniers** sont en `tristesse`, ou en `colere` avec `energie ≥ 0,6` (les deux cas s'additionnent).
   - **Orage et éclairs :** actifs dès que **2 messages au moins sur les 5 derniers** sont en `colere`, ou si le **dernier message** a `emotion = colere` et `energie ≥ 0,75`.
-- **Trace d'origine (`node`) :** en plus des phares et des fanions de voiliers (et des lanternes de ruines si O7b est fait), **les 60 messages les plus récents** posent une **petite balise** (`0,35` unité, `0,6` au-dessus du sol ou de l'eau) à leur point d'impact `(cx, cz)`, dans la **forme et la couleur de leur nœud** (pyramide Cyan / cube Ambre / losange Violet, §3.2), en un seul `InstancedMesh` par forme. Les plus anciens se retrouvent dans « Historique » (§8.1). **Pourquoi 60 et pas toutes :** au-delà, les balises couvriraient l'île de points de couleur et la carte redeviendrait un graphique de données, ce que le pivot voulait quitter.
-- **Prévision (`local`) → Observation (`ia`) — technique retenue :** on ne découpe pas le maillage principal. Pour chaque message encore en `values_source = local`, un **petit maillage filaire circulaire indépendant** (`RingGeometry` en `MeshBasicMaterial({ wireframe: true, transparent: true, opacity: 0,72 })`) épouse la heightmap `0,10` unité au-dessus de sa zone `(cx, cz)` (sans coins carrés dépassant sur l'eau). Quand l'IA répond (`values_ready`), la heightmap s'interpole vers les vraies valeurs et ce patch filaire disparaît en fondu en `1,5 s`.
-- **Quand l'IA répond pour un message ancien.** Le relief dépend de l'ordre des messages (`touches`, altitude déjà atteinte) : remplacer les valeurs d'un message de rang `n` recalcule **toute la carte à partir du rang `n`**, puis la scène s'interpole vers le nouvel état en `1,5 s`. Des zones voisines peuvent donc bouger un peu. **Assumé :** c'est la chaîne qui est permanente ; la carte en est une lecture qui **s'affine** quand l'IA remplace une prévision. Le retraitement (dossier §5) va du plus récent au plus ancien, donc ce sont surtout les zones récentes qui bougent. La caméra ne suit pas ces corrections, pour ne pas distraire.
+- **Trace d'origine (`node`) :** en plus des phares et fanions, **les 60 messages les plus récents** posent une **petite balise** (`0,35` unité, `0,6` au-dessus du sol ou de l'eau) à leur point d'impact, dans la forme et la couleur de leur nœud (§3.2), un `InstancedMesh` par forme. Les plus anciens sont dans « Historique » (§8.2). **Pourquoi 60 et pas toutes :** au-delà, les balises couvriraient l'île de points de couleur et la carte redeviendrait un graphique de données, ce que le pivot voulait quitter.
+- **Prévision (`local`) → Observation (`ia`) :** on ne découpe pas le maillage principal. Pour chaque message en `values_source = local`, un **petit maillage filaire circulaire** (`RingGeometry`, `wireframe`, opacité `0,72`) épouse la heightmap `0,10` unité au-dessus de sa zone. Quand l'IA répond (`values_ready`), la heightmap s'interpole vers les vraies valeurs et le filaire disparaît en `1,5 s`.
+- **Quand l'IA répond pour un message ancien.** Le relief dépend de l'ordre des messages : remplacer les valeurs du rang `n` recalcule **la carte à partir du rang `n`**, et des zones voisines peuvent bouger un peu. **Assumé :** la chaîne est permanente ; la carte en est une lecture qui **s'affine**. Le retraitement allant du plus récent au plus ancien (dossier §5), ce sont surtout les zones récentes qui bougent. La caméra ne suit pas ces corrections.
 - **Message masqué (`masquer = true`) :** ne modifie pas `h`, `warm` ni `volc` ; pose une **nappe de brume grise** translucide à `(cx, cz)` avec la balise de son nœud et la mention « Message masqué (charte §4) ».
 
 ### 6.4 Budget géométrique et fluidité
@@ -295,39 +292,39 @@ Ils ne s'ajoutent que si le socle (§6.1 à §6.4) marche de bout en bout. Ils t
 
 ## 7. Esquisses
 
-Trois vues 16:9 (1920 × 1080) de l'application complète *Terre commune* (source HTML de maquette : [esquisses/index.html](esquisses/index.html), générée à partir des formules exactes de §6 et du symbole §5 — outil de maquette S48, non code de l'application) :
+Trois vues 16:9 (1920 × 1080) de l'application, calculées avec les formules de §6 (maquette : [esquisses/index.html](esquisses/index.html), pas le code de l'application) :
 
 | État | Fichier | Ce que l'esquisse montre |
 | --- | --- | --- |
-| **1 · Vide** (0 message) | [1-vide.png](esquisses/1-vide.png) | Océan 3D vierge, calme, lumière d'aube ; panneau flottant discret avec *Terre commune*, le symbole, la consigne et `0 message · 0 % de terre` |
-| **2 · Quelques messages** (10 messages) | [2-quelques.png](esquisses/2-quelques.png) | Environ 9 % de terre (§6.2) : premiers îlots verts autour du centre ; un phare (`noeud-a`, pyramide Cyan), un voilier, un patch filaire en **prévision**, un haut-fond turquoise sous la pluie (tristesse), une nappe de brume grise (message masqué), balises des 3 nœuds |
-| **3 · Beaucoup de messages** (300 messages) | [3-beaucoup.png](esquisses/3-beaucoup.png) | Environ 45 % du bassin en terre : une grande île occupant le disque central, anneau d'océan toujours visible (masque côtier). Prairies et forêts, côtes en mousse grise, baies et lagons, volcans à cratère de magma et braises, sommet enneigé, voiliers, phares et balises des 3 nœuds |
+| **1 · Vide** (0 message) | [1-vide.png](esquisses/1-vide.png) | Océan vierge, lumière d'aube ; panneau discret avec titre, symbole, consigne et `0 message · 0 % de terre` |
+| **2 · Quelques messages** (10) | [2-quelques.png](esquisses/2-quelques.png) | ≈ 9 % de terre : premiers îlots, un phare, un voilier, un filaire en **prévision**, un haut-fond sous la pluie, une brume (message masqué), balises des 3 nœuds |
+| **3 · Beaucoup de messages** (300) | [3-beaucoup.png](esquisses/3-beaucoup.png) | ≈ 45 % de terre : grande île centrale, anneau d'océan toujours visible ; tous les biomes et éléments de §6 |
 
 ---
 
 ## 8. Design system
 
-**Direction UI : cartel d'exposition / carnet cartographique.** L'interface reste sobre, anguleuse et discrète pour laisser toute la place à la scène 3D (aucune boîte « SaaS » bombée). **Jetons (tokens) :** couleurs §3.3 (Encre `#08111D` 84 %, Sel `#F1F5F9` contraste 17,3:1, Embruns `#94A3B8` 7,4:1, Corail `#F47280` 6,8:1), **Bricolage Grotesque + Recursive** (§4), espacements 4 / 8 / 16 / 24 px, angles nets (`0–2 px`), filets fins (`1 px` à 20 % Sel, bordure d'accent `2 px` Sel), `backdrop-filter: blur(12px)`.
+**Direction UI : cartel d'exposition / carnet cartographique.** Interface sobre, anguleuse et discrète pour laisser la place à la scène 3D (pas de boîtes « SaaS » bombées). **Jetons :** couleurs §3.3, typographie §4, espacements 4 / 8 / 16 / 24 px, angles nets (`0–2 px`), filets fins (`1 px` à 20 % Sel, bordure d'accent `2 px` Sel), `backdrop-filter: blur(12px)`.
 
 ### 8.1 Grille de l'écran
 
 | Largeur | Disposition |
 | --- | --- |
-| **Écran large** (≥ 1024 px) | **Scène 3D en plein écran (100 % × 100 %)** encadrée de repères d'angle fins. En haut à gauche : cartouche éditorial (symbole 56 px, titre, compteur de messages/blocs, **`% de terre`** et indicateur des 3 nœuds). En haut à droite : bouton cartel `LÉGENDE · HISTORIQUE [ + ]` replié. En bas au centre : console d'écriture « carnet de bord » + ligne de journal du dernier message intégrée au-dessus |
-| **Tablette** (640 à 1023 px) | Même plein écran 3D, console centrée réduite en largeur |
-| **Téléphone** (< 640 px) | Console d'écriture accessible en bas (zone du pouce), scène 3D sur tout le reste de l'écran |
+| **Écran large** (≥ 1024 px) | Scène 3D plein écran. En haut à gauche : cartouche (symbole 56 px, titre, compteur, **`% de terre`**, 3 nœuds). En haut à droite : `LÉGENDE · HISTORIQUE [ + ]` replié. En bas au centre : console d'écriture, avec la ligne de journal au-dessus |
+| **Tablette** (640 à 1023 px) | Idem, console plus étroite |
+| **Téléphone** (< 640 px) | Console en bas (zone du pouce), scène sur le reste |
 
 ### 8.2 Composants
 
 | Composant | Description | États |
 | --- | --- | --- |
-| Console d'écriture | Cartouche Encre marine bordé filet fin, champ souligné Recursive Linear 15,5 px, compteur `0 / 280` en Mono 11,5 px, phrase d'exemple | vide, en saisie (filet Sel), limite proche (≥ 260), refusé (Corail vif + raison) |
-| Bouton `INSCRIRE →` | Bloc net Sel sur Encre marine, Recursive Mono 600, zone tactile ≥ 44 px | normal, survol, désactivé, envoi en cours |
-| Avertissement & aide | Ligne courte « Message définitif · sans donnée personnelle », détail dépliable avec numéros d'aide (`3114`, `15`, `112`) | replié, déplié |
-| Ligne de journal (toast) | Bandeau intégré juste au-dessus de la console (`aria-live="polite"`) : forme + couleur du nœud, texte, effet sur la carte, état (`◐ PRÉVISION` → `● CONFIRMÉ`) | normal, masqué (« Message masqué », sans texte) |
-| Pastille d'état | Pictogramme + texte : ○ en attente · ◐ prévision / dans un bloc · ● confirmé · ↺ remis en attente | 4 états |
-| Panneau `LÉGENDE · HISTORIQUE [ + ]` | Replié par défaut. Déplié : légende des 4 émotions (couleurs + reliefs/objets), 3 nœuds (formes + couleurs) et **liste accessible des messages** (navigable au clavier et lecteur d'écran, doublant la scène 3D) | replié, déplié |
-| Indicateur des 3 nœuds | Trois repères `▲ a`, `■ b`, `◆ c` en Mono 11,5 px (actif / coupé) | normal, pair coupé |
-| Symbole (en-tête) | Cristal-île 56 px (§5) à gauche du titre ; logo vivant si O10 est fait, sinon symbole de référence | référence, vivant (change à chaque bloc) |
+| Console d'écriture | Cartouche Encre, champ souligné Recursive Linear, compteur `0 / 280` en Mono, phrase d'exemple | vide, en saisie, limite proche (≥ 260), refusé (Corail + raison) |
+| Bouton `INSCRIRE →` | Sel sur Encre, Recursive Mono 600, zone tactile ≥ 44 px | normal, survol, désactivé, envoi en cours |
+| Avertissement & aide | « Message définitif · sans donnée personnelle », détail dépliable avec `3114`, `15`, `112` | replié, déplié |
+| Ligne de journal | Au-dessus de la console (`aria-live="polite"`) : nœud (forme + couleur), texte, effet sur la carte, état | normal, masqué (sans texte) |
+| Pastille d'état | ○ en attente · ◐ prévision / dans un bloc · ● confirmé · ↺ remis en attente | 4 états |
+| `LÉGENDE · HISTORIQUE [ + ]` | Légende des émotions et des nœuds, et **liste des messages** accessible au clavier et au lecteur d'écran | replié, déplié |
+| Indicateur des 3 nœuds | `▲ a`, `■ b`, `◆ c` en Mono | normal, pair coupé |
+| Symbole (en-tête) | Cristal-île 56 px (§5.3) | référence, vivant |
 
-**Accessibilité (WCAG 2.2 AA).** Contraste ≥ 6,8:1 sur tous les textes et repères ; anneau de focus visible de `2 px` en Sel ; **aucune information portée par la seule couleur** (double encodage forme/relief + texte) ; **liste clavier / lecteur d'écran** dans `Historique` doublant entièrement la scène WebGL ; `aria-live="polite"` sur la ligne de journal ; respect strict de `prefers-reduced-motion`.
+**Accessibilité (WCAG 2.2 AA).** Contraste ≥ 6,8:1 ; focus visible `2 px` Sel ; **jamais la couleur seule** ; liste `Historique` doublant toute la scène WebGL ; `aria-live` sur la ligne de journal ; `prefers-reduced-motion` respecté.
