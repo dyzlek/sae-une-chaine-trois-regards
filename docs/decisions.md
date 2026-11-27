@@ -14,6 +14,21 @@ Un choix = un bloc court : contexte, décision, pourquoi, ce qui est écarté. P
 
 ---
 
+### D-030 · Le masquage proposé par l'IA reste soumis à une décision humaine (proposée le 27/11/2026, à valider par Nicolas)
+- **Date :** 2026-11-27
+- **Contexte :** `masquer` est une valeur de l'IA. Un modèle peut masquer à tort, ou laisser passer une attaque sans mot interdit. Le binôme 2 prévoit un masquage manuel noté avec sa raison.
+- **Décision :** un `masquer = true` de l'IA s'applique tout de suite, mais reste une proposition. Un membre du binôme peut le lever, ou masquer à la main ce qui a échappé au filtre et à l'IA. Chaque geste est noté dans la table `moderation` (qui, quand, pourquoi), et l'œuvre se reconstruit avec. Repris aussi du binôme 2 : un message qui laisse penser à une détresse n'est pas refusé, mais l'application affiche le 3114 et demande une seconde confirmation (charte §4.1).
+- **Pourquoi :** la décision de cacher la parole de quelqu'un ne doit pas dépendre d'un modèle seul. Le test du 27/11 donne 90 masquages justes sur 90, mais sur un seul lot.
+- **Écarté :** suivre l'IA sans recours (faux masquages définitifs) ; ne jamais écouter l'IA (le filtre par mots est trop pauvre) ; bloquer les messages de détresse (on ferait taire la personne).
+
+### D-029 · Modèle fixe `baidu/ernie-5.5-flash-preview:free`, `openrouter/free` en secours (proposée le 27/11/2026, à valider par Nicolas)
+- **Date :** 2026-11-27
+- **Contexte :** `openrouter/free` choisit lui-même le modèle. Le test mesuré du prompt `p2` (17 envois, 9 réponses valides, [test-prompt/](test-prompt/README.md)) l'a vu répondre avec deux modèles différents, qui lisent différemment les messages ambigus, et dont l'un met 53 à 71 s, au-delà de notre délai de 20 s. Le binôme 2 avait écarté le routeur seul pour la même raison.
+- **Décision :** `OPENROUTER_MODEL = baidu/ernie-5.5-flash-preview:free` ; l'unique nouvel essai passe par `openrouter/free`, avec un délai de 90 s. `model_used` est toujours enregistré (spec §9).
+- **Pourquoi :** ernie a donné 4 réponses valides sur 4, en 5 à 8 s, avec l'injection résistée et le masquage juste. Un modèle fixe rend les valeurs comparables d'un message à l'autre. Le routeur garde l'œuvre vivante si ernie tombe.
+- **Écarté :** `openrouter/free` seul (modèle changeant, parfois trop lent) ; `recursive/flint-v1.0:free` (juste, mais 53 à 71 s par lot) ; Gemma et Ling (impossible à mesurer : `429`).
+- **Limite :** ernie est une version *preview*. La liste des modèles gratuits est revérifiée avant le 07/12, et le test est refait si ernie disparaît.
+
 ### D-028 · Duo typographique unifié : Bricolage Grotesque + Recursive (planches et application — validée à l'oral par Nicolas le 27/11/2026)
 - **Date :** 2026-11-27
 - **Contexte :** les planches de présentation utilisaient Fraunces / Quicksand / IBM Plex Mono (héritage de `D-020` écartée) alors que l'application utilisait Recursive (`D-009`), créant un décalage visuel.

@@ -2,7 +2,7 @@
 
 | Champ | Valeur |
 | --- | --- |
-| Pour | [Charte éditoriale](04-charte-editoriale.md) v1.3 §3, « Test de la charte (exigé par le sujet) » |
+| Pour | [Charte éditoriale](04-charte-editoriale.md) v1.5 §3, « Test de la charte (exigé par le sujet) » |
 | Qui fait passer le test | Dylan et Nicolas (à deux) |
 | Échéance | jeudi 26/11/2026 |
 | Durée | 10 min par personne, 3 personnes extérieures au projet |

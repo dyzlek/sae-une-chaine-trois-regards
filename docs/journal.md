@@ -13,6 +13,16 @@ Plus récent en haut. Un daily par matin : **hier / aujourd'hui / blocages**.
 
 ---
 
+### 2026-11-27 · S48 · Après-midi : test mesuré du prompt, corrections après comparaison avec le binôme 2 (Dylan)
+**Aujourd'hui :**
+- **Test mesuré du prompt `p2` (C16) :** un lot de 10 messages (les 6 exemples de la charte, une injection, un téléphone, un message neutre, des emojis), 17 envois sur 4 modèles gratuits et `openrouter/free`, 9 réponses valides. Résultats : JSON 9 sur 9, `emotion` 54 sur 54 avec la référence corrigée, nombres à 0,20 près 91 %, `masquer` 90 sur 90, injection résistée 9 fois sur 9 ([test-prompt/](test-prompt/README.md)).
+- **Modèle fixe `D-029` :** `baidu/ernie-5.5-flash-preview:free` (5 à 8 s), `openrouter/free` seulement pour le nouvel essai (il a répondu avec deux modèles différents, dont un à plus de 50 s).
+- **Repris du binôme 2 :** contrôle humain du masquage et masquage manuel (`D-030`, table `moderation`), message de détresse avec le 3114 et une seconde confirmation (charte §4.1), « aucun texte de l'IA n'est affiché », PC de secours (risque ajouté).
+- **Corrections :** bloc Mermaid en double et risque Mermaid retirés du dossier ; références de version croisées alignées (dossier v0.15, charte v1.5, backlog v2.1) ; « dépôt commun » remplacé par le partage aux six (O1 clos) ; `IA_MAX_PER_DAY` clarifié ; README des vecteurs et README du dépôt à jour ; référence du premier exemple de la charte passée de `tristesse` à `calme`.
+- **Concision :** en-têtes de version réduits à une ligne (l'historique est ici) ; §6 et §8 du dossier resserrés.
+**Blocages :** test de la charte auprès de 3 personnes (C7) encore à faire ; Gemma et Ling impossibles à mesurer (`429`).
+**Décisions :** `D-029`, `D-030`, proposées et à valider par Nicolas (C15).
+
 ### 2026-11-27 · S48 · Spec v1.1 validée, refonte symbole/moodboard, cohérence complète avant rendu (Dylan)
 **Hier :** proposition de spec v1.1 validée par les trois binômes le 26/11/2026 (remplace la v1.0) ; moodboard et premier symbole produits par Nicolas.
 **Aujourd'hui :**

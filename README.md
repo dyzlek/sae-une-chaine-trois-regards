@@ -70,7 +70,7 @@ Nœud 25 % · Application 20 % · Direction artistique 20 % · Conception (S48) 
 │   ├── 07-evaluation.md    critères et auto-suivi
 │   ├── journal.md          journal de bord + dailies
 │   └── decisions.md        choix techniques justifiés (ADR courts)
-├── tests/vectors/         nos cas de test 20 à 26 (spec v1.0, vraies signatures de test)
+├── tests/vectors/         nos cas de test (spec v1.1 : 20 à 26 faits, 30, 32, 36 à venir)
 └── (code à venir en S50 : node/, app/, ...)
 ```
 

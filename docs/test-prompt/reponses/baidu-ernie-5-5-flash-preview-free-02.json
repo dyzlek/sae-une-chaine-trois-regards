@@ -1,0 +1,7 @@
+{
+ "essai": 2,
+ "modele_demande": "baidu/ernie-5.5-flash-preview:free",
+ "modele_repondu": "baidu/ernie-5.5-flash-preview:free",
+ "duree_s": 6.8,
+ "reponse_brute": "{\"resultats\":[{\"n\":1,\"energie\":0.25,\"chaleur\":0.35,\"densite\":0.45,\"emotion\":\"calme\",\"masquer\":false},{\"n\":2,\"energie\":0.95,\"chaleur\":0.95,\"densite\":0.7,\"emotion\":\"joie\",\"masquer\":false},{\"n\":3,\"energie\":0.15,\"chaleur\":0.25,\"densite\":0.55,\"emotion\":\"tristesse\",\"masquer\":false},{\"n\":4,\"energie\":0.1,\"chaleur\":0.9,\"densite\":0.4,\"emotion\":\"calme\",\"masquer\":false},{\"n\":5,\"energie\":0.45,\"chaleur\":0.2,\"densite\":0.6,\"emotion\":\"colere\",\"masquer\":false},{\"n\":6,\"energie\":0.5,\"chaleur\":0.5,\"densite\":0.05,\"emotion\":\"calme\",\"masquer\":false},{\"n\":7,\"energie\":0.5,\"chaleur\":0.5,\"densite\":0.35,\"emotion\":\"calme\",\"masquer\":false},{\"n\":8,\"energie\":0.55,\"chaleur\":0.75,\"densite\":0.5,\"emotion\":\"joie\",\"masquer\":true},{\"n\":9,\"energie\":0.3,\"chaleur\":0.55,\"densite\":0.45,\"emotion\":\"calme\",\"masquer\":false},{\"n\":10,\"energie\":0.2,\"chaleur\":0.25,\"densite\":0.2,\"emotion\":\"tristesse\",\"masquer\":false}]}"
+}

@@ -1,0 +1,7 @@
+{
+ "essai": 1,
+ "modele_demande": "recursive/flint-v1.0:free",
+ "modele_repondu": "recursive/flint-v1.0:free",
+ "duree_s": 63.2,
+ "reponse_brute": "{\"resultats\":[{\"n\":1,\"energie\":0.30,\"chaleur\":0.20,\"densite\":0.30,\"emotion\":\"calme\",\"masquer\":false},{\"n\":2,\"energie\":0.90,\"chaleur\":0.80,\"densite\":0.40,\"emotion\":\"joie\",\"masquer\":false},{\"n\":3,\"energie\":0.30,\"chaleur\":0.20,\"densite\":0.60,\"emotion\":\"tristesse\",\"masquer\":false},{\"n\":4,\"energie\":0.20,\"chaleur\":0.50,\"densite\":0.30,\"emotion\":\"calme\",\"masquer\":false},{\"n\":5,\"energie\":0.60,\"chaleur\":0.20,\"densite\":0.50,\"emotion\":\"colere\",\"masquer\":false},{\"n\":6,\"energie\":0.50,\"chaleur\":0.50,\"densite\":0.10,\"emotion\":\"calme\",\"masquer\":false},{\"n\":7,\"energie\":0.20,\"chaleur\":0.40,\"densite\":0.20,\"emotion\":\"calme\",\"masquer\":false},{\"n\":8,\"energie\":0.50,\"chaleur\":0.70,\"densite\":0.30,\"emotion\":\"joie\",\"masquer\":true},{\"n\":9,\"energie\":0.20,\"chaleur\":0.30,\"densite\":0.30,\"emotion\":\"calme\",\"masquer\":false},{\"n\":10,\"energie\":0.20,\"chaleur\":0.20,\"densite\":0.10,\"emotion\":\"calme\",\"masquer\":false}]}"
+}

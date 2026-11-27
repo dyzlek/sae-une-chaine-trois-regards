@@ -4,9 +4,9 @@
 | --- | --- |
 | Binôme | n°3 · Dylan Belledent, Nicolas Rapuzzi--Pisarczyk · `noeud-c` |
 | Responsable | Nicolas (relecture : Dylan) |
-| Version | 1.5 · 27/11/2026 · **Typographie unifiée (Bricolage Grotesque + Recursive, D-028), symbole cristal-île d'un seul bloc uni sans trait bleu (§5, D-026), moodboard Figma aligné (§2).** v1.4 · 26/11/2026 : symbole cristal-île. v1.3 : ruines en enrichissement (O7b), « brume » réservée aux messages masqués. v1.2 : relief recalibré et vérifié par simulation (D-025). |
+| Version | **1.5** · 27/11/2026 (historique des versions : [journal.md](journal.md)) |
 | Rendu | PDF, vendredi 27/11/2026, 17h · pas de nombre de pages imposé |
-| S'appuie sur | [charte éditoriale](04-charte-editoriale.md) v1.4 (valeurs, lexique `l2`), [dossier de binôme](03-dossier-binome.md) v0.14 §6 et §7 (technique) |
+| S'appuie sur | [charte éditoriale](04-charte-editoriale.md) v1.5 (valeurs, lexique `l2`), [dossier de binôme](03-dossier-binome.md) v0.15 §6 et §7 (technique) |
 
 > La référence de notre direction artistique. Chaque choix est justifié.
 > **Test :** quelqu'un qui ne connaît pas le projet doit pouvoir, avec cette bible, dessiner un écran qui s'accorde avec notre œuvre et obtenir exactement la même carte à partir d'une même blockchain.

@@ -3,9 +3,9 @@
 | Champ | Valeur |
 | --- | --- |
 | Binôme | n°3 · Dylan Belledent, Nicolas Rapuzzi--Pisarczyk · `noeud-c` |
-| Version | 2.0 · 27/11/2026 : **spec v1.1 validée** par les trois binômes (C12 fait), moodboard v6 et symbole cristal-île unifié finalisés (C4, C5), bible DA v1.5 (Bricolage Grotesque + Recursive). v1.9 · 26/11/2026 : proposition de spec v1.1 après la relecture de l'équipe enseignante (C12, C13, N2, N3, N6, T3). v1.8 · 26/11/2026 : C5 fait (symbole, D-026), O10 ajouté (logo vivant, en plus). v1.7 · 25/11/2026 : O7 coupé en O7a (bloom) et O7b (ruines). v1.6 : relief recalibré (bible v1.2, D-025), O3 réparti pour tenir les 35 h de Nicolas en S50, rivière et météorite seulement en O8. |
+| Version | **2.1** · 27/11/2026 (historique des versions : [journal.md](journal.md)) |
 | Rendu | PDF ou lien, vendredi 27/11/2026, 17h |
-| S'appuie sur | [dossier](03-dossier-binome.md) v0.14 (§10 : répartition), **spec commune v1.1** (validée le 26/11/2026, §10 : paliers), [bible DA](05-bible-da.md) v1.5, [charte](04-charte-editoriale.md) v1.4 |
+| S'appuie sur | [dossier](03-dossier-binome.md) v0.15 (§10 : répartition), **spec commune v1.1** (validée le 26/11/2026, §10 : paliers), [bible DA](05-bible-da.md) v1.5, [charte](04-charte-editoriale.md) v1.5 |
 
 > **Test :** en lisant ce plan, on sait ce qui doit fonctionner chaque soir, et qui s'en occupe.
 
@@ -27,10 +27,12 @@
 | C4 | Nouveau moodboard *Terre commune* dans Figma (références 3D/archipel, licences exactes, palette §3.1, spécimen typo) | D + N | 2 h | I | jeu. 26/11 | ☑ fait dans Figma et exporté ([moodboard-planche.png](moodboard-terre/moodboard-planche.png)) |
 | C5 | Nouveau symbole *Terre commune* : le cristal-île unifié, règles exactes, déclinaisons (bible §5, D-026) | D + N | 2 h | I | jeu. 26/11 | ☑ planche et SVG dans [symbole/](symbole/planche-symbole.png) |
 | C6 | Trois esquisses 16:9 (océan vide, 10 messages, 300 messages) | D + N | 3 h | I | ven. 27/11 | ☑ produites en HTML et exportées ([esquisses/](esquisses/1-vide.png)) |
-| C7 | Test de la charte v1.3 auprès de 3 personnes (charte §3) | à deux | 1 h | I | jeu. 26/11 | ◐ fiche prête ([test-charte.md](test-charte.md)), test à faire passer |
+| C7 | Test de la charte v1.5 auprès de 3 personnes (charte §3) | à deux | 1 h | I | jeu. 26/11 | ◐ fiche prête ([test-charte.md](test-charte.md)), test à faire passer |
 | C8 | Vérifier le réglage de confidentialité d'OpenRouter et l'écrire (charte §4.3) | Dylan | ½ h | I | mer. 25/11 | ☑ réglages relevés et désactivés, essai réussi avec `data_collection: "deny"` (charte §4.3, D-019) |
 | C9 | Relire dossier v0.14 et charte v1.4 | Nicolas | 1 h | I | ven. 27/11 | ☑ validés à l'oral par Nicolas le 27/11 |
-| C10 | Export PDF des 4 rendus (schéma Mermaid en image, polices intégrées) | Dylan | 2 h | I | jeu. 26/11 (test), ven. 27/11 (dépôt) | ☐ (à faire après les 3 livrables Figma C4/C5/C6) |
+| C16 | Test mesuré du prompt `p2` : un lot de 10 messages, 17 envois, choix du modèle (D-029) | Dylan | 1 h | I | ven. 27/11 | ☑ [test-prompt/](test-prompt/README.md) |
+| C15 | Relire les ajouts du 27/11 après-midi : dossier v0.15 et charte v1.5 (modèle fixe `D-029`, contrôle humain du masquage `D-030`, message de détresse, test du prompt) | Nicolas | ½ h | I | ven. 27/11, avant 17h | ☐ |
+| C10 | Export PDF des 4 rendus (schéma `architecture.svg`, polices intégrées) | Dylan | 2 h | I | ven. 27/11, avant 17h | ☐ |
 | C11 | Partage de la spec commune aux six (finalement en PDF sur Moodle / Discord, pas de dépôt commun créé) | les six | — | I | ven. 27/11 | ☑ fait (PDF v1.1 partagé, pas de dépôt commun) |
 | C12 | Proposer la spec v1.1 aux six : réponses à la relecture de l'équipe enseignante ([réponses](spec-commune/propositions-v1.1.md), [texte complet](spec-commune/v1.1-proposition.md)) | Dylan | 3 h | **I** | ven. 27/11 | ☑ **validée par les trois binômes le 26/11/2026** (remplace la v1.0) |
 | C13 | Nos nouveaux vecteurs v1.1 : 30, 32 et 36, cas 20 et 23 mis à jour (`version_spec` 1.1) | Dylan | 2 h | I | lun. 07/12 (ven. 04/12 si O6 est accepté) | ☐ |
@@ -98,7 +100,7 @@
 | T4 | Bout en bout : un message de l'application jusqu'à l'œuvre, avec l'IA simulée (S50) puis avec de vraies valeurs de l'IA (lun. 11/01, après A2b) | à deux | 2 h | I | ven. 11/12 |
 | T5 | Fourche provoquée, arrêt du worker pendant un créneau, redémarrage des trois nœuds | à deux | 3 h | I | mer. 13/01 |
 | T6 | Déterminisme : même base, même **empreinte SHA-256 des tableaux `heightmap` + `warm` + `volc`** (indépendant du GPU) ; bases de test vide, 10 et 300 messages ; **fluidité mesurée** (30 images par seconde au moins, bible §6.4) | Nicolas | 2 h | I | mer. 13/01 |
-| T7 | Test du prompt : le lot de six exemples envoyé 10 fois (charte §3) | Dylan | 1 h | I | S49 |
+| T7 | Test du prompt, seconde partie : Dylan et Nicolas notent chacun 10 nouveaux messages **avant** de voir l'IA, puis comparaison avec ernie (objectif : 80 % d'`emotion` justes) ; revérifier que ernie est toujours gratuit (première partie faite le 27/11 : [test-prompt/](test-prompt/README.md)) | à deux | 1 h | I | S49 |
 
 ### Documents et oral
 

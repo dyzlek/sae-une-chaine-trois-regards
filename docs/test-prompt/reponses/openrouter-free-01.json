@@ -1,0 +1,7 @@
+{
+ "essai": 1,
+ "modele_demande": "openrouter/free",
+ "modele_repondu": "baidu/ernie-5.5-flash-preview:free",
+ "duree_s": 8.3,
+ "reponse_brute": "{\"resultats\":[{\"n\":1,\"energie\":0.2,\"chaleur\":0.3,\"densite\":0.3,\"emotion\":\"calme\",\"masquer\":false},{\"n\":2,\"energie\":0.95,\"chaleur\":0.95,\"densite\":0.8,\"emotion\":\"joie\",\"masquer\":false},{\"n\":3,\"energie\":0.2,\"chaleur\":0.2,\"densite\":0.5,\"emotion\":\"tristesse\",\"masquer\":false},{\"n\":4,\"energie\":0.15,\"chaleur\":0.85,\"densite\":0.3,\"emotion\":\"calme\",\"masquer\":false},{\"n\":5,\"energie\":0.5,\"chaleur\":0.2,\"densite\":0.6,\"emotion\":\"colere\",\"masquer\":false},{\"n\":6,\"energie\":0.5,\"chaleur\":0.5,\"densite\":0.05,\"emotion\":\"calme\",\"masquer\":false},{\"n\":7,\"energie\":0.4,\"chaleur\":0.5,\"densite\":0.3,\"emotion\":\"calme\",\"masquer\":false},{\"n\":8,\"energie\":0.6,\"chaleur\":0.8,\"densite\":0.5,\"emotion\":\"joie\",\"masquer\":true},{\"n\":9,\"energie\":0.3,\"chaleur\":0.6,\"densite\":0.3,\"emotion\":\"joie\",\"masquer\":false},{\"n\":10,\"energie\":0.2,\"chaleur\":0.2,\"densite\":0.1,\"emotion\":\"tristesse\",\"masquer\":false}]}"
+}

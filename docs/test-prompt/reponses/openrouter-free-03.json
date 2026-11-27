@@ -1,0 +1,5 @@
+{
+ "essai": 3,
+ "modele_demande": "openrouter/free",
+ "erreur": "IncompleteRead(44 bytes read)"
+}

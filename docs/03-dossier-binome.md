@@ -4,9 +4,9 @@
 | --- | --- |
 | Binôme | **n°3** · Dylan Belledent, Nicolas Rapuzzi--Pisarczyk |
 | Nœud | `noeud-c` (spec commune, décision 7) |
-| Version du dossier | 0.14 (spec commune **v1.1 validée** par les trois binômes le 26/11/2026 ; bible DA v1.5) · 27/11/2026 · v0.13 (horloge, auto-vérification, chaînes d'essai et réelle, expéditeur) · 26/11/2026 · v0.12 (ruines optionnelles, brume réservée aux messages masqués : bible v1.3, charte v1.3) · 25/11/2026 · v0.11 (relief recalibré par simulation, D-025 ; lexique de 95 entrées) · 25/11/2026 · v0.10 : import map Three.js, risque prise en main 3D, déterminisme par empreinte de heightmap, balises forme + couleur |
-| Rendu | PDF (schéma Mermaid exporté en image), vendredi 27/11/2026, 17h. |
-| S'appuie sur | **spec commune v1.1** (validée par les trois binômes le 26/11/2026, remplace la v1.0), [04-charte-editoriale.md](04-charte-editoriale.md) v1.3, [05-bible-da.md](05-bible-da.md) v1.5 |
+| Version du dossier | **0.15** · 27/11/2026 (historique des versions : [journal.md](journal.md)) |
+| Rendu | PDF, vendredi 27/11/2026, 17h |
+| S'appuie sur | **spec commune v1.1** (validée par les trois binômes le 26/11/2026, remplace la v1.0), [04-charte-editoriale.md](04-charte-editoriale.md) v1.5, [05-bible-da.md](05-bible-da.md) v1.5 |
 
 > Plan de construction de notre projet. Il s'appuie sur la spec commune et ne la recopie pas : on écrit « voir spec §x ». Rien ne doit contredire la spec ni la bible DA.
 > **Test :** un autre binôme doit pouvoir reprendre le projet avec ce seul document.
@@ -26,20 +26,6 @@ Trois processus sur la même machine, qui ne se partagent que le fichier SQLite 
 
 ![Schéma d'architecture technique de noeud-c : trois processus isolés (serveur d'application, nœud blockchain, worker IA), SQLite en mode WAL, pairs Tailscale et OpenRouter.](architecture.svg)
 
-```mermaid
-flowchart LR
-    V[Visiteur] --> WEB[Application web<br/>HTML, CSS, JavaScript]
-    WEB -->|HTTP + SSE<br/>127.0.0.1:3000| SRV[Serveur de l'application]
-    subgraph MACHINE[Notre machine : noeud-c]
-        SRV -->|POST /internal/messages<br/>127.0.0.1:8081| NODE[Nœud<br/>API de la spec : port 8080]
-        SRV -->|lecture + événements| DB[(SQLite<br/>mode WAL)]
-        NODE <-->|chaîne, file, état du nœud| DB
-        WORKER[Worker IA<br/>processus séparé] <-->|messages, résultats| DB
-    end
-    NODE <-->|HTTP + JSON<br/>Tailscale, port 8080| A[noeud-a]
-    NODE <-->|HTTP + JSON<br/>Tailscale, port 8080| B[noeud-b]
-    WORKER -->|HTTPS, port 443| OR[OpenRouter<br/>modèles gratuits]
-```
 
 | Composant | Rôle | Où il tourne | Comment il parle aux autres |
 | --- | --- | --- | --- |
@@ -61,7 +47,7 @@ flowchart LR
 
 **Le navigateur ne lit jamais la base.** Il parle au serveur de l'application, qui lit SQLite et lui renvoie les états et les événements.
 
-**Le masquage se fait côté serveur.** Pour un message masqué (charte §4.2), le serveur de l'application **retire `content`** de toutes ses réponses (chaîne, états, événements) : le texte n'arrive jamais au navigateur, même dans l'onglet réseau. Le serveur applique aussi au moment de l'affichage les mêmes règles que le filtre avant signature (e-mail, téléphone, lien, liste de mots) à **tous** les messages, y compris ceux des autres nœuds : c'est gratuit et ne dépend pas de l'IA.
+**Le masquage se fait côté serveur.** Pour un message masqué (charte §4.2), le serveur de l'application **retire `content`** de toutes ses réponses (chaîne, états, événements) : le texte n'arrive jamais au navigateur, même dans l'onglet réseau. Le serveur applique aussi au moment de l'affichage les mêmes règles que le filtre avant signature (e-mail, téléphone, lien, liste de mots) à **tous** les messages, y compris ceux des autres nœuds : c'est gratuit et ne dépend pas de l'IA. Enfin, il applique les décisions de la table `moderation` (un membre du binôme lève un masquage de l'IA injustifié, ou masque à la main ce qui a échappé au filtre), via une petite console réservée à `127.0.0.1`.
 
 ## 3. Le parcours d'un message
 
@@ -89,6 +75,7 @@ SQLite, un fichier par nœud, en mode WAL (plusieurs processus). La chaîne est 
 | `node_state` | État du nœud, voir ci-dessous | Exigé par la spec |
 | `events` | Événements pour l'application (`message_state`, `values_ready`, `chain_reorganized`), avec un identifiant croissant | Le serveur de l'application les lit et les pousse en SSE (voir ci-dessous) |
 | `peers_log` | Erreurs reçues des pairs (code, pair, date) | Débogage de la jonction |
+| `moderation` | `message_id`, action (`masquer` ou `demasquer`), raison, auteur (Dylan ou Nicolas), date | Décisions humaines sur le masquage (charte §4.2) : elles priment sur `masquer` de l'IA et l'œuvre se reconstruit avec elles |
 
 **État du nœud (`node_state`), exigé par la spec :**
 
@@ -116,7 +103,7 @@ SQLite, un fichier par nœud, en mode WAL (plusieurs processus). La chaîne est 
 ## 5. L'IA
 
 - **Quand :** une fois le message dans un bloc de notre chaîne, par le worker. Un message ne passe qu'une fois **avec succès** par l'IA (clé : `id`). Un message qui n'a eu que des valeurs locales peut être retraité plus tard (voir « Retraitement » ci-dessous). Chaque nœud traite **tous** les messages de la chaîne, pas seulement les siens.
-- **Modèle :** `openrouter/free` (accepté à condition d'enregistrer `model_used`, le modèle qui a réellement répondu). Si le test de stabilité du prompt (charte §3) échoue, nous fixons un modèle gratuit précis, choisi parmi ceux qui ont le mieux répondu pendant ce test (`model_used`).
+- **Modèle :** `baidu/ernie-5.5-flash-preview:free`, fixe ; l'unique nouvel essai passe par `openrouter/free`. `model_used` est toujours enregistré (D-029). Le test mesuré du 27/11 l'a départagé ([test-prompt/](test-prompt/README.md)) : 4 réponses valides sur 4 en 5 à 8 s, alors que `openrouter/free` a répondu avec deux modèles qui lisent différemment les messages ambigus, dont un qui met plus de 50 s.
 - **Prompt :** décrit dans la [charte éditoriale](04-charte-editoriale.md) (valeurs, bornes, format JSON), versionné (`prompt_version`).
 - **Réponse attendue :** un objet JSON avec un résultat par message du lot, chacun avec les valeurs de la section 6 dans leur plage (format exact : charte §3). On vérifie le format avant d'enregistrer.
 - **Clé d'API :** une par personne d'après le sujet. Le nœud utilise la clé de la personne qui le fait tourner ; l'autre membre utilise la sienne pour développer. Question posée à l'équipe : peut-on alterner les deux clés du binôme pour une même application ?
@@ -138,7 +125,7 @@ D'où ces règles :
 
 | Situation | Ce que fait le worker |
 | --- | --- |
-| Pas de réponse ou réponse trop lente (plus de 20 s) | `status = timeout`, un seul nouvel essai après 5 s |
+| Pas de réponse ou réponse trop lente (plus de 20 s) | `status = timeout`, un seul nouvel essai après 5 s, par `openrouter/free` avec un délai de 90 s (il peut tomber sur un modèle lent, 53 à 71 s mesurés) |
 | Réponse hors format (pas du JSON, ou lot incomplet) | `status = invalid_format`, un seul nouvel essai avec un rappel du format |
 | Un seul message du lot a une valeur absente ou hors plage | Valeurs locales pour ce message, sans nouvel appel ; les autres sont gardés |
 | Erreur 429 | Pause selon `Retry-After`, puis reprise dans l'ordre des index de bloc |
@@ -157,7 +144,7 @@ La chaîne n'est **jamais** touchée par une panne d'IA (spec §9).
 
 **Qui définit quoi.** La [charte éditoriale](04-charte-editoriale.md) (§2 et §3) définit les valeurs et le prompt ; la [bible DA](05-bible-da.md) (§6) définit les règles génératives (valeur → relief, biome, éléments 3D, atmosphère). Cette section ne les recopie pas, pour qu'il n'y ait qu'une seule version de chaque règle : elle décrit **comment les valeurs arrivent jusqu'au rendu**.
 
-**Les valeurs, en bref :** `energie`, `chaleur`, `densite` (nombres de 0 à 1), `emotion` (`joie`, `calme`, `tristesse` ou `colere`) et `masquer` (booléen). Format d'un résultat : `{"energie":0.20,"chaleur":0.30,"densite":0.30,"emotion":"tristesse","masquer":false}`, dans une réponse par lot (charte §3).
+**Les valeurs, en bref :** `energie`, `chaleur`, `densite` (nombres de 0 à 1), `emotion` (`joie`, `calme`, `tristesse` ou `colere`) et `masquer` (booléen). Format d'un résultat : `{"energie":0.20,"chaleur":0.30,"densite":0.30,"emotion":"calme","masquer":false}`, dans une réponse par lot (charte §3).
 
 **Le chemin des valeurs :**
 
@@ -168,17 +155,15 @@ La chaîne n'est **jamais** touchée par une panne d'IA (spec §9).
 | 3 | Serveur de l'application | Applique le masquage côté serveur (§2), puis envoie au navigateur, en SSE, le rang `n`, le `node`, l'`id`, les valeurs, `values_source` et `masquer` (jamais `content` si le message est masqué) |
 | 4 | Œuvre 3D (navigateur) | Applique les règles de la bible DA §6 : point d'impact déterministe `(cx, cz)`, sculpture de la heightmap selon `emotion` et `densite`, génération des éléments (arbres, phares, voiliers, volcans, balises de forme et couleur du `node` ; ruines seulement si O7b est fait), état filaire (`local`) ou solide (`ia`), et mise à jour de l'atmosphère (`chaleur`, `energie`) |
 
-**Exemple.** `J'AI EU MON PERMIS !!! Je suis tellement heureux 🎉` (exemple de la charte) : le serveur calcule tout de suite ses valeurs locales et la carte 3D fait monter un relief coiffé d'un patch filaire translucide (prévision) ; plus tard, le worker écrit dans `ai_results` les valeurs de l'IA, `{"energie":0.95,"chaleur":0.92,"densite":0.75,"emotion":"joie","masquer":false}` ; le patch filaire s'efface en 1,5 s, la zone se solidifie en colline verdoyante bordée de sable doré, fait pousser des arbres, pose la balise losange violet de `noeud-c`, lance un voilier si le tirage③ tombe sous 0,33 et éclaircit le ciel.
+**Exemple.** `J'AI EU MON PERMIS !!! Je suis tellement heureux 🎉` : à l'entrée dans le bloc, ses valeurs locales font monter un relief en filaire translucide (prévision). Quand l'IA répond (`joie`, `energie` 0,95), le filaire s'efface en 1,5 s et la zone devient une colline verte avec des arbres, la balise de `noeud-c`, parfois un voilier, et le ciel s'éclaircit.
 
-**Technique et fonctionnement :**
-1. **Rendu :** **Three.js (WebGL)** en esthétique *low-poly / flat-shading* (dossier §7, D-024), chargé en ES modules natifs via une **`<script type="importmap">`** pointant vers les fichiers locaux servis par Express (`three`, `OrbitControls`, `ImprovedNoise`) — **aucune étape de build ni CDN externe**.
-2. **Temps réel :** le serveur pousse les événements en SSE ; à chaque nouveau message, les sommets de la heightmap s'interpolent doucement vers leur nouvelle altitude (la terre monte littéralement hors de l'eau).
-3. **Déterminisme :** même chaîne et mêmes `ai_results` produisent exactement la même heightmap et les mêmes biomes (PRNG **Mulberry32** initialisé par l'`id` du message + `ImprovedNoise` à graine fixe, bible DA §6.1). En test (backlog T6), on vérifie l'**empreinte SHA-256 des tableaux `heightmap` + `warm` + `volc`** plutôt qu'une capture d'écran WebGL (qui peut varier de quelques pixels selon la carte graphique).
-4. **Reconstruction :** depuis la base (chaîne + `ai_results`), au chargement de la page, après un événement `chain_reorganized` (fourche) ou lorsqu'un événement `values_ready` remplace les valeurs locales d'un message ancien de rang `n` (bible DA §6.3) : la heightmap est recalculée depuis le rang concerné en quelques millisecondes et la scène 3D s'interpole vers le nouvel état en 1,5 s.
-5. **États à prévoir :** océan vierge (0 message), premiers îlots (10 messages), continent complet avec anneau d'océan permanent (300 messages) — esquisses de la bible DA §7.
-6. **Beaucoup de messages :** la grille de terrain reste à taille fixe (`48 × 48` sommets), la règle de saturation + masque côtier (bible DA §6.2) empêche toute saturation en montagne uniforme, et les éléments 3D sont plafonnés et instanciés (`InstancedMesh`, bible DA §6.4).
-7. **Prévision et observation :** un message dont `values_source = local` affiche un **patch filaire indépendant** `0,05` unité au-dessus de sa zone (`PlaneGeometry` 8 × 8) qui disparaît en fondu en 1,5 s quand l'IA répond (bible DA §6.3).
-8. **Message masqué :** ne déforme pas le terrain et laisse une nappe de brume grise sur l'eau avec la balise du nœud et la mention « Message masqué (charte §4) ».
+**Technique et fonctionnement** (règles visuelles exactes : bible DA §6) :
+1. **Rendu :** Three.js (WebGL) en low-poly, chargé par une `<script type="importmap">` vers des fichiers servis en local par Express : ni build, ni CDN (D-024).
+2. **Temps réel :** à chaque événement SSE, les sommets de la heightmap glissent vers leur nouvelle altitude.
+3. **Déterminisme :** même chaîne + mêmes `ai_results` + mêmes décisions de `moderation` = même terrain (PRNG Mulberry32 tiré de l'`id`, `ImprovedNoise` à graine fixe). Le test T6 compare l'empreinte SHA-256 des tableaux `heightmap`, `warm` et `volc`, pas une capture d'écran (qui varie selon la carte graphique).
+4. **Reconstruction :** au chargement, après `chain_reorganized` ou quand des valeurs de l'IA remplacent des valeurs locales, la heightmap est recalculée depuis le rang concerné (quelques millisecondes), puis la scène s'interpole en 1,5 s.
+5. **Beaucoup de messages :** grille fixe de `48 × 48` sommets, saturation et masque côtier (bible §6.2), éléments plafonnés et instanciés (`InstancedMesh`, bible §6.4). États testés : vide, 10 et 300 messages (bible §7).
+6. **Prévision et masquage :** valeurs locales = patch filaire au-dessus de la zone, qui disparaît en 1,5 s quand l'IA répond ; message masqué = aucune déformation, une nappe de brume grise et la mention « Message masqué (charte §4) ».
 
 ## 7. Les choix techniques
 
@@ -201,11 +186,11 @@ Les langages sont libres selon le sujet. PHP et Python ont aussi SHA-256 et Ed25
 
 | Niveau | Comment | Quand |
 | --- | --- | --- |
-| **Nœud seul** | Tests automatiques qui rejouent les **36 cas** de la spec v1.1 (§10.2) sur la chaîne d'essai : `id`, `hash`, signatures, cas valides et invalides, règle de choix entre chaînes, tri des messages, horloges et ordre des refus. Les 34 cas à produire (cas 1 et 2 = message 2.1) sont partagés dans `tests/vectors/` du dépôt commun au format JSON commun. **Notre part (10 cas) : vecteurs 22, 23, 30, 32, 36 et scénarios 20, 21, 24 à 26.** Les cas 20 à 26 sont déjà écrits dans [tests/vectors/](../tests/vectors/README.md) ; les nouveaux cas 30, 32 et 36 sont ajoutés en C13. Le mode test démarre avec une **horloge injectable** et une **chaîne chargée depuis `chaines.json`** (spec §10.2) | Dépôt dans le dépôt commun le lundi 07/12 (vendredi 04/12 si O6 accepté). **Palier 1 (lundi 07/12, sans réseau)** : lundi soir, par appel de fonction (sans HTTP ni disque), les cas de calcul et de validité (3 à 8, 10 à 14, 18, 19, 23, 28 à 32) ; mardi soir, par HTTP, avec routes et stockage, les cas 1, 2, 9, 17, 27 et 36 ; mercredi matin, avec le sondage, le cas 22 (pair simulé). **Paliers 2 et 3** : les scénarios réseau (15, 16, 20, 21, 24 à 26, 33 à 35) |
+| **Nœud seul** | Tests automatiques (`node:test`) qui rejouent les **36 cas** de la spec v1.1 (§10.2) sur la chaîne d'essai, avec une **horloge injectable** et une chaîne chargée depuis `chaines.json`. **Notre part (10 cas) : vecteurs 22, 23, 30, 32, 36 et scénarios 20, 21, 24 à 26** : 20 à 26 sont déjà écrits ([tests/vectors/](../tests/vectors/README.md)), 30, 32 et 36 viennent en C13. Ils sont partagés aux six au format JSON commun (Discord, faute de dépôt commun) | Partage le lundi 07/12 (vendredi 04/12 si O6 est accepté). **Palier 1, sans réseau :** lundi soir par appel de fonction (cas 3 à 8, 10 à 14, 18, 19, 23, 28 à 32) ; mardi soir par HTTP (1, 2, 9, 17, 27, 36) ; mercredi matin avec le sondage (22). **Paliers 2 et 3 :** scénarios réseau (15, 16, 20, 21, 24 à 26, 33 à 35) |
 | **Nœud avec les deux autres** | Essais deux à deux (palier 2 : dès qu'un couple est prêt, **mercredi 09/12 matin au plus tard**, spec §10 [I4]) puis à trois (palier 3, jeudi 10/12) sur la chaîne d'essai, suivis de l'ouverture de la chaîne réelle (§10.3) | Mardi 08/12 après-midi / mercredi 09/12 matin, puis jeudi 10/12 |
 | **Application de bout en bout** | Un message écrit dans l'application passe par `en_attente`, `dans_un_bloc`, `confirme`, reçoit des valeurs de l'IA et modifie l'œuvre | Fin de S50 |
 | **Fourche et œuvre** | Provoquer une fourche en test : l'événement `chain_reorganized` reconstruit l'œuvre sans message perdu ni doublon | S50 |
-| **IA** | IA simulée par défaut ; appels réels comptés, sur les 3 exemples de la charte et un lot de 10 messages ; IA simulée pour les pannes (timeout, hors format, lot incomplet, quota) ; vérifier que le compteur journalier survit à un redémarrage | S50 |
+| **IA** | Fait le 27/11 : test mesuré du prompt, un lot de 10 messages, 9 réponses valides (charte §3). En S49 : grilles notées par chacun avant l'IA (T7). En S50 : IA simulée par défaut ; IA simulée pour les pannes (timeout, hors format, lot incomplet, quota) ; vérifier que le compteur journalier survit à un redémarrage | S50 |
 | **Plantage du worker** | Arrêter le worker pendant un créneau : le nœud produit quand même son bloc | S50 |
 | **Œuvre** | Rejouer une base de messages de test : œuvre vide, quelques messages, beaucoup | S50 et S2 |
 
@@ -218,6 +203,7 @@ Critère de fin : tous les cas de la spec passent, trois chaînes ont le même h
 | Un nœud n'est pas compatible avec la spec | Haute | Rejouer les cas hors réseau le 07/12, les cas en direct les 09 et 10/12 ; si deux lectures divergent, corriger la spec avant le code |
 | Quota OpenRouter du jour épuisé (offre Free : 50 requêtes par jour, et chaque nœud traite tous les messages) | Haute | Lots de 10 messages, un seul nouvel essai, compteur journalier en base, IA simulée en développement, 30 requêtes réservées pour l'oral, valeurs locales soignées ; question posée à l'équipe sur l'alternance des deux clés |
 | Verrou SQLite : le nœud n'arrive pas à écrire pendant son créneau | Moyenne | `busy_timeout`, transactions courtes, jamais de transaction ouverte pendant un appel réseau |
+| Le PC du nœud tombe en panne le jour J | Moyenne | PC de secours : celui de Nicolas, préparé en S49. On y copie la base et la graine du nœud (`.env`), et **jamais les deux PC ne tournent en même temps** (double signature du même créneau, spec §8.3) |
 | Un portable se met en veille ou redémarre (mise à jour Windows) | Moyenne | Branché sur secteur, veille désactivée, mises à jour suspendues la semaine du 07/12 ; vérifié au début du jour J |
 | `better-sqlite3` ne s'installe pas (pas de binaire précompilé pour notre version de Node sous Windows) | Moyenne | `npm install` testé sur les deux machines dès S49 ; sinon outils de compilation ou `node:sqlite` |
 | Spec encore modifiée après jeudi | Haute | Une seule version de référence, citée par son numéro ; changements par accord des trois binômes ; gel au 07/12 |
@@ -229,7 +215,6 @@ Critère de fin : tous les cas de la spec passent, trois chaînes ont le même h
 | Réseau Tailscale ou eduroam instable en salle | Moyenne | Préparer l'environnement chez soi en S49, tester la liaison avant le 10/12, garder des tests locaux sans réseau |
 | Retard de l'un des deux | Moyenne | Backlog partagé, daily chaque matin, tâches petites, relecture croisée |
 | Travail inégal dans le binôme | Moyenne | Répartition nominative (section 10), journal de bord, chacun comprend tout le code (oral individuel) |
-| L'export PDF du schéma Mermaid ne marche pas | Moyenne | Tester l'export (image du schéma) dès jeudi 26/11, bien avant vendredi 17h |
 | Les estimations du nœud sont trop courtes (validité, rattrapage, `SYNCING`) | Haute | Rattrapage relevé de 3 h à 5 h (backlog N7), 2 h de marge pour Dylan en S50, appel réel à l'IA repoussé à la S2 (IA simulée en S50) ; si le jeudi échoue, la jonction passe avant tout (backlog §3) |
 | Le rendu 3D WebGL saccade sur le portable de démonstration | Moyenne | Maillage low-poly borné (`48 × 48`), éléments instanciés (`InstancedMesh`, bible DA §6.4), pas d'ombres portées coûteuses si besoin, fluidité mesurée sur 300 messages (backlog T6) |
 | Prise en main de Three.js (technologie nouvelle pour Nicolas) | Moyenne | Scène vide + `importmap` + `OrbitControls` validés dès S49 ; uniquement des géométries primitives low-poly (aucun modèle `.glb` externe) ; effets riches (champignons, animaux, rivières, météorite) classés « en plus » (backlog O8) pour sécuriser le socle S50 |
@@ -264,7 +249,7 @@ Critère de fin : tous les cas de la spec passent, trois chaînes ont le même h
 - En S48 (conception documentaire), les ajustements se font sur `main` avec relectures croisées à deux ; dès la S50 (code), personne ne pousse directement sur `main` : une branche par tâche (`feat/...`, `fix/...`), fusion par pull request relue par l'autre. Si l'offre GitHub gratuite ne permet pas de verrouiller la branche sur un dépôt privé, c'est une règle d'équipe, pas un blocage technique.
 - Messages de commit courts et clairs, un sujet par commit.
 - Jamais de secret dans Git (`.env`, clés).
-- **La spec :** la référence est la spec des six, dans un dépôt GitHub privé commun (décision 14 ; création prévue le 27/11, point ouvert O1). Pour notre binôme, la version en vigueur est la **spec commune v1.1** (validée par les trois binômes le 26/11/2026 ; copie de travail dans `docs/spec-commune.md`, archive v1.0 dans [spec-commune/v1.0.pdf](spec-commune/v1.0.pdf)). Elle ne se modifie jamais seule : tout changement passe par une pull request approuvée par les trois binômes (spec §11).
+- **La spec :** la référence est le PDF de la spec des six, déposé sur Moodle (pas de dépôt GitHub commun : point O1 clos le 27/11). La version en vigueur est la **spec commune v1.1** (validée par les trois binômes le 26/11/2026 ; copie de travail dans `docs/spec-commune.md`, archive v1.0 dans [spec-commune/v1.0.pdf](spec-commune/v1.0.pdf)). Elle ne se modifie jamais seule : tout changement passe par une pull request approuvée par les trois binômes (spec §11).
 
 **IA pour coder** (autorisée par le sujet) :
 - Nous utilisons un assistant de code (Claude Code). Les prompts sont enregistrés automatiquement dans `docs/prompts/` (clés masquées) : cela donne une trace de notre usage.
@@ -325,12 +310,13 @@ Puis ouvrir `http://127.0.0.1:3000`.
 | `PORT_APP` | Serveur de l'application, 127.0.0.1 | `3000` |
 | `DB_PATH` | Fichier SQLite (un par chaîne) | `data/node-essai.db` |
 | `OPENROUTER_API_KEY` | Clé OpenRouter (secrète) | `sk-or-...` |
-| `OPENROUTER_MODEL` | Modèle demandé | `openrouter/free` |
+| `OPENROUTER_MODEL` | Modèle demandé (D-029) | `baidu/ernie-5.5-flash-preview:free` |
+| `OPENROUTER_FALLBACK` | Modèle de l'unique nouvel essai | `openrouter/free` |
 | `IA_MODE` | `reelle` ou `simulee` (par défaut en développement) | `simulee` |
 | `IA_BATCH_SIZE` | Messages par requête | `10` |
 | `IA_BATCH_WAIT` | Attente maximale avant d'envoyer un lot incomplet (s) | `45` |
 | `IA_MIN_INTERVAL` | Délai minimal entre deux requêtes (s) | `30` |
-| `IA_MAX_PER_DAY` | Tentatives par jour, puis valeurs locales (20 avant l'oral, voir §5) | `50` (offre Free) |
+| `IA_MAX_PER_DAY` | Tentatives par jour, puis valeurs locales : 50 (offre Free), 20 les jours de démonstration jusqu'au passage (§5) | `50` |
 | `APP_HOST` | Adresse d'écoute de l'application (`127.0.0.1`, ou l'IP Tailscale pendant une démo) | `127.0.0.1` |
 
 **Ports :** 8080 (spec, sur l'IP Tailscale), 8081 et 3000 (locaux, 127.0.0.1).
